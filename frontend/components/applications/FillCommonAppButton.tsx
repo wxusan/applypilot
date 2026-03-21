@@ -116,9 +116,10 @@ export default function FillCommonAppButton({
       .order('created_at', { ascending: false })
       .limit(1)
       .then(({ data }) => {
-        if (data && data.length > 0) {
-          setJobId(data[0].id)
-          setJobStatus(data[0].status as JobStatus)
+        const jobs = data as any[] | null
+        if (jobs && jobs.length > 0) {
+          setJobId(jobs[0].id)
+          setJobStatus(jobs[0].status as JobStatus)
         }
       })
   }, [applicationId, applicationStatus, supabase])

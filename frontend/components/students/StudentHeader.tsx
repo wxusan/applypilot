@@ -56,7 +56,7 @@ export default function StudentHeader({ student }: StudentHeaderProps) {
       </div>
 
       <div className="flex items-center gap-2">
-        <ExportButtons students={[student]} singleStudent />
+        <ExportButtons students={[student as any]} singleStudent />
         {student.email && (
           <a
             href={`mailto:${student.email}`}

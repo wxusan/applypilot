@@ -48,7 +48,8 @@ export default async function StudentsPage({
   if (status) query = query.eq('status', status)
   if (season) query = query.eq('season', season)
 
-  const { data: students, count } = await query
+  const { data, count } = await query
+  const students = data as any[] | null
 
   return (
     <div className="space-y-5">

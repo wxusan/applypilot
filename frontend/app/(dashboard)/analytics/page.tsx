@@ -33,7 +33,7 @@ export default async function AnalyticsPage() {
 
   // Student pipeline by status
   const studentsByStatus: Record<string, number> = {}
-  for (const s of studentsRes.data ?? []) {
+  for (const s of (studentsRes.data as any[] | null) ?? []) {
     studentsByStatus[s.status] = (studentsByStatus[s.status] ?? 0) + 1
   }
 
@@ -44,13 +44,13 @@ export default async function AnalyticsPage() {
     waitlisted: 0,
     pending: 0,
   }
-  for (const a of appsRes.data ?? []) {
+  for (const a of (appsRes.data as any[] | null) ?? []) {
     const key = a.decision ?? 'pending'
     decisionCounts[key] = (decisionCounts[key] ?? 0) + 1
   }
 
   // Deadline compliance
-  const allDeadlines = deadlinesRes.data ?? []
+  const allDeadlines = (deadlinesRes.data as any[] | null) ?? []
   const pastDeadlines = allDeadlines.filter((d) => d.due_date <= todayStr)
   const completedOnTime = pastDeadlines.filter((d) => d.is_complete).length
   const complianceRate =
@@ -64,7 +64,7 @@ export default async function AnalyticsPage() {
     const d = new Date(Date.now() - (29 - i) * 86400000)
     jobsByDay[d.toISOString().split('T')[0]] = 0
   }
-  for (const j of agentJobsRes.data ?? []) {
+  for (const j of (agentJobsRes.data as any[] | null) ?? []) {
     const day = j.created_at.split('T')[0]
     if (day in jobsByDay) jobsByDay[day] = (jobsByDay[day] ?? 0) + 1
   }
