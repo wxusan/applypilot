@@ -1,0 +1,18 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--no-header",
+    "--strict-markers",
+]
+markers = [
+    "unit: pure unit tests — no I/O",
+    "integration: tests that exercise full request/response cycle with mocked DB",
+    "security: tests verifying auth and tenant isolation",
+    "regression: tests that protect against reintroduced bugs",
+]

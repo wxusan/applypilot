@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 160 68% 37%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 160 68% 37%;
+    --radius: 0.5rem;
+
+    /* ApplyPilot brand tokens */
+    --brand: #1D9E75;
+    --brand-light: #E1F5EE;
+    --brand-dark: #0F6E56;
+    --danger-text: #A32D2D;
+    --danger-bg: #FCEBEB;
+    --warning-text: #854F0B;
+    --warning-bg: #FAEEDA;
+    --info-text: #185FA5;
+    --info-bg: #E6F1FB;
+    --success-text: #3B6D11;
+    --success-bg: #EAF3DE;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+  }
+}
+
+/* Global border style — always 0.5px */
+.border-thin {
+  border-width: 0.5px;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+/* Pulse animation for agent indicators */
+@keyframes agent-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.agent-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #1D9E75;
+  animation: agent-pulse 2s ease-in-out infinite;
+}

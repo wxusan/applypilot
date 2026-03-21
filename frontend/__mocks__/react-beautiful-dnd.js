@@ -1,0 +1,1 @@
+module.exports = { DragDropContext: ({children}) => children, Droppable: ({children}) => children({droppableProps:{}, innerRef:()=>{}}), Draggable: ({children}) => children({draggableProps:{}, dragHandleProps:{}, innerRef:()=>{}}) }

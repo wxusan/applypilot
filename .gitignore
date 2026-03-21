@@ -1,0 +1,33 @@
+# Environments
+.env
+.env.*
+!.env.example
+APPLYPILOT.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.pytest_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+.swc/
+
+# Testing
+playwright-report/
+test-results/
+blob-report/
+coverage/
+
+# Misc
+.DS_Store
+*.log
+.idea/
+.vscode/
