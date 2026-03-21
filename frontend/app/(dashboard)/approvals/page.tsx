@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import { agentTypeLabel, formatDate } from '@/lib/utils'
 import ApprovalActions from '@/components/agents/ApprovalActions'

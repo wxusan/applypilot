@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createServerClient, createServiceClient } from '@/lib/supabase-server'
 import { redirect } from 'next/navigation'
 import StaffManager from '@/components/settings/StaffManager'

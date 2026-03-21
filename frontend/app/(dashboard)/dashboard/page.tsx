@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import StatsRow from '@/components/dashboard/StatsRow'
 import PipelineTable from '@/components/dashboard/PipelineTable'

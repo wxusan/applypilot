@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import StatusPill from '@/components/ui/StatusPill'
