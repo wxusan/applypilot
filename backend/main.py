@@ -11,7 +11,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
 from core.config import settings
-from api import students, applications, documents, emails, essays, deadlines, admin, agent_jobs, settings as settings_api, audit, browser_agent, staff, super_admin
+from api import students, applications, documents, emails, essays, deadlines, admin, agent_jobs, settings as settings_api, audit, browser_agent, staff, super_admin, billing
 from services.telegram_bot import start_telegram_bot
 from services.scheduler import start_scheduler
 
@@ -99,6 +99,7 @@ app.include_router(audit.router, prefix="/api")
 app.include_router(browser_agent.router, prefix="/api")
 app.include_router(staff.router, prefix="/api")
 app.include_router(super_admin.router, prefix="/api")
+app.include_router(billing.router, prefix="/api")
 
 
 @app.exception_handler(RequestValidationError)
