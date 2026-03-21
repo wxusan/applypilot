@@ -105,3 +105,36 @@ def require_admin(user: AuthUser = Depends(get_current_user)) -> AuthUser:
             detail="Admin access required",
         )
     return user
+
+
+async def get_super_admin(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> AuthUser:
+    """Require the current user to be a global super_admin."""
+    payload = _decode_token(credentials.credentials)
+    user_id: str = payload.get("sub")  # type: ignore
+
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token missing sub claim"
+        )
+
+    db = get_service_client()
+    result = db.table("users").select("id, email, full_name, role, telegram_chat_id").eq("id", user_id).single().execute()
+    
+    if not result.data or result.data.get("role") != "super_admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Super Admin access required",
+        )
+        
+    user_data = result.data
+    return AuthUser(
+        id=user_id,
+        email=user_data["email"],
+        full_name=user_data["full_name"],
+        role=user_data["role"],
+        agency_id=None,
+        telegram_chat_id=user_data.get("telegram_chat_id"),
+    )

@@ -8,5 +8,5 @@ class AuthUser(BaseModel):
     email: str
     full_name: str
     role: str
-    agency_id: str  # ALWAYS from DB — NEVER from token/request
+    agency_id: Optional[str] = None  # ALWAYS from DB — Never from token (None for super_admins)
     telegram_chat_id: Optional[str] = None
