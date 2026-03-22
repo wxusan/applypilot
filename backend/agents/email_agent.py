@@ -20,6 +20,7 @@ from core.config import settings
 from core.encryption import decrypt
 from core.audit import write_audit_log
 from services.telegram_bot import send_alert_to_staff, send_approval_request
+from agents.souls import load_soul
 
 logger = logging.getLogger(__name__)
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
@@ -434,6 +435,7 @@ class EmailAgent:
                 {
                     "role": "system",
                     "content": (
+                        load_soul("EMAIL_AGENT") + "\n\n"
                         f"Classify this email into exactly one of: "
                         f"{', '.join(CATEGORIES)}. "
                         "Respond with only the category name."
@@ -459,8 +461,9 @@ class EmailAgent:
                 {
                     "role": "system",
                     "content": (
-                        "You are a college application coordinator drafting an email reply "
-                        f"on behalf of student {student.get('full_name', 'the student')}. "
+                        load_soul("EMAIL_AGENT") + "\n\n"
+                        f"You are drafting an email reply on behalf of student "
+                        f"{student.get('full_name', 'the student')}. "
                         "Be professional, concise, and helpful. "
                         "Include a proper greeting and closing. "
                         "Do not include a subject line."

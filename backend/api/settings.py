@@ -122,3 +122,12 @@ async def upload_agency_logo(
     )
 
     return {"url": url}
+
+
+@router.patch("/users/me/accept-terms")
+async def accept_terms(user: AuthUser = Depends(get_current_user)):
+    """Mark the current user as having accepted the Terms of Service."""
+    db = get_service_client()
+    now = datetime.now(timezone.utc).isoformat()
+    db.table("users").update({"terms_accepted_at": now}).eq("id", user.id).execute()
+    return {"terms_accepted_at": now}

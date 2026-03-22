@@ -144,6 +144,81 @@ async def start_browser_agent(
     }
 
 
+@router.get("/agents/browser/{job_id}")
+async def get_browser_agent_status(
+    job_id: str,
+    user: AuthUser = Depends(get_current_user),
+):
+    """Return current status, screenshots, and message for a browser agent job."""
+    db = get_service_client()
+
+    job = db.table("agent_jobs").select(
+        "id, status, error_message, approval_message, screenshot_urls, output_data, created_at"
+    ).eq("id", job_id).eq("agency_id", user.agency_id).eq(
+        "agent_type", "browser"
+    ).single().execute()
+
+    if not job.data:
+        raise HTTPException(status_code=404, detail="Browser job not found")
+
+    j = job.data
+    return {
+        "job_id": j["id"],
+        "status": j["status"],
+        "screenshots": j.get("screenshot_urls") or [],
+        "message": j.get("approval_message") or j.get("error_message") or "",
+        "output_data": j.get("output_data") or {},
+        "created_at": j.get("created_at"),
+    }
+
+
+@router.post("/agents/browser/{job_id}/stop")
+async def stop_browser_agent(
+    job_id: str,
+    request: Request,
+    user: AuthUser = Depends(get_current_user),
+):
+    """
+    Cancel a running browser agent job.
+    Sets status to 'rejected' so the next approval-gate poll terminates the task.
+    """
+    db = get_service_client()
+
+    job = db.table("agent_jobs").select("id, status, student_id, application_id").eq(
+        "id", job_id
+    ).eq("agency_id", user.agency_id).eq("agent_type", "browser").single().execute()
+
+    if not job.data:
+        raise HTTPException(status_code=404, detail="Browser job not found")
+
+    j = job.data
+    if j["status"] in ("completed", "failed", "rejected"):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Job is already in terminal state: {j['status']}",
+        )
+
+    db.table("agent_jobs").update({
+        "status": "rejected",
+        "rejected_reason": "Stopped by user",
+        "error_message": "Stopped by user via dashboard",
+    }).eq("id", job_id).execute()
+
+    await write_audit_log(
+        agency_id=user.agency_id,
+        user_id=user.id,
+        student_id=j.get("student_id"),
+        application_id=j.get("application_id"),
+        action="browser.stopped",
+        entity_type="agent_job",
+        entity_id=job_id,
+        new_value={"stopped_by": user.id},
+        ip_address=request.client.host if request.client else None,
+    )
+
+    return {"job_id": job_id, "status": "rejected", "message": "Browser agent stopped"}
+
+
 async def _run_browser_agent(
     job_id: str,
     student_id: str,

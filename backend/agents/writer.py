@@ -13,6 +13,7 @@ from core.db import get_service_client
 from core.config import settings
 from core.audit import write_audit_log
 from services.telegram_bot import send_approval_request, send_message_to_agency_staff
+from agents.souls import load_soul
 
 logger = logging.getLogger(__name__)
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
@@ -565,16 +566,15 @@ class WriterAgent:
     ) -> str:
         if prompt_type == "personal_statement":
             system = (
-                "You are an expert college admissions consultant helping a student "
-                "write their Common App personal statement. "
-                "Write entirely in the student's authentic first-person voice — "
-                "specific, vivid, no clichés, no flowery openers. "
+                load_soul("ESSAY_AGENT") + "\n\n"
+                "Write the student's Common App personal statement entirely in their "
+                "authentic first-person voice — specific, vivid, no clichés, no flowery openers. "
                 "Tell one meaningful story. Stay within 650 words. "
                 "Show, don't tell. End with reflection or insight."
             )
         else:
             system = (
-                "You are an expert college admissions consultant. "
+                load_soul("ESSAY_AGENT") + "\n\n"
                 "Write a compelling supplemental essay that answers the prompt directly. "
                 "Be specific and authentic. Keep the voice natural and student-appropriate."
             )
@@ -627,7 +627,7 @@ class WriterAgent:
                 {
                     "role": "system",
                     "content": (
-                        "You are an expert college admissions counselor. "
+                        load_soul("ESSAY_AGENT") + "\n\n"
                         "Rate this piece of writing 1-100 based on: "
                         "authenticity (25 pts), narrative/argument strength (25 pts), "
                         "writing quality (25 pts), prompt relevance (25 pts). "
@@ -655,10 +655,11 @@ class WriterAgent:
                 {
                     "role": "system",
                     "content": (
-                        f"You are {recommender.get('name', 'a teacher')}, "
+                        load_soul("ESSAY_AGENT") + "\n\n"
+                        f"You are writing as {recommender.get('name', 'a teacher')}, "
                         f"a {recommender.get('title', 'teacher')} at "
                         f"{recommender.get('school', 'the school')}, "
-                        f"writing a recommendation letter for a student you know as their "
+                        f"composing a recommendation letter for a student you know as their "
                         f"{recommender.get('relationship', 'teacher')}. "
                         "Write a strong, specific letter of 400–600 words. "
                         "Be enthusiastic but credible. Include specific anecdotes. "
@@ -690,10 +691,9 @@ class WriterAgent:
                 {
                     "role": "system",
                     "content": (
-                        "You are a college application coordinator drafting a professional "
-                        f"email reply on behalf of student "
+                        load_soul("EMAIL_AGENT") + "\n\n"
+                        f"Draft a professional email reply on behalf of student "
                         f"{student.get('full_name', 'the student')}. "
-                        "Be professional, concise, and helpful. "
                         "Include a proper greeting and closing. "
                         "Do not include a subject line."
                     ),

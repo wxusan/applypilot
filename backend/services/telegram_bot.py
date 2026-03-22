@@ -72,6 +72,27 @@ async def send_alert_to_staff(agency_id: str, message: str) -> None:
     await send_message_to_agency_staff(agency_id=agency_id, text=message)
 
 
+async def send_message_to_super_admin(text: str) -> None:
+    """Send a message directly to the super-admin's Telegram chat."""
+    if not _application:
+        logger.warning("Telegram bot not initialized — cannot send super-admin message")
+        return
+
+    chat_id = getattr(settings, "SUPER_ADMIN_TELEGRAM_CHAT_ID", None)
+    if not chat_id:
+        logger.warning("SUPER_ADMIN_TELEGRAM_CHAT_ID not set — skipping super-admin Telegram message")
+        return
+
+    try:
+        await _application.bot.send_message(
+            chat_id=chat_id,
+            text=text,
+            parse_mode="Markdown",
+        )
+    except Exception as e:
+        logger.error(f"Failed to send Telegram message to super-admin {chat_id}: {e}")
+
+
 async def send_approval_request(
     agency_id: str,
     job_id: str,

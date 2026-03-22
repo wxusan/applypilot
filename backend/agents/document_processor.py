@@ -13,6 +13,7 @@ from core.config import settings
 from core.audit import write_audit_log
 from services.storage import download_file_from_r2
 from services.telegram_bot import send_message_to_agency_staff
+from agents.souls import load_soul
 
 logger = logging.getLogger(__name__)
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
@@ -125,8 +126,8 @@ async def _classify_document(ocr_text: str, filename: str) -> str:
             {
                 "role": "system",
                 "content": (
-                    "You are a document classifier for college applications. "
-                    "Classify the document into one of: "
+                    load_soul("REPORTER_AGENT") + "\n\n"
+                    "Classify this college application document into one of: "
                     "transcript, test_score, recommendation_letter, passport, "
                     "financial_statement, essay, certificate, other. "
                     "Respond with only the category name."

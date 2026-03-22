@@ -4,6 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createBrowserClient } from '@/lib/supabase-browser'
 import { browserAgentApi } from '@/lib/api'
+import BrowserAgentScreenshotsModal from './BrowserAgentScreenshotsModal'
 
 interface Props {
   studentId: string
@@ -66,6 +67,9 @@ export default function FillCommonAppButton({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmPending, setConfirmPending] = useState(false)
+  const [screenshots, setScreenshots] = useState<string[]>([])
+  const [showModal, setShowModal] = useState(false)
+  const [stopping, setStopping] = useState(false)
 
   // Memoize client so it's created only once — prevents subscription leaks on re-render
   const supabase = useMemo(() => createBrowserClient(), [])
@@ -85,12 +89,13 @@ export default function FillCommonAppButton({
           filter: `application_id=eq.${applicationId}`,
         },
         (payload: any) => {
-          const row = payload.new as { status?: string; id?: string; agent_type?: string }
+          const row = payload.new as { status?: string; id?: string; agent_type?: string; screenshot_urls?: string[] }
           if (row.agent_type !== 'browser') return
           const newStatus = row.status as JobStatus
           if (newStatus) {
             setJobStatus(newStatus)
             if (row.id) setJobId(row.id)
+            if (row.screenshot_urls?.length) setScreenshots(row.screenshot_urls)
           }
         }
       )
@@ -110,7 +115,7 @@ export default function FillCommonAppButton({
 
     supabase
       .from('agent_jobs')
-      .select('id, status')
+      .select('id, status, screenshot_urls')
       .eq('application_id', applicationId)
       .eq('agent_type', 'browser')
       .in('status', ACTIVE_STATUSES)
@@ -121,6 +126,7 @@ export default function FillCommonAppButton({
         if (jobs && jobs.length > 0) {
           setJobId(jobs[0].id)
           setJobStatus(jobs[0].status as JobStatus)
+          if (jobs[0].screenshot_urls?.length) setScreenshots(jobs[0].screenshot_urls)
         }
       })
   }, [applicationId, applicationStatus, supabase])
@@ -152,6 +158,20 @@ export default function FillCommonAppButton({
       setLoading(false)
     }
   }, [applicationStatus, jobStatus, confirmPending, studentId, applicationId])
+
+  const handleStop = useCallback(async () => {
+    if (!jobId || stopping) return
+    setStopping(true)
+    try {
+      await browserAgentApi.stop(jobId)
+      setJobStatus('rejected')
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to stop'
+      setError(msg)
+    } finally {
+      setStopping(false)
+    }
+  }, [jobId, stopping])
 
   const isDisabled =
     loading ||
@@ -232,6 +252,52 @@ export default function FillCommonAppButton({
         <p style={{ fontSize: 11, color: '#185FA5', margin: 0 }}>
           Browser is filling the form — approval request coming soon
         </p>
+      )}
+
+      {/* Screenshots + Stop controls for active jobs */}
+      {ACTIVE_STATUSES.includes(jobStatus) && jobId && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          {screenshots.length > 0 && (
+            <button
+              onClick={() => setShowModal(true)}
+              style={{
+                fontSize: 11,
+                color: '#185FA5',
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                textDecoration: 'underline',
+              }}
+            >
+              View {screenshots.length} screenshot{screenshots.length !== 1 ? 's' : ''}
+            </button>
+          )}
+          <button
+            onClick={handleStop}
+            disabled={stopping}
+            style={{
+              fontSize: 11,
+              color: '#B91C1C',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: stopping ? 'not-allowed' : 'pointer',
+              opacity: stopping ? 0.5 : 1,
+            }}
+          >
+            {stopping ? 'Stopping…' : 'Stop'}
+          </button>
+        </div>
+      )}
+
+      {/* Screenshots modal */}
+      {showModal && (
+        <BrowserAgentScreenshotsModal
+          screenshots={screenshots}
+          universityName={universityName}
+          onClose={() => setShowModal(false)}
+        />
       )}
 
       <style>{`

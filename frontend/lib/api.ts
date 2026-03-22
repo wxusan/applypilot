@@ -113,6 +113,15 @@ export const browserAgentApi = {
         body: JSON.stringify({ student_id: studentId, application_id: applicationId }),
       }
     ),
+  status: (jobId: string) =>
+    apiFetch<{ job_id: string; status: string; screenshots: string[]; message: string; output_data: unknown; created_at: string }>(
+      `/api/agents/browser/${jobId}`
+    ),
+  stop: (jobId: string) =>
+    apiFetch<{ job_id: string; status: string; message: string }>(
+      `/api/agents/browser/${jobId}/stop`,
+      { method: 'POST' }
+    ),
 }
 
 // Deadlines
