@@ -24,6 +24,13 @@ export default async function DashboardPage() {
 
   const agencyId = member?.agency_id as string
 
+  // Fetch user name for greeting
+  const { data: userProfile } = await db
+    .from('users')
+    .select('full_name')
+    .eq('id', session!.user.id)
+    .single()
+
   if (!agencyId) {
     return <div className="p-6 text-red-500">Agency not found. Please contact support.</div>
   }
@@ -141,10 +148,16 @@ export default async function DashboardPage() {
     actor_name: l.user_id ? (usersMap as Record<string, string>)[l.user_id] ?? null : null,
   }))
 
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+  const firstName = userProfile?.full_name?.split(' ')[0] ?? ''
+
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-[22px] font-semibold text-gray-900">Dashboard</h1>
+        <h1 className="text-[22px] font-semibold text-gray-900">
+          {greeting}{firstName ? `, ${firstName}` : ''}!
+        </h1>
         <p className="text-[13px] text-gray-500 mt-0.5">
           Overview of your agency pipeline
         </p>

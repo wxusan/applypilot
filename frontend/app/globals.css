@@ -60,6 +60,13 @@
   border-color: #e5e7eb;
 }
 
+/* Focus-visible styles for keyboard navigation accessibility */
+:focus-visible {
+  outline: 2px solid #1D9E75;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Pulse animation for agent indicators */
 @keyframes agent-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }

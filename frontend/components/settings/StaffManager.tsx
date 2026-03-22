@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { apiFetch } from '@/lib/api'
 import { formatDistanceToNow } from '@/lib/utils'
+import { Link2, Check } from 'lucide-react'
 
 interface StaffMember {
   member_id: string
@@ -53,6 +54,18 @@ export default function StaffManager({ staff: initialStaff, maxStaff, agencyId }
   const [inviting, setInviting] = useState(false)
   const [deactivatingId, setDeactivatingId] = useState<string | null>(null)
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
+  const [linkCopied, setLinkCopied] = useState(false)
+
+  const handleCopyInviteLink = async () => {
+    const link = `${window.location.origin}/auth/accept-invite?agency=${agencyId}`
+    try {
+      await navigator.clipboard.writeText(link)
+      setLinkCopied(true)
+      setTimeout(() => setLinkCopied(false), 2000)
+    } catch {
+      prompt('Copy this invite link:', link)
+    }
+  }
 
   const showToast = (type: 'success' | 'error', msg: string) => {
     setToast({ type, msg })
@@ -127,7 +140,19 @@ export default function StaffManager({ staff: initialStaff, maxStaff, agencyId }
     <div className="space-y-5">
       {/* ── Invite ── */}
       <div className="bg-white rounded-[10px] p-5" style={{ border: '0.5px solid #e5e7eb' }}>
-        <h2 className="text-[14px] font-semibold text-gray-900 mb-3">Invite Staff Member</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-[14px] font-semibold text-gray-900">Invite Staff Member</h2>
+          <button
+            type="button"
+            onClick={handleCopyInviteLink}
+            aria-label="Copy invite link"
+            className="flex items-center gap-1.5 text-[12px] text-gray-500 hover:text-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand rounded px-2 py-1"
+            style={{ border: '0.5px solid #e5e7eb' }}
+          >
+            {linkCopied ? <Check size={12} className="text-green-500" /> : <Link2 size={12} />}
+            {linkCopied ? 'Copied!' : 'Copy invite link'}
+          </button>
+        </div>
         <p className="text-[12px] text-gray-500 mb-3">
           {activeCount} of {maxStaff} staff slots used. The invite will be sent via email.
         </p>
