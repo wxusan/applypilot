@@ -1,5 +1,6 @@
 import logging
 import asyncio
+import time
 from contextlib import asynccontextmanager
 import sentry_sdk
 from fastapi import FastAPI, Request
@@ -9,6 +10,8 @@ from fastapi.exceptions import RequestValidationError
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+
+_START_TIME = time.time()
 
 from core.config import settings
 from api import students, applications, documents, emails, essays, deadlines, admin, agent_jobs, settings as settings_api, audit, browser_agent, staff, super_admin, billing
@@ -123,6 +126,29 @@ async def generic_exception_handler(request: Request, exc: Exception):
     )
 
 
+@app.middleware("http")
+async def request_logging_middleware(request: Request, call_next):
+    start = time.time()
+    response = await call_next(request)
+    duration_ms = round((time.time() - start) * 1000)
+    logger.info(
+        f"{request.method} {request.url.path} → {response.status_code} ({duration_ms}ms)"
+    )
+    response.headers["X-Response-Time"] = f"{duration_ms}ms"
+    response.headers["X-RateLimit-Limit"] = "100"
+    response.headers["X-RateLimit-Window"] = "60s"
+    return response
+
+
 @app.get("/health")
 async def health():
-    return {"status": "ok", "version": "1.0.0"}
+    uptime_seconds = round(time.time() - _START_TIME)
+    hours, remainder = divmod(uptime_seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    uptime_str = f"{hours}h {minutes}m {seconds}s"
+    return {
+        "status": "ok",
+        "version": "1.0.0",
+        "uptime": uptime_str,
+        "uptime_seconds": uptime_seconds,
+    }

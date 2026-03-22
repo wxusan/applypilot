@@ -2,7 +2,8 @@
 import { createServerClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import StatusPill from '@/components/ui/StatusPill'
-import { formatDate, deadlineClass, formatDateMono } from '@/lib/utils'
+import CopyButton from '@/components/ui/CopyButton'
+import { formatDate, deadlineClass, formatDateMono, formatDistanceToNow } from '@/lib/utils'
 import { Plus } from 'lucide-react'
 import ExportButtons from '@/components/export/ExportButtons'
 
@@ -11,10 +12,12 @@ const STATUS_OPTIONS = [
   'submitted', 'accepted', 'rejected',
 ]
 
+const PAGE_SIZE = 20
+
 export default async function StudentsPage({
   searchParams,
 }: {
-  searchParams: { q?: string; status?: string; season?: string }
+  searchParams: { q?: string; status?: string; season?: string; page?: string }
 }) {
   const anonClient = createServerClient()
   const { data: { session } } = await anonClient.auth.getSession()
@@ -23,6 +26,8 @@ export default async function StudentsPage({
   const supabase = createServiceClient()
 
   const { q, status, season } = searchParams
+  const page = Math.max(1, parseInt(searchParams.page ?? '1', 10))
+  const offset = (page - 1) * PAGE_SIZE
 
   // Resolve agency_id for this user
   const { data: member } = await supabase
@@ -38,7 +43,7 @@ export default async function StudentsPage({
     .select(
       `id, full_name, preferred_name, email, status, season,
        graduation_year, gpa, gpa_scale, sat_total, act_score,
-       nationality, high_school_name, intended_major, created_at,
+       nationality, high_school_name, intended_major, created_at, updated_at,
        applications(id, university_name, status, deadline_regular)`,
       { count: 'exact' }
     )
@@ -49,8 +54,9 @@ export default async function StudentsPage({
   if (status) query = query.eq('status', status)
   if (season) query = query.eq('season', season)
 
-  const { data, count } = await query
+  const { data, count } = await query.range(offset, offset + PAGE_SIZE - 1)
   const students = data as any[] | null
+  const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE)
 
   return (
     <div className="space-y-5">
@@ -129,11 +135,11 @@ export default async function StudentsPage({
       </div>
 
       {/* ── Table ── */}
-      <div className="bg-white rounded-[10px] overflow-hidden" style={{ border: '0.5px solid #e5e7eb' }}>
+      <div className="bg-white rounded-[10px] overflow-x-auto" style={{ border: '0.5px solid #e5e7eb' }}>
         <table className="w-full">
           <thead>
             <tr style={{ borderBottom: '0.5px solid #e5e7eb' }}>
-              {['Name', 'Status', 'Class', 'GPA', 'SAT / ACT', 'Universities', 'Next Deadline', 'Added'].map(
+              {['Name', 'Status', 'Class', 'GPA', 'SAT / ACT', 'Universities', 'Next Deadline', 'Updated'].map(
                 (col) => (
                   <th
                     key={col}
@@ -185,9 +191,12 @@ export default async function StudentsPage({
                         {student.full_name}
                       </Link>
                       {student.email && (
-                        <p className="text-[11px] text-gray-400 mt-0.5 truncate max-w-[180px]">
-                          {student.email}
-                        </p>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <p className="text-[11px] text-gray-400 truncate max-w-[160px]">
+                            {student.email}
+                          </p>
+                          <CopyButton text={student.email} label="email" />
+                        </div>
                       )}
                     </td>
 
@@ -236,7 +245,9 @@ export default async function StudentsPage({
                     </td>
 
                     <td className="px-5 py-3 text-[12px] text-gray-400">
-                      {formatDate(student.created_at)}
+                      <span title={formatDate(student.updated_at || student.created_at)}>
+                        {formatDistanceToNow(new Date(student.updated_at || student.created_at))} ago
+                      </span>
                     </td>
                   </tr>
                 )
@@ -245,6 +256,35 @@ export default async function StudentsPage({
           </tbody>
         </table>
       </div>
+
+      {/* ── Pagination ── */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between">
+          <p className="text-[12px] text-gray-500">
+            Page {page} of {totalPages} · {count} students
+          </p>
+          <div className="flex items-center gap-2">
+            {page > 1 && (
+              <Link
+                href={`/students?${new URLSearchParams({ ...(q ? { q } : {}), ...(status ? { status } : {}), ...(season ? { season } : {}), page: String(page - 1) })}`}
+                className="h-8 px-3 rounded-[6px] text-[12px] font-medium text-gray-700 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
+                style={{ border: '0.5px solid #e5e7eb' }}
+              >
+                ← Previous
+              </Link>
+            )}
+            {page < totalPages && (
+              <Link
+                href={`/students?${new URLSearchParams({ ...(q ? { q } : {}), ...(status ? { status } : {}), ...(season ? { season } : {}), page: String(page + 1) })}`}
+                className="h-8 px-3 rounded-[6px] text-[12px] font-medium text-gray-700 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand"
+                style={{ border: '0.5px solid #e5e7eb' }}
+              >
+                Next →
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

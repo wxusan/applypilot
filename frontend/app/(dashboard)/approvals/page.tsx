@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
-import { agentTypeLabel, formatDate } from '@/lib/utils'
+import { agentTypeLabel, formatDate, formatDistanceToNow } from '@/lib/utils'
 import ApprovalActions from '@/components/agents/ApprovalActions'
+import BulkApproveButton from '@/components/agents/BulkApproveButton'
 import { ClipboardCheck } from 'lucide-react'
 import Link from 'next/link'
 
@@ -49,19 +50,24 @@ export default async function ApprovalsPage() {
 
   const count = jobs?.length ?? 0
 
+  const jobIds = (jobs ?? []).map(j => j.id)
+
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-[22px] font-semibold text-gray-900">Approval Queue</h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">
-          {count > 0 ? (
-            <span>
-              <span className="font-medium text-gray-800">{count}</span> item{count !== 1 ? 's' : ''} waiting for review
-            </span>
-          ) : (
-            'All agent tasks are up to date'
-          )}
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-[22px] font-semibold text-gray-900">Approval Queue</h1>
+          <p className="text-[13px] text-gray-500 mt-0.5">
+            {count > 0 ? (
+              <span>
+                <span className="font-medium text-gray-800">{count}</span> item{count !== 1 ? 's' : ''} waiting for review
+              </span>
+            ) : (
+              'All agent tasks are up to date'
+            )}
+          </p>
+        </div>
+        {count > 1 && <BulkApproveButton jobIds={jobIds} />}
       </div>
 
       {count === 0 ? (
@@ -102,8 +108,8 @@ export default async function ApprovalsPage() {
                       {jobLabel}
                     </span>
                   </div>
-                  <span className="text-[11px] text-gray-400">
-                    {formatDate(job.created_at)}
+                  <span className="text-[11px] text-gray-400" title={formatDate(job.created_at)}>
+                    {formatDistanceToNow(new Date(job.created_at))} ago · {formatDate(job.created_at)}
                   </span>
                 </div>
 

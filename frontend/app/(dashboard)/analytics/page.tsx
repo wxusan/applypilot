@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import AnalyticsCharts from '@/components/analytics/AnalyticsCharts'
+import AnalyticsExportButton from '@/components/analytics/AnalyticsExportButton'
 
 export default async function AnalyticsPage() {
   const anonClient = createServerClient()
@@ -80,11 +81,24 @@ export default async function AnalyticsPage() {
       ? Math.round((acceptedCount / decidedCount) * 100)
       : null
 
+  const exportData = {
+    studentsByStatus,
+    decisionCounts,
+    jobsByDay,
+    complianceRate,
+    totalStudents,
+    totalApps,
+    acceptanceRate,
+  }
+
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-[22px] font-semibold text-gray-900">Analytics</h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">Agency-wide performance overview</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-[22px] font-semibold text-gray-900">Analytics</h1>
+          <p className="text-[13px] text-gray-500 mt-0.5">Agency-wide performance overview</p>
+        </div>
+        <AnalyticsExportButton data={exportData} />
       </div>
 
       {/* KPI Row */}

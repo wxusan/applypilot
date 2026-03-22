@@ -180,6 +180,18 @@ async def create_student(
         user_agent=request.headers.get("user-agent"),
     )
 
+    # Notify agency staff via Telegram
+    try:
+        from services.telegram_bot import notify_new_student
+        import asyncio
+        asyncio.create_task(notify_new_student(
+            agency_id=user.agency_id,
+            student_name=student["full_name"],
+            added_by=user.email or "",
+        ))
+    except Exception:
+        pass  # Telegram notification is non-critical
+
     return student
 
 

@@ -29,6 +29,7 @@ async def start_telegram_bot() -> None:
         _application.add_handler(CommandHandler("status", _handle_status))
         _application.add_handler(CommandHandler("deadlines", _handle_deadlines))
         _application.add_handler(CommandHandler("approvals", _handle_approvals))
+        _application.add_handler(CommandHandler("report", _handle_report))
         _application.add_handler(CommandHandler("help", _handle_help))
         _application.add_handler(CallbackQueryHandler(_handle_callback))
 
@@ -70,6 +71,15 @@ async def send_message_to_agency_staff(agency_id: str, text: str) -> None:
 
 async def send_alert_to_staff(agency_id: str, message: str) -> None:
     await send_message_to_agency_staff(agency_id=agency_id, text=message)
+
+
+async def notify_new_student(agency_id: str, student_name: str, added_by: str = "") -> None:
+    """Notify agency admin when a new student is added."""
+    by_text = f" by {added_by}" if added_by else ""
+    await send_message_to_agency_staff(
+        agency_id=agency_id,
+        text=f"🎓 *New Student Added*\n━━━━━━━━━━━━━━━\n*{student_name}* has been added to your pipeline{by_text}.",
+    )
 
 
 async def send_approval_request(
@@ -248,6 +258,76 @@ async def _handle_approvals(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     await update.message.reply_text("\n".join(lines), parse_mode="Markdown")
 
 
+async def _handle_report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Generate a brief daily summary report."""
+    chat_id = str(update.effective_chat.id)
+    db = get_service_client()
+
+    user = db.table("users").select("id").eq("telegram_chat_id", chat_id).single().execute()
+    if not user.data:
+        await update.message.reply_text("Link your account first: go to Settings in ApplyPilot.")
+        return
+
+    member = db.table("agency_members").select("agency_id").eq(
+        "user_id", user.data["id"]
+    ).single().execute()
+    if not member.data:
+        return
+
+    agency_id = member.data["agency_id"]
+
+    from datetime import date, timedelta
+    today = date.today().isoformat()
+    yesterday = (date.today() - timedelta(days=1)).isoformat()
+
+    # Student counts by status
+    students = db.table("students").select("status").eq("agency_id", agency_id).execute()
+    status_counts: dict = {}
+    for s in students.data or []:
+        key = s["status"]
+        status_counts[key] = status_counts.get(key, 0) + 1
+
+    # Pending approvals
+    pending = db.table("agent_jobs").select("id", count="exact").eq(
+        "agency_id", agency_id
+    ).eq("status", "awaiting_approval").execute()
+    pending_count = pending.count or 0
+
+    # Upcoming deadlines (next 7 days)
+    in_7 = (date.today() + timedelta(days=7)).isoformat()
+    deadlines = db.table("deadlines").select("id", count="exact").eq(
+        "agency_id", agency_id
+    ).eq("is_complete", False).lte("due_date", in_7).execute()
+    deadline_count = deadlines.count or 0
+
+    # Agent jobs completed today
+    completed_today = db.table("agent_jobs").select("id", count="exact").eq(
+        "agency_id", agency_id
+    ).eq("status", "completed").gte("completed_at", today).execute()
+    completed_count = completed_today.count or 0
+
+    total = sum(status_counts.values())
+
+    lines = [
+        f"📊 *Daily Report — {today}*",
+        "━━━━━━━━━━━━━━━",
+        f"👥 Total Students: *{total}*",
+    ]
+
+    if status_counts:
+        lines.append("\n*Pipeline Breakdown:*")
+        for status, count in sorted(status_counts.items()):
+            lines.append(f"  • {status.capitalize()}: {count}")
+
+    lines.extend([
+        f"\n⏳ Pending Approvals: *{pending_count}*",
+        f"📅 Deadlines (next 7 days): *{deadline_count}*",
+        f"✅ Agent Jobs Completed Today: *{completed_count}*",
+    ])
+
+    await update.message.reply_text("\n".join(lines), parse_mode="Markdown")
+
+
 async def _handle_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         "📖 *ApplyPilot Bot Commands:*\n\n"
@@ -255,6 +335,7 @@ async def _handle_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         "/status <name> — Check student status\n"
         "/deadlines — View upcoming deadlines\n"
         "/approvals — View pending approvals\n"
+        "/report — Daily summary report\n"
         "/help — Show this message",
         parse_mode="Markdown",
     )
