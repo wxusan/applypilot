@@ -9,13 +9,13 @@
  * profile.
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase-browser'
 
 type Stage = 'loading' | 'success' | 'error'
 
-export default function AcceptInvitePage() {
+function AcceptInviteContent() {
   const router = useRouter()
   const params = useSearchParams()
   const [stage, setStage] = useState<Stage>('loading')
@@ -45,8 +45,8 @@ export default function AcceptInvitePage() {
         }
 
         setStage('success')
-        // Give the user a moment to see the success message, then redirect
-        setTimeout(() => router.replace('/dashboard'), 1500)
+        // Give the user a moment to see the success message, then redirect to the students page
+        setTimeout(() => router.replace('/students'), 1500)
       } catch (err) {
         setErrorMsg(err instanceof Error ? err.message : 'Failed to accept invitation.')
         setStage('error')
@@ -57,48 +57,66 @@ export default function AcceptInvitePage() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
+    <div className="bg-white rounded-[12px] p-8 w-full max-w-sm text-center shadow-sm" style={{ border: '0.5px solid #e5e7eb' }}>
+      {stage === 'loading' && (
+        <>
+          <div
+            className="w-10 h-10 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-4"
+            style={{ borderColor: '#1D9E75', borderTopColor: 'transparent' }}
+          />
+          <p className="text-[14px] text-gray-600">Accepting your invitation…</p>
+        </>
+      )}
+
+      {stage === 'success' && (
+        <>
+          <div
+            className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-[20px]"
+            style={{ backgroundColor: '#1D9E75' }}
+          >
+            ✓
+          </div>
+          <h1 className="text-[16px] font-semibold text-gray-900 mb-1">Welcome aboard!</h1>
+          <p className="text-[13px] text-gray-500">Redirecting you to the dashboard…</p>
+        </>
+      )}
+
+      {stage === 'error' && (
+        <>
+          <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4 text-red-600 text-[20px]">
+            ✗
+          </div>
+          <h1 className="text-[16px] font-semibold text-gray-900 mb-2">Invitation failed</h1>
+          <p className="text-[13px] text-red-600 mb-5">{errorMsg}</p>
+          <a
+            href="/login"
+            className="inline-block h-9 px-5 rounded-[6px] text-[13px] font-medium text-white"
+            style={{ backgroundColor: '#1D9E75', lineHeight: '36px' }}
+          >
+            Go to Login
+          </a>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function AcceptInvitePage() {
+  return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white rounded-[12px] p-8 w-full max-w-sm text-center shadow-sm" style={{ border: '0.5px solid #e5e7eb' }}>
-        {stage === 'loading' && (
-          <>
+      <Suspense
+        fallback={
+          <div className="bg-white rounded-[12px] p-8 w-full max-w-sm text-center shadow-sm" style={{ border: '0.5px solid #e5e7eb' }}>
             <div
               className="w-10 h-10 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-4"
               style={{ borderColor: '#1D9E75', borderTopColor: 'transparent' }}
             />
-            <p className="text-[14px] text-gray-600">Accepting your invitation…</p>
-          </>
-        )}
-
-        {stage === 'success' && (
-          <>
-            <div
-              className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-[20px]"
-              style={{ backgroundColor: '#1D9E75' }}
-            >
-              ✓
-            </div>
-            <h1 className="text-[16px] font-semibold text-gray-900 mb-1">Welcome aboard!</h1>
-            <p className="text-[13px] text-gray-500">Redirecting you to the dashboard…</p>
-          </>
-        )}
-
-        {stage === 'error' && (
-          <>
-            <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4 text-red-600 text-[20px]">
-              ✗
-            </div>
-            <h1 className="text-[16px] font-semibold text-gray-900 mb-2">Invitation failed</h1>
-            <p className="text-[13px] text-red-600 mb-5">{errorMsg}</p>
-            <a
-              href="/login"
-              className="inline-block h-9 px-5 rounded-[6px] text-[13px] font-medium text-white"
-              style={{ backgroundColor: '#1D9E75', lineHeight: '36px' }}
-            >
-              Go to Login
-            </a>
-          </>
-        )}
-      </div>
+            <p className="text-[14px] text-gray-600">Loading…</p>
+          </div>
+        }
+      >
+        <AcceptInviteContent />
+      </Suspense>
     </div>
   )
 }
