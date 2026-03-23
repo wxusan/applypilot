@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+export const dynamic = 'force-dynamic'
+
+import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase-browser'
 import { Eye, EyeOff, CheckCircle } from 'lucide-react'
 
 export default function ResetPasswordPage() {
-  const supabase = useMemo(() => createBrowserClient(), [])
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -15,11 +16,12 @@ export default function ResetPasswordPage() {
   const [hasSession, setHasSession] = useState(false)
 
   useEffect(() => {
-    // Check if we have a valid recovery session
+    // Check if we have a valid recovery session (client-only)
+    const supabase = createBrowserClient()
     supabase.auth.getSession().then(({ data: { session } }) => {
       setHasSession(!!session)
     })
-  }, [supabase])
+  }, [])
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,6 +38,7 @@ export default function ResetPasswordPage() {
 
     setLoading(true)
     try {
+      const supabase = createBrowserClient()
       const { error: updateError } = await supabase.auth.updateUser({ password })
       if (updateError) {
         setError(updateError.message)

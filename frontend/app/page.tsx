@@ -5,14 +5,14 @@ import Pricing from '@/components/landing/Pricing'
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-white selection:bg-emerald-500/30 font-sans w-full">
+    <main className="min-h-screen bg-[#0B1629] text-white selection:bg-emerald-500/30 font-sans w-full">
       <PublicNav />
       <Hero />
       <FeaturesBento />
       <Pricing />
 
       {/* FOOTER */}
-      <footer className="border-t border-white/10 bg-black pt-16 pb-8">
+      <footer className="border-t border-white/10 bg-[#070E1A] pt-16 pb-8">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between mb-8 pb-8 border-b border-white/5">
             <div className="flex items-center gap-2 mb-4 md:mb-0">

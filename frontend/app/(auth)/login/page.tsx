@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
+export const dynamic = 'force-dynamic'
+
+import { useState } from 'react'
 import { createBrowserClient } from '@/lib/supabase-browser'
+import { ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react'
 
 export default function LoginPage() {
-  const router = useRouter()
-  const supabase = useMemo(() => createBrowserClient(), [])
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -19,7 +18,6 @@ export default function LoginPage() {
     e.preventDefault()
     setError(null)
 
-    // Check lockout
     if (lockedUntil && new Date() < lockedUntil) {
       const minutes = Math.ceil((lockedUntil.getTime() - Date.now()) / 60000)
       setError(`Account locked. Try again in ${minutes} minute(s).`)
@@ -34,6 +32,7 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
+      const supabase = createBrowserClient()
       const { error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -54,7 +53,8 @@ export default function LoginPage() {
       }
 
       setLoginAttempts(0)
-      router.push('/dashboard')
+      // Hard navigation ensures middleware re-reads fresh session cookies
+      window.location.assign('/dashboard')
     } catch {
       setError('An unexpected error occurred. Please try again.')
     } finally {
@@ -63,29 +63,75 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-[360px]">
+    <div className="min-h-screen flex" style={{ backgroundColor: '#0B1629' }}>
+
+      {/* LEFT PANEL — branding (desktop only) */}
+      <div
+        className="hidden lg:flex flex-col justify-between w-[480px] shrink-0 p-12"
+        style={{ backgroundColor: '#091320', borderRight: '1px solid rgba(255,255,255,0.06)' }}
+      >
         {/* Logo */}
-        <div className="flex items-center gap-2 justify-center mb-8">
-          <div className="w-2 h-2 rounded-full bg-brand" />
-          <span className="text-[15px] font-semibold text-gray-900">ApplyPilot</span>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.5)]" />
+          <span className="text-[15px] font-semibold text-white tracking-wide">
+            ApplyPilot<span className="text-white/30">.</span>
+          </span>
         </div>
 
-        {/* Card */}
-        <div
-          className="bg-white rounded-[10px] p-6"
-          style={{ border: '0.5px solid #e5e7eb' }}
-        >
-          <h1 className="text-[22px] font-semibold text-gray-900 mb-1">Sign in</h1>
-          <p className="text-[13px] text-gray-500 mb-6">
-            Enter your credentials to access your agency dashboard.
+        {/* Headline */}
+        <div>
+          <h1 className="text-[36px] font-bold text-white leading-tight tracking-tight mb-4">
+            The Operating System<br />
+            for Elite Consulting<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+              Agencies.
+            </span>
+          </h1>
+          <p className="text-[14px] text-white/40 leading-relaxed mb-8">
+            Manage 1,000+ students with 7 autonomous AI agents — no extra headcount required.
+          </p>
+          <ul className="space-y-3">
+            {[
+              'Automated essay writing & revision',
+              'Real-time deadline tracking',
+              'AI-powered browser form filling',
+              'Telegram-native parent intake',
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-2.5">
+                <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
+                <span className="text-[13px] text-white/50">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Trust badge */}
+        <div className="flex items-center gap-2 text-[12px] text-white/25">
+          <ShieldCheck size={14} className="text-emerald-500/50 shrink-0" />
+          <span>Trusted by 50+ elite educational agencies globally</span>
+        </div>
+      </div>
+
+      {/* RIGHT PANEL — form */}
+      <div className="flex-1 flex items-center justify-center px-6">
+        <div className="w-full max-w-[360px]">
+
+          {/* Mobile logo */}
+          <div className="flex items-center gap-2 justify-center mb-8 lg:hidden">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+            <span className="text-[15px] font-semibold text-white">ApplyPilot</span>
+          </div>
+
+          <h2 className="text-[24px] font-bold text-white mb-1.5">Welcome back</h2>
+          <p className="text-[13px] text-white/40 mb-8">
+            Sign in to your agency dashboard.
           </p>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
-                className="block text-[11px] font-medium text-gray-500 uppercase tracking-[0.5px] mb-1.5"
+                className="block text-[11px] font-medium text-white/40 uppercase tracking-[0.6px] mb-1.5"
               >
                 Email
               </label>
@@ -95,8 +141,19 @@ export default function LoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-9 px-3 text-[13px] rounded-[6px] bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-brand transition"
-                style={{ border: '0.5px solid #d1d5db' }}
+                className="w-full h-10 px-3.5 text-[13px] rounded-[8px] text-white placeholder:text-white/20 focus:outline-none transition"
+                style={{
+                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(16,185,129,0.5)'
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(16,185,129,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
                 placeholder="you@agency.com"
                 required
               />
@@ -105,7 +162,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-[11px] font-medium text-gray-500 uppercase tracking-[0.5px] mb-1.5"
+                className="block text-[11px] font-medium text-white/40 uppercase tracking-[0.6px] mb-1.5"
               >
                 Password
               </label>
@@ -115,8 +172,19 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-9 px-3 text-[13px] rounded-[6px] bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-brand transition"
-                style={{ border: '0.5px solid #d1d5db' }}
+                className="w-full h-10 px-3.5 text-[13px] rounded-[8px] text-white placeholder:text-white/20 focus:outline-none transition"
+                style={{
+                  backgroundColor: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(16,185,129,0.5)'
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(16,185,129,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
                 placeholder="••••••••"
                 required
               />
@@ -124,8 +192,12 @@ export default function LoginPage() {
 
             {error && (
               <div
-                className="rounded-[6px] px-3 py-2 text-[12px] text-danger-text"
-                style={{ backgroundColor: '#FCEBEB', border: '0.5px solid #f5c2c2' }}
+                className="rounded-[6px] px-3.5 py-2.5 text-[12px]"
+                style={{
+                  backgroundColor: 'rgba(220,38,38,0.1)',
+                  border: '1px solid rgba(220,38,38,0.2)',
+                  color: '#f87171',
+                }}
               >
                 {error}
               </div>
@@ -134,18 +206,21 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-9 rounded-[6px] text-[13px] font-medium text-white transition disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full h-10 rounded-[8px] text-[13px] font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundColor: '#1D9E75' }}
             >
-              {loading ? 'Signing in…' : 'Sign in'}
+              {loading ? 'Signing in…' : (
+                <>Sign in <ArrowRight size={14} /></>
+              )}
             </button>
           </form>
-        </div>
 
-        <p className="text-center text-[11px] text-gray-400 mt-4">
-          Access is by invitation only.
-        </p>
+          <p className="text-center text-[11px] text-white/20 mt-6">
+            Access is by invitation only.
+          </p>
+        </div>
       </div>
+
     </div>
   )
 }

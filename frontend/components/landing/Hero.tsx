@@ -83,7 +83,7 @@ export default function Hero() {
             className="rounded-xl w-full h-[300px] md:h-[600px] object-cover opacity-60"
           />
           {/* Overlay gradient to fade it into background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1629] via-transparent to-transparent pointer-events-none" />
         </div>
       </div>
     </section>
