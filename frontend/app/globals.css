@@ -74,3 +74,38 @@
   background-color: #1D9E75;
   animation: agent-pulse 2s ease-in-out infinite;
 }
+
+/* Landing page animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  33% { transform: translate(30px, -20px) scale(1.05); border-radius: 50% 50% 30% 70% / 50% 70% 30% 50%; }
+  66% { transform: translate(-20px, 10px) scale(0.97); border-radius: 30% 70% 50% 50% / 30% 50% 70% 50%; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-float-delayed { animation: float-delayed 5s ease-in-out infinite 1s; }
+.animate-float-slow { animation: float-delayed 6s ease-in-out infinite 2s; }
+.animate-blob { animation: blob-drift 8s ease-in-out infinite; }
+.animate-blob-delayed { animation: blob-drift 10s ease-in-out infinite 2s; }
+
+.btn-shimmer {
+  background-size: 200% auto;
+  background-image: linear-gradient(135deg, #ffffff 0%, #f0f4f8 40%, #ffffff 60%, #f0f4f8 100%);
+  animation: shimmer 3s linear infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -1,81 +1,139 @@
+'use client'
+
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+
+const features = [
+  {
+    icon: 'psychology',
+    iconBg: 'bg-primary-fixed',
+    iconColor: 'text-primary',
+    title: 'AI Counselor',
+    description: 'Autonomous drafting of recommendation letters and application critiques with a personal touch.',
+    chip: { label: 'GPT-4o powered', bg: 'bg-violet-50', text: 'text-violet-700' },
+    extra: null,
+  },
+  {
+    icon: 'folder_managed',
+    iconBg: 'bg-secondary-fixed',
+    iconColor: 'text-secondary',
+    title: 'Secure Dossiers',
+    description: 'Enterprise-grade storage for transcripts, portfolios, and sensitive student records.',
+    chip: null,
+    extra: 'dossiers',
+  },
+  {
+    icon: 'monitoring',
+    iconBg: 'bg-tertiary-fixed',
+    iconColor: 'text-tertiary',
+    title: 'Unified Pipeline',
+    description: 'Real-time tracking of application statuses across hundreds of institutions.',
+    chip: null,
+    extra: 'chart',
+  },
+  {
+    icon: 'brand_awareness',
+    iconBg: 'bg-primary',
+    iconColor: 'text-on-primary',
+    title: 'Branded Portals',
+    description: "Your agency's look and feel, delivering a premium student-facing experience.",
+    chip: null,
+    extra: 'avatars',
+  },
+  {
+    icon: 'smart_toy',
+    iconBg: 'bg-blue-50',
+    iconColor: 'text-blue-600',
+    title: 'Auto-Fill Agent',
+    description: 'Fills CommonApp and Coalition forms automatically. No copy-paste, no missed fields.',
+    chip: { label: 'Steel.dev powered', bg: 'bg-blue-50', text: 'text-blue-700' },
+    extra: null,
+  },
+  {
+    icon: 'analytics',
+    iconBg: 'bg-emerald-50',
+    iconColor: 'text-emerald-600',
+    title: 'Real-Time Analytics',
+    description: 'Track agency performance, student outcomes, and team productivity in one view.',
+    chip: null,
+    extra: 'stat',
+  },
+]
+
 export default function FeaturesBento() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-80px' })
+
   return (
-    <section className="px-8 py-32 bg-surface-container-low">
+    <section id="features" className="px-8 py-20 bg-surface-container-low">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
+        <div className="mb-12">
           <h2 className="text-4xl font-extrabold font-headline text-primary mb-4">Intelligence at Every Touchpoint</h2>
           <div className="w-20 h-1.5 bg-primary rounded-full"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {features.map((f, i) => (
+            <motion.div
+              key={f.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.45, delay: i * 0.06, ease: 'easeOut' }}
+              whileHover={{ y: -4, boxShadow: '0 12px 32px rgba(3,22,53,0.12)' }}
+              className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col gap-4 cursor-default"
+            >
+              <motion.div
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                className={`w-10 h-10 rounded-xl ${f.iconBg} flex items-center justify-center`}
+              >
+                <span className={`material-symbols-outlined text-[20px] ${f.iconColor}`}>{f.icon}</span>
+              </motion.div>
 
-          {/* AI Counselor Card */}
-          <div className="bg-surface-container-lowest p-10 rounded-2xl border border-outline-variant/10 flex flex-col justify-between shadow-sm">
-            <div>
-              <div className="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary mb-8">
-                <span className="material-symbols-outlined">psychology</span>
+              <div>
+                <h3 className="text-base font-bold font-headline text-primary mb-1">{f.title}</h3>
+                <p className="text-sm text-on-surface-variant leading-relaxed">{f.description}</p>
               </div>
-              <h3 className="text-2xl font-bold font-headline text-primary mb-4">AI Counselor</h3>
-              <p className="text-on-surface-variant leading-relaxed mb-8">Autonomous drafting of recommendation letters and application critiques with a personal touch.</p>
-            </div>
-            <div className="rounded-xl overflow-hidden h-48">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                alt="AI Collaboration"
-                className="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR9m8dnFZxeZ8JJKASUzxIlrjN7DhSPb0QhYkjRVPXu4PWCR3r7WdkMmK-sl7R7Dl6OfvIO62gUmKpKPoChuJ9_DRB6qX6YpV4lpYx2iK5UHtl3NGP46i8pbLIC7TAOXkzBIPCDAN0SMdTbqNprAUsXpUItgeTYrzYGIIo9suz8-nE_FODJgWkCrWBWp7u1H18GNqY6UutVMNxyMnFRjlQl3Br3G-QOaTCrAluve62MMrumYjtT6zCnumtdM4Vs1CNXoRkRWsLU24"
-              />
-            </div>
-          </div>
 
-          {/* Secure Dossiers */}
-          <div className="bg-surface-container-lowest p-10 rounded-2xl border border-outline-variant/10 shadow-sm">
-            <div className="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary mb-8">
-              <span className="material-symbols-outlined">folder_managed</span>
-            </div>
-            <h3 className="text-2xl font-bold font-headline text-primary mb-4">Secure Dossiers</h3>
-            <p className="text-on-surface-variant leading-relaxed mb-8">Enterprise-grade storage for transcripts, portfolios, and sensitive student records.</p>
-            <div className="space-y-3">
-              <div className="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl">
-                <span className="material-symbols-outlined text-primary">description</span>
-                <span className="font-semibold text-primary">Student_Portfolio_V2.pdf</span>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl">
-                <span className="material-symbols-outlined text-primary">description</span>
-                <span className="font-semibold text-primary">Transcript_Official.docx</span>
-              </div>
-            </div>
-          </div>
+              {f.chip && (
+                <span className={`self-start text-[10px] font-bold px-2.5 py-1 rounded-full ${f.chip.bg} ${f.chip.text}`}>
+                  {f.chip.label}
+                </span>
+              )}
 
-          {/* Unified Pipeline */}
-          <div className="bg-surface-container-lowest p-10 rounded-2xl border border-outline-variant/10 shadow-sm">
-            <div className="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center text-tertiary mb-8">
-              <span className="material-symbols-outlined">monitoring</span>
-            </div>
-            <h3 className="text-2xl font-bold font-headline text-primary mb-4">Unified Pipeline</h3>
-            <p className="text-on-surface-variant leading-relaxed mb-8">Real-time tracking of application statuses across hundreds of institutions.</p>
-            <div className="h-40 bg-surface-container-low rounded-xl flex items-end gap-3 px-8 pb-4">
-              <div className="w-full bg-primary/20 h-[40%] rounded-t-lg"></div>
-              <div className="w-full bg-primary/40 h-[60%] rounded-t-lg"></div>
-              <div className="w-full bg-primary/60 h-[85%] rounded-t-lg"></div>
-              <div className="w-full bg-primary h-[55%] rounded-t-lg"></div>
-            </div>
-          </div>
+              {f.extra === 'dossiers' && (
+                <div className="flex gap-2 flex-wrap">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary bg-surface-container-low px-2.5 py-1 rounded-lg border border-outline-variant/20">
+                    <span className="material-symbols-outlined text-[13px]">description</span>Portfolio_V2.pdf
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary bg-surface-container-low px-2.5 py-1 rounded-lg border border-outline-variant/20">
+                    <span className="material-symbols-outlined text-[13px]">description</span>Transcript.docx
+                  </span>
+                </div>
+              )}
 
-          {/* Branded Portals */}
-          <div className="bg-primary text-on-primary p-10 rounded-2xl border border-primary-container shadow-xl">
-            <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center mb-8">
-              <span className="material-symbols-outlined text-on-primary-container">brand_awareness</span>
-            </div>
-            <h3 className="text-2xl font-bold font-headline mb-4">Branded Portals</h3>
-            <p className="text-on-primary-container leading-relaxed mb-8">Your agency&#39;s look and feel, delivering a premium student-facing experience.</p>
-            <div className="flex -space-x-4">
-              <div className="w-12 h-12 rounded-full border-4 border-primary bg-slate-300"></div>
-              <div className="w-12 h-12 rounded-full border-4 border-primary bg-slate-400"></div>
-              <div className="w-12 h-12 rounded-full border-4 border-primary bg-slate-500"></div>
-              <div className="w-12 h-12 rounded-full border-4 border-primary bg-primary-container flex items-center justify-center text-xs font-bold">+12</div>
-            </div>
-          </div>
+              {f.extra === 'chart' && (
+                <div className="h-16 bg-surface-container-low rounded-xl flex items-end gap-2 px-4 pb-2">
+                  <div className="flex-1 bg-primary/20 rounded-t" style={{ height: '40%' }} />
+                  <div className="flex-1 bg-primary/40 rounded-t" style={{ height: '60%' }} />
+                  <div className="flex-1 bg-primary/70 rounded-t" style={{ height: '85%' }} />
+                  <div className="flex-1 bg-primary rounded-t" style={{ height: '55%' }} />
+                </div>
+              )}
 
+              {f.extra === 'avatars' && (
+                <div className="flex -space-x-2.5">
+                  {['bg-slate-300', 'bg-slate-400', 'bg-slate-500'].map((c, idx) => (
+                    <div key={idx} className={`w-8 h-8 rounded-full border-2 border-white ${c}`} />
+                  ))}
+                  <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-fixed flex items-center justify-center text-[9px] font-bold text-primary">+12</div>
+                </div>
+              )}
+
+              {f.extra === 'stat' && (
+                <span className="self-start text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">↑ 34% admit rate</span>
+              )}
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
