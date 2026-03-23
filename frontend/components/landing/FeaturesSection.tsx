@@ -1,4 +1,4 @@
-export default function FeaturesBento() {
+export default function FeaturesSection() {
   return (
     <section className="px-8 py-32 bg-surface-container-low">
       <div className="max-w-7xl mx-auto">

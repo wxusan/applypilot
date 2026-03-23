@@ -2,49 +2,28 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  LayoutDashboard,
-  Users,
-  CheckSquare,
-  BarChart2,
-  Settings,
-  LogOut,
-  Kanban,
-  UserCog,
-} from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase-browser'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
 interface SidebarProps {
-  agency: { id: string; name: string; primary_color?: string } | null
+  agency: { id: string; name: string; primary_color?: string; logo_url?: string } | null
   user: { full_name: string; email: string; role?: string } | null
   userRole: string
 }
 
 const NAV_ITEMS = [
-  {
-    section: 'MAIN',
-    items: [
-      { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-      { href: '/students', label: 'Students', icon: Users },
-      { href: '/approvals', label: 'Approvals', icon: CheckSquare },
-      { href: '/kanban', label: 'Kanban', icon: Kanban },
-    ],
-  },
-  {
-    section: 'INSIGHTS',
-    items: [
-      { href: '/analytics', label: 'Analytics', icon: BarChart2 },
-    ],
-  },
-  {
-    section: 'ACCOUNT',
-    items: [
-      { href: '/settings', label: 'Settings', icon: Settings },
-      { href: '/settings/staff', label: 'Staff', icon: UserCog },
-    ],
-  },
+  { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
+  { href: '/students', label: 'Students', icon: 'group' },
+  { href: '/kanban', label: 'Pipeline', icon: 'view_kanban' },
+  { href: '/analytics', label: 'Analytics', icon: 'assessment' },
+  { href: '/approvals', label: 'Approvals', icon: 'check_circle' },
+  { href: '/reports', label: 'Reports', icon: 'summarize' },
+]
+
+const BOTTOM_NAV_ITEMS = [
+  { href: '/settings', label: 'Settings', icon: 'settings' },
+  { href: '/settings/staff', label: 'Team', icon: 'groups' },
 ]
 
 export default function Sidebar({ agency, user, userRole }: SidebarProps) {
@@ -58,84 +37,100 @@ export default function Sidebar({ agency, user, userRole }: SidebarProps) {
     router.refresh()
   }
 
-  return (
-    <aside
-      className="w-[200px] shrink-0 flex flex-col h-full bg-white"
-      style={{ borderRight: '0.5px solid #e5e7eb' }}
-    >
-      {/* Logo / Agency */}
-      <div
-        className="h-[52px] flex items-center px-4 gap-2"
-        style={{ borderBottom: '0.5px solid #e5e7eb' }}
-      >
-        <div className="w-2 h-2 rounded-full bg-brand" />
-        <span className="text-[15px] font-semibold text-gray-900 truncate">
-          ApplyPilot
-        </span>
-      </div>
+  const isActive = (href: string) =>
+    pathname === href || (href !== '/dashboard' && pathname.startsWith(href + '/'))
 
-      {/* Agency badge */}
-      {agency && (
-        <div className="px-4 py-2.5">
+  return (
+    <aside className="h-screen w-64 fixed left-0 top-0 flex flex-col bg-surface py-10 px-6 z-50 border-r border-outline-variant/10">
+      {/* Logo / Agency */}
+      <div className="mb-10 flex items-center gap-3">
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center"
+          style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+        >
           <span
-            className="inline-block text-[11px] font-medium text-gray-500 bg-gray-100 rounded-full px-2.5 py-0.5 truncate max-w-full"
+            className="material-symbols-outlined text-white"
+            style={{ fontVariationSettings: "'FILL' 1" }}
           >
-            {agency.name}
+            architecture
           </span>
         </div>
-      )}
+        <div>
+          <h2 className="font-headline font-extrabold text-primary leading-tight">
+            {agency?.name ?? 'ApplyPilot'}
+          </h2>
+          <p className="text-[10px] uppercase tracking-widest text-on-surface-variant opacity-60">
+            Premium Consulting
+          </p>
+        </div>
+      </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-2 space-y-4 overflow-y-auto">
-        {NAV_ITEMS.map((group) => (
-          <div key={group.section}>
-            <p className="text-[10px] font-medium text-gray-400 uppercase tracking-[0.5px] px-2 mb-1">
-              {group.section}
-            </p>
-            <ul className="space-y-0.5">
-              {group.items.map((item) => {
-                const active = pathname === item.href || pathname.startsWith(item.href + '/')
-                const Icon = item.icon
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="flex items-center gap-2.5 px-2 py-1.5 rounded-[6px] text-[13px] transition-colors"
-                      style={
-                        active
-                          ? { backgroundColor: '#E1F5EE', color: '#0F6E56', fontWeight: 500 }
-                          : { color: '#6B7280' }
-                      }
-                    >
-                      <Icon size={14} />
-                      {item.label}
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        ))}
+      <nav className="flex-1 space-y-1">
+        {NAV_ITEMS.map((item) => {
+          const active = isActive(item.href)
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all ${
+                active
+                  ? 'font-bold text-primary border-r-4 border-primary bg-surface-container-low/50'
+                  : 'text-on-surface-variant opacity-60 hover:text-primary hover:bg-surface-container-low hover:opacity-100'
+              }`}
+            >
+              <span
+                className="material-symbols-outlined"
+                style={active ? { fontVariationSettings: "'FILL' 1" } : {}}
+              >
+                {item.icon}
+              </span>
+              {item.label}
+            </Link>
+          )
+        })}
       </nav>
 
-      {/* User + logout */}
-      <div
-        className="px-4 py-3 space-y-2"
-        style={{ borderTop: '0.5px solid #e5e7eb' }}
-      >
-        {user && (
-          <div>
-            <p className="text-[12px] font-medium text-gray-700 truncate">{user.full_name}</p>
-            <p className="text-[11px] text-gray-400 truncate">{user.email}</p>
-          </div>
-        )}
+      {/* Bottom section */}
+      <div className="mt-auto pt-6 border-t border-outline-variant/10 space-y-1">
+        <Link
+          href="/students/new"
+          className="w-full flex items-center justify-center gap-2 text-white py-3 rounded-xl font-semibold text-sm mb-4 shadow-lg transition-all duration-150 active:scale-[0.98]"
+          style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+        >
+          <span className="material-symbols-outlined text-sm">add_circle</span>
+          New Student
+        </Link>
+        {BOTTOM_NAV_ITEMS.map((item) => {
+          const active = isActive(item.href)
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-4 py-2 text-sm font-medium transition-all ${
+                active
+                  ? 'font-bold text-primary'
+                  : 'text-on-surface-variant opacity-60 hover:text-primary hover:opacity-100'
+              }`}
+            >
+              <span className="material-symbols-outlined">{item.icon}</span>
+              {item.label}
+            </Link>
+          )
+        })}
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 text-[12px] text-gray-400 hover:text-gray-700 transition-colors"
+          className="flex items-center gap-3 px-4 py-2 text-sm font-medium text-on-surface-variant opacity-60 hover:text-primary hover:opacity-100 transition-all w-full"
         >
-          <LogOut size={12} />
+          <span className="material-symbols-outlined">logout</span>
           Sign out
         </button>
+        {user && (
+          <div className="px-4 py-2 mt-2">
+            <p className="text-[12px] font-medium text-on-surface truncate">{user.full_name}</p>
+            <p className="text-[11px] text-on-surface-variant opacity-60 truncate">{user.email}</p>
+          </div>
+        )}
       </div>
     </aside>
   )

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@/lib/api'
-import { Battery, BatteryWarning, Zap } from 'lucide-react'
 
 interface BillingStatus {
   status: string
@@ -30,63 +29,159 @@ export default function BillingSettings() {
     load()
   }, [])
 
-  if (loading) return <div className="text-[13px] text-gray-500 font-mono animate-pulse">Calculating balances...</div>
+  if (loading) {
+    return (
+      <div className="flex items-center gap-3 text-on-surface-variant">
+        <span className="material-symbols-outlined text-lg animate-spin">autorenew</span>
+        <span className="text-sm font-mono">Calculating balances...</span>
+      </div>
+    )
+  }
+
   if (!data) return null
 
   const percentage = Math.min((data.tokens_used / data.token_limit) * 100, 100)
   const isDanger = percentage >= 90
   const isWarning = percentage >= 75 && percentage < 90
 
-  return (
-    <div className="max-w-3xl">
-      <h1 className="text-[20px] font-semibold text-gray-900">Billing & Quota</h1>
-      <p className="text-[13px] text-gray-500 mt-1 mb-8">Manage your agency's mechanical usage limits and computational allowances.</p>
+  const barColor = isDanger ? 'bg-error' : isWarning ? 'bg-amber-500' : 'bg-primary'
+  const usageTextColor = isDanger ? 'text-error' : isWarning ? 'text-amber-600' : 'text-on-surface'
 
-      <div className="bg-white rounded-[10px] border border-gray-200 overflow-hidden shadow-sm mb-8">
-        <div className="p-6 border-b border-gray-100 flex items-start justify-between">
-          <div>
-            <h2 className="text-[15px] font-medium text-gray-900 flex items-center gap-2">
-              <Zap size={16} className="text-brand" /> 
-              Active Token Limit
-            </h2>
-            <p className="text-[13px] text-gray-500 mt-1 max-w-[400px]">
-              Tokens are consumed immediately whenever an autonomous Agent drafts an essay, processes an email, or extracts information from uploaded PDFs.
-            </p>
-          </div>
-          <div className="text-right">
-            <span className="inline-flex bg-gray-100 text-gray-700 font-bold px-2 py-1 rounded uppercase text-[10px] tracking-wider">
-              {data.subscription_plan} PLAN
-            </span>
+  return (
+    <div>
+      {/* Header */}
+      <div className="mb-10">
+        <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
+          Billing &amp; Quota
+        </h1>
+        <p className="text-on-surface-variant text-lg">
+          Manage your agency&#39;s AI usage limits and computational allowances.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6">
+        {/* Token Usage Card */}
+        <div className="col-span-12 lg:col-span-8">
+          <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden">
+            {/* Card Header */}
+            <div className="px-8 py-6 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-start justify-between">
+              <div>
+                <h2 className="font-headline font-bold text-xl text-primary flex items-center gap-2 mb-1">
+                  <span className="material-symbols-outlined text-primary">bolt</span>
+                  Active Token Limit
+                </h2>
+                <p className="text-sm text-on-surface-variant max-w-md">
+                  Tokens are consumed whenever an AI Agent drafts an essay, processes an email, or extracts information from uploaded PDFs.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold px-3 py-1 bg-surface-container text-on-surface-variant rounded-full uppercase tracking-widest shrink-0 ml-4">
+                {data.subscription_plan} Plan
+              </span>
+            </div>
+
+            {/* Usage meter */}
+            <div className="px-8 py-6">
+              <div className="flex items-end justify-between mb-3">
+                <div>
+                  <span className={`text-4xl font-headline font-extrabold tracking-tight ${usageTextColor}`}>
+                    {data.tokens_used.toLocaleString()}
+                  </span>
+                  <span className="text-on-surface-variant ml-2">/ {data.token_limit.toLocaleString()}</span>
+                </div>
+                <div className={`text-sm font-bold flex items-center gap-1.5 ${usageTextColor}`}>
+                  <span className="material-symbols-outlined text-lg">
+                    {isDanger ? 'battery_alert' : 'battery_full'}
+                  </span>
+                  {percentage.toFixed(1)}% Consumed
+                </div>
+              </div>
+
+              <div className="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+                <div
+                  className={`h-full ${barColor} rounded-full transition-all duration-500`}
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+
+              {isDanger && (
+                <div className="mt-6 bg-error-container/30 border border-error/20 rounded-xl px-5 py-4 flex items-start gap-3">
+                  <span className="material-symbols-outlined text-error shrink-0 mt-0.5">battery_alert</span>
+                  <div>
+                    <p className="font-bold text-error text-sm mb-1">Critical Usage Warning</p>
+                    <p className="text-sm text-on-surface-variant">
+                      Your agency is dangerously close to its computational limit. AI engines will be suspended if this meter reaches 100%. Contact Support to increase limits.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {isWarning && (
+                <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl px-5 py-4 flex items-start gap-3">
+                  <span className="material-symbols-outlined text-amber-600 shrink-0 mt-0.5">warning</span>
+                  <p className="text-sm text-amber-800">
+                    Your usage is approaching the limit. Consider upgrading your plan or conserving AI usage.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="p-6">
-          <div className="flex items-end justify-between mb-2">
-            <div>
-              <span className={`text-[24px] font-semibold ${isDanger ? 'text-red-600' : 'text-gray-900'}`}>
-                {data.tokens_used.toLocaleString()}
-              </span>
-              <span className="text-[13px] text-gray-500 ml-1">/ {data.token_limit.toLocaleString()}</span>
+        {/* Right sidebar: Plan info */}
+        <div className="col-span-12 lg:col-span-4 space-y-6">
+          {/* Current Plan */}
+          <div className="rounded-2xl p-6 text-white relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}>
+            <div className="absolute -right-4 -bottom-4 opacity-10">
+              <span className="material-symbols-outlined text-[120px]">auto_awesome</span>
             </div>
-            <div className={`text-[12px] font-medium flex items-center gap-1 ${isDanger ? 'text-red-600' : isWarning ? 'text-amber-600' : 'text-gray-500'}`}>
-              {isDanger ? <BatteryWarning size={14} /> : <Battery size={14} />}
-              {percentage.toFixed(1)}% Consumed
+            <div className="relative z-10">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-on-primary-container mb-4">
+                Current Plan
+              </p>
+              <h3 className="font-headline font-extrabold text-2xl mb-2">
+                {data.subscription_plan}
+              </h3>
+              <p className="text-xs text-on-primary-container leading-relaxed mb-6">
+                Your plan includes AI-powered essay drafting, browser automation, and email intelligence.
+              </p>
+              <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-sm font-bold transition-all">
+                Upgrade Plan
+              </button>
             </div>
           </div>
 
-          <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div 
-              className={`h-full transition-all duration-500 ${isDanger ? 'bg-red-500' : isWarning ? 'bg-amber-500' : 'bg-[#1D9E75]'}`}
-              style={{ width: `${percentage}%` }}
-            />
-          </div>
-
-          {isDanger && (
-            <div className="mt-4 bg-red-50 border border-red-200 text-red-700 text-[12px] p-3 rounded-[6px] flex items-start gap-2">
-              <BatteryWarning size={16} className="shrink-0 mt-0.5" />
-              <p>Critical: Your agency is dangerously close to its computational limit. Artificial Intelligence engines will be forcibly suspended if this meter crosses 100%. Contact Support to increase limits.</p>
+          {/* Quick stats */}
+          <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm">
+            <h4 className="font-headline font-bold text-primary mb-4">Usage Summary</h4>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-on-surface-variant">Tokens Used</span>
+                <span className="text-sm font-bold text-on-surface">{data.tokens_used.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-on-surface-variant">Token Limit</span>
+                <span className="text-sm font-bold text-on-surface">{data.token_limit.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-on-surface-variant">Remaining</span>
+                <span className={`text-sm font-bold ${isDanger ? 'text-error' : 'text-primary'}`}>
+                  {Math.max(0, data.token_limit - data.tokens_used).toLocaleString()}
+                </span>
+              </div>
+              <div className="pt-2 border-t border-outline-variant/10">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-on-surface-variant">Status</span>
+                  <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase ${
+                    isDanger ? 'bg-error-container/50 text-error' :
+                    isWarning ? 'bg-amber-100 text-amber-700' :
+                    'bg-emerald-100 text-emerald-700'
+                  }`}>
+                    {isDanger ? 'Critical' : isWarning ? 'Warning' : 'Healthy'}
+                  </span>
+                </div>
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

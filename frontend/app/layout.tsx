@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'ApplyPilot',
-  description: 'AI-powered college application management for consulting agencies',
+  title: 'ApplyPilot | Orchestrate Excellence',
+  description: 'The bespoke digital atelier for elite admissions teams. Secure, deliberate, and powered by institutional-grade intelligence.',
 }
 
 export default function RootLayout({
@@ -12,16 +12,22 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="font-body text-on-background antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+        {children}
+      </body>
     </html>
   )
 }

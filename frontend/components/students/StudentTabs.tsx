@@ -19,29 +19,26 @@ export default function StudentTabs({
   active: StudentTab
 }) {
   return (
-    <div className="flex" style={{ borderBottom: '0.5px solid #e5e7eb' }}>
-      {TABS.map((tab) => {
-        const isActive = active === tab.key
-        return (
-          <Link
-            key={tab.key}
-            href={`/students/${studentId}/${tab.key}`}
-            className="px-4 py-2.5 text-[13px] transition-colors whitespace-nowrap"
-            style={
-              isActive
-                ? {
-                    color: '#1D9E75',
-                    fontWeight: 500,
-                    borderBottom: '2px solid #1D9E75',
-                    marginBottom: '-0.5px',
-                  }
-                : { color: '#9CA3AF' }
-            }
-          >
-            {tab.label}
-          </Link>
-        )
-      })}
+    <div className="mb-8 border-b border-outline-variant/20">
+      <div className="flex gap-8">
+        {TABS.map((tab) => {
+          const isActive = active === tab.key
+          return (
+            <Link
+              key={tab.key}
+              href={`/students/${studentId}/${tab.key}`}
+              className={`pb-4 text-sm font-medium transition-all relative ${
+                isActive
+                  ? 'text-primary font-bold border-b-2 border-primary'
+                  : 'text-on-surface-variant hover:text-primary'
+              }`}
+              style={isActive ? { marginBottom: '-1px' } : {}}
+            >
+              {tab.label}
+            </Link>
+          )
+        })}
+      </div>
     </div>
   )
 }

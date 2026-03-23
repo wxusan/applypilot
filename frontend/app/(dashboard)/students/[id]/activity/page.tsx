@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation'
 import StudentTabs from '@/components/students/StudentTabs'
 import StudentHeader from '@/components/students/StudentHeader'
 import { formatDate } from '@/lib/utils'
-import { Activity } from 'lucide-react'
 
 const ACTION_LABELS: Record<string, string> = {
   'student.created': 'Student created',
@@ -23,19 +22,18 @@ const ACTION_LABELS: Record<string, string> = {
   'email.sent': 'Email sent',
 }
 
-const ACTION_COLORS: Record<string, { bg: string; color: string }> = {
-  created: { bg: '#EAF3DE', color: '#3B6D11' },
-  updated: { bg: '#E6F1FB', color: '#185FA5' },
-  deleted: { bg: '#FCEBEB', color: '#A32D2D' },
-  uploaded: { bg: '#EAF3DE', color: '#3B6D11' },
-  completed: { bg: '#EAF3DE', color: '#3B6D11' },
-  sent: { bg: '#E6F1FB', color: '#185FA5' },
-  status_updated: { bg: '#FAEEDA', color: '#854F0B' },
-}
-
-function actionColor(action: string) {
+function actionStyle(action: string): { badge: string; icon: string; iconClass: string } {
   const suffix = action.split('.')[1] ?? ''
-  return ACTION_COLORS[suffix] ?? { bg: '#F3F4F6', color: '#6B7280' }
+  const map: Record<string, { badge: string; icon: string; iconClass: string }> = {
+    created: { badge: 'bg-emerald-100 text-emerald-700', icon: 'add_circle', iconClass: 'text-emerald-500' },
+    uploaded: { badge: 'bg-emerald-100 text-emerald-700', icon: 'upload_file', iconClass: 'text-emerald-500' },
+    completed: { badge: 'bg-emerald-100 text-emerald-700', icon: 'task_alt', iconClass: 'text-emerald-500' },
+    updated: { badge: 'bg-secondary-container text-secondary', icon: 'edit', iconClass: 'text-secondary' },
+    status_updated: { badge: 'bg-amber-100 text-amber-700', icon: 'swap_horiz', iconClass: 'text-amber-500' },
+    deleted: { badge: 'bg-error-container/50 text-error', icon: 'delete', iconClass: 'text-error' },
+    sent: { badge: 'bg-secondary-container text-secondary', icon: 'mail', iconClass: 'text-secondary' },
+  }
+  return map[suffix] ?? { badge: 'bg-surface-container text-on-surface-variant', icon: 'info', iconClass: 'text-on-surface-variant' }
 }
 
 export default async function StudentActivityPage({
@@ -49,7 +47,6 @@ export default async function StudentActivityPage({
 
   const supabase = createServiceClient()
 
-  // Resolve agency for the current user (for isolation)
   const { data: member } = await supabase
     .from('agency_members')
     .select('agency_id')
@@ -78,68 +75,77 @@ export default async function StudentActivityPage({
 
   if (!student) notFound()
 
+  const count = logs?.length ?? 0
+
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <StudentHeader student={student} />
       <StudentTabs studentId={params.id} active="activity" />
 
-      <div>
-        <p className="text-[13px] text-gray-500">
-          {logs?.length ?? 0} event{(logs?.length ?? 0) !== 1 ? 's' : ''}
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-on-surface-variant">
+          <span className="font-bold text-primary">{count}</span>{' '}
+          event{count !== 1 ? 's' : ''} recorded
         </p>
       </div>
 
-      {!logs || logs.length === 0 ? (
-        <div
-          className="bg-white rounded-[10px] p-10 text-center"
-          style={{ border: '0.5px solid #e5e7eb' }}
-        >
-          <Activity size={24} className="mx-auto text-gray-200 mb-3" />
-          <p className="text-[13px] text-gray-400">No activity recorded yet.</p>
+      {count === 0 ? (
+        <div className="bg-surface-container-lowest rounded-2xl p-16 text-center border border-outline-variant/10">
+          <div className="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <span className="material-symbols-outlined text-on-surface-variant/40 text-3xl">history</span>
+          </div>
+          <h3 className="font-headline font-bold text-xl text-primary mb-2">No Activity Yet</h3>
+          <p className="text-on-surface-variant">Changes to this student&#39;s record will appear here.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-[10px] overflow-hidden" style={{ border: '0.5px solid #e5e7eb' }}>
-          <div className="divide-y divide-[#f3f4f6]">
-            {logs.map((log) => {
-              const { bg, color } = actionColor(log.action)
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden">
+          {/* Table header */}
+          <div className="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-center gap-4">
+            <h3 className="font-headline font-bold text-primary">Audit Trail</h3>
+            <div className="h-4 w-px bg-outline-variant/30" />
+            <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+              {count} Events
+            </span>
+          </div>
+
+          <div className="divide-y divide-outline-variant/10">
+            {logs!.map((log) => {
+              const style = actionStyle(log.action)
               const actor = (log.actor as { full_name: string } | null)?.full_name ?? 'System'
-              const hasChanges =
-                log.old_value !== null || log.new_value !== null
+              const hasChanges = log.old_value !== null || log.new_value !== null
 
               return (
-                <div key={log.id} className="px-5 py-3 flex items-start gap-4">
-                  {/* Action badge */}
-                  <div className="mt-0.5 shrink-0">
-                    <span
-                      className="text-[10px] font-medium px-1.5 py-0.5 rounded-[3px] whitespace-nowrap"
-                      style={{ backgroundColor: bg, color }}
-                    >
-                      {ACTION_LABELS[log.action] ?? log.action}
-                    </span>
+                <div key={log.id} className="px-6 py-4 flex items-start gap-5 hover:bg-surface-container-low/30 transition-colors">
+                  {/* Icon */}
+                  <div className="shrink-0 mt-0.5 w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center">
+                    <span className={`material-symbols-outlined text-base ${style.iconClass}`}>{style.icon}</span>
                   </div>
 
-                  {/* Details */}
+                  {/* Main content */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-[12px] text-gray-600">
-                        by <span className="font-medium">{actor}</span>
-                      </p>
+                    <div className="flex items-center gap-3 flex-wrap mb-1">
+                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-tighter ${style.badge}`}>
+                        {ACTION_LABELS[log.action] ?? log.action}
+                      </span>
+                      <span className="text-xs text-on-surface-variant">
+                        by <span className="font-semibold text-on-surface">{actor}</span>
+                      </span>
                       {log.entity_type && log.entity_type !== 'student' && (
-                        <span className="text-[11px] text-gray-400 capitalize">
-                          · {log.entity_type}
+                        <span className="text-[10px] font-medium text-on-surface-variant/60 bg-surface-container px-2 py-0.5 rounded-full capitalize">
+                          {log.entity_type}
                         </span>
                       )}
                     </div>
 
                     {hasChanges && (
-                      <div className="mt-1.5 space-y-0.5">
+                      <div className="mt-2 space-y-1.5 font-mono text-xs">
                         {log.old_value && Object.keys(log.old_value).length > 0 && (
-                          <div className="flex items-start gap-2">
-                            <span className="text-[10px] font-medium text-gray-400 shrink-0 mt-0.5">FROM</span>
-                            <div className="flex flex-wrap gap-1">
+                          <div className="flex items-start gap-2 bg-error-container/20 px-3 py-1.5 rounded-lg">
+                            <span className="text-error font-bold shrink-0">−</span>
+                            <div className="flex flex-wrap gap-x-3 gap-y-0.5">
                               {Object.entries(log.old_value as Record<string, unknown>).map(([k, v]) => (
-                                <span key={k} className="text-[10px] text-gray-500">
-                                  <span className="text-gray-400">{k}:</span>{' '}
+                                <span key={k} className="text-error/80">
+                                  <span className="opacity-60">{k}:</span>{' '}
                                   {String(v ?? '—')}
                                 </span>
                               ))}
@@ -147,12 +153,12 @@ export default async function StudentActivityPage({
                           </div>
                         )}
                         {log.new_value && Object.keys(log.new_value).length > 0 && (
-                          <div className="flex items-start gap-2">
-                            <span className="text-[10px] font-medium text-[#3B6D11] shrink-0 mt-0.5">TO</span>
-                            <div className="flex flex-wrap gap-1">
+                          <div className="flex items-start gap-2 bg-emerald-50 px-3 py-1.5 rounded-lg">
+                            <span className="text-emerald-600 font-bold shrink-0">+</span>
+                            <div className="flex flex-wrap gap-x-3 gap-y-0.5">
                               {Object.entries(log.new_value as Record<string, unknown>).map(([k, v]) => (
-                                <span key={k} className="text-[10px] text-gray-700">
-                                  <span className="text-gray-400">{k}:</span>{' '}
+                                <span key={k} className="text-emerald-700">
+                                  <span className="opacity-60">{k}:</span>{' '}
                                   <span className="font-medium">{String(v ?? '—')}</span>
                                 </span>
                               ))}
@@ -165,13 +171,13 @@ export default async function StudentActivityPage({
 
                   {/* Timestamp */}
                   <div className="shrink-0 text-right">
-                    <p className="text-[11px] text-gray-400">
+                    <p className="text-xs font-medium text-on-surface-variant">
                       {new Date(log.created_at).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}
                     </p>
-                    <p className="text-[10px] text-gray-300 font-mono">
+                    <p className="text-[10px] text-on-surface-variant/60 font-mono mt-0.5">
                       {new Date(log.created_at).toLocaleTimeString('en-US', {
                         hour: '2-digit',
                         minute: '2-digit',

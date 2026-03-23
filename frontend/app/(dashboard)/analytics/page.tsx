@@ -32,13 +32,11 @@ export default async function AnalyticsPage() {
       .order('created_at', { ascending: true }),
   ])
 
-  // Student pipeline by status
   const studentsByStatus: Record<string, number> = {}
   for (const s of (studentsRes.data as any[] | null) ?? []) {
     studentsByStatus[s.status] = (studentsByStatus[s.status] ?? 0) + 1
   }
 
-  // Application decisions
   const decisionCounts: Record<string, number> = {
     accepted: 0,
     rejected: 0,
@@ -50,7 +48,6 @@ export default async function AnalyticsPage() {
     decisionCounts[key] = (decisionCounts[key] ?? 0) + 1
   }
 
-  // Deadline compliance
   const allDeadlines = (deadlinesRes.data as any[] | null) ?? []
   const pastDeadlines = allDeadlines.filter((d) => d.due_date <= todayStr)
   const completedOnTime = pastDeadlines.filter((d) => d.is_complete).length
@@ -59,7 +56,6 @@ export default async function AnalyticsPage() {
       ? Math.round((completedOnTime / pastDeadlines.length) * 100)
       : null
 
-  // Agent activity — jobs per day last 30 days
   const jobsByDay: Record<string, number> = {}
   for (let i = 0; i < 30; i++) {
     const d = new Date(Date.now() - (29 - i) * 86400000)
@@ -73,44 +69,77 @@ export default async function AnalyticsPage() {
   const totalStudents = studentsRes.data?.length ?? 0
   const totalApps = appsRes.data?.length ?? 0
   const acceptedCount = decisionCounts.accepted
-  // Only count apps that have a final decision (accepted or rejected) as denominator
   const decidedCount = decisionCounts.accepted + decisionCounts.rejected
   const acceptanceRate =
     decidedCount > 0
       ? Math.round((acceptedCount / decidedCount) * 100)
       : null
 
+  const kpiCards = [
+    {
+      label: 'Total Students',
+      value: totalStudents > 0 ? totalStudents.toLocaleString() : '--',
+      icon: 'group',
+      sub: null,
+    },
+    {
+      label: 'Acceptance Rate',
+      value: acceptanceRate !== null ? `${acceptanceRate}%` : '--',
+      icon: 'verified',
+      sub: acceptanceRate !== null ? `${acceptedCount} / ${decidedCount} decided` : 'No decisions yet',
+    },
+    {
+      label: 'Applications',
+      value: totalApps > 0 ? totalApps.toLocaleString() : '--',
+      icon: 'description',
+      sub: null,
+    },
+    {
+      label: 'Deadline Compliance',
+      value: complianceRate !== null ? `${complianceRate}%` : '--',
+      icon: 'schedule',
+      sub: complianceRate !== null
+        ? `${completedOnTime} of ${pastDeadlines.length} on time`
+        : 'No past deadlines',
+    },
+  ]
+
   return (
-    <div className="space-y-5">
-      <div>
-        <h1 className="text-[22px] font-semibold text-gray-900">Analytics</h1>
-        <p className="text-[13px] text-gray-500 mt-0.5">Agency-wide performance overview</p>
+    <div>
+      {/* Header */}
+      <div className="mb-10">
+        <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
+          Performance Dossier
+        </h1>
+        <p className="text-on-surface-variant font-body text-lg">
+          Real-time analytical overview of current consultancy cycle and student success metrics.
+        </p>
       </div>
 
-      {/* KPI Row */}
-      <div className="grid grid-cols-4 gap-4">
-        <StatCard label="Total Students" value={totalStudents} />
-        <StatCard label="Total Applications" value={totalApps} />
-        <StatCard
-          label="Acceptance Rate"
-          value={acceptanceRate !== null ? `${acceptanceRate}%` : '—'}
-          sub={acceptanceRate !== null ? `${acceptedCount} / ${decidedCount} decided` : 'No decisions yet'}
-        />
-        <StatCard
-          label="Deadline Compliance"
-          value={complianceRate !== null ? `${complianceRate}%` : '—'}
-          sub={
-            complianceRate !== null
-              ? `${completedOnTime} of ${pastDeadlines.length} on time`
-              : 'No past deadlines'
-          }
-          valueColor={
-            complianceRate === null ? undefined : complianceRate >= 80 ? '#166534' : complianceRate >= 60 ? '#854F0B' : '#991B1B'
-          }
-        />
+      {/* KPI Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        {kpiCards.map((card) => (
+          <div
+            key={card.label}
+            className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border-b-4 border-primary/10"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-on-surface-variant font-label text-xs font-semibold uppercase tracking-widest">
+                {card.label}
+              </span>
+              <span className="material-symbols-outlined text-primary/40">{card.icon}</span>
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-headline font-bold text-primary">{card.value}</span>
+              {card.sub && (
+                <span className="text-xs font-bold text-on-surface-variant">{card.sub}</span>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Charts rendered client-side */}
+      {/* Charts */}
       <AnalyticsCharts
         studentsByStatus={studentsByStatus}
         decisionCounts={decisionCounts}
@@ -119,31 +148,6 @@ export default async function AnalyticsPage() {
         completedOnTime={completedOnTime}
         totalPastDeadlines={pastDeadlines.length}
       />
-    </div>
-  )
-}
-
-function StatCard({
-  label,
-  value,
-  sub,
-  valueColor,
-}: {
-  label: string
-  value: number | string
-  sub?: string
-  valueColor?: string
-}) {
-  return (
-    <div className="bg-white rounded-[10px] px-5 py-4" style={{ border: '0.5px solid #e5e7eb' }}>
-      <p className="text-[11px] font-medium text-gray-500 uppercase tracking-[0.5px] mb-2">{label}</p>
-      <p
-        className="text-[28px] font-semibold leading-none"
-        style={{ color: valueColor ?? '#111827' }}
-      >
-        {value}
-      </p>
-      {sub && <p className="text-[11px] text-gray-400 mt-1">{sub}</p>}
     </div>
   )
 }

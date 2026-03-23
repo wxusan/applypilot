@@ -3,16 +3,14 @@ import { createServerClient, createServiceClient } from '@/lib/supabase-server'
 import { notFound } from 'next/navigation'
 import StudentTabs from '@/components/students/StudentTabs'
 import StudentHeader from '@/components/students/StudentHeader'
-import StatusPill from '@/components/ui/StatusPill'
 import { formatDate } from '@/lib/utils'
-import { Mail, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
 
-const CATEGORY_COLORS: Record<string, { bg: string; color: string }> = {
-  admission_decision: { bg: '#EAF3DE', color: '#3B6D11' },
-  interview_invite: { bg: '#E6F1FB', color: '#185FA5' },
-  financial_aid: { bg: '#FAEEDA', color: '#854F0B' },
-  document_request: { bg: '#FBEAF0', color: '#993556' },
-  general: { bg: '#F3F4F6', color: '#6B7280' },
+const CATEGORY_STYLES: Record<string, string> = {
+  admission_decision: 'bg-emerald-100 text-emerald-700',
+  interview_invite: 'bg-secondary-container text-secondary',
+  financial_aid: 'bg-amber-100 text-amber-700',
+  document_request: 'bg-pink-100 text-pink-700',
+  general: 'bg-surface-container text-on-surface-variant',
 }
 
 export default async function StudentEmailsPage({
@@ -54,106 +52,109 @@ export default async function StudentEmailsPage({
 
   if (!student) notFound()
 
+  const totalEmails = emails?.length ?? 0
   const unreadCount = (emails ?? []).filter((e) => !e.is_read && e.direction === 'inbound').length
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <StudentHeader student={student} />
       <StudentTabs studentId={params.id} active="emails" />
 
+      {/* Toolbar */}
       <div className="flex items-center justify-between">
-        <p className="text-[13px] text-gray-500">
-          {emails?.length ?? 0} email{(emails?.length ?? 0) !== 1 ? 's' : ''}
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-on-surface-variant">
+            <span className="font-bold text-primary">{totalEmails}</span>{' '}
+            email{totalEmails !== 1 ? 's' : ''}
+          </p>
           {unreadCount > 0 && (
-            <span className="ml-2 text-[11px] font-medium px-1.5 py-0.5 rounded-[4px]"
-              style={{ backgroundColor: '#E6F1FB', color: '#185FA5' }}>
+            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-secondary-container text-secondary uppercase tracking-tighter">
               {unreadCount} unread
             </span>
           )}
-        </p>
+        </div>
       </div>
 
-      {!emails || emails.length === 0 ? (
-        <div
-          className="bg-white rounded-[10px] p-10 text-center"
-          style={{ border: '0.5px solid #e5e7eb' }}
-        >
-          <Mail size={24} className="mx-auto text-gray-200 mb-3" />
-          <p className="text-[13px] text-gray-400">No emails synced yet.</p>
-          <p className="text-[12px] text-gray-400 mt-1">
-            Connect a student email account to start syncing.
-          </p>
+      {totalEmails === 0 ? (
+        <div className="bg-surface-container-lowest rounded-2xl p-16 text-center border border-outline-variant/10">
+          <div className="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <span className="material-symbols-outlined text-on-surface-variant/40 text-3xl">mail</span>
+          </div>
+          <h3 className="font-headline font-bold text-xl text-primary mb-2">No Emails Synced</h3>
+          <p className="text-on-surface-variant">Connect a student email account to start syncing messages.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-[10px] overflow-hidden" style={{ border: '0.5px solid #e5e7eb' }}>
-          <table className="w-full">
-            <thead>
-              <tr style={{ borderBottom: '0.5px solid #e5e7eb' }}>
-                {['', 'From / To', 'Subject', 'University', 'Category', 'Date'].map((col) => (
-                  <th
-                    key={col}
-                    className="text-left px-5 py-2.5 text-[11px] font-medium text-gray-400 uppercase tracking-[0.5px]"
-                  >
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {emails.map((email, i) => {
-                const catStyle = CATEGORY_COLORS[email.category] ?? CATEGORY_COLORS.general
-                const isUnread = !email.is_read && email.direction === 'inbound'
-                return (
-                  <tr
-                    key={email.id}
-                    className="hover:bg-gray-50 transition-colors"
-                    style={i < emails.length - 1 ? { borderBottom: '0.5px solid #f3f4f6' } : undefined}
-                  >
-                    <td className="pl-5 pr-2 py-3 w-6">
-                      {email.direction === 'inbound' ? (
-                        <ArrowDownLeft size={13} className="text-[#185FA5]" />
-                      ) : (
-                        <ArrowUpRight size={13} className="text-gray-400" />
-                      )}
-                    </td>
-                    <td className="px-3 py-3 text-[12px] text-gray-600 max-w-[160px]">
-                      <p className={`truncate ${isUnread ? 'font-semibold text-gray-900' : ''}`}>
-                        {email.direction === 'inbound' ? email.from_address : email.to_address}
-                      </p>
-                    </td>
-                    <td className="px-3 py-3 max-w-[280px]">
-                      <p className={`text-[13px] truncate ${isUnread ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
-                        {email.subject || '(no subject)'}
-                      </p>
-                      {email.body_plain && (
-                        <p className="text-[11px] text-gray-400 truncate mt-0.5">
-                          {email.body_plain.slice(0, 80)}
-                        </p>
-                      )}
-                    </td>
-                    <td className="px-3 py-3 text-[12px] text-gray-500">
-                      {email.university_name ?? '—'}
-                    </td>
-                    <td className="px-3 py-3">
-                      {email.category ? (
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden">
+          {/* Table header */}
+          <div className="px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30 flex items-center gap-4">
+            <h3 className="font-headline font-bold text-primary">Email History</h3>
+            <div className="h-4 w-px bg-outline-variant/30" />
+            <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+              {totalEmails} Messages
+            </span>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface-container-low/30">
+                  <th className="px-6 py-3 text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest w-8"></th>
+                  <th className="px-6 py-3 text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest">From / To</th>
+                  <th className="px-6 py-3 text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest">Subject</th>
+                  <th className="px-6 py-3 text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest">University</th>
+                  <th className="px-6 py-3 text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest">Category</th>
+                  <th className="px-6 py-3 text-[10px] font-extrabold text-on-surface-variant/60 uppercase tracking-widest">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/10">
+                {emails!.map((email) => {
+                  const catClass = CATEGORY_STYLES[email.category] ?? CATEGORY_STYLES.general
+                  const isUnread = !email.is_read && email.direction === 'inbound'
+                  return (
+                    <tr key={email.id} className="hover:bg-surface-container-low/30 transition-colors">
+                      <td className="pl-6 pr-3 py-4 w-8">
                         <span
-                          className="text-[10px] font-medium px-1.5 py-0.5 rounded-[3px] whitespace-nowrap"
-                          style={{ backgroundColor: catStyle.bg, color: catStyle.color }}
+                          className={`material-symbols-outlined text-lg ${email.direction === 'inbound' ? 'text-secondary' : 'text-on-surface-variant/40'}`}
                         >
-                          {email.category.replace(/_/g, ' ')}
+                          {email.direction === 'inbound' ? 'call_received' : 'call_made'}
                         </span>
-                      ) : (
-                        <span className="text-[12px] text-gray-400">—</span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3 text-[12px] text-gray-400 whitespace-nowrap">
-                      {email.received_at ? formatDate(email.received_at) : '—'}
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                      </td>
+                      <td className="px-3 py-4 max-w-[160px]">
+                        <p className={`text-xs truncate ${isUnread ? 'font-bold text-on-surface' : 'text-on-surface-variant'}`}>
+                          {email.direction === 'inbound' ? email.from_address : email.to_address}
+                        </p>
+                      </td>
+                      <td className="px-3 py-4 max-w-[280px]">
+                        <p className={`text-sm truncate ${isUnread ? 'font-bold text-on-surface' : 'font-medium text-on-surface'}`}>
+                          {email.subject || '(no subject)'}
+                        </p>
+                        {email.body_plain && (
+                          <p className="text-xs text-on-surface-variant/60 truncate mt-0.5">
+                            {email.body_plain.slice(0, 80)}
+                          </p>
+                        )}
+                      </td>
+                      <td className="px-3 py-4 text-xs text-on-surface-variant">
+                        {email.university_name ?? '—'}
+                      </td>
+                      <td className="px-3 py-4">
+                        {email.category ? (
+                          <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-tighter whitespace-nowrap ${catClass}`}>
+                            {email.category.replace(/_/g, ' ')}
+                          </span>
+                        ) : (
+                          <span className="text-xs text-on-surface-variant/40">—</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-xs text-on-surface-variant whitespace-nowrap">
+                        {email.received_at ? formatDate(email.received_at) : '—'}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

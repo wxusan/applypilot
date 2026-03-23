@@ -1,15 +1,33 @@
 // @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import Link from 'next/link'
-import StatusPill from '@/components/ui/StatusPill'
-import { formatDate, deadlineClass, formatDateMono } from '@/lib/utils'
-import { Plus } from 'lucide-react'
-import ExportButtons from '@/components/export/ExportButtons'
 
 const STATUS_OPTIONS = [
   'intake', 'forms', 'writing', 'review',
   'submitted', 'accepted', 'rejected',
 ]
+
+function getStatusBadgeClass(status: string) {
+  switch (status) {
+    case 'writing': return 'bg-blue-100 text-blue-700'
+    case 'review': return 'bg-amber-100 text-amber-700'
+    case 'submitted': return 'bg-emerald-100 text-emerald-700'
+    case 'accepted': return 'bg-green-100 text-green-700'
+    case 'rejected': return 'bg-red-100 text-red-700'
+    case 'intake': return 'bg-purple-100 text-purple-700'
+    case 'forms': return 'bg-indigo-100 text-indigo-700'
+    default: return 'bg-surface-container text-on-surface-variant'
+  }
+}
+
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
 
 export default async function StudentsPage({
   searchParams,
@@ -24,7 +42,6 @@ export default async function StudentsPage({
 
   const { q, status, season } = searchParams
 
-  // Resolve agency_id for this user
   const { data: member } = await supabase
     .from('agency_members')
     .select('agency_id')
@@ -52,199 +69,254 @@ export default async function StudentsPage({
   const { data, count } = await query
   const students = data as any[] | null
 
+  const isEmpty = !students || students.length === 0
+
   return (
-    <div className="space-y-5">
-      {/* ── Header ── */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-[22px] font-semibold text-gray-900">Students</h1>
-          <p className="text-[13px] text-gray-500 mt-0.5">
-            {count ?? 0} student{count !== 1 ? 's' : ''} in your agency
+          <h1 className="text-4xl font-headline font-extrabold tracking-tighter text-primary mb-2">
+            Student Roster
+          </h1>
+          <p className="text-on-surface-variant font-medium">
+            Managing {count ?? 0} active applicant{(count ?? 0) !== 1 ? 's' : ''}.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <ExportButtons students={students ?? []} />
+        <div className="flex items-center gap-3">
           <Link
             href="/students/new"
-            className="h-9 px-4 rounded-[6px] text-[13px] font-medium text-white flex items-center gap-2 transition hover:opacity-90"
-            style={{ backgroundColor: '#1D9E75' }}
+            className="flex items-center gap-2 px-5 py-2.5 text-white text-sm font-bold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all active:scale-[0.98]"
+            style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
           >
-            <Plus size={14} />
+            <span className="material-symbols-outlined text-sm">add</span>
             Add Student
           </Link>
+          <button className="px-4 py-2.5 bg-surface-container-lowest text-primary font-semibold text-sm rounded-xl flex items-center gap-2 border border-outline-variant/30 hover:bg-surface-bright transition-colors">
+            <span className="material-symbols-outlined text-sm">download</span>
+            Export CSV
+          </button>
         </div>
       </div>
 
-      {/* ── Filters ── */}
-      <div className="flex items-center gap-3 flex-wrap">
-        <form method="GET" className="flex-1 min-w-[200px] max-w-xs">
-          {status && <input type="hidden" name="status" value={status} />}
-          {season && <input type="hidden" name="season" value={season} />}
-          <div className="relative">
-            <input
-              type="text"
-              name="q"
-              defaultValue={q}
-              placeholder="Search by name…"
-              className="w-full h-8 pl-8 pr-3 text-[13px] rounded-[6px] bg-white focus:outline-none focus:ring-1 focus:ring-brand"
-              style={{ border: '0.5px solid #d1d5db' }}
-            />
-            <svg
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400"
-              width="12" height="12" viewBox="0 0 16 16" fill="none"
-            >
-              <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </div>
-        </form>
-
-        <div className="flex items-center gap-1.5 flex-wrap">
+      {/* Filters */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="md:col-span-3 bg-surface-container-low p-2 rounded-2xl flex flex-wrap gap-2">
           <Link
             href={q ? `/students?q=${q}` : '/students'}
-            className="h-7 px-3 rounded-[6px] text-[12px] transition"
-            style={
-              !status
-                ? { backgroundColor: '#E1F5EE', color: '#0F6E56', fontWeight: 500 }
-                : { border: '0.5px solid #e5e7eb', color: '#6B7280' }
-            }
+            className={`px-4 py-2 text-xs font-bold rounded-xl transition-colors ${
+              !status ? 'bg-primary text-white shadow-md' : 'bg-white text-on-surface-variant hover:bg-white/80'
+            }`}
           >
-            All
+            All Students
           </Link>
           {STATUS_OPTIONS.map((s) => (
             <Link
               key={s}
               href={q ? `/students?status=${s}&q=${q}` : `/students?status=${s}`}
-              className="h-7 px-3 rounded-[6px] text-[12px] capitalize transition"
-              style={
-                status === s
-                  ? { backgroundColor: '#E1F5EE', color: '#0F6E56', fontWeight: 500 }
-                  : { border: '0.5px solid #e5e7eb', color: '#6B7280' }
-              }
+              className={`px-4 py-2 text-xs font-bold rounded-xl capitalize transition-colors ${
+                status === s ? 'bg-primary text-white shadow-md' : 'bg-white text-on-surface-variant hover:bg-white/80'
+              }`}
             >
               {s}
             </Link>
           ))}
         </div>
+        <div className="bg-surface-container-low p-2 rounded-2xl flex items-center gap-3">
+          <form method="GET" className="flex items-center gap-2 w-full px-2">
+            {status && <input type="hidden" name="status" value={status} />}
+            {season && <input type="hidden" name="season" value={season} />}
+            <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
+            <input
+              type="text"
+              name="q"
+              defaultValue={q}
+              placeholder="Search students..."
+              className="bg-transparent border-none text-sm text-on-surface focus:ring-0 focus:outline-none w-full placeholder:text-on-surface-variant/50"
+            />
+          </form>
+        </div>
       </div>
 
-      {/* ── Table ── */}
-      <div className="bg-white rounded-[10px] overflow-hidden" style={{ border: '0.5px solid #e5e7eb' }}>
-        <table className="w-full">
-          <thead>
-            <tr style={{ borderBottom: '0.5px solid #e5e7eb' }}>
-              {['Name', 'Status', 'Class', 'GPA', 'SAT / ACT', 'Universities', 'Next Deadline', 'Added'].map(
-                (col) => (
-                  <th
-                    key={col}
-                    className="text-left px-5 py-2.5 text-[11px] font-medium text-gray-400 uppercase tracking-[0.5px]"
-                  >
-                    {col}
-                  </th>
-                )
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {!students || students.length === 0 ? (
-              <tr>
-                <td colSpan={8} className="px-5 py-10 text-center text-[13px] text-gray-400">
-                  {q || status ? (
-                    'No students match your filters.'
-                  ) : (
-                    <>
-                      No students yet.{' '}
-                      <Link href="/students/new" className="text-brand hover:underline">
-                        Add your first student.
-                      </Link>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ) : (
-              students.map((student, i) => {
-                type App = { id: string; university_name: string; status: string; deadline_regular: string | null }
-                const apps = (student.applications as App[]) ?? []
-                const nextDeadline = apps
-                  .map((a) => a.deadline_regular)
-                  .filter(Boolean)
-                  .sort()
-                  .at(0)
+      {/* Empty State */}
+      {isEmpty ? (
+        <div className="flex flex-col items-center justify-center px-12 py-24">
+          <div className="relative w-full max-w-4xl flex flex-col items-center">
+            <div className="absolute -z-10 top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary-fixed/30 rounded-full blur-[100px] opacity-40" />
+            <div className="text-center max-w-xl mx-auto">
+              <span className="inline-block px-3 py-1 bg-primary-fixed text-on-primary-fixed font-label text-[10px] font-bold tracking-widest uppercase rounded-full mb-6">
+                Welcome to ApplyPilot
+              </span>
+              <h1 className="text-4xl font-headline font-bold text-primary tracking-tight mb-4">
+                Your workspace is ready for its first architect.
+              </h1>
+              <p className="text-on-surface-variant font-body leading-relaxed mb-10 text-lg">
+                {q || status
+                  ? 'No students match your current filters.'
+                  : 'Start your agency journey by building your student roster. Once added, you can begin tracking applications, managing documents, and using Pilot AI to optimize their academic trajectories.'}
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  href="/students/new"
+                  className="px-8 py-4 text-white font-bold rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all active:scale-[0.98] flex items-center gap-3"
+                  style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+                >
+                  <span className="material-symbols-outlined">add</span>
+                  Add Your First Student
+                </Link>
+                <button className="px-8 py-4 bg-white border border-outline-variant text-primary font-bold rounded-xl hover:bg-surface-container-low transition-all flex items-center gap-3 group">
+                  <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary">file_upload</span>
+                  Bulk Import Students
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Student Table */
+        <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden border border-outline-variant/10">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface-container-low/50 border-b border-outline-variant/10">
+                  <th className="px-8 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Name</th>
+                  <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Status</th>
+                  <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-center">GPA</th>
+                  <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant text-center">SAT / ACT</th>
+                  <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Universities</th>
+                  <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Next Deadline</th>
+                  <th className="px-6 py-5 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Added</th>
+                  <th className="px-6 py-5" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/5">
+                {students.map((student) => {
+                  type App = { id: string; university_name: string; status: string; deadline_regular: string | null }
+                  const apps = (student.applications as App[]) ?? []
+                  const nextDeadline = apps
+                    .map((a) => a.deadline_regular)
+                    .filter(Boolean)
+                    .sort()
+                    .at(0)
 
-                return (
-                  <tr
-                    key={student.id}
-                    className="hover:bg-gray-50 transition-colors"
-                    style={i < students.length - 1 ? { borderBottom: '0.5px solid #e5e7eb' } : undefined}
-                  >
-                    <td className="px-5 py-3">
-                      <Link
-                        href={`/students/${student.id}/profile`}
-                        className="text-[13px] font-medium text-gray-900 hover:text-brand-dark transition-colors"
-                      >
-                        {student.full_name}
-                      </Link>
-                      {student.email && (
-                        <p className="text-[11px] text-gray-400 mt-0.5 truncate max-w-[180px]">
-                          {student.email}
-                        </p>
-                      )}
-                    </td>
+                  const isUrgent = nextDeadline
+                    ? new Date(nextDeadline).getTime() - Date.now() < 7 * 24 * 60 * 60 * 1000
+                    : false
 
-                    <td className="px-5 py-3">
-                      <StatusPill status={student.status} />
-                    </td>
+                  const addedDate = new Date(student.created_at).toLocaleDateString('en-US', {
+                    month: 'short', day: 'numeric', year: 'numeric',
+                  })
 
-                    <td className="px-5 py-3 text-[13px] text-gray-600 font-mono">
-                      {student.graduation_year ?? '—'}
-                    </td>
+                  const deadlineDisplay = nextDeadline
+                    ? new Date(nextDeadline).toLocaleDateString('en-US', {
+                        month: 'short', day: 'numeric', year: 'numeric',
+                      })
+                    : null
 
-                    <td className="px-5 py-3 text-[13px] text-gray-600 font-mono">
-                      {student.gpa ? Number(student.gpa).toFixed(2) : '—'}
-                    </td>
+                  return (
+                    <tr
+                      key={student.id}
+                      className="hover:bg-surface-container-low/30 transition-colors group"
+                    >
+                      <td className="px-8 py-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container text-sm font-bold flex-shrink-0">
+                            {getInitials(student.full_name)}
+                          </div>
+                          <div className="flex flex-col">
+                            <Link
+                              href={`/students/${student.id}/profile`}
+                              className="text-sm font-bold text-primary hover:text-primary-container transition-colors"
+                            >
+                              {student.full_name}
+                            </Link>
+                            {student.email && (
+                              <span className="text-[11px] text-on-surface-variant">
+                                {student.email}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </td>
 
-                    <td className="px-5 py-3 text-[13px] text-gray-600 font-mono">
-                      {student.sat_total
-                        ? student.sat_total
-                        : student.act_score
-                        ? `ACT ${student.act_score}`
-                        : '—'}
-                    </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 text-[10px] font-extrabold uppercase rounded-full tracking-tighter ${getStatusBadgeClass(student.status)}`}>
+                          {student.status}
+                        </span>
+                      </td>
 
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-1 flex-wrap">
-                        {apps.slice(0, 2).map((app) => (
-                          <span
-                            key={app.id}
-                            className="text-[11px] text-gray-500 rounded-[4px] px-1.5 py-0.5 bg-gray-50 whitespace-nowrap"
-                            style={{ border: '0.5px solid #e5e7eb' }}
-                          >
-                            {app.university_name}
-                          </span>
-                        ))}
-                        {apps.length > 2 && (
-                          <span className="text-[11px] text-gray-400">+{apps.length - 2}</span>
+                      <td className="px-6 py-4 text-center">
+                        <span className="text-sm font-semibold text-primary">
+                          {student.gpa ? Number(student.gpa).toFixed(2) : '—'}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 text-center">
+                        <span className="text-sm font-semibold text-primary">
+                          {student.sat_total
+                            ? student.act_score
+                              ? `${student.sat_total} / ${student.act_score}`
+                              : student.sat_total.toString()
+                            : student.act_score
+                            ? `ACT ${student.act_score}`
+                            : '—'}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1 flex-wrap">
+                          {apps.slice(0, 2).map((app) => (
+                            <span
+                              key={app.id}
+                              className="text-[11px] text-on-surface-variant rounded-lg px-2 py-0.5 bg-surface-container border border-outline-variant/20 whitespace-nowrap"
+                            >
+                              {app.university_name}
+                            </span>
+                          ))}
+                          {apps.length > 2 && (
+                            <span className="text-[11px] text-on-surface-variant/60">
+                              +{apps.length - 2}
+                            </span>
+                          )}
+                          {apps.length === 0 && <span className="text-sm text-on-surface-variant/50">—</span>}
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-4">
+                        {deadlineDisplay ? (
+                          <div className="flex flex-col">
+                            <span className={`text-sm font-bold ${isUrgent ? 'text-error' : 'text-primary'}`}>
+                              {deadlineDisplay}
+                            </span>
+                            {isUrgent && (
+                              <span className="text-[10px] font-medium text-error/80">Urgent</span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-sm text-on-surface-variant/50">—</span>
                         )}
-                        {apps.length === 0 && <span className="text-[13px] text-gray-400">—</span>}
-                      </div>
-                    </td>
+                      </td>
 
-                    <td className="px-5 py-3">
-                      <span className={deadlineClass(nextDeadline)}>
-                        {nextDeadline ? formatDateMono(nextDeadline) : '—'}
-                      </span>
-                    </td>
+                      <td className="px-6 py-4">
+                        <span className="text-sm text-on-surface-variant">{addedDate}</span>
+                      </td>
 
-                    <td className="px-5 py-3 text-[12px] text-gray-400">
-                      {formatDate(student.created_at)}
-                    </td>
-                  </tr>
-                )
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
+                      <td className="px-6 py-4 text-right">
+                        <Link
+                          href={`/students/${student.id}/profile`}
+                          className="p-2 text-on-surface-variant hover:text-primary transition-colors"
+                        >
+                          <span className="material-symbols-outlined text-xl">more_vert</span>
+                        </Link>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -46,24 +46,62 @@ export default async function StudentApplicationsPage({
 
   if (!student) notFound()
 
+  const count = applications?.length ?? 0
+
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <StudentHeader student={student} />
       <StudentTabs studentId={params.id} active="applications" />
 
+      {/* Toolbar */}
       <div className="flex items-center justify-between">
-        <p className="text-[13px] text-gray-500">
-          {applications?.length ?? 0} application{applications?.length !== 1 ? 's' : ''}
+        <p className="text-sm text-on-surface-variant">
+          <span className="font-bold text-primary">{count}</span>{' '}
+          application{count !== 1 ? 's' : ''} in dossier
         </p>
         <AddApplicationForm studentId={params.id} />
       </div>
 
-      {!applications || applications.length === 0 ? (
-        <div
-          className="bg-white rounded-[10px] p-8 text-center"
-          style={{ border: '0.5px solid #e5e7eb' }}
-        >
-          <p className="text-[13px] text-gray-400">No applications yet. Add the first one above.</p>
+      {count === 0 ? (
+        <div className="grid grid-cols-12 gap-6 items-start">
+          {/* Empty state canvas */}
+          <div className="col-span-12 lg:col-span-8 bg-surface-container-low rounded-3xl p-1">
+            <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm min-h-[500px] flex flex-col items-center justify-center p-12 text-center">
+              <div className="relative mb-10">
+                <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full scale-150" />
+                <div className="relative w-48 h-48 flex items-center justify-center">
+                  <div className="absolute inset-0 border-2 border-dashed border-primary/10 rounded-full animate-pulse" />
+                  <div className="absolute w-32 h-32 bg-primary/5 rounded-2xl rotate-12" />
+                  <div className="absolute w-32 h-32 bg-primary/5 rounded-2xl -rotate-12" />
+                  <div className="relative z-10 w-24 h-24 bg-white shadow-xl rounded-2xl flex items-center justify-center">
+                    <span className="material-symbols-outlined text-5xl text-primary/40">account_balance</span>
+                  </div>
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-primary-fixed text-primary rounded-full flex items-center justify-center shadow-lg">
+                    <span className="material-symbols-outlined text-2xl">add</span>
+                  </div>
+                </div>
+              </div>
+              <div className="max-w-md mx-auto">
+                <h3 className="font-headline text-2xl font-bold text-primary mb-3">Begin the Academic Blueprint</h3>
+                <p className="text-on-surface-variant leading-relaxed mb-10">
+                  This student&#39;s university list is currently a blank canvas. Start architecting their future by adding target, reach, and safety institutions to their digital dossier.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Guidance panel */}
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
+            <div className="bg-primary-container rounded-3xl p-8 text-white relative overflow-hidden">
+              <div className="absolute -bottom-8 -right-8 opacity-10">
+                <span className="material-symbols-outlined text-[160px]">lightbulb</span>
+              </div>
+              <h4 className="font-headline text-lg font-bold mb-4 relative z-10">Consultant&#39;s Tip</h4>
+              <p className="text-sm leading-relaxed text-on-primary-container font-medium mb-6 relative z-10">
+                Research suggests that starting with a &ldquo;Safety&rdquo; list of 2-3 schools builds momentum for students early in the process.
+              </p>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="space-y-4">
@@ -73,20 +111,19 @@ export default async function StudentApplicationsPage({
             return (
               <div
                 key={app.id}
-                className="bg-white rounded-[10px] overflow-hidden"
-                style={{ border: '0.5px solid #e5e7eb' }}
+                className="bg-surface-container-lowest rounded-2xl overflow-hidden border border-outline-variant/10 shadow-sm"
               >
                 {/* Application header */}
-                <div
-                  className="flex items-center justify-between px-5 py-4"
-                  style={{ borderBottom: '0.5px solid #e5e7eb' }}
-                >
+                <div className="flex items-center justify-between px-6 py-4 border-b border-outline-variant/10 bg-surface-container-low/30">
                   <div className="flex items-center gap-3 min-w-0">
-                    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
+                    <div className="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-primary text-sm">account_balance</span>
+                    </div>
+                    <h3 className="text-sm font-bold text-primary truncate">
                       {app.university_name}
                     </h3>
                     <StatusPill status={app.status} />
-                    <span className="text-[11px] text-gray-400 capitalize shrink-0">
+                    <span className="text-[10px] text-on-surface-variant capitalize shrink-0 bg-surface-container px-2 py-0.5 rounded-full">
                       {app.application_type?.replace('_', ' ')}
                     </span>
                     {app.decision && (
@@ -94,9 +131,9 @@ export default async function StudentApplicationsPage({
                     )}
                   </div>
 
-                  <div className="flex items-center gap-4 shrink-0">
+                  <div className="flex items-center gap-3 shrink-0">
                     {app.deadline_regular && (
-                      <span className="text-[12px] text-gray-500">
+                      <span className="text-xs text-on-surface-variant">
                         Regular:{' '}
                         <span className={deadlineClass(app.deadline_regular)}>
                           {formatDateMono(app.deadline_regular)}
@@ -104,27 +141,25 @@ export default async function StudentApplicationsPage({
                       </span>
                     )}
                     {app.deadline_financial_aid && (
-                      <span className="text-[12px] text-gray-500">
+                      <span className="text-xs text-on-surface-variant">
                         FA:{' '}
                         <span className={deadlineClass(app.deadline_financial_aid)}>
                           {formatDateMono(app.deadline_financial_aid)}
                         </span>
                       </span>
                     )}
-                    {/* Fill Common App — AI browser automation */}
                     <FillCommonAppButton
                       studentId={params.id}
                       applicationId={app.id}
                       applicationStatus={app.status}
                       universityName={app.university_name}
                     />
-                    {/* Edit / Delete actions */}
                     <ApplicationCardActions application={app} />
                   </div>
                 </div>
 
-                {/* Interactive Common App section progress */}
-                <div className="px-5 py-4">
+                {/* Common App section progress */}
+                <div className="px-6 py-4">
                   <CommonAppSectionTracker
                     applicationId={app.id}
                     initialStatus={caStatus}
@@ -134,39 +169,30 @@ export default async function StudentApplicationsPage({
                 {/* Financial / portal / notes footer */}
                 {(app.scholarship_amount || app.financial_aid_amount ||
                   app.portal_url || app.application_fee_paid || app.notes) && (
-                  <div
-                    className="px-5 py-3 flex items-center gap-5 flex-wrap"
-                    style={{ borderTop: '0.5px solid #e5e7eb' }}
-                  >
+                  <div className="px-6 py-3 flex items-center gap-5 flex-wrap border-t border-outline-variant/10 bg-surface-container-low/20">
                     {app.scholarship_amount != null && (
-                      <span className="text-[12px] text-gray-500">
+                      <span className="text-xs text-on-surface-variant">
                         Scholarship:{' '}
-                        <strong className="text-gray-800">
+                        <strong className="text-on-surface">
                           ${app.scholarship_amount.toLocaleString()}
                         </strong>
                       </span>
                     )}
                     {app.financial_aid_amount != null && (
-                      <span className="text-[12px] text-gray-500">
+                      <span className="text-xs text-on-surface-variant">
                         FA:{' '}
-                        <strong className="text-gray-800">
+                        <strong className="text-on-surface">
                           ${app.financial_aid_amount.toLocaleString()}
                         </strong>
                       </span>
                     )}
                     {app.application_fee_paid && (
-                      <span
-                        className="text-[10px] font-medium px-1.5 py-0.5 rounded-[3px]"
-                        style={{ backgroundColor: '#EAF3DE', color: '#3B6D11' }}
-                      >
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 uppercase">
                         Fee Paid
                       </span>
                     )}
                     {app.fee_waiver_used && (
-                      <span
-                        className="text-[10px] font-medium px-1.5 py-0.5 rounded-[3px]"
-                        style={{ backgroundColor: '#E6F1FB', color: '#185FA5' }}
-                      >
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-secondary uppercase">
                         Fee Waiver
                       </span>
                     )}
@@ -175,13 +201,14 @@ export default async function StudentApplicationsPage({
                         href={app.portal_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[12px] text-[#185FA5] hover:underline"
+                        className="text-xs text-primary hover:underline flex items-center gap-1"
                       >
-                        Portal →
+                        <span className="material-symbols-outlined text-sm">open_in_new</span>
+                        Portal
                       </a>
                     )}
                     {app.notes && (
-                      <span className="text-[12px] text-gray-500 truncate max-w-[300px]">
+                      <span className="text-xs text-on-surface-variant truncate max-w-[300px]">
                         {app.notes}
                       </span>
                     )}

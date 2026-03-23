@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@/lib/api'
-import { FileText, Download, RefreshCw, Calendar, BarChart2 } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 
 interface Report {
@@ -31,9 +30,9 @@ const TYPE_LABELS: Record<string, string> = {
   yearly: 'Yearly',
 }
 
-const TYPE_COLORS: Record<string, string> = {
-  weekly: 'bg-blue-100 text-blue-700',
-  monthly: 'bg-violet-100 text-violet-700',
+const TYPE_BADGE: Record<string, string> = {
+  weekly: 'bg-secondary-container text-secondary',
+  monthly: 'bg-tertiary-fixed text-primary',
   yearly: 'bg-amber-100 text-amber-700',
 }
 
@@ -96,32 +95,31 @@ export default function ReportsPage() {
     new Date(iso).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div>
       {/* Header */}
-      <div className="mb-6 flex items-start justify-between">
+      <div className="mb-8 flex items-start justify-between">
         <div>
-          <h1 className="text-[20px] font-semibold text-gray-900 flex items-center gap-2">
-            <FileText size={18} className="text-brand" />
-            Reports
+          <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
+            Performance Reports
           </h1>
-          <p className="text-[13px] text-gray-500 mt-1">
+          <p className="text-on-surface-variant text-lg">
             Weekly, monthly and yearly PDF reports — automatically generated and sent to your Telegram.
           </p>
         </div>
 
         {/* Generate buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 shrink-0">
           {(['weekly', 'monthly', 'yearly'] as const).map((type) => (
             <button
               key={type}
               onClick={() => handleGenerate(type)}
               disabled={generating !== null}
-              className="flex items-center gap-1.5 border border-gray-200 hover:border-brand hover:text-brand text-gray-600 text-[12px] font-medium px-3 py-1.5 rounded-[7px] transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/30 hover:text-primary text-on-surface-variant text-xs font-bold px-4 py-2 rounded-xl transition-colors disabled:opacity-50 shadow-sm"
             >
               {generating === type ? (
-                <RefreshCw size={12} className="animate-spin" />
+                <span className="material-symbols-outlined text-sm animate-spin">autorenew</span>
               ) : (
-                <BarChart2 size={12} />
+                <span className="material-symbols-outlined text-sm">bar_chart</span>
               )}
               {TYPE_LABELS[type]}
             </button>
@@ -129,16 +127,16 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Filter tabs */}
-      <div className="flex gap-2 mb-5">
+      {/* Filter chips */}
+      <div className="flex gap-2 mb-6">
         {['', 'weekly', 'monthly', 'yearly'].map((t) => (
           <button
             key={t}
             onClick={() => setFilter(t)}
-            className={`text-[12px] font-medium px-3 py-1.5 rounded-full transition-colors ${
+            className={`text-xs font-bold px-4 py-2 rounded-full transition-colors ${
               filter === t
-                ? 'bg-brand text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-primary text-white'
+                : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
             }`}
           >
             {t === '' ? 'All' : TYPE_LABELS[t]}
@@ -148,39 +146,45 @@ export default function ReportsPage() {
 
       {/* Reports list */}
       {loading ? (
-        <div className="text-center py-16 text-gray-400 text-[13px]">Loading reports...</div>
+        <div className="flex items-center justify-center py-20 gap-3 text-on-surface-variant">
+          <span className="material-symbols-outlined animate-spin">autorenew</span>
+          <span className="text-sm">Loading reports...</span>
+        </div>
       ) : reports.length === 0 ? (
-        <div className="bg-white rounded-[10px] border border-dashed border-gray-200 text-center py-16">
-          <FileText size={32} className="mx-auto text-gray-200 mb-3" />
-          <p className="text-[14px] font-medium text-gray-500">No reports yet</p>
-          <p className="text-[13px] text-gray-400 mt-1">Reports are auto-generated weekly, monthly, and yearly.</p>
-          <p className="text-[13px] text-gray-400">Or click a button above to generate one now.</p>
+        <div className="bg-surface-container-lowest rounded-2xl border-2 border-dashed border-outline-variant/30 text-center py-20">
+          <div className="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <span className="material-symbols-outlined text-on-surface-variant/40 text-3xl">description</span>
+          </div>
+          <h3 className="font-headline font-bold text-xl text-primary mb-2">No Reports Yet</h3>
+          <p className="text-on-surface-variant max-w-sm mx-auto leading-relaxed">
+            Reports are auto-generated weekly, monthly, and yearly. Or click a button above to generate one now.
+          </p>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {reports.map((r) => {
             const s = r.summary_json || {}
             return (
               <div
                 key={r.id}
-                className="bg-white rounded-[10px] border border-gray-200 shadow-sm p-5 hover:border-gray-300 transition-colors"
+                className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm p-6 hover:border-outline-variant/20 transition-colors"
               >
                 <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-gray-50 rounded-[8px] border border-gray-100">
-                      <FileText size={16} className="text-gray-500" />
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-surface-container rounded-xl flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-primary text-xl">description</span>
                     </div>
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ${TYPE_COLORS[r.report_type] || 'bg-gray-100 text-gray-600'}`}>
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-tighter ${TYPE_BADGE[r.report_type] || 'bg-surface-container text-on-surface-variant'}`}>
                           {TYPE_LABELS[r.report_type] || r.report_type}
                         </span>
-                        <span className="text-[14px] font-semibold text-gray-900">{r.period_label}</span>
+                        <span className="text-base font-bold text-primary">{r.period_label}</span>
                       </div>
-                      <div className="flex items-center gap-1 text-[11px] text-gray-400">
-                        <Calendar size={11} />
-                        {formatDate(r.period_start)} – {formatDate(r.period_end)}
-                        <span className="mx-1">·</span>
+                      <div className="flex items-center gap-1.5 text-xs text-on-surface-variant">
+                        <span className="material-symbols-outlined text-sm">calendar_today</span>
+                        {formatDate(r.period_start)} &ndash; {formatDate(r.period_end)}
+                        <span className="mx-1 opacity-30">&bull;</span>
                         Generated {formatDate(r.generated_at)}
                       </div>
                     </div>
@@ -189,40 +193,41 @@ export default function ReportsPage() {
                   <button
                     onClick={() => handleDownload(r.id)}
                     disabled={downloading === r.id || !r.pdf_url}
-                    className="flex items-center gap-1.5 bg-[#1D9E75] hover:bg-[#0F6E56] disabled:opacity-50 text-white text-[12px] font-medium px-4 py-2 rounded-[7px] transition-colors"
+                    className="flex items-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-95"
+                    style={{ background: r.pdf_url ? 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' : undefined, color: r.pdf_url ? 'white' : undefined, backgroundColor: !r.pdf_url ? undefined : undefined }}
                   >
                     {downloading === r.id ? (
-                      <RefreshCw size={12} className="animate-spin" />
+                      <span className="material-symbols-outlined text-lg animate-spin">autorenew</span>
                     ) : (
-                      <Download size={12} />
+                      <span className="material-symbols-outlined text-lg">download</span>
                     )}
                     {r.pdf_url ? 'Download PDF' : 'Generating...'}
                   </button>
                 </div>
 
-                {/* Metrics summary strip */}
+                {/* Metrics summary */}
                 {s && Object.keys(s).length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-4 gap-4">
+                  <div className="mt-6 pt-6 border-t border-outline-variant/10 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
                     {s.total_students !== undefined && (
-                      <Metric label="Total Students" value={s.total_students} />
+                      <MetricCard label="Total Students" value={s.total_students} icon="group" />
                     )}
                     {s.applications_submitted !== undefined && (
-                      <Metric label="Applications" value={s.applications_submitted} />
+                      <MetricCard label="Applications" value={s.applications_submitted} icon="send" />
                     )}
                     {s.acceptance_rate_pct !== undefined && (
-                      <Metric label="Acceptance Rate" value={`${s.acceptance_rate_pct}%`} />
+                      <MetricCard label="Acceptance Rate" value={`${s.acceptance_rate_pct}%`} icon="trending_up" />
                     )}
                     {s.emails_received !== undefined && (
-                      <Metric label="Emails" value={s.emails_received} />
+                      <MetricCard label="Emails" value={s.emails_received} icon="mail" />
                     )}
                     {s.deadlines_completed !== undefined && (
-                      <Metric label="Deadlines Done" value={s.deadlines_completed} />
+                      <MetricCard label="Deadlines Done" value={s.deadlines_completed} icon="task_alt" />
                     )}
                     {s.ai_tokens_used !== undefined && (
-                      <Metric label="AI Tokens" value={(s.ai_tokens_used || 0).toLocaleString()} />
+                      <MetricCard label="AI Tokens" value={(s.ai_tokens_used || 0).toLocaleString()} icon="bolt" />
                     )}
                     {s.ai_cost_usd !== undefined && (
-                      <Metric label="AI Cost" value={`$${(s.ai_cost_usd || 0).toFixed(4)}`} />
+                      <MetricCard label="AI Cost" value={`$${(s.ai_cost_usd || 0).toFixed(4)}`} icon="payments" />
                     )}
                   </div>
                 )}
@@ -235,11 +240,14 @@ export default function ReportsPage() {
   )
 }
 
-function Metric({ label, value }: { label: string; value: string | number }) {
+function MetricCard({ label, value, icon }: { label: string; value: string | number; icon: string }) {
   return (
     <div>
-      <p className="text-[10px] text-gray-400 uppercase tracking-wide">{label}</p>
-      <p className="text-[15px] font-semibold text-gray-900 mt-0.5">{value}</p>
+      <div className="flex items-center gap-1.5 mb-1">
+        <span className="material-symbols-outlined text-on-surface-variant/60 text-sm">{icon}</span>
+        <p className="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{label}</p>
+      </div>
+      <p className="text-lg font-extrabold font-headline text-primary">{value}</p>
     </div>
   )
 }

@@ -47,11 +47,11 @@ export default async function DashboardLayout({
   const user = Array.isArray(member.user) ? member.user[0] : member.user
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-surface">
       <Sidebar agency={agency} user={user} userRole={member.role} />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="ml-64 flex-1 flex flex-col min-w-0">
         <TopBar agency={agency} user={user} />
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-8">
           {children}
         </main>
       </div>

@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 import { useState, useEffect } from 'react'
 import { createBrowserClient } from '@/lib/supabase-browser'
-import { Eye, EyeOff, CheckCircle } from 'lucide-react'
+import Link from 'next/link'
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('')
@@ -16,7 +16,6 @@ export default function ResetPasswordPage() {
   const [hasSession, setHasSession] = useState(false)
 
   useEffect(() => {
-    // Check if we have a valid recovery session (client-only)
     const supabase = createBrowserClient()
     supabase.auth.getSession().then(({ data: { session } }) => {
       setHasSession(!!session)
@@ -54,103 +53,195 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-[360px]">
-        <div className="flex items-center gap-2 justify-center mb-8">
-          <div className="w-2 h-2 rounded-full bg-brand" />
-          <span className="text-[15px] font-semibold text-gray-900">ApplyPilot</span>
+    <div className="min-h-screen bg-surface flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
+      {/* Background accents */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-primary-fixed/20 blur-[120px]" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-secondary-fixed/30 blur-[120px]" />
+      </div>
+
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
+        {/* Illustration - left side */}
+        <div className="hidden lg:flex flex-col justify-center space-y-8 pr-12">
+          <div className="relative w-full aspect-square max-w-md mx-auto">
+            <div className="absolute inset-0 bg-primary-fixed opacity-20 rounded-full blur-3xl" />
+            <div className="relative z-10 w-full h-full bg-surface-container-lowest rounded-xl shadow-2xl flex items-center justify-center p-8 overflow-hidden border border-outline-variant/10">
+              <div className="relative w-full h-full flex items-center justify-center">
+                <div className="w-48 h-64 bg-surface-container border border-outline-variant rounded-lg rotate-[-6deg] absolute translate-x-4 shadow-sm" />
+                <div className="w-48 h-64 bg-surface-container-high border border-outline-variant rounded-lg rotate-3 absolute -translate-x-4 shadow-md" />
+                <div className="w-48 h-64 bg-white border border-outline-variant/30 rounded-lg flex flex-col p-6 shadow-xl relative z-20">
+                  <div className="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center mb-6">
+                    <span
+                      className="material-symbols-outlined text-primary text-2xl"
+                      style={{ fontVariationSettings: "'FILL' 1" }}
+                    >
+                      lock
+                    </span>
+                  </div>
+                  <div className="h-2 w-full bg-surface-container rounded-full mb-3" />
+                  <div className="h-2 w-3/4 bg-surface-container rounded-full mb-3" />
+                  <div className="h-2 w-1/2 bg-surface-container rounded-full mb-8" />
+                  <div className="mt-auto h-8 w-full bg-primary-container/10 rounded-lg border border-primary-container/20" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h2 className="font-headline text-3xl font-extrabold text-primary tracking-tight">
+              Secure Portal Access
+            </h2>
+            <p className="text-on-surface-variant leading-relaxed max-w-sm">
+              Accessing your college consulting dashboard requires verified credentials. Use your institutional email to verify your identity.
+            </p>
+          </div>
         </div>
 
-        <div className="bg-white rounded-[10px] p-6" style={{ border: '0.5px solid #e5e7eb' }}>
-          <h1 className="text-[22px] font-semibold text-gray-900 mb-1">Reset password</h1>
-          <p className="text-[13px] text-gray-500 mb-6">Enter a new password for your account.</p>
+        {/* Form - right side */}
+        <div className="flex flex-col space-y-10">
+          {/* Logo */}
+          <div className="flex items-center space-x-3">
+            <div
+              className="w-10 h-10 flex items-center justify-center rounded-lg"
+              style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+            >
+              <span className="material-symbols-outlined text-white text-xl">school</span>
+            </div>
+            <span className="font-headline text-2xl font-extrabold text-primary tracking-tighter">ApplyPilot</span>
+          </div>
 
           {done ? (
-            <div
-              className="rounded-[6px] px-3 py-4 flex items-center gap-3 text-[13px]"
-              style={{ backgroundColor: '#E1F5EE', border: '0.5px solid #86efac', color: '#0F6E56' }}
-            >
-              <CheckCircle size={18} />
-              Password updated! Redirecting to dashboard…
+            <div className="space-y-6">
+              <div className="w-16 h-16 bg-secondary-fixed flex items-center justify-center rounded-2xl">
+                <span
+                  className="material-symbols-outlined text-primary text-3xl"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  mark_email_read
+                </span>
+              </div>
+              <div>
+                <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
+                  Password Updated!
+                </h1>
+                <p className="text-on-surface-variant font-medium">
+                  Redirecting you to the dashboard...
+                </p>
+              </div>
             </div>
           ) : !hasSession ? (
-            <div
-              className="rounded-[6px] px-3 py-3 text-[13px] text-danger-text"
-              style={{ backgroundColor: '#FCEBEB', border: '0.5px solid #f5c2c2' }}
-            >
-              This reset link has expired or is invalid. Please{' '}
-              <a href="/login" className="underline">request a new one</a>.
+            <div>
+              <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-4">
+                Reset Password
+              </h1>
+              <div className="bg-error-container/30 p-6 rounded-xl border border-error/20">
+                <div className="flex items-start gap-3">
+                  <span className="material-symbols-outlined text-error mt-0.5">error</span>
+                  <div>
+                    <p className="font-semibold text-error mb-1">Link expired</p>
+                    <p className="text-sm text-on-surface-variant">
+                      This reset link has expired or is invalid. Please{' '}
+                      <Link href="/login" className="text-primary font-bold hover:underline">
+                        request a new one
+                      </Link>.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           ) : (
-            <form onSubmit={handleReset} className="space-y-4">
+            <div className="space-y-8">
               <div>
-                <label className="block text-[11px] font-medium text-gray-500 uppercase tracking-[0.5px] mb-1.5">
-                  New Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full h-9 pl-3 pr-9 text-[13px] rounded-[6px] bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-brand transition"
-                    style={{ border: '0.5px solid #d1d5db' }}
-                    placeholder="Min. 8 characters"
-                    required
-                    minLength={8}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    tabIndex={-1}
+                <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
+                  Reset Password
+                </h1>
+                <p className="text-on-surface-variant font-medium">
+                  Enter your email and we&#39;ll send you a recovery link.
+                </p>
+              </div>
+
+              <form onSubmit={handleReset} className="space-y-6 max-w-md">
+                <div className="space-y-2">
+                  <label
+                    className="block text-sm font-semibold text-primary tracking-wide"
+                    htmlFor="new-password"
                   >
-                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                  </button>
+                    New Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="new-password"
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3.5 text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-on-surface-variant/50"
+                      placeholder="Min. 8 characters"
+                      required
+                      minLength={8}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary"
+                    >
+                      <span className="material-symbols-outlined text-xl">
+                        {showPassword ? 'visibility_off' : 'visibility'}
+                      </span>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-[11px] font-medium text-gray-500 uppercase tracking-[0.5px] mb-1.5">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  value={confirm}
-                  onChange={(e) => setConfirm(e.target.value)}
-                  className="w-full h-9 px-3 text-[13px] rounded-[6px] bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-brand transition"
-                  style={{ border: '0.5px solid #d1d5db' }}
-                  placeholder="Re-enter password"
-                  required
-                />
-              </div>
+                <div className="space-y-2">
+                  <label
+                    className="block text-sm font-semibold text-primary tracking-wide"
+                    htmlFor="confirm-password"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    id="confirm-password"
+                    type="password"
+                    value={confirm}
+                    onChange={(e) => setConfirm(e.target.value)}
+                    className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3.5 text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-on-surface-variant/50"
+                    placeholder="Re-enter password"
+                    required
+                  />
+                </div>
 
-              {error && (
-                <div
-                  className="rounded-[6px] px-3 py-2 text-[12px] text-danger-text"
-                  style={{ backgroundColor: '#FCEBEB', border: '0.5px solid #f5c2c2' }}
+                {error && (
+                  <div className="bg-error-container/30 border border-error/20 rounded-lg px-4 py-3 text-sm text-error">
+                    {error}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full text-white font-headline font-bold py-4 rounded-lg shadow-lg hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60"
+                  style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
                 >
-                  {error}
-                </div>
-              )}
+                  {loading ? 'Updating…' : 'Update Password'}
+                </button>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full h-9 rounded-[6px] text-[13px] font-medium text-white transition disabled:opacity-60"
-                style={{ backgroundColor: '#1D9E75' }}
-              >
-                {loading ? 'Updating…' : 'Update password'}
-              </button>
-            </form>
+                <div className="pt-2 flex items-center justify-center">
+                  <Link
+                    href="/login"
+                    className="inline-flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors font-medium"
+                  >
+                    <span className="material-symbols-outlined text-lg">arrow_back</span>
+                    <span>Back to Login</span>
+                  </Link>
+                </div>
+              </form>
+            </div>
           )}
         </div>
-
-        <p className="text-center mt-4">
-          <a href="/login" className="text-[12px] text-brand hover:text-brand-dark transition">
-            ← Back to sign in
-          </a>
-        </p>
       </div>
+
+      {/* Bottom gradient bar */}
+      <div className="fixed bottom-0 left-0 w-full h-1 opacity-20"
+        style={{ background: 'linear-gradient(to right, #031635, #1a2b4b, #515f74)' }}
+      />
     </div>
   )
 }

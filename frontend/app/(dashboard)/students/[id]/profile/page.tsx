@@ -3,7 +3,6 @@ import { createServerClient, createServiceClient } from '@/lib/supabase-server'
 import { notFound } from 'next/navigation'
 import StudentTabs from '@/components/students/StudentTabs'
 import StudentHeader from '@/components/students/StudentHeader'
-import { formatDate } from '@/lib/utils'
 
 export default async function StudentProfilePage({ params }: { params: { id: string } }) {
   const anonClient = createServerClient()
@@ -29,90 +28,198 @@ export default async function StudentProfilePage({ params }: { params: { id: str
   if (error || !student) notFound()
 
   return (
-    <div className="space-y-5">
+    <div>
       <StudentHeader student={student} />
       <StudentTabs studentId={params.id} active="profile" />
 
-      {/* Profile sections */}
-      <div className="grid grid-cols-3 gap-4">
-        {/* Personal Info */}
-        <div className="bg-white rounded-[10px] p-5" style={{ border: '0.5px solid #e5e7eb' }}>
-          <h3 className="text-[13px] font-semibold text-gray-700 mb-3">Personal</h3>
-          <dl className="space-y-2">
-            <ProfileRow label="Email" value={student.email} />
-            <ProfileRow label="Phone" value={student.phone} />
-            <ProfileRow label="DOB" value={formatDate(student.date_of_birth)} />
-            <ProfileRow label="Nationality" value={student.nationality} />
-            <ProfileRow label="Telegram" value={student.telegram_username} />
-          </dl>
-        </div>
-
-        {/* Academic */}
-        <div className="bg-white rounded-[10px] p-5" style={{ border: '0.5px solid #e5e7eb' }}>
-          <h3 className="text-[13px] font-semibold text-gray-700 mb-3">Academic</h3>
-          <dl className="space-y-2">
-            <ProfileRow label="High School" value={student.high_school_name} />
-            <ProfileRow label="Country" value={student.high_school_country} />
-            <ProfileRow label="Grad Year" value={student.graduation_year?.toString()} />
-            <ProfileRow label="GPA" value={student.gpa ? `${student.gpa} / ${student.gpa_scale}` : null} mono />
-            <ProfileRow label="Major" value={student.intended_major} />
-          </dl>
+      {/* Bento Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        {/* Academic Standing */}
+        <div className="md:col-span-8 bg-surface-container-low rounded-2xl p-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-5">
+            <span className="material-symbols-outlined text-9xl">school</span>
+          </div>
+          <div className="flex justify-between items-end mb-8">
+            <div>
+              <p className="text-[10px] font-extrabold text-primary uppercase tracking-[0.2em] mb-1">Section 01</p>
+              <h3 className="text-2xl font-headline font-bold text-primary">Academic Standing</h3>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+                Cumulative GPA
+              </label>
+              <div className="h-14 flex items-center px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-lg">
+                <span className={`font-headline font-bold text-lg ${student.gpa ? 'text-primary' : 'text-on-surface-variant/40 italic'}`}>
+                  {student.gpa ? `${Number(student.gpa).toFixed(2)} / ${student.gpa_scale ?? '4.0'}` : 'Not set'}
+                </span>
+              </div>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+                Graduation Year
+              </label>
+              <div className="h-14 flex items-center px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-lg">
+                <span className={`font-headline font-bold text-lg ${student.graduation_year ? 'text-primary' : 'text-on-surface-variant/40 italic'}`}>
+                  {student.graduation_year ? `Class of ${student.graduation_year}` : 'Not set'}
+                </span>
+              </div>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+                Intended Major
+              </label>
+              <div className="h-14 flex items-center px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-lg">
+                <span className={student.intended_major ? 'text-on-surface font-medium' : 'text-on-surface-variant/40 italic'}>
+                  {student.intended_major ?? 'Not specified'}
+                </span>
+              </div>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+                High School
+              </label>
+              <div className="h-14 flex items-center gap-2 px-4 bg-surface-container-lowest border border-outline-variant/20 rounded-lg">
+                {student.high_school_name ? (
+                  <>
+                    <span className="material-symbols-outlined text-on-surface-variant">apartment</span>
+                    <span className="text-on-surface font-medium truncate">{student.high_school_name}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined text-on-surface-variant/40">apartment</span>
+                    <span className="text-on-surface-variant/40 italic">Search for high school...</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Test Scores */}
-        <div className="bg-white rounded-[10px] p-5" style={{ border: '0.5px solid #e5e7eb' }}>
-          <h3 className="text-[13px] font-semibold text-gray-700 mb-3">Test Scores</h3>
-          <dl className="space-y-2">
-            <ProfileRow label="SAT" value={student.sat_total?.toString()} mono />
-            <ProfileRow label="SAT Math" value={student.sat_math?.toString()} mono />
-            <ProfileRow label="SAT Reading" value={student.sat_reading?.toString()} mono />
-            <ProfileRow label="ACT" value={student.act_score?.toString()} mono />
-            <ProfileRow label="TOEFL" value={student.toefl_score?.toString()} mono />
-            <ProfileRow label="IELTS" value={student.ielts_score?.toString()} mono />
-          </dl>
-        </div>
-      </div>
-
-      {/* Parent Info */}
-      {(student.parent_name || student.parent_email || student.parent_phone) && (
-        <div className="bg-white rounded-[10px] p-5" style={{ border: '0.5px solid #e5e7eb' }}>
-          <h3 className="text-[13px] font-semibold text-gray-700 mb-3">Parent / Guardian</h3>
-          <div className="flex items-center gap-8">
-            <ProfileRow label="Name" value={student.parent_name} />
-            <ProfileRow label="Email" value={student.parent_email} />
-            <ProfileRow label="Phone" value={student.parent_phone} />
+        <div className="md:col-span-4 bg-primary text-white rounded-2xl p-8 flex flex-col justify-between">
+          <div>
+            <p className="text-[10px] font-extrabold text-primary-fixed uppercase tracking-[0.2em] mb-1">Section 02</p>
+            <h3 className="text-2xl font-headline font-bold mb-6">Standardized Testing</h3>
+            <div className="space-y-5">
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <span className="font-headline font-semibold">SAT Composite</span>
+                <span className={student.sat_total ? 'text-white font-bold text-lg' : 'text-white/40 italic text-sm'}>
+                  {student.sat_total ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <span className="font-headline font-semibold">ACT Composite</span>
+                <span className={student.act_score ? 'text-white font-bold text-lg' : 'text-white/40 italic text-sm'}>
+                  {student.act_score ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <span className="font-headline font-semibold">TOEFL</span>
+                <span className={student.toefl_score ? 'text-white font-bold text-lg' : 'text-white/40 italic text-sm'}>
+                  {student.toefl_score ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <span className="font-headline font-semibold">IELTS</span>
+                <span className={student.ielts_score ? 'text-white font-bold text-lg' : 'text-white/40 italic text-sm'}>
+                  {student.ielts_score ?? '—'}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="mt-8 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-primary-fixed">
+            <span className="material-symbols-outlined text-base">add_circle</span>
+            Add Test Result
           </div>
         </div>
-      )}
 
-      {/* Notes */}
-      {student.notes && (
-        <div className="bg-white rounded-[10px] p-5" style={{ border: '0.5px solid #e5e7eb' }}>
-          <h3 className="text-[13px] font-semibold text-gray-700 mb-2">Notes</h3>
-          <p className="text-[13px] text-gray-600 whitespace-pre-wrap">{student.notes}</p>
+        {/* Personal Details */}
+        <div className="md:col-span-4 bg-surface-container-low rounded-2xl p-8">
+          <p className="text-[10px] font-extrabold text-primary uppercase tracking-[0.2em] mb-1">Section 03</p>
+          <h3 className="text-2xl font-headline font-bold text-primary mb-8">Personal Details</h3>
+          <div className="space-y-6">
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                Legal Name
+              </label>
+              <p className={`py-1 border-b border-outline-variant/20 ${student.full_name ? 'text-on-surface font-medium' : 'text-on-surface-variant italic'}`}>
+                {student.full_name ?? 'Not provided'}
+              </p>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                Email Address
+              </label>
+              <p className={`py-1 border-b border-outline-variant/20 ${student.email ? 'text-on-surface font-medium' : 'text-on-surface-variant italic'}`}>
+                {student.email ?? 'Not provided'}
+              </p>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                Nationality
+              </label>
+              <p className={`py-1 border-b border-outline-variant/20 ${student.nationality ? 'text-on-surface font-medium' : 'text-on-surface-variant italic'}`}>
+                {student.nationality ?? 'Not specified'}
+              </p>
+            </div>
+            {student.phone && (
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                  Phone
+                </label>
+                <p className="py-1 border-b border-outline-variant/20 text-on-surface font-medium">
+                  {student.phone}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      )}
-    </div>
-  )
-}
 
-function ProfileRow({
-  label,
-  value,
-  mono = false,
-}: {
-  label: string
-  value: string | null | undefined
-  mono?: boolean
-}) {
-  return (
-    <div className="flex items-baseline gap-2">
-      <dt className="text-[11px] font-medium text-gray-400 uppercase tracking-[0.5px] shrink-0 w-20">
-        {label}
-      </dt>
-      <dd className={`text-[13px] text-gray-700 ${mono ? 'font-mono' : ''}`}>
-        {value ?? '—'}
-      </dd>
+        {/* Parent / Guardian */}
+        <div className="md:col-span-4 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
+          <p className="text-[10px] font-extrabold text-primary uppercase tracking-[0.2em] mb-1">Section 04</p>
+          <h3 className="text-2xl font-headline font-bold text-primary mb-8">Parent / Guardian</h3>
+          <div className="space-y-6">
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                Name
+              </label>
+              <p className={`py-1 border-b border-outline-variant/20 ${student.parent_name ? 'text-on-surface font-medium' : 'text-on-surface-variant italic'}`}>
+                {student.parent_name ?? 'Not provided'}
+              </p>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                Email
+              </label>
+              <p className={`py-1 border-b border-outline-variant/20 ${student.parent_email ? 'text-on-surface font-medium' : 'text-on-surface-variant italic'}`}>
+                {student.parent_email ?? 'Not provided'}
+              </p>
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">
+                Phone
+              </label>
+              <p className={`py-1 border-b border-outline-variant/20 ${student.parent_phone ? 'text-on-surface font-medium' : 'text-on-surface-variant italic'}`}>
+                {student.parent_phone ?? 'Not provided'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Notes */}
+        <div className="md:col-span-4 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
+          <p className="text-[10px] font-extrabold text-primary uppercase tracking-[0.2em] mb-1">Section 05</p>
+          <h3 className="text-2xl font-headline font-bold text-primary mb-6">Notes</h3>
+          {student.notes ? (
+            <p className="text-on-surface leading-relaxed whitespace-pre-wrap">{student.notes}</p>
+          ) : (
+            <p className="text-on-surface-variant italic">No notes added yet.</p>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
