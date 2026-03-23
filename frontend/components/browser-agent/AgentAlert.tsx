@@ -1,3 +1,5 @@
+'use client'
+
 interface AgentAlertProps {
   studentName?: string
   studentId?: string

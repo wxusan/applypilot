@@ -1,3 +1,5 @@
+'use client'
+
 interface SyncCompleteModalProps {
   studentName?: string
   gpa?: string

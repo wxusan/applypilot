@@ -1,3 +1,5 @@
+'use client'
+
 interface UpgradePlanModalProps {
   currentPlan?: string
   onUpgrade?: () => void

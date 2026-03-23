@@ -1,3 +1,5 @@
+'use client'
+
 interface ManualInterventionProps {
   studentName?: string
   dossierId?: string

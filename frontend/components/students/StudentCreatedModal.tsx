@@ -1,3 +1,5 @@
+'use client'
+
 interface StudentCreatedModalProps {
   studentName?: string
   consultantName?: string

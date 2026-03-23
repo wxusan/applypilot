@@ -27,12 +27,10 @@ export async function GET() {
   await supabase.auth.signOut()
 
   // Hard redirect to login — no stale cookie remains
-  const response = NextResponse.redirect(
-    new URL('/login', process.env.NEXT_PUBLIC_SUPABASE_URL
-      ? 'http://localhost:3000'
-      : 'http://localhost:3000'
-    )
-  )
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000')
+  const response = NextResponse.redirect(new URL('/login', baseUrl))
 
   // Belt-and-suspenders: delete the cookie directly on the response too
   response.cookies.delete('sb-hhvgwniixxmawdsryrep-auth-token')
