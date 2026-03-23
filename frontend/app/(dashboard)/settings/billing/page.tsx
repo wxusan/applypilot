@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { apiFetch } from '@/lib/api'
+import RenewalConfirmedModal from '@/components/billing/RenewalConfirmedModal'
 
 interface BillingStatus {
   status: string
@@ -70,10 +72,12 @@ function StatusBadge({ status }: { status: PaymentRecord['status'] }) {
 }
 
 export default function BillingSettings() {
+  const router = useRouter()
   const [data, setData] = useState<BillingStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [expandedRow, setExpandedRow] = useState<string | null>('#4432-B')
   const [noteForm, setNoteForm] = useState({ amount: '', method: 'Bank Transfer', note: '' })
+  const [showRenewalConfirmed, setShowRenewalConfirmed] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -278,7 +282,10 @@ export default function BillingSettings() {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-2.5 rounded-xl text-white text-[13px] font-bold bg-gradient-to-br from-[#031635] to-[#1a2b4b] hover:from-[#1a2b4b] hover:to-[#031635] transition-all shadow-lg">
+            <button
+              onClick={() => setShowRenewalConfirmed(true)}
+              className="w-full py-2.5 rounded-xl text-white text-[13px] font-bold bg-gradient-to-br from-[#031635] to-[#1a2b4b] hover:from-[#1a2b4b] hover:to-[#031635] transition-all shadow-lg"
+            >
               Request Upgrade
             </button>
           </div>
@@ -538,6 +545,14 @@ export default function BillingSettings() {
           </div>
         </div>
       </section>
+
+      {showRenewalConfirmed && (
+        <RenewalConfirmedModal
+          onGoToBilling={() => setShowRenewalConfirmed(false)}
+          onReturnToDashboard={() => router.push('/dashboard')}
+          onClose={() => setShowRenewalConfirmed(false)}
+        />
+      )}
     </div>
   )
 }
