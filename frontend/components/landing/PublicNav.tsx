@@ -5,7 +5,7 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 
 export default function PublicNav() {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-white/[0.05]">
+    <nav className="fixed top-0 w-full z-50 bg-[#0B1629]/90 backdrop-blur-md border-b border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         
         {/* LOGO */}

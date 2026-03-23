@@ -1,6 +1,6 @@
-'use className'
+'use client'
 
-import { Brain, Bot, FileText, Send, Clock, Browser, Target } from 'lucide-react'
+import { Brain, Bot, FileText, Send, Clock, Globe2, Target } from 'lucide-react'
 
 const AGENTS = [
   {
@@ -30,7 +30,7 @@ const AGENTS = [
   {
     title: "Browser Automation",
     desc: "The Steel.dev headless cloud engine drives physical browsers navigating university portals entirely on autopilot.",
-    icon: Browser,
+    icon: Globe2,
     col: "md:col-span-2",
     color: "text-emerald-400",
     bg: "bg-emerald-500/10"
@@ -55,7 +55,7 @@ const AGENTS = [
 
 export default function FeaturesBento() {
   return (
-    <section id="features" className="py-24 bg-[#0A0A0A] relative border-t border-white/5">
+    <section id="features" className="py-24 bg-[#0B1629] relative border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6">
         
         <div className="text-center mb-16">
@@ -76,7 +76,7 @@ export default function FeaturesBento() {
           {AGENTS.map((agent, i) => (
             <div 
               key={i} 
-              className={`relative overflow-hidden group rounded-2xl bg-[#111111] border border-white/10 p-8 hover:bg-[#151515] transition-colors ${agent.col}`}
+              className={`relative overflow-hidden group rounded-2xl bg-[#132035] border border-white/10 p-8 hover:bg-[#1a2d4a] transition-colors ${agent.col}`}
             >
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div>

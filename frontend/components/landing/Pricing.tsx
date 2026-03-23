@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-[#0A0A0A] relative border-t border-white/5">
+    <section id="pricing" className="py-24 bg-[#0B1629] relative border-t border-white/5">
       
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
 
@@ -23,7 +23,7 @@ export default function Pricing() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           
           {/* GROWTH TIER */}
-          <div className="rounded-3xl bg-[#111111] border border-emerald-500/30 p-8 shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)] relative overflow-hidden">
+          <div className="rounded-3xl bg-[#132035] border border-emerald-500/30 p-8 shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)] relative overflow-hidden">
             <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-400 to-cyan-400" />
             <h3 className="text-[20px] font-semibold text-white mb-2">Growth Partner</h3>
             <p className="text-[13px] text-gray-400 mb-6 font-light">The definitive toolkit for scaling educational agencies.</p>
