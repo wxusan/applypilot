@@ -1,6 +1,6 @@
 'use className'
 
-import { Brain, Bot, FileText, Send, Clock, Browser, Target } from 'lucide-react'
+import { Brain, Bot, FileText, Send, Clock, Monitor, Target } from 'lucide-react'
 
 const AGENTS = [
   {
@@ -30,7 +30,7 @@ const AGENTS = [
   {
     title: "Browser Automation",
     desc: "The Steel.dev headless cloud engine drives physical browsers navigating university portals entirely on autopilot.",
-    icon: Browser,
+    icon: Monitor,
     col: "md:col-span-2",
     color: "text-emerald-400",
     bg: "bg-emerald-500/10"
