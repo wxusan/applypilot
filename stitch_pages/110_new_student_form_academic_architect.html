@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Student Form | Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-primary-container": "#8293b8",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "on-tertiary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .bg-primary-gradient {
+        background: linear-gradient(135deg, #031635 0%, #1a2b4b 100%);
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm dark:shadow-none docked full-width top-0 z-50 flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-950 dark:text-white tracking-tighter font-headline">Academic Architect</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 dark:text-slate-400 pb-1 hover:text-blue-800 dark:hover:text-blue-100 transition-colors" href="#">Dashboard</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-blue-900 dark:text-blue-200 border-b-2 border-blue-900 dark:border-blue-400 pb-1" href="#">Students</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 dark:text-slate-400 pb-1 hover:text-blue-800 dark:hover:text-blue-100 transition-colors" href="#">Messages</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 dark:text-slate-400 pb-1 hover:text-blue-800 dark:hover:text-blue-100 transition-colors" href="#">Pilot AI</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden ml-2">
+<img alt="User profile avatar" data-alt="User profile avatar placeholder image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9HVaYDAcCK7zRvKIB-XOBLY8r69TvH9rsHF_e9ZzRPUIciiFaLhJtvT8YGXGKAECL5Wx2NhwMsLE8qKUMA7tBP2O1KR6L5s7StegOtC826F1cAYpR7llmIcmyNI0Nl4X7ExAQHXf9tmf-kOi7S0MOtIYnJ6vMBmwmoqMjF3DLGlyEwzaNtNQTMma8FnScpPmvSWBjxO6uoWmnw6NN7ZOxT5amZoZZtuHgQQ8UWj4axWJnX2XhCo9CoavVZLIb8-t2Evm_6KzS9nQ"/>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12">
+<!-- Left Column: Contextual Progress -->
+<div class="lg:w-1/3 flex flex-col gap-8">
+<div class="p-8 bg-surface-container-low rounded-xl">
+<h1 class="font-headline text-3xl font-extrabold text-primary tracking-tight mb-4">Intake Dossier</h1>
+<p class="text-on-surface-variant text-md leading-relaxed mb-8">Establish a new student profile within the ApplyPilot ecosystem. Ensure all requisite identifying information is captured for AI analysis.</p>
+<div class="space-y-6">
+<div class="flex items-center gap-4 group">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Identity Verification</p>
+<p class="text-xs text-on-surface-variant">Core student records</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold ring-2 ring-primary ring-offset-4 ring-offset-surface-container-low">
+<span class="text-sm">02</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Academic History</p>
+<p class="text-xs text-on-surface-variant">Transcripts and testing</p>
+</div>
+</div>
+<div class="flex items-center gap-4 opacity-40">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold">
+<span class="text-sm">03</span>
+</div>
+<div>
+<p class="text-sm font-bold">Extracurriculars</p>
+<p class="text-xs">Leadership and impact</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl border border-outline-variant/10 shadow-lg">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="psychology">psychology</span>
+<h3 class="font-headline font-bold text-primary">Pilot Intelligence</h3>
+</div>
+<p class="text-xs text-on-secondary-container leading-relaxed">
+                    Pilot AI is currently monitoring the intake form. Incomplete data will limit the initial profile scoring accuracy.
+                </p>
+</div>
+</div>
+<!-- Right Column: The Form -->
+<div class="lg:w-2/3">
+<div class="bg-surface-container-lowest p-10 rounded-xl shadow-[0_40px_40px_rgba(3,22,53,0.03)] border border-outline-variant/10">
+<div class="flex items-center justify-between mb-10">
+<h2 class="font-headline text-2xl font-bold text-primary">Student Information</h2>
+<span class="text-xs font-bold text-error bg-error-container/30 px-3 py-1 rounded-full uppercase tracking-widest">Action Required</span>
+</div>
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- First Name (Error State) -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-primary uppercase tracking-wider ml-1">First Name</label>
+<div class="relative">
+<input class="w-full bg-error-container/10 border-error border-2 rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-error focus:border-error outline-none transition-all placeholder:text-on-surface-variant/40" placeholder="e.g. Alexander" type="text"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-error" data-icon="error">error</span>
+</div>
+<span class="text-xs font-semibold text-error ml-1">Required field</span>
+</div>
+<!-- Last Name (Clean State) -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Last Name</label>
+<input class="w-full bg-surface-container border-outline-variant/15 border rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-on-surface-variant/40" placeholder="e.g. Hamilton" type="text"/>
+</div>
+<!-- Email (Error State) -->
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="text-xs font-bold text-primary uppercase tracking-wider ml-1">Email Address</label>
+<div class="relative">
+<input class="w-full bg-error-container/10 border-error border-2 rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-error focus:border-error outline-none transition-all placeholder:text-on-surface-variant/40" placeholder="student@university.edu" type="email"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-error" data-icon="error">error</span>
+</div>
+<span class="text-xs font-semibold text-error ml-1">Required field</span>
+</div>
+<!-- Date of Birth -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Date of Birth</label>
+<input class="w-full bg-surface-container border-outline-variant/15 border rounded-lg px-4 py-3 text-on-surface outline-none transition-all" type="date"/>
+</div>
+<!-- Grade Level -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1">Current Grade</label>
+<select class="w-full bg-surface-container border-outline-variant/15 border rounded-lg px-4 py-3 text-on-surface outline-none transition-all appearance-none">
+<option>Freshman (9th)</option>
+<option>Sophomore (10th)</option>
+<option>Junior (11th)</option>
+<option>Senior (12th)</option>
+</select>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10 flex items-center justify-between">
+<button class="text-sm font-bold text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+                            Discard Changes
+                        </button>
+<button class="bg-primary-gradient text-on-primary px-8 py-3 rounded-lg font-manrope font-bold text-sm tracking-tight shadow-lg hover:shadow-primary/20 transition-all active:scale-[0.98]" type="submit">
+                            Submit Intake Form
+                        </button>
+</div>
+</form>
+</div>
+<!-- Bento Card Contextual Help -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
+<div class="p-3 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-primary" data-icon="help">help</span>
+</div>
+<div>
+<h4 class="font-bold text-sm text-primary mb-1">Need Assistance?</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Our consultants are available for real-time support during intake hours.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
+<div class="p-3 bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+</div>
+<div>
+<h4 class="font-bold text-sm text-primary mb-1">Upload Documents</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">You can drag and drop transcripts directly into the Pilot Agent interface.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-safe bg-white/90 dark:bg-slate-950/90 backdrop-blur-lg lg:hidden z-50 border-t border-slate-100 dark:border-slate-900 shadow-[0_-4px_20px_rgba(3,22,53,0.06)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 rounded-xl px-4 py-1.5 active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Students</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Pilot</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 active:scale-95 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Settings</span>
+</a>
+</nav>
+<!-- Floating Error Alert -->
+<div class="fixed bottom-24 right-8 max-w-sm glass-panel border-l-4 border-error p-6 rounded-r-xl shadow-2xl flex gap-4 animate-in slide-in-from-right duration-300">
+<span class="material-symbols-outlined text-error" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<h5 class="text-sm font-bold text-primary mb-1">Submission Failed</h5>
+<p class="text-xs text-on-surface-variant">2 required fields are missing information. Please correct them before re-submitting to Pilot Agent.</p>
+</div>
+</div>
+</body></html>
+
+<!-- Login: Terms Link Focus -->

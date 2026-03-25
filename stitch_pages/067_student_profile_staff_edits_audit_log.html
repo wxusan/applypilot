@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Profile - Staff Edits Audit Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7f9fb;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .text-shadow-sm {
+        text-shadow: 0 1px 2px rgba(3, 22, 53, 0.05);
+      }
+    </style>
+</head>
+<body class="text-on-surface bg-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 dark:border-slate-800/15 z-50">
+<div class="flex flex-col py-6 px-4 gap-y-2 h-full">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h1 class="font-manrope font-bold text-lg text-[#031635] dark:text-white leading-none">Academic Architect</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Elite Consulting</p>
+</div>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span>Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span>AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="robot_2">robot_2</span>
+<span>Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/10">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 transition-all font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-error transition-all font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl sticky top-0 z-40 shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-8 h-16 w-full">
+<div class="flex items-center gap-4">
+<nav class="flex items-center gap-6">
+<span class="text-slate-900 dark:text-white font-bold font-manrope font-semibold tracking-tight">Active Dossier</span>
+<span class="text-slate-500 dark:text-slate-400 font-manrope font-semibold tracking-tight hover:text-slate-900 cursor-pointer transition-colors">Documents</span>
+<span class="text-slate-500 dark:text-slate-400 font-manrope font-semibold tracking-tight hover:text-slate-900 cursor-pointer transition-colors">Timeline</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="bg-surface-container border-none text-sm rounded-full pl-10 pr-4 py-2 w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search audit logs..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined text-slate-600" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined text-slate-600" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<img alt="Consultant avatar" class="w-8 h-8 rounded-full border border-white shadow-sm" data-alt="Senior consultant professional portrait profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlwggfdqkymRnQa9r6Yuf9mazHSv2NIzjt_55DAIUtX0wCHZTw9_O8I5cZG0fXIuWuhpbNXXTf6qFoNP2lszEmuwHj-SGduyR60tR8-BkWIJfR_TkJoFhX0efUiehPnwW87INytachCUK-5gh9QucbYjdy7b3m9QbwA78l9w3peoLRzY0Rile-MT50qH57LKzaIu2S58aXt31_UXxwib541XfK_59g-BxqmIGc_IdCYfup5DuEjd5UMfB5hFUi-7ay5vJ3ED9ugEI"/>
+</div>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full"></div>
+</header>
+<!-- Content Body -->
+<div class="p-10 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex items-end justify-between mb-10">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-xs font-bold uppercase tracking-widest text-primary/60">Profile Archive</span>
+<span class="material-symbols-outlined text-xs text-primary/40" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+<span class="text-xs font-bold uppercase tracking-widest text-primary">Activity Log</span>
+</div>
+<h2 class="text-4xl font-manrope font-extrabold text-primary tracking-tight">Elena Rodriguez</h2>
+<p class="text-on-surface-variant mt-2 font-body">Academic Dossier: Class of 2025 • Stanford Early Action Track</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/15 text-sm font-semibold text-primary hover:bg-surface-bright shadow-sm transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                        Export Audit
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-br from-primary to-primary-container text-sm font-semibold text-white shadow-lg shadow-primary/10 hover:opacity-95 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                        New Entry
+                    </button>
+</div>
+</div>
+<!-- Bento Filter Bar -->
+<div class="grid grid-cols-12 gap-4 mb-8">
+<div class="col-span-8 bg-surface-container-low rounded-xl p-2 flex items-center gap-1">
+<button class="px-6 py-2 rounded-lg text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">All Activities</button>
+<button class="px-6 py-2 rounded-lg text-sm font-bold bg-surface-container-lowest text-primary shadow-sm ring-1 ring-primary/5">Staff Edits</button>
+<button class="px-6 py-2 rounded-lg text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Student Submissions</button>
+<button class="px-6 py-2 rounded-lg text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">System Triggers</button>
+</div>
+<div class="col-span-4 bg-surface-container-low rounded-xl p-2 flex items-center justify-between">
+<span class="text-xs font-bold uppercase text-primary/40 ml-4">Filter: Last 30 Days</span>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container-lowest rounded-lg text-primary shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_month">calendar_month</span>
+</button>
+</div>
+</div>
+<!-- Timeline Audit Log -->
+<div class="space-y-4">
+<!-- Log Entry 1: Content Change -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_40px_40px_rgba(3,22,53,0.03)] border-l-4 border-primary">
+<div class="flex items-start gap-6">
+<div class="relative">
+<img alt="Consultant 1" class="w-12 h-12 rounded-full border-2 border-surface-container" data-alt="Professional male consultant profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8OdyuRUmephQPRaqWRqwbBA89GVW-DP5RmCnwgueCe5siOxQh8aGnR89or4yMHZqU_4y3ATecad4JCpasPa8pdzCzKs24EVcvttJ2xX1m8VVQdeOWJLshNEdmMR6Cg8RHzSVFKeE9MdHjKYl_Krm1JOhCrkXfqMmPvUXiSp9mvazyO5yahUfIIUAc-MW6Npxo15j2JX5uigCBzbVCl8dw8fFa5XdBaHeaUjjguX_oa6xaruJRkcvppCl3Y84wWL5LpF6kD_3Boro"/>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white p-0.5 rounded-full ring-2 ring-white">
+<span class="material-symbols-outlined text-[10px]" data-icon="edit">edit</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-2">
+<span class="font-manrope font-bold text-primary">Marcus Thorne</span>
+<span class="text-xs font-medium px-2 py-0.5 bg-primary-fixed text-on-primary-fixed rounded-full">Senior Lead</span>
+<span class="text-on-surface-variant text-sm ml-2">modified Personal Statement draft</span>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Today, 11:42 AM</span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4 mt-3 space-y-3">
+<div class="flex items-center gap-4">
+<div class="flex-1 bg-red-50/50 p-2 rounded line-through text-red-700 text-sm font-body italic">
+                                        "...and that's when I realized the power of community service in suburban Ohio."
+                                    </div>
+<span class="material-symbols-outlined text-slate-300" data-icon="arrow_forward">arrow_forward</span>
+<div class="flex-1 bg-green-50/50 p-2 rounded text-green-700 text-sm font-body">
+                                        "...this epiphany catalyzed my commitment to grassroots educational reform within underserved Midwestern corridors."
+                                    </div>
+</div>
+<p class="text-xs text-on-surface-variant italic">Refining voice for Ivy League resonance. Previous draft was too colloquial.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Log Entry 2: Status Change -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_40px_40px_rgba(3,22,53,0.03)] border-l-4 border-primary">
+<div class="flex items-start gap-6">
+<div class="relative">
+<img alt="Consultant 2" class="w-12 h-12 rounded-full border-2 border-surface-container" data-alt="Professional female consultant profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhrSVHND-oLLIqeVJBvOr_5xe4ZdNqB_BicYlVuUzLLhQ25YuGO0tUu0XCKa1JgLvfvOBaQ2a-w8lQDUOycDtcnLSD305SQwa3OipnNg51i0arXdhZeeXdt7DVUyBUosZB8rj8378hUTAnj4uVA8IDT1EiHLG9u_CQT62jLswt6HiSBctlF8es5PnXvf2ZxEHtPrDdGWuQBxc9XbE5Hg9nYWKbKu9KUvns6OIi6EiGn_jfD_l6gkjaV7ogipGQvB3G5JywEwv-Zn0"/>
+<div class="absolute -bottom-1 -right-1 bg-primary text-white p-0.5 rounded-full ring-2 ring-white">
+<span class="material-symbols-outlined text-[10px]" data-icon="rule">rule</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-2">
+<span class="font-manrope font-bold text-primary">Sarah Jenkins</span>
+<span class="text-xs font-medium px-2 py-0.5 bg-surface-container-highest text-on-surface-variant rounded-full">Operations</span>
+<span class="text-on-surface-variant text-sm ml-2">updated Dossier Status</span>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Yesterday, 4:15 PM</span>
+</div>
+<div class="mt-4 flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded text-sm font-bold text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined text-sm" data-icon="pending">pending</span>
+                                    Review Pending
+                                </div>
+<span class="material-symbols-outlined text-slate-300" data-icon="arrow_forward">arrow_forward</span>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-primary text-white rounded text-sm font-bold shadow-md shadow-primary/10">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                                    Verified &amp; Finalized
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Log Entry 3: AI Intervention Tagged by Staff -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_40px_40px_rgba(3,22,53,0.03)] border-l-4 border-surface-tint">
+<div class="flex items-start gap-6">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-white border-2 border-white">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-white p-0.5 rounded-full ring-2 ring-primary">
+<img class="w-4 h-4 rounded-full" data-alt="Small thumbnail of consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8BIgYvIpmUcLLp6d97kBXUUB2lXqONfLlG4fIjJjD5C7o3OsDrcsH84WZm1_9rtbrHw9YhNMsrKTI_6NtkEXQ6BwW969lqtmhPLvyFWtu0AFTjPqNl1ig9SMM6nGwG3NhlFOd8wXt9u83NNgHW2O1rmPyljqkKC515Ijgb-rUVx3yKmQVF6_PUEnoN8hjme4qgInF7cxBNr9R9qBvyyFqnqgITYR1uVMTo7ARqrht3KlqlCko0fMPs_IkrmWVrDk2HvmuVmrWBxE"/>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-2">
+<span class="font-manrope font-bold text-primary">Marcus Thorne</span>
+<span class="text-on-surface-variant text-sm">approved AI Suggestion for extracurricular re-ordering</span>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Oct 12, 09:00 AM</span>
+</div>
+<div class="mt-3 p-4 border border-dashed border-outline-variant/30 rounded-lg">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="tips_and_updates">tips_and_updates</span>
+<span class="text-xs font-bold text-primary uppercase tracking-wider">Consultant-Led Optimization</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">System suggested moving 'Varsity Debate Captain' to position #1 based on Stanford's focus on leadership in rhetoric. Marcus Thorne validated and applied this structural shift across all dossier outputs.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Log Entry 4: Field Edit -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_40px_40px_rgba(3,22,53,0.03)] border-l-4 border-primary">
+<div class="flex items-start gap-6">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary/40" data-icon="person_search">person_search</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-2">
+<span class="font-manrope font-bold text-primary">System Audit</span>
+<span class="text-on-surface-variant text-sm ml-2">recorded manual dossier override</span>
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Oct 11, 2:30 PM</span>
+</div>
+<div class="grid grid-cols-2 gap-8 mt-4">
+<div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant/60 block mb-1">Field Name</span>
+<span class="text-sm font-semibold font-manrope">GPA (Weighted)</span>
+</div>
+<div class="flex items-center gap-6">
+<div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant/60 block mb-1">From</span>
+<span class="text-sm font-medium text-red-500">4.12</span>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="chevron_right">chevron_right</span>
+<div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant/60 block mb-1">To</span>
+<span class="text-sm font-bold text-primary">4.28</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Pagination / Depth -->
+<div class="mt-12 flex items-center justify-between">
+<p class="text-xs text-on-surface-variant font-medium">Displaying 12 of 48 total Staff Edits for this academic cycle.</p>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold text-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors text-sm">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors text-sm">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pilot AI-Bar (Glassmorphism Footer Overlay) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[600px] glass-panel rounded-2xl shadow-[0_20px_50px_rgba(3,22,53,0.15)] ring-1 ring-white/20 p-4 z-50">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex-1">
+<p class="text-[10px] font-bold text-primary/60 uppercase tracking-widest mb-0.5">Scholar Pilot AI</p>
+<p class="text-sm font-medium text-primary leading-tight">I noticed Marcus Thorne makes most edits on Tuesdays. Would you like a summary of his recent strategy changes?</p>
+</div>
+<button class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all">
+                    Analyze Edits
+                </button>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- AI Drafter: Context Review -->

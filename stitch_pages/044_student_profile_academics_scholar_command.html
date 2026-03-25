@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Profile - Academics | Scholar Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-container": "#8293b8",
+                        "inverse-primary": "#b6c6ef",
+                        "primary-fixed": "#d8e2ff",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#75777f",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-surface-variant": "#44474e",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-primary-fixed-variant": "#364768",
+                        "secondary": "#515f74",
+                        "outline-variant": "#c5c6cf",
+                        "on-primary-fixed": "#081b3a",
+                        "on-secondary-container": "#57657a",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-container": "#8a92aa",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#0e1629",
+                        "secondary-container": "#d5e3fc",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-tertiary-fixed": "#131b2e",
+                        "tertiary-container": "#232b3f",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1a2b4b",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#4e5e81",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "surface-bright": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "error-container": "#ffdad6",
+                        "primary": "#031635",
+                        "on-surface": "#191c1e",
+                        "on-background": "#191c1e",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar (As defined in Shared Components) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 h-screen w-64 bg-slate-50 dark:bg-slate-950 border-r-0">
+<div class="px-8 py-8">
+<h1 class="text-xl font-bold tracking-tight text-[#031635] dark:text-white">Scholar Command</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mt-1">Institutional Elite</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#031635] dark:text-white font-bold border-r-4 border-[#031635] dark:border-blue-400 bg-white/50 dark:bg-slate-800/50 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">view_kanban</span>
+<span class="text-sm font-medium">Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-sm font-medium">AI Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Administration</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-200/50">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/20 mb-4">
+                New Student
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 text-sm hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span> Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 text-sm hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">account_circle</span> Account
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 min-h-screen bg-surface flex flex-col">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-30 flex items-center justify-between px-8 py-3 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-[#031635]/5">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border-none rounded-full text-sm focus:ring-2 ring-primary/10 transition-all outline-none" placeholder="Search students, dossiers, or events..." type="text"/>
+</div>
+<div class="hidden md:flex gap-6">
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-[#031635] transition-all" href="#">Quick Actions</a>
+<a class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-[#031635] transition-all" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<div class="h-8 w-px bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-sm font-bold text-primary leading-none">Dr. Alistair Vance</p>
+<p class="text-[10px] text-slate-500 font-medium">Senior Consultant</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" data-alt="Portrait of an academic professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4O6pvFpfCAovHJDFwl4KbU7gq5AMCSxWGdQrggeQIRILclnH0B2dQQL5WvHbdtG5R1Pe7RyIf6XQu9M-F87jvDMUBN6bQiLE1TgkJw_1tx47jzUrIDtCql-BtPijGnOule5Dh016Ntl_HCDh0gG0izj9Xl_u6eBZi96shjXZlspkWh9qX0ks66ri37Ju8t_2ox-DEHL_m96cE3y_xyXPkaIxMJBjR237-GBnfjrJHuPoTlXuyy5PBt92S2dUEpX52xi3oQ2NfPTI"/>
+</div>
+</div>
+</header>
+<!-- Student Header Profile Section -->
+<div class="px-12 py-8 bg-surface">
+<div class="flex items-end justify-between mb-8">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img alt="Student Profile" class="w-24 h-24 rounded-2xl object-cover shadow-lg border-4 border-white" data-alt="Portrait of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLPz_BK8WpTxx-CtyML6J5smN1SEomVbauaQpKGVIWe3T_iy7_i410Qx0obqEWDKNxwuaURMaTctUstkYJ5D9d0eEbkrzbYfJ4-UCoK3_1N4wQm1TJSo9fW8E74MOw5hhOzKlEi7moNyuPlUiXyMC-N8tQSvv7BtPH0a3-fCuZ5bzrS6inZhmyyGXv4m-jDTTXOjQUfNsHanMkX2hcRp5SVA3NdpwbwHZ-hb3II_KNTpT-gOSepA5U-_5IjifNJtb0n0vYsoyBtTw"/>
+<span class="absolute -bottom-2 -right-2 bg-emerald-500 text-white p-1 rounded-lg shadow-md">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">verified</span>
+</span>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="text-3xl font-extrabold text-primary tracking-tight">Alexander Sterling</h2>
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold rounded uppercase tracking-tighter">Elite Track</span>
+</div>
+<p class="text-on-surface-variant flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined text-sm">school</span>
+                            The Lawrenceville School · Class of 2025
+                        </p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-white border border-outline-variant/30 text-primary text-sm font-bold rounded-xl hover:bg-surface-bright transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">print</span> Export PDF
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">edit</span> Edit Profile
+                    </button>
+</div>
+</div>
+<!-- Tab Navigation -->
+<div class="flex items-center gap-8 border-b border-outline-variant/15 mb-10">
+<button class="pb-4 text-sm font-medium text-slate-400 hover:text-primary transition-all">Overview</button>
+<button class="pb-4 text-sm font-bold text-primary border-b-2 border-primary transition-all">Academics</button>
+<button class="pb-4 text-sm font-medium text-slate-400 hover:text-primary transition-all">Extracurriculars</button>
+<button class="pb-4 text-sm font-medium text-slate-400 hover:text-primary transition-all">Applications</button>
+<button class="pb-4 text-sm font-medium text-slate-400 hover:text-primary transition-all">Dossier</button>
+</div>
+<!-- Academics Dashboard Content (Bento Grid) -->
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Left Column: Core Metrics -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- GPA Card -->
+<div class="p-8 rounded-3xl bg-surface-container-low relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 opacity-5">
+<span class="material-symbols-outlined text-9xl">analytics</span>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-6">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Cumulative GPA</p>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/50 hover:bg-white text-primary transition-all">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-extrabold text-primary tracking-tighter">3.98</span>
+<span class="text-xl font-medium text-on-surface-variant">/ 4.00</span>
+</div>
+<div class="mt-6 flex items-center gap-4">
+<div class="flex-1 h-2 bg-white/50 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%] rounded-full"></div>
+</div>
+<span class="text-[10px] font-bold text-primary">TOP 2%</span>
+</div>
+<p class="mt-4 text-xs text-on-surface-variant font-medium italic">Weighted: 4.52 (High Rigor)</p>
+</div>
+</div>
+<!-- Current Institution -->
+<div class="p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/10 shadow-sm">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-6">Institution Detail</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">account_balance</span>
+</div>
+<div>
+<h4 class="font-bold text-primary leading-tight">The Lawrenceville School</h4>
+<p class="text-xs text-on-surface-variant">New Jersey, USA</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between text-sm py-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Curriculum</span>
+<span class="font-bold text-primary">AP / Honors Mixed</span>
+</div>
+<div class="flex justify-between text-sm py-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Graduation Date</span>
+<span class="font-bold text-primary">June 2025</span>
+</div>
+<div class="flex justify-between text-sm py-2 border-b border-surface-container">
+<span class="text-on-surface-variant">Class Rank</span>
+<span class="font-bold text-primary">14 / 812</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Scores and Honors -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Standardized Tests Grid -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant/10 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-bold text-primary tracking-tight">Standardized Assessments</h3>
+<p class="text-xs text-on-surface-variant mt-1">Verified official reporting</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-xl text-xs font-bold text-primary hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-sm">add_circle</span> Add Score
+                            </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- SAT Card -->
+<div class="p-6 rounded-2xl bg-surface-container-low border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold shadow-sm">SAT</div>
+<p class="text-sm font-bold text-primary">Digital SAT</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-base text-slate-400">edit_note</span>
+</button>
+</div>
+<div class="flex items-baseline gap-1 mb-4">
+<span class="text-4xl font-extrabold text-primary tracking-tight">1580</span>
+<span class="text-sm text-on-surface-variant">/ 1600</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-white/50 rounded-xl">
+<p class="text-[10px] uppercase font-bold text-slate-400">Math</p>
+<p class="text-lg font-bold text-primary">800</p>
+</div>
+<div class="p-3 bg-white/50 rounded-xl">
+<p class="text-[10px] uppercase font-bold text-slate-400">EBRW</p>
+<p class="text-lg font-bold text-primary">780</p>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[10px] font-bold py-1 px-2 bg-primary/10 text-primary rounded">99th Percentile</span>
+<span class="text-[10px] text-on-surface-variant">Last taken: Oct 2023</span>
+</div>
+</div>
+<!-- ACT Card -->
+<div class="p-6 rounded-2xl bg-surface-container-low border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary font-bold shadow-sm">ACT</div>
+<p class="text-sm font-bold text-primary">ACT Composite</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-base text-slate-400">edit_note</span>
+</button>
+</div>
+<div class="flex items-baseline gap-1 mb-4">
+<span class="text-4xl font-extrabold text-primary tracking-tight">35</span>
+<span class="text-sm text-on-surface-variant">/ 36</span>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<div class="text-center">
+<p class="text-[9px] uppercase font-bold text-slate-400">Eng</p>
+<p class="text-sm font-bold text-primary">36</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] uppercase font-bold text-slate-400">Mat</p>
+<p class="text-sm font-bold text-primary">35</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] uppercase font-bold text-slate-400">Rd</p>
+<p class="text-sm font-bold text-primary">34</p>
+</div>
+<div class="text-center">
+<p class="text-[9px] uppercase font-bold text-slate-400">Sci</p>
+<p class="text-sm font-bold text-primary">35</p>
+</div>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[10px] font-bold py-1 px-2 bg-primary/10 text-primary rounded">99th Percentile</span>
+<span class="text-[10px] text-on-surface-variant">Last taken: June 2023</span>
+</div>
+</div>
+<!-- IELTS/TOEFL Section -->
+<div class="col-span-1 md:col-span-2 p-6 rounded-2xl bg-surface-container-low flex flex-col md:flex-row items-center gap-8 group border border-transparent hover:border-primary/20 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-2xl bg-white flex flex-col items-center justify-center text-primary shadow-sm">
+<span class="text-xs font-bold leading-none">IELTS</span>
+<span class="text-2xl font-black">8.5</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">IELTS Academic</p>
+<p class="text-[10px] text-on-surface-variant">C2 Proficiency Level</p>
+</div>
+</div>
+<div class="flex-1 flex justify-around w-full border-l border-white/50 pl-8">
+<div class="text-center">
+<p class="text-[10px] font-bold text-slate-400 uppercase">Listen</p>
+<p class="text-lg font-bold text-primary">9.0</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] font-bold text-slate-400 uppercase">Read</p>
+<p class="text-lg font-bold text-primary">9.0</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] font-bold text-slate-400 uppercase">Write</p>
+<p class="text-lg font-bold text-primary">8.0</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] font-bold text-slate-400 uppercase">Speak</p>
+<p class="text-lg font-bold text-primary">8.5</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Academic Honors Section -->
+<div class="bg-white rounded-3xl p-8 shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-bold text-primary tracking-tight">Academic Honors &amp; Distinctions</h3>
+<p class="text-xs text-on-surface-variant mt-1">Recognitions and meritorious awards</p>
+</div>
+<button class="text-primary hover:underline text-xs font-bold">Manage List</button>
+</div>
+<div class="space-y-4">
+<!-- Honor Item -->
+<div class="flex items-start gap-4 p-4 rounded-2xl hover:bg-surface-container-low transition-all group">
+<div class="w-10 h-10 shrink-0 rounded-xl bg-[#FFD700]/10 flex items-center justify-center text-[#B8860B]">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-primary leading-none">National Merit Scholarship Finalist</h4>
+<span class="text-[10px] font-bold text-on-surface-variant">2024</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Awarded to top 0.5% of PSAT takers nationwide based on academic excellence and SAT performance.</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg text-slate-400">drag_indicator</span>
+</button>
+</div>
+<!-- Honor Item -->
+<div class="flex items-start gap-4 p-4 rounded-2xl hover:bg-surface-container-low transition-all group">
+<div class="w-10 h-10 shrink-0 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-primary leading-none">AP Scholar with Distinction</h4>
+<span class="text-[10px] font-bold text-on-surface-variant">2023</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Maintained an average score of at least 3.5 on all AP Exams taken, and scores of 3 or higher on five or more exams.</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg text-slate-400">drag_indicator</span>
+</button>
+</div>
+<!-- Honor Item -->
+<div class="flex items-start gap-4 p-4 rounded-2xl hover:bg-surface-container-low transition-all group">
+<div class="w-10 h-10 shrink-0 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<h4 class="text-sm font-bold text-primary leading-none">The Lawrenceville Academic Excellence Award</h4>
+<span class="text-[10px] font-bold text-on-surface-variant">2022, 2023</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Highest academic honor within the institution for maintaining a GPA above 3.9 for four consecutive semesters.</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-lg text-slate-400">drag_indicator</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pilot AI-Bar Overlay -->
+<footer class="mt-auto px-12 py-6">
+<div class="bg-surface-container-lowest/80 backdrop-blur-xl border border-primary/10 rounded-2xl p-4 flex items-center justify-between shadow-xl shadow-primary/5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest">Scholar Pilot AI</p>
+<p class="text-xs text-on-surface-variant">Alexander's academic profile is in the top 1% of Ivy League applicants.</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-all">View Insights</button>
+<button class="px-5 py-2 bg-primary text-white text-xs font-bold rounded-xl shadow-lg shadow-primary/20">Ask Pilot</button>
+</div>
+</div>
+</footer>
+</main>
+</body></html>
+
+<!-- Super Admin: Agencies Management -->

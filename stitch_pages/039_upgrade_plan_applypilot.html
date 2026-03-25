@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Upgrade Plan | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c5c6cf",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#d8e2ff",
+                        "tertiary": "#0e1629",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#232b3f",
+                        "on-primary-container": "#8293b8",
+                        "on-primary-fixed": "#081b3a",
+                        "primary-container": "#1a2b4b",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface-variant": "#44474e",
+                        "on-secondary-container": "#57657a",
+                        "surface-variant": "#e0e3e5",
+                        "background": "#f7f9fb",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "outline": "#75777f",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#8a92aa",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d5e3fc",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "primary": "#031635",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "secondary": "#515f74",
+                        "on-surface": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "tertiary-fixed": "#dae2fd",
+                        "secondary-fixed": "#d5e3fc",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#4e5e81",
+                        "surface": "#f7f9fb",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#364768",
+                        "inverse-primary": "#b6c6ef"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1A2B4B 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl text-slate-900 dark:text-slate-50 font-manrope font-semibold tracking-tight docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-6 w-full border-b border-slate-200/15 dark:border-slate-800/15">
+<div class="text-xl font-bold text-slate-900 dark:text-white">ApplyPilot</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-6 items-center">
+<span class="text-slate-500 dark:text-slate-400 font-medium hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 px-3 py-1 rounded cursor-pointer">Dashboard</span>
+<span class="text-slate-500 dark:text-slate-400 font-medium hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 px-3 py-1 rounded cursor-pointer">Students</span>
+<span class="text-slate-900 dark:text-white font-bold px-3 py-1 rounded">Settings</span>
+</div>
+<div class="flex items-center gap-3 ml-4">
+<span class="material-symbols-outlined cursor-pointer text-slate-500 hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer text-slate-500 hover:text-primary transition-colors">settings</span>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img alt="Consultant Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYNAbfGoOKdxefPfiuuUfZ8dHzlzi06efBm4_6ld34hcz6YpO5ccGiAu4RnGuuFM9URBVTV5idlfEbQhBf5Dws5FzkbMhiqbaUbGQNPw2vfc37A5EMjzQuoEgBpt-i4MdIDuzraWcmdcAyzCFYhE3SrGKxOEyb9UsqkxZBz8Dl99xdhJx15zqKyNC8S96RkBlFhAiTP7-G6e0tZi_k1dDz_wIjAFsocDBuSK9CJNQCvMGdwpk_G5d55bTrkrOxnTWYf1NrmDj1Dbo"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h1 class="font-headline text-4xl font-extrabold tracking-tight text-primary mb-3">Elevate Your Agency</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">Select a plan that matches your growth. Our Academic Architect tools scale with your student roster and team size.</p>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-secondary-container text-on-secondary-fixed rounded-xl text-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                Current Plan: Professional
+            </div>
+</header>
+<!-- Bento Grid Comparison -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Standard Plan (Current) -->
+<div class="bg-surface-container-low p-8 rounded-2xl flex flex-col gap-6 border border-outline-variant/15">
+<div class="flex flex-col gap-1">
+<span class="font-headline text-sm font-bold uppercase tracking-widest text-secondary">Base Tier</span>
+<h3 class="font-headline text-2xl font-bold text-primary">Standard</h3>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-primary">$499</span>
+<span class="text-on-surface-variant font-medium">/mo</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<ul class="flex flex-col gap-4">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">Up to 25 active students</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">2 Staff seats</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">Standard AI Pilot access</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant/50">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+<span class="text-sm">Advanced document automation</span>
+</li>
+</ul>
+<button class="mt-auto w-full py-3 px-6 rounded-lg font-semibold text-sm border border-outline text-outline cursor-not-allowed">
+                    Current Selection
+                </button>
+</div>
+<!-- Professional Plan (Featured/Recommended) -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl flex flex-col gap-6 relative shadow-[0_40px_40px_rgba(3,22,53,0.06)] border-2 border-primary/5">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
+                    Recommended
+                </div>
+<div class="flex flex-col gap-1">
+<span class="font-headline text-sm font-bold uppercase tracking-widest text-surface-tint">Architect Tier</span>
+<h3 class="font-headline text-2xl font-bold text-primary">Professional</h3>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-primary">$1,299</span>
+<span class="text-on-surface-variant font-medium">/mo</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<ul class="flex flex-col gap-4">
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm font-semibold text-primary">Up to 100 active students</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm font-semibold text-primary">10 Staff seats</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm">Priority AI Pilot processing</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm">Advanced document automation</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm">Custom Agency branding</span>
+</li>
+</ul>
+<button class="mt-auto w-full py-4 px-6 rounded-lg font-bold text-sm btn-primary-gradient text-on-primary hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                    Request Upgrade
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Enterprise Plan -->
+<div class="bg-surface-container-low p-8 rounded-2xl flex flex-col gap-6 border border-outline-variant/15">
+<div class="flex flex-col gap-1">
+<span class="font-headline text-sm font-bold uppercase tracking-widest text-secondary">Institutional Tier</span>
+<h3 class="font-headline text-2xl font-bold text-primary">Enterprise</h3>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-primary">Custom</span>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<ul class="flex flex-col gap-4">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">Unlimited students</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">Unlimited staff seats</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">Dedicated Success Architect</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span class="text-sm">White-labeled portal access</span>
+</li>
+</ul>
+<button class="mt-auto w-full py-3 px-6 rounded-lg font-semibold text-sm border border-primary text-primary hover:bg-primary/5 transition-colors active:scale-95">
+                    Contact Sales
+                </button>
+</div>
+</div>
+<!-- Detail Comparison Dossier -->
+<section class="bg-surface-container-low rounded-3xl p-10 mt-6">
+<h2 class="font-headline text-2xl font-bold text-primary mb-8">Capacity Breakdown</h2>
+<div class="flex flex-col gap-4">
+<!-- Limit 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:bg-surface-bright border border-outline-variant/10">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<h4 class="font-bold text-primary">Student Roster</h4>
+<p class="text-sm text-on-surface-variant">Total active application dossiers managed</p>
+</div>
+</div>
+<div class="flex items-center gap-12 md:text-right">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-outline">Current</span>
+<span class="font-bold text-primary">25</span>
+</div>
+<div class="flex flex-col text-primary">
+<span class="text-[10px] uppercase font-bold text-surface-tint">Upgrade</span>
+<span class="font-extrabold text-xl">100</span>
+</div>
+</div>
+</div>
+<!-- Limit 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:bg-surface-bright border border-outline-variant/10">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<div>
+<h4 class="font-bold text-primary">Staff Accounts</h4>
+<p class="text-sm text-on-surface-variant">Consultants, writers, and administrators</p>
+</div>
+</div>
+<div class="flex items-center gap-12 md:text-right">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-outline">Current</span>
+<span class="font-bold text-primary">2</span>
+</div>
+<div class="flex flex-col text-primary">
+<span class="text-[10px] uppercase font-bold text-surface-tint">Upgrade</span>
+<span class="font-extrabold text-xl">10</span>
+</div>
+</div>
+</div>
+<!-- Limit 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:bg-surface-bright border border-outline-variant/10">
+<div class="flex items-center gap-5">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">cloud_upload</span>
+</div>
+<div>
+<h4 class="font-bold text-primary">Storage Vault</h4>
+<p class="text-sm text-on-surface-variant">Encrypted document and portfolio storage</p>
+</div>
+</div>
+<div class="flex items-center gap-12 md:text-right">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-outline">Current</span>
+<span class="font-bold text-primary">10 GB</span>
+</div>
+<div class="flex flex-col text-primary">
+<span class="text-[10px] uppercase font-bold text-surface-tint">Upgrade</span>
+<span class="font-extrabold text-xl">50 GB</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Notification Note (Pilot AI Integration) -->
+<div class="bg-primary text-on-primary p-8 rounded-3xl flex items-center gap-8 relative overflow-hidden">
+<div class="absolute right-0 top-0 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+<div class="z-10 hidden md:block">
+<span class="material-symbols-outlined text-4xl text-primary-fixed" style="font-variation-settings: 'FILL' 1;">info</span>
+</div>
+<div class="z-10">
+<h4 class="font-headline font-bold text-xl mb-2">Notice for Agency Admins</h4>
+<p class="text-on-primary-container text-sm leading-relaxed max-w-3xl">
+                    By clicking 'Request Upgrade', a formal dossier will be sent to the system Super Admin. They will receive a notification to approve the billing adjustment and activate your new capacity limits within 24 business hours.
+                </p>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Suppressed as per rules for focus flow, but keeping bottom nav for mobile context if required by general shell logic - here we prioritize focused content) -->
+<footer class="mt-auto border-t border-outline-variant/10 py-12 bg-surface">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-2">
+<div class="font-manrope font-extrabold text-primary uppercase tracking-widest text-sm">ApplyPilot</div>
+<p class="text-[12px] text-on-surface-variant">Academic Architect © 2024. Premium Admissions Management.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+</div>
+</div>
+</footer>
+</body></html>
+
+<!-- Global Search Results -->

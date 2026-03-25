@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Search Results | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c5c6cf",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#0e1629",
+              "on-tertiary-fixed": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#232b3f",
+              "on-primary-container": "#8293b8",
+              "on-primary-fixed": "#081b3a",
+              "primary-container": "#1a2b4b",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-surface-variant": "#44474e",
+              "on-secondary-container": "#57657a",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb",
+              "tertiary-fixed-dim": "#bec6e0",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline": "#75777f",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "primary": "#031635",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#515f74",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed": "#dae2fd",
+              "secondary-fixed": "#d5e3fc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#4e5e81",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "inverse-primary": "#b6c6ef"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      h1, h2, h3, .brand-font {
+        font-family: 'Manrope', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl text-slate-900 dark:text-slate-50 font-manrope font-semibold tracking-tight docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-6 w-full border-b border-slate-200/15 dark:border-slate-800/15">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-slate-900 dark:text-white">ApplyPilot</span>
+<div class="hidden md:flex gap-6">
+<a class="text-slate-900 dark:text-white font-bold transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 px-2 py-1 rounded" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex-1 max-w-2xl px-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container border-none rounded-xl py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/20 text-sm transition-all outline-none" placeholder="Search students, apps, or files..." type="text" value="Alexander"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-200/50 p-2 rounded-full cursor-pointer active:scale-95 transition-transform" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-200/50 p-2 rounded-full cursor-pointer active:scale-95 transition-transform" data-icon="settings">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="Consultant Profile" data-alt="Professional consultant headshot looking at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9Fjg733uFJ7GM3E5NorDeD1_jhhi9rUDlXeWs7y8t7HbBHPI_R5Z5EZQk1hCppxG2lD_mMVnIbYDr6mejlTSxavMyAPe9ohFpmALMAtcnvBtnQ1ORm-6Jrsit_wEJkfmubXV5uKVmGlJzHQ6_w9ynxDxpKsGtHkrX4qzg5hCwUeG0K4FvqJyC3nx2zu9fqO1QrUyAlqPFXsONTfBa83TCQEGLW3yoav7dvzrvTzN60Kj9_7CtLKOVaaq-AcH2cwe_F4YMqP046cw"/>
+</div>
+</div>
+</nav>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter text-sm tracking-wide h-screen w-64 fixed left-0 top-0 z-50 flex flex-col h-full py-8 px-4 gap-2 border-r border-slate-200/20 hidden md:flex">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h2 class="font-manrope font-extrabold text-slate-900 dark:text-white uppercase tracking-widest text-sm leading-none">ApplyPilot</h2>
+<p class="text-[10px] text-on-surface-variant/70 mt-1 uppercase font-bold tracking-tighter">Academic Architect</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span>Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="Badge">badge</span>
+<span>Team</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/10 space-y-1">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 rounded-lg font-semibold text-sm mb-4 flex items-center justify-center gap-2 hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    New Application
+                </button>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-slate-900 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-slate-900 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Log out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 min-h-screen">
+<div class="max-w-6xl mx-auto p-8 lg:p-12">
+<!-- Search Header -->
+<header class="mb-12">
+<div class="flex items-baseline gap-3 mb-2">
+<h1 class="text-3xl font-extrabold text-primary tracking-tight">Search Results for "Alexander"</h1>
+<span class="text-on-surface-variant font-medium text-sm">24 results found</span>
+</div>
+<nav class="flex gap-4 border-b border-surface-container-high">
+<button class="px-4 py-3 text-primary font-bold border-b-2 border-primary -mb-[2px] transition-all">All</button>
+<button class="px-4 py-3 text-on-surface-variant hover:text-primary transition-all font-medium">Students (4)</button>
+<button class="px-4 py-3 text-on-surface-variant hover:text-primary transition-all font-medium">Applications (12)</button>
+<button class="px-4 py-3 text-on-surface-variant hover:text-primary transition-all font-medium">Documents (8)</button>
+</nav>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Results Area -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Students Category -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant/60 flex items-center gap-2">
+<span class="material-symbols-outlined text-base" data-icon="person">person</span>
+                                    Students
+                                </h3>
+<a class="text-xs font-bold text-primary hover:underline" href="#">View All Students</a>
+</div>
+<div class="space-y-4">
+<!-- Student Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 hover:bg-surface-bright transition-all group cursor-pointer border border-transparent hover:border-outline-variant/20 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-primary-fixed flex-shrink-0">
+<img alt="Student profile" data-alt="Close-up of a young male college student smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxMzS2NW5oBKZF2_mm3cmt5tmhMErFK4f7fO3-g-cnVkC-UALrhuWwCZUtl7O3jpOCLqhpbKxNlo7S8FqO1e561439EIs29AS42vvgcVmh80m6hXs8JfkyJnE_4v3eCxshJbTx_bjBuuiuTCjTQ8xf2sb8IE1ALNDO2pPRoVPGQUyp287DFKsfqcRZ_eoFhVNAfy6Ft2vdY5SAJkXqDR2rpeMuf7cKKPOwMGuYb7_7FyZwej6-7JQ1Yb9GeciTnc_TJSEwcIC-s7c"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-primary text-lg">Alexander Chen</h4>
+<span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">High Priority</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-0.5">High School Senior • Stanford Aspirant • 4.2 GPA</p>
+</div>
+</div>
+</div>
+<!-- Student Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 hover:bg-surface-bright transition-all group cursor-pointer border border-transparent hover:border-outline-variant/20 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-primary-fixed flex-shrink-0">
+<img alt="Student profile" data-alt="Portrait of a female student with focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJIGkZk-j5aTk7YWRJfZRXwFfYVdLemXtxME7cycA9Q1CocCHAEFvFcT-qkOK7QVDBdq_o1GCnH2OYWwjj7arzq_vnKcxqylHRpRPcwGgwpxGpBPb4nfi1DX7ja8gB6lz5YZMmN0W2c6lMkHCUjoOvhXTqjJUYUTZZp8wpFvdUkD5y_gYaQWWNcIkzofq30qDHFBdRxpn0_ADvn3c1Xlkz8IKnl19TtUgJcdGE-NiFtws9d-wc-ZZxZJWd157FGneZKG9NCToMK94"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-primary text-lg">Alexandra Vaught</h4>
+<span class="bg-secondary-container/30 text-secondary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Early Action</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-0.5">Junior • Art Portfolio Track • Rhode Island School of Design</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Applications Category -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant/60 flex items-center gap-2">
+<span class="material-symbols-outlined text-base" data-icon="description">description</span>
+                                    Applications
+                                </h3>
+<a class="text-xs font-bold text-primary hover:underline" href="#">Manage All Apps</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- App Card 1 -->
+<div class="bg-surface-container-low border-l-4 border-primary p-5 rounded-r-xl group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex justify-between mb-3">
+<span class="text-[10px] font-extrabold text-on-surface-variant uppercase tracking-tighter">APP-90210</span>
+<span class="material-symbols-outlined text-primary scale-75 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<h4 class="font-bold text-primary mb-1">Harvard University - Early Action</h4>
+<p class="text-xs text-on-surface-variant mb-4 line-clamp-1">Applicant: Alexander Chen • Status: Reviewing Personal Statement</p>
+<div class="flex items-center gap-2">
+<div class="h-1 flex-1 bg-primary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%]"></div>
+</div>
+<span class="text-[10px] font-bold text-primary">65%</span>
+</div>
+</div>
+<!-- App Card 2 -->
+<div class="bg-surface-container-low border-l-4 border-secondary p-5 rounded-r-xl group cursor-pointer hover:bg-surface-container transition-colors">
+<div class="flex justify-between mb-3">
+<span class="text-[10px] font-extrabold text-on-surface-variant uppercase tracking-tighter">APP-88432</span>
+<span class="material-symbols-outlined text-primary scale-75 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<h4 class="font-bold text-primary mb-1">MIT - Regular Decision</h4>
+<p class="text-xs text-on-surface-variant mb-4 line-clamp-1">Applicant: Alexander Chen • Status: Documents Pending</p>
+<div class="flex items-center gap-2">
+<div class="h-1 flex-1 bg-primary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[20%]"></div>
+</div>
+<span class="text-[10px] font-bold text-secondary">20%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Documents Category -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant/60 flex items-center gap-2">
+<span class="material-symbols-outlined text-base" data-icon="folder_shared">folder_shared</span>
+                                    Documents
+                                </h3>
+</div>
+<div class="bg-surface-container-low rounded-2xl overflow-hidden">
+<div class="divide-y divide-surface-container-high">
+<!-- Doc Item 1 -->
+<div class="flex items-center gap-4 p-4 hover:bg-white transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded bg-red-100 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-primary text-sm group-hover:text-surface-tint">Alexander_Chen_Transcript_Official.pdf</h5>
+<p class="text-[11px] text-on-surface-variant">Last modified 2 days ago • 2.4 MB • Verification Badge Required</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-all p-2 hover:bg-surface-container rounded-full" data-icon="download">download</button>
+</div>
+<!-- Doc Item 2 -->
+<div class="flex items-center gap-4 p-4 hover:bg-white transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-primary text-sm group-hover:text-surface-tint">Common_App_Draft_Alexander_V3.docx</h5>
+<p class="text-[11px] text-on-surface-variant">Last modified 5 hours ago • 45 KB • In Review</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-all p-2 hover:bg-surface-container rounded-full" data-icon="edit">edit</button>
+</div>
+<!-- Doc Item 3 -->
+<div class="flex items-center gap-4 p-4 hover:bg-white transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded bg-green-100 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined" data-icon="image">image</span>
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-primary text-sm group-hover:text-surface-tint">Portfolio_Scan_Alexander_2023.jpg</h5>
+<p class="text-[11px] text-on-surface-variant">Last modified Oct 12 • 12 MB • High Res</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-all p-2 hover:bg-surface-container rounded-full" data-icon="visibility">visibility</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar Filters / Secondary Results -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Advanced Filter Card -->
+<div class="bg-primary text-on-primary p-6 rounded-2xl shadow-2xl relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container/20 rounded-full blur-2xl"></div>
+<h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                                Refine Search
+                            </h3>
+<div class="space-y-4">
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-2 block">Date Range</label>
+<select class="w-full bg-primary-container/40 border border-primary-container/20 rounded-lg text-sm py-2 px-3 outline-none appearance-none">
+<option>Last 30 Days</option>
+<option>This Cycle</option>
+<option>All Time</option>
+</select>
+</div>
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-2 block">Author / Owner</label>
+<div class="flex -space-x-2">
+<img alt="Consultant" class="w-8 h-8 rounded-full border-2 border-primary" data-alt="Female team member profile circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_DAq7gACDYfywtBwVt9rbhnyXnHZwR9nvR6ikLN_vHpMb9ToxmXLSf_MS85ww498iGDi-m-QTgd-IYxSLcoYmrh7XNAvM9EEQGimwnULe72ByW-y7-qHovA5eooUGiIgHX_mcWuXZK9YK7Ta97dAyACqCMWMAqjxxHbapzHbRd6YS-B1SYnqGcBCZWunfnzctMLXDP6d3ow2SvG5IweCjm6KQO4eUa86zcOUx_93-ASRhaGjuFJ4ka9IbkfVCkKGrdQ6kM5Uf05k"/>
+<img alt="Consultant" class="w-8 h-8 rounded-full border-2 border-primary" data-alt="Male team member profile circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP5otRUC6phuA_tTuURmdZf_eY8sJqc8gV7NYfmUrXCw2h2i9lDTFqRUDykpDAe96cziV6hsFESvOfWFkuBha4A4dgw5nxDmaPUb6DVpEiRqLPd7-uHnKFfClFL0xXg8s3OfS_Iy02oWRqZJRpoIIw5taXCCJwXGN4Q_c0lyCO7TqsWS3aP3Gi-IIgg3Fez3ZvIciHkVOvDS5dNZ7v_qLNhJUEdyrShSee_bTGB5BEg2YAgC6ZnudCRynmsvSIZiZKOvLxkg9ZBm4"/>
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-primary-container flex items-center justify-center text-[10px] font-bold">+4</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-lowest text-primary py-2.5 rounded-lg font-bold text-sm hover:bg-surface-bright transition-colors mt-2">Update Results</button>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="bg-surface-container-low p-6 rounded-2xl">
+<h3 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-4">Quick Insights</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm font-medium">Alexander's dossier is 82% complete</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-surface-tint"></div>
+<span class="text-sm font-medium">Missing: SAT Official Report</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="text-sm font-medium">Deadline approaching: 12 days</span>
+</div>
+</div>
+</div>
+<!-- Pilot AI Suggestions -->
+<div class="border border-surface-container-highest p-6 rounded-2xl bg-white/50 backdrop-blur shadow-sm">
+<div class="flex items-center gap-2 mb-4 text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-bold text-sm tracking-tight">Pilot AI Suggestion</h3>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                I noticed you're searching for "Alexander". He has 3 pending document reviews for his **Harvard application**. Would you like to open his submission portal?
+                            </p>
+<button class="mt-4 text-xs font-extrabold text-primary flex items-center gap-1 group">
+                                Open Submission Portal
+                                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-50/95 backdrop-blur-xl border-t border-slate-200/20 px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-900">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="text-[10px] font-bold">Search</span>
+</button>
+<div class="w-12 h-12 bg-primary rounded-full -mt-8 shadow-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</div>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-[10px] font-bold">Apps</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</button>
+</nav>
+</body></html>
+<!-- Agency Settings: Team Management -->

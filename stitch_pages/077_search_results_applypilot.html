@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Search Results - ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .brand-font {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 dark:border-slate-800/15 py-6 px-4 gap-y-2 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-manrope font-bold text-lg text-[#031635] dark:text-white tracking-tight">Academic Architect</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold">Elite Consulting</p>
+</div>
+<nav class="flex flex-col gap-y-1 flex-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">folder_shared</span>
+<span>Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span>AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">robot_2</span>
+<span>Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-slate-200/10">
+<button class="w-full bg-[#031635] text-white rounded-lg py-2.5 px-4 mb-4 flex items-center justify-center gap-2 font-semibold text-sm shadow-lg shadow-[#031635]/10 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Dossier</span>
+</button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="flex items-center justify-between px-8 h-16 w-full bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl sticky top-0 z-40 shadow-sm dark:shadow-none">
+<div class="flex items-center gap-4">
+<span class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tighter brand-font">ApplyPilot</span>
+<div class="h-6 w-[1px] bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<nav class="hidden lg:flex items-center gap-6">
+<span class="text-slate-900 dark:text-white font-bold font-manrope font-semibold tracking-tight text-sm">Search</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<input class="bg-surface-container border-none rounded-full px-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all group-hover:bg-surface-container-high outline-none" placeholder="Search archives..." type="text" value="JS-992-Alpha"/>
+<span class="material-symbols-outlined absolute right-3 top-1.5 text-on-surface-variant text-lg">search</span>
+</div>
+<div class="flex items-center gap-2 text-slate-500">
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined">help_outline</span></button>
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined">settings</span></button>
+</div>
+<img alt="Consultant profile avatar" class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Professional consultant headshot avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb9g3AWyux2WxAWNew0mozs_Yxj4z0VCgCzfBcnxoc4DjTofNfcCxQ0jsysv38xAEXk5rtri9E5ng2pSaBYATxTgHEh29_mFWSKZ4gv6KqhJhVXGWshg28ho6B0G40CjWe3FfOqrBnb0678AS2DBn6d8qtE26QTf2XYgTzRoRizGUC8g5jdCZvorIi2HoJ2aJv30h3XgOv0kkaKOqJ6RVSgTwayP9jSGwJZiiu6y42k5W6sO8_XavRav8DOrVYrkAEgGSB57UtPCw"/>
+</div>
+</header>
+<!-- No Results Canvas -->
+<div class="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-6xl mx-auto w-full">
+<!-- Hero Empty State Section -->
+<div class="text-center space-y-8 mb-16">
+<div class="relative inline-block">
+<div class="w-32 h-32 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-6 ring-8 ring-surface-container/30">
+<span class="material-symbols-outlined text-5xl text-outline-variant opacity-60">database_off</span>
+</div>
+<div class="absolute -top-2 -right-2 w-10 h-10 bg-white shadow-xl rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl">manage_search</span>
+</div>
+</div>
+<div class="max-w-xl mx-auto space-y-4">
+<h2 class="text-4xl font-extrabold text-primary tracking-tight">No dossier found for <span class="text-on-primary-container italic font-medium">"JS-992-Alpha"</span></h2>
+<p class="text-on-surface-variant text-lg leading-relaxed">Our intelligence engine couldn't locate a match within your current architecture. This may be due to an inactive dossier, a formatting discrepancy, or restricted access levels.</p>
+</div>
+</div>
+<!-- Suggestion Grid (Asymmetric Editorial Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+<!-- Card 1: Technical Check -->
+<div class="col-span-1 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/15 hover:shadow-[0_40px_40px_rgba(3,22,53,0.06)] transition-all duration-300 group">
+<div class="w-12 h-12 bg-primary-container/10 rounded-lg flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">spellcheck</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-primary">Verify Precision</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Consulting records require exact string matches. Please check your spelling or try including the full middle initial.</p>
+<ul class="space-y-2 text-sm text-primary font-medium">
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span> Check hyphenation</li>
+<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span> Avoid special chars</li>
+</ul>
+</div>
+<!-- Card 2: Alternate Parameters (High Density) -->
+<div class="col-span-1 md:col-span-1 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined">fingerprint</span>
+</div>
+<h3 class="font-bold text-xl mb-3 text-primary">Alternate Queries</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Try searching by official institutional identifiers for a more robust result.</p>
+</div>
+<div class="space-y-3">
+<button class="w-full text-left px-4 py-3 bg-white border border-outline-variant/20 rounded-lg text-sm flex items-center justify-between hover:bg-primary-fixed transition-colors">
+<span>Search by Student ID</span>
+<span class="material-symbols-outlined text-xs">arrow_forward_ios</span>
+</button>
+<button class="w-full text-left px-4 py-3 bg-white border border-outline-variant/20 rounded-lg text-sm flex items-center justify-between hover:bg-primary-fixed transition-colors">
+<span>Search by SSN/Passport</span>
+<span class="material-symbols-outlined text-xs">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+<!-- Card 3: AI Pilot Assistant (Accent Gradient) -->
+<div class="col-span-1 bg-primary text-white p-8 rounded-xl shadow-2xl shadow-primary/20 relative overflow-hidden">
+<div class="relative z-10">
+<div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<h3 class="font-bold text-xl mb-3">AI Deep Scan</h3>
+<p class="text-primary-fixed-dim text-sm mb-8 leading-relaxed">Our Pilot can perform a cross-referenced semantic scan across your global agency network if this dossier belongs to another regional office.</p>
+<button class="bg-white text-primary px-6 py-2.5 rounded-lg text-sm font-bold w-full hover:bg-slate-100 transition-colors">Initiate Advanced Scan</button>
+</div>
+<!-- Abstract Background Pattern -->
+<div class="absolute -right-16 -bottom-16 w-64 h-64 bg-primary-container rounded-full blur-3xl opacity-40"></div>
+</div>
+</div>
+<!-- Secondary Actions -->
+<div class="mt-16 pt-12 border-t border-outline-variant/15 w-full flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex items-center gap-6">
+<div class="flex -space-x-3">
+<img alt="Support agent 1" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="Close up of a professional female consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_C4ZfXFtu02ch6GKo7ythuIIHf1a77RcSXXzSz859NK65fZvnS50jT2Cdc4DV0M_uvInI757O_-_SGfv2p3iHLBDlw-GgbgCewBbpszd_VM5QrY7Q4RezS4xBeD9hsTkd7D77KtOC1WXb3QOYbKjdkmz0u9swfcIwi4ekT3p3CIy0lU4aGgffY7l93qYAMF6Unix2T162mbDYO6be43rf1rlWoUIuidqkb-WitKCoK9bsoQTO7SEgbNb2xNvi6XZW_rSPkG4OyDk"/>
+<img alt="Support agent 2" class="w-10 h-10 rounded-full border-2 border-surface" data-alt="Business portrait of a male support advisor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyWMaL9tRhMKBkP6w2OYKPvrRWQVi4qJx6_ImzolwiDjxq40R_G07iWJIUuFESV2aLAp_keynNrtOEymKCS1mAj2AMat76HtvwN6q3wrjEbjuDgbuja0SKSji2UrU4HRxQGdIBGDNhksbSb0gJdoKuZPSlrRLjZZIvYR0hEF8bnxCi8QHvQ8XWq65YooYeNuWQ2vv4GY2oqA-5C1G9LrUHucXog2v9_MOGww_sQZc2bBrnz3p84ZhywLJOTw3U7szB1jOeMBfD0hY"/>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+4</div>
+</div>
+<div class="text-sm">
+<p class="font-semibold text-primary">Need human assistance?</p>
+<p class="text-on-surface-variant">Archivists are available for custom retrieval.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 border border-outline-variant text-primary text-sm font-bold rounded-lg hover:bg-surface-container transition-colors">Global Archive Filter</button>
+<button class="px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-lg hover:opacity-90 transition-opacity">Contact Head Archivist</button>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-auto px-8 py-6 text-center">
+<p class="text-xs text-on-surface-variant font-medium tracking-wide">SYSTEM ID: ARCHITECT_BETA_9.42 // CONFIDENTIAL ACCESS ONLY</p>
+</footer>
+</main>
+<!-- FAB Suppression: Per rules, we do not render FAB on No Results/Search Details screen -->
+</body></html>
+
+<!-- Billing: AI Token Usage -->

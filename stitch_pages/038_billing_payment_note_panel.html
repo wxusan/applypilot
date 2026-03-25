@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Billing - Payment Note Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c5c6cf",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#0e1629",
+              "on-tertiary-fixed": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#232b3f",
+              "on-primary-container": "#8293b8",
+              "on-primary-fixed": "#081b3a",
+              "primary-container": "#1a2b4b",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-surface-variant": "#44474e",
+              "on-secondary-container": "#57657a",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb",
+              "tertiary-fixed-dim": "#bec6e0",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline": "#75777f",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "primary": "#031635",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#515f74",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed": "#dae2fd",
+              "secondary-fixed": "#d5e3fc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#4e5e81",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "inverse-primary": "#b6c6ef"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-slate-50 dark:bg-slate-950 flex flex-col py-8 px-4 gap-2 border-r border-slate-200/20 transition-colors from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+<div class="mb-8 px-4">
+<h1 class="font-manrope font-extrabold text-slate-900 dark:text-white uppercase tracking-widest text-lg">ApplyPilot</h1>
+<p class="text-xs text-on-surface-variant font-medium">Academic Architect</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm tracking-wide">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-inter text-sm tracking-wide">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-900 dark:text-white font-semibold bg-white dark:bg-slate-900 shadow-sm rounded-lg active:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-inter text-sm tracking-wide">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter text-sm tracking-wide">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-inter text-sm tracking-wide">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="Badge">badge</span>
+<span class="font-inter text-sm tracking-wide">Team</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 border-t border-slate-200/20 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-inter text-sm tracking-wide">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-inter text-sm tracking-wide">Log out</span>
+</a>
+</div>
+</aside>
+<main class="ml-64 min-h-screen bg-surface">
+<header class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-12 w-full border-b border-slate-200/15 dark:border-slate-800/15">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white font-manrope tracking-tight">Super Admin Dashboard</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer hover:text-primary transition-colors" data-icon="settings">settings</span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-slate-200/20">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Consultant Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZIeujfNQw5zSMjirSS2GKygcXr6f7RXXdC0PIZkwONDF2MD5pLvDsXcHpEjm4FT6GrShIteoaPCtkorN8uT2w_h7XA-HRm_jjYBux3Wuk3SYMENpb5H_VY_M-VYPfzjqHWJ7oQBBSq94EETpv5MjSj1WFoB9WomGdD3ZTp6N4FdyenwQ7092pGw_mceD3XVlo8QpR0MHQ4MyJtepk00LpWracogS1uQlA-ulJz07QFqNF8jm-qXCQ3xfmWWHKv5A0WpB_ZHBGDvQ"/>
+<span class="text-sm font-semibold text-slate-900 dark:text-white font-manrope">Senior Architect</span>
+</div>
+</div>
+</header>
+<section class="p-12 max-w-7xl mx-auto">
+<div class="mb-10">
+<h3 class="text-3xl font-manrope font-extrabold text-primary mb-2">Agency Management</h3>
+<p class="text-on-surface-variant font-body">Manage financial records and manual payment entries for registered educational agencies.</p>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-hidden border border-outline-variant/10">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/50">
+<th class="px-6 py-4 font-headline text-sm font-bold text-primary">Agency Name</th>
+<th class="px-6 py-4 font-headline text-sm font-bold text-primary">Tier</th>
+<th class="px-6 py-4 font-headline text-sm font-bold text-primary">Outstanding Balance</th>
+<th class="px-6 py-4 font-headline text-sm font-bold text-primary">Status</th>
+<th class="px-6 py-4 font-headline text-sm font-bold text-primary text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Agency Row 1 (Not expanded) -->
+<tr class="bg-surface-container-lowest hover:bg-surface-bright transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container/20 rounded-lg flex items-center justify-center text-primary font-bold">GA</div>
+<div>
+<p class="font-semibold text-primary">Global Admissions Ltd.</p>
+<p class="text-xs text-on-surface-variant">ID: #8829-X</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Enterprise</td>
+<td class="px-6 py-4 text-sm font-semibold">$0.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full uppercase tracking-tighter">Active</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/5 px-4 py-2 rounded-lg text-sm font-bold transition-all">Details</button>
+</td>
+</tr>
+<!-- Expanded Agency Row (The Focus of the Task) -->
+<tr class="bg-surface-container-lowest">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container/20 rounded-lg flex items-center justify-center text-primary font-bold">EL</div>
+<div>
+<p class="font-semibold text-primary">Elite Scholars Hub</p>
+<p class="text-xs text-on-surface-variant">ID: #4432-B</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Growth</td>
+<td class="px-6 py-4 text-sm font-semibold text-error">$1,450.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-bold rounded-full uppercase tracking-tighter">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 float-right">
+<span class="material-symbols-outlined text-sm" data-icon="keyboard_arrow_up">keyboard_arrow_up</span>
+                                        Manage
+                                    </button>
+</td>
+</tr>
+<!-- Expansion Panel: Payment Note Panel -->
+<tr class="bg-white">
+<td class="p-0" colspan="5">
+<div class="p-10 bg-surface-container-low/40 border-y border-outline-variant/15">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+<!-- Panel Left: Info Dossier -->
+<div class="lg:col-span-1 space-y-6">
+<div>
+<h4 class="font-headline font-bold text-primary mb-1 uppercase tracking-widest text-xs">Manual Payment Entry</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Record payments received through offline channels or manual gateways to update the agency ledger.</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
+<div class="flex items-center gap-3 mb-4 text-primary">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-headline font-bold">Ledger Summary</span>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Total Invoiced</span>
+<span class="font-medium">$4,500.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Payments Applied</span>
+<span class="font-medium text-green-700">$3,050.00</span>
+</div>
+<div class="pt-3 border-t border-outline-variant/10 flex justify-between font-bold">
+<span class="text-primary">Remaining</span>
+<span class="text-error">$1,450.00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Right: Form Fields -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Field: Payment Amount -->
+<div class="space-y-2">
+<label class="block text-sm font-bold text-primary font-headline">Payment Amount</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-medium">$</span>
+<input class="w-full bg-surface-container border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-md py-3 pl-10 pr-4 font-medium transition-all text-primary" placeholder="0.00" type="number" value="1450.00"/>
+</div>
+</div>
+<!-- Field: Payment Method -->
+<div class="space-y-2">
+<label class="block text-sm font-bold text-primary font-headline">Payment Method</label>
+<select class="w-full bg-surface-container border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-md py-3 px-4 font-medium transition-all text-primary">
+<option>Click</option>
+<option selected="">Payme</option>
+<option>Bank Transfer</option>
+<option>Cash Deposit</option>
+<option>International Wire</option>
+</select>
+</div>
+</div>
+<!-- Field: Internal Note -->
+<div class="space-y-2">
+<label class="block text-sm font-bold text-primary font-headline">Internal Note</label>
+<textarea class="w-full bg-surface-container border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-md py-3 px-4 font-medium transition-all text-primary leading-relaxed" placeholder="Add specific details about this transaction for the audit trail..." rows="4">Payment received via Payme business portal. Reference #PM-9902341. Verification confirmed by Finance Team.</textarea>
+<p class="text-xs text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="info">info</span>
+                                                            This note is only visible to super-admins and auditors.
+                                                        </p>
+</div>
+<div class="flex items-center justify-end gap-4 pt-4 border-t border-outline-variant/10">
+<button class="px-6 py-2.5 text-sm font-bold text-secondary hover:bg-surface-container rounded-lg transition-colors" type="button">Discard</button>
+<button class="bg-gradient-to-br from-primary to-primary-container px-8 py-2.5 rounded-lg text-sm font-bold text-on-primary shadow-lg hover:shadow-primary/20 flex items-center gap-2 transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+                                                            Save Record
+                                                        </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</td>
+</tr>
+<!-- Agency Row 3 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-bright transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container/20 rounded-lg flex items-center justify-center text-primary font-bold">NS</div>
+<div>
+<p class="font-semibold text-primary">Northern Star Consulting</p>
+<p class="text-xs text-on-surface-variant">ID: #1290-K</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Basic</td>
+<td class="px-6 py-4 text-sm font-semibold">$0.00</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full uppercase tracking-tighter">Active</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/5 px-4 py-2 rounded-lg text-sm font-bold transition-all">Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Audit Trail Snippet -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Total Collections (MTD)</p>
+<p class="text-2xl font-manrope font-extrabold text-primary">$42,900</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Pending Invoices</p>
+<p class="text-2xl font-manrope font-extrabold text-primary">14</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">System Uptime</p>
+<p class="text-2xl font-manrope font-extrabold text-green-600">99.9%</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Manual Entries</p>
+<p class="text-2xl font-manrope font-extrabold text-primary">128</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Pilot AI Bar (As per Design System) -->
+<footer class="fixed bottom-6 left-1/2 -translate-x-1/2 glass-panel px-6 py-3 rounded-full border border-outline-variant/20 shadow-xl flex items-center gap-4 z-50">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="text-xs font-bold text-primary font-headline uppercase tracking-widest">Pilot AI active</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<p class="text-sm text-on-surface font-medium">Drafting payment receipt for Elite Scholars...</p>
+<button class="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full hover:bg-primary-container transition-colors">QUICK ACTION</button>
+</footer>
+</body></html>
+
+<!-- Agency Admin: Upgrade Request -->

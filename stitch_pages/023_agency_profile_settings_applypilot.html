@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agency Profile Settings - ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d5e3fc",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary-fixed-variant": "#364768",
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#4e5e81",
+              "tertiary-container": "#232b3f",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-surface-variant": "#44474e",
+              "on-error": "#ffffff",
+              "tertiary": "#0e1629",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface": "#f7f9fb",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "primary-fixed": "#d8e2ff",
+              "outline": "#75777f",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#131b2e",
+              "primary": "#031635",
+              "error": "#ba1a1a",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#8a92aa",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#8293b8"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-8 px-4 font-manrope text-sm font-medium tracking-tight">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-bold tracking-tight text-blue-950 dark:text-white font-manrope">ApplyPilot</h1>
+<p class="text-xs text-slate-500 font-medium">College Consulting</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_upcoming">event_upcoming</span>
+<span>Deadlines</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+<span>Documents</span>
+</a>
+<!-- Active Navigation -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-blue-950 dark:text-blue-300 font-bold border-r-4 border-blue-950 dark:border-blue-400 bg-white/50 dark:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1 pt-4 border-t border-slate-200/50">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-200/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 hover:bg-slate-200/50 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span>Account</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 backdrop-blur-xl border-b border-slate-100 flex justify-between items-center h-16 px-8 ml-64">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/10" placeholder="Search students or files..." type="text"/>
+</div>
+<nav class="hidden lg:flex items-center gap-8 text-sm font-manrope tracking-tight">
+<a class="text-slate-500 hover:text-blue-800 transition-colors" href="#">Counselor Dashboard</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors" href="#">Agency Admin</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
+                Invite Team
+            </button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ml-2">
+<img alt="Counselor Profile" class="h-full w-full object-cover" data-alt="Portrait of a professional college counselor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcnOTM8jGQRlXtUh4ttTQTZKP5tWLowLt1NTJUrMBlbyiAxn6zK8AV4fO_XEkNBgb2sgmE5Gu1xJhCPBdRygn1LS5V8bUAoYD7qBgUxUrfMtTwvslz8m36aYCBjQxfuzsoWcHaH73JKiKNoGjKrVpc4ozfkOQnahFfu_rGJxWt5gXZi6xIbezqkDEns8OgsyXdBNgQvz_mbs7Kty9ciz6VvghJhqjHkQ4a7AeO-DwWlfhdEweGO-4HhMzfjSquZ23dNiXPNzNr7jE"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 pb-16 px-12">
+<div class="max-w-5xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12">
+<h2 class="text-4xl font-extrabold font-headline text-primary tracking-tight mb-2">Agency Profile</h2>
+<p class="text-on-surface-variant text-lg">Manage your consulting firm's identity and global dossier preferences.</p>
+</div>
+<!-- Bento Grid Layout for Forms -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Profile Identity Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-2xl p-8 shadow-[0_40px_40px_rgba(3,22,53,0.03)] border border-outline-variant/15">
+<h3 class="text-xl font-bold font-headline text-primary mb-8">Basic Information</h3>
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="text-sm font-bold text-primary tracking-tight">Agency Name</label>
+<input class="w-full bg-surface-container border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl px-4 py-3 transition-all placeholder:text-slate-400" type="text" value="Global Scholars Academy"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-primary tracking-tight">Contact Email</label>
+<input class="w-full bg-surface-container border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl px-4 py-3 transition-all" type="email" value="admin@globalscholars.edu"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-bold text-primary tracking-tight">Timezone</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container border-0 border-b-2 border-transparent focus:border-primary focus:ring-0 rounded-xl px-4 py-3 transition-all">
+<option>(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+<option>(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+<option>(GMT+00:00) London</option>
+<option>(GMT+08:00) Singapore</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+<div class="text-sm text-on-surface-variant italic">Last updated: Oct 24, 2023</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-3 rounded-xl font-bold text-sm tracking-tight shadow-lg shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] transition-all" type="submit">
+                                Save Changes
+                            </button>
+</div>
+</form>
+</div>
+<!-- Logo Upload Card -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-[0_40px_40px_rgba(3,22,53,0.03)] border border-outline-variant/15 text-center">
+<h3 class="text-sm font-bold font-headline text-primary mb-6 text-left">Agency Logo</h3>
+<div class="relative inline-block group cursor-pointer">
+<div class="h-32 w-32 rounded-3xl bg-surface-container-high flex items-center justify-center overflow-hidden border-2 border-dashed border-slate-200 group-hover:border-primary/30 transition-colors">
+<img alt="Agency Logo" class="h-full w-full object-contain p-4" data-alt="Minimalist geometric architectural logo for a consulting agency" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5XDC6Zmm6QFFIDAYTwZCw9A7GhOx2zIihW2YH7hXsWV7f_XIIByJ-RTOFcDU7YCEuRTkovvxofMhL1bPgbIWY6EFclT09TOLHCOSUeeHVTdyvPetx-gL-y9Z341V0K4f-9fYQ01mU9XoWiR--_c47vEnQhzPydp2Xk248W16NW2mJ_BaVqL10uH-uJmOPHd9LRLePVO3_uoORaOUVYkBb6ogCD3a8lIpfQy1DPmdIFOiTg2Jh4Uy_NYHQIiHYfCnTlcYP0UOwI-g"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary text-on-primary h-8 w-8 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mt-6 leading-relaxed">Recommended: 400x400px.<br/>PNG or SVG format.</p>
+<button class="mt-4 text-xs font-bold text-primary hover:underline transition-all">Replace Image</button>
+</div>
+<!-- Dossier Quick Stats -->
+<div class="bg-primary text-on-primary rounded-2xl p-6 shadow-xl overflow-hidden relative">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-primary-fixed opacity-60 mb-2" data-icon="auto_awesome">auto_awesome</span>
+<h4 class="text-sm font-bold font-headline mb-1">AI Assistant Active</h4>
+<p class="text-xs text-primary-fixed-dim leading-relaxed">Scholar Pilot is currently analyzing 142 student dossiers for inconsistencies.</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="robot_2">robot_2</span>
+</div>
+</div>
+</div>
+<!-- Dossier Preferences Section -->
+<div class="col-span-12 bg-surface-container-low rounded-3xl p-10 border border-outline-variant/10">
+<div class="flex items-start justify-between mb-10">
+<div>
+<h3 class="text-2xl font-extrabold font-headline text-primary tracking-tight">Dossier Preferences</h3>
+<p class="text-on-surface-variant">Configure how student application folders are structured and automated.</p>
+</div>
+<span class="material-symbols-outlined text-primary/20 text-5xl" data-icon="folder_managed">folder_managed</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Pref Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/5 hover:border-primary/20 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-10 w-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+</div>
+<h4 class="font-bold text-primary">Narrative Auto-Draft</h4>
+</div>
+<p class="text-xs text-on-surface-variant mb-6 leading-relaxed">Enable AI-assisted first drafts for student personal statements based on interview notes.</p>
+<div class="flex items-center gap-2">
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 h-3 w-3 bg-white rounded-full"></div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary">Enabled</span>
+</div>
+</div>
+<!-- Pref Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/5 hover:border-primary/20 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-10 w-10 rounded-xl bg-secondary-fixed flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+</div>
+<h4 class="font-bold text-primary">Blind Review Mode</h4>
+</div>
+<p class="text-xs text-on-surface-variant mb-6 leading-relaxed">Anonymize student profiles for internal scholarship committee reviews.</p>
+<div class="flex items-center gap-2">
+<div class="w-10 h-5 bg-surface-container-highest rounded-full relative">
+<div class="absolute left-1 top-1 h-3 w-3 bg-white rounded-full"></div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Disabled</span>
+</div>
+</div>
+<!-- Pref Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/5 hover:border-primary/20 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4 mb-4">
+<div class="h-10 w-10 rounded-xl bg-tertiary-fixed flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</div>
+<h4 class="font-bold text-primary">Academic Dossier Pro</h4>
+</div>
+<p class="text-xs text-on-surface-variant mb-6 leading-relaxed">Include standardized test history and detailed GPA trend analysis in exports.</p>
+<div class="flex items-center gap-2">
+<div class="w-10 h-5 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 h-3 w-3 bg-white rounded-full"></div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary">Enabled</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Danger Zone (Asymmetric Placement) -->
+<div class="col-span-12 lg:col-start-9 lg:col-span-4">
+<div class="p-6 rounded-2xl border border-error/20 bg-error/5 flex flex-col gap-4">
+<div class="flex items-center gap-3 text-error">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+<span class="font-bold text-sm">Danger Zone</span>
+</div>
+<p class="text-xs text-error/80 leading-relaxed">Deactivating this agency profile will lock access for all 12 counselors. This cannot be undone.</p>
+<button class="w-full py-2 px-4 rounded-lg border border-error text-error text-xs font-bold hover:bg-error hover:text-white transition-all">
+                            Request Deactivation
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Pilot AI-Bar -->
+<div class="fixed bottom-8 right-8 z-50">
+<div class="bg-white/80 backdrop-blur-2xl border border-outline-variant/20 shadow-[0_20px_40px_rgba(3,22,53,0.12)] rounded-full px-6 py-4 flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+<span class="text-xs font-bold text-primary tracking-tight">System Status: Optimal</span>
+</div>
+<div class="h-4 w-[1px] bg-slate-200"></div>
+<div class="flex -space-x-2">
+<div class="h-6 w-6 rounded-full border-2 border-white bg-slate-400"></div>
+<div class="h-6 w-6 rounded-full border-2 border-white bg-slate-500"></div>
+<div class="h-6 w-6 rounded-full border-2 border-white bg-primary flex items-center justify-center text-[8px] text-white">+9</div>
+</div>
+<button class="bg-primary text-on-primary h-10 w-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+</div>
+</div>
+</body></html>
+
+<!-- Access Restricted - ApplyPilot -->

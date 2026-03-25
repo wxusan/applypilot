@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scholar Command | Students</title>
+<!-- Google Fonts: Manrope & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#8293b8",
+              "inverse-primary": "#b6c6ef",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "outline": "#75777f",
+              "tertiary-fixed": "#dae2fd",
+              "on-surface-variant": "#44474e",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d5e3fc",
+              "on-primary-fixed-variant": "#364768",
+              "secondary": "#515f74",
+              "outline-variant": "#c5c6cf",
+              "on-primary-fixed": "#081b3a",
+              "on-secondary-container": "#57657a",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "tertiary": "#0e1629",
+              "secondary-container": "#d5e3fc",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "error": "#ba1a1a",
+              "primary-container": "#1a2b4b",
+              "surface-dim": "#d8dadc",
+              "surface-tint": "#4e5e81",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-bright": "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "error-container": "#ffdad6",
+              "primary": "#031635",
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1a2b4b 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface flex min-h-screen">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 bg-slate-50 dark:bg-slate-950 h-screen w-64 border-r-0">
+<div class="px-6 py-8">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="school">school</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-[#031635] dark:text-white font-headline">Scholar Command</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Institutional Elite</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium font-label">Dashboard</span>
+</a>
+<!-- Active Tab: Students -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold border-r-4 border-[#031635] dark:border-blue-400 bg-white/50 dark:bg-slate-800/50 transition-transform translate-x-1 rounded-l-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm font-medium font-label">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="view_kanban">view_kanban</span>
+<span class="text-sm font-medium font-label">Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium font-label">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-sm font-medium font-label">AI Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium font-label">Administration</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto px-6 py-8 space-y-1">
+<button class="w-full mb-6 btn-primary-gradient text-white py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Student
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-[#031635] transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-sm font-medium font-label">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-[#031635] transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-sm font-medium font-label">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar Anchor -->
+<header class="sticky top-0 z-30 flex items-center justify-between px-8 py-3 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-[#031635]/5 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-8 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant group-focus-within:text-primary transition-colors" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container border-none rounded-full text-sm focus:ring-2 focus:ring-[#031635]/10 transition-all outline-none" placeholder="Search students, dossiers, or insights..." type="text"/>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-[#031635] dark:text-blue-400" href="#">Quick Actions</a>
+<a class="text-sm text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-all" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30 mx-2"></div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="Professional male portrait for profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV2l_OzDng69WFSFf0qCm89hz7Imecbx7HUcXdlJWzBr1YSf_4q16k_qczLsgbGXHqTYkCM2OyelvSPgbQhAqst49AaZMA98JLVI2_6pJ7YyKdwghSI3QDL9nCI5jeb5-NNQw2linPVIR-PVEf8iIOAotref7EpzAZE-yZvss4bCjRHXrNDCgebrxen0qFJ69-krkAQgkebqOAdMKxdvvvj7GWFCD1QoggzCIWlKHb0yMrVBt__iZcwMbxIxmLW_RBhBM9jnaytgk"/>
+</div>
+</header>
+<!-- Page Content: Empty State -->
+<div class="flex-1 p-12 flex items-center justify-center bg-surface">
+<div class="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<!-- Editorial Illustration Side -->
+<div class="relative">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-primary-fixed/30 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-12 -right-12 w-48 h-48 bg-secondary-fixed/30 rounded-full blur-3xl"></div>
+<div class="relative z-10 bg-surface-container-low rounded-[2rem] p-8 aspect-square flex flex-col items-center justify-center text-center overflow-hidden">
+<!-- Custom "Architectural" Abstract Illustration -->
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="w-48 h-64 border-[3px] border-primary/10 rounded-xl transform -rotate-6 absolute translate-x-4 translate-y-2"></div>
+<div class="w-48 h-64 border-[3px] border-primary/20 rounded-xl transform rotate-3 absolute -translate-x-2 -translate-y-4"></div>
+<div class="w-48 h-64 bg-surface-container-lowest rounded-xl shadow-2xl shadow-primary/10 relative z-20 flex flex-col p-6 text-left">
+<div class="w-12 h-12 rounded-full bg-primary-fixed mb-4"></div>
+<div class="h-3 w-3/4 bg-surface-container-highest rounded-full mb-2"></div>
+<div class="h-3 w-1/2 bg-surface-container-highest rounded-full mb-8"></div>
+<div class="space-y-3">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-primary/20"></div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-primary/20"></div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full"></div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-primary/40"></div>
+<div class="h-2 w-2/3 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+<div class="mt-auto flex justify-end">
+<span class="material-symbols-outlined text-primary/30 text-4xl" data-icon="edit_note">edit_note</span>
+</div>
+</div>
+<!-- Floating decorative nodes -->
+<div class="absolute top-10 left-10 w-4 h-4 rounded-full bg-primary animate-pulse"></div>
+<div class="absolute bottom-20 right-10 w-3 h-3 rounded-full bg-secondary opacity-50"></div>
+</div>
+</div>
+</div>
+<!-- Value Proposition Side -->
+<div class="flex flex-col space-y-8">
+<div class="space-y-4">
+<span class="inline-flex px-3 py-1 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold tracking-widest uppercase rounded-full">Dossier Initialized</span>
+<h2 class="text-5xl font-extrabold font-headline text-[#031635] leading-[1.1] tracking-tight">
+                            The Architect's Workspace Awaits.
+                        </h2>
+<p class="text-lg text-on-surface-variant leading-relaxed max-w-md">
+                            Welcome to Scholar Command. Start by curating your first student profile to unlock predictive admissions analytics and institutional strategy tools.
+                        </p>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<h4 class="font-bold text-[#031635] text-base">Secure Academic Vault</h4>
+<p class="text-sm text-on-surface-variant">Encrypted dossiers for transcripts, essays, and critical credentials.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="auto_graph">auto_graph</span>
+</div>
+<div>
+<h4 class="font-bold text-[#031635] text-base">Predictive Insight Engine</h4>
+<p class="text-sm text-on-surface-variant">Real-time mapping of student profiles against elite institutional benchmarks.</p>
+</div>
+</div>
+</div>
+<div class="pt-4 flex flex-col sm:flex-row gap-4">
+<button class="px-8 py-4 btn-primary-gradient text-white font-bold rounded-xl flex items-center justify-center gap-3 shadow-2xl shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                            Add Your First Student
+                        </button>
+<button class="px-8 py-4 bg-white border border-outline-variant/30 text-[#031635] font-bold rounded-xl flex items-center justify-center gap-3 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined" data-icon="file_upload">file_upload</span>
+                            Bulk Import
+                        </button>
+</div>
+<div class="pt-8 border-t border-outline-variant/20">
+<p class="text-xs text-on-surface-variant flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined text-sm" data-icon="lightbulb">lightbulb</span>
+                            Need inspiration? <a class="text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all" href="#">Explore our dossier templates.</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Pilot AI Floating Bar (Glassmorphism) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl px-4 z-50">
+<div class="glass-panel rounded-2xl border border-white/40 shadow-2xl shadow-primary/10 p-4 flex items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-lg" data-icon="smart_toy">smart_toy</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary uppercase tracking-tighter">Pilot AI Assistant</p>
+<p class="text-sm text-on-surface-variant">"Would you like me to walk you through the student onboarding flow?"</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-bold rounded-lg transition-colors">Dismiss</button>
+<button class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg transition-colors">Start Tutorial</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- AI Essay Analysis: Detail View -->

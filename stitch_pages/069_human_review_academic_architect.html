@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Human Review | Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<nav class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 border-r border-slate-200/15 py-6 px-4 gap-y-2">
+<div class="mb-8 px-2">
+<h1 class="font-headline font-bold text-lg text-[#031635] tracking-tight">Academic Architect</h1>
+<p class="text-xs text-on-surface-variant font-medium">Elite Consulting</p>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-label text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 duration-200" href="#">
+<span class="material-symbols-outlined text-xl">folder_shared</span>
+<span class="font-label text-sm font-medium">Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">auto_awesome</span>
+<span class="font-label text-sm font-medium">AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">robot_2</span>
+<span class="font-label text-sm font-medium">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">analytics</span>
+<span class="font-label text-sm font-medium">Analytics</span>
+</a>
+</div>
+<div class="mt-8 px-2">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-2.5 rounded-xl font-label text-sm font-semibold shadow-md hover:shadow-lg transition-all">
+                New Dossier
+            </button>
+</div>
+<div class="mt-auto pt-6 border-t border-outline-variant/15 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl">contact_support</span>
+<span class="font-label text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl">logout</span>
+<span class="font-label text-sm font-medium">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen bg-surface flex flex-col">
+<!-- Top App Bar -->
+<header class="flex items-center justify-between px-8 h-16 w-full bg-slate-50/80 backdrop-blur-xl sticky top-0 z-30 shadow-sm">
+<div class="flex items-center gap-4">
+<nav class="flex items-center gap-6">
+<span class="text-slate-900 font-bold font-headline tracking-tight">ApplyPilot Agent</span>
+<span class="h-4 w-px bg-outline-variant/30"></span>
+<span class="text-on-surface-variant text-sm font-medium">Session ID: #AP-9921-X</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full border border-outline-variant/10">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-xs font-semibold uppercase tracking-widest text-secondary">In Review</span>
+</div>
+<div class="flex items-center gap-3 ml-4">
+<button class="p-2 text-on-surface-variant hover:bg-slate-200/50 transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-slate-200/50 transition-colors rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="Avatar" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="Professional consultant headshot avatar small circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASH4irm88UydGO4LZvwvajL_RaKsjovVcpalgXgGaPEMo1WWb5MbNRC6XJ81ulnSOz5PAbKDf-aN1S-RG9ydkrRG62pxGtlEPpYP8_lIvJAaQ6atuRiD1CJRrD_ke1NLSt4HAFC86bIoFrRmCLyYSsSeMkMgfZ1Y9GMx6AOlQdQPMXII0FdPuF9ynKBeJpDZxPbMs8BGL1hbmITID04DE8Isyzqt52ZnHYLGUMWMXlzGH0QXEzOqDhiSkk9Fb8iNqMjMEjPNoC8Io"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-10 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-12">
+<h2 class="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">Browser Agent Audit</h2>
+<p class="text-on-surface-variant max-w-2xl leading-relaxed">
+                    Review the agent's recent progression through the CommonApp portal. Verify data integrity and formatting before final submission synchronization.
+                </p>
+</div>
+<!-- Dashboard Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Gallery Canvas -->
+<div class="col-span-12 lg:col-span-9 space-y-8">
+<!-- Progress Section -->
+<div class="bg-surface-container-low rounded-xl p-8">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-headline text-lg font-bold text-primary">Capture Stream</h3>
+<p class="text-sm text-on-surface-variant">6 of 8 steps completed successfully</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-lowest text-primary text-sm font-semibold rounded-lg border border-outline-variant/10 hover:bg-surface-bright transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                                    Filter Views
+                                </button>
+<button class="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg shadow-md hover:translate-y-[-1px] transition-all">
+                                    Refresh Stream
+                                </button>
+</div>
+</div>
+<!-- Screenshot Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/5 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+<div class="aspect-video bg-surface-container-highest relative overflow-hidden">
+<img alt="CommonApp Section 1" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500" data-alt="Screenshot of an application form being filled by AI" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8evYO0KxD1jD-IIht9JT4n0OmL8OlYz_3uayEIuy4XlsCVGlOdt7AJWFUw8AVBmmEoI94lRvlo11QjjNyU_mlEpgt9KqBpWYObRT3NJKbj0Voz5XeqCixH5xB8JUCqvW-CMdBU_9-Tr5UI1MELZDd3PEVJJnMNtpPBRXaG7PYbnp16hFOFZHJMox8qW7LgPj-IoL9Cg24DggTA5FBqdLpu1BegNA7T-rGgI3qMwV3g6YNBr4PrQW4_UB0rpKM6CyVEdp5LoKJaMA"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold text-primary text-sm">Expand Capture</button>
+</div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">09:41:02</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-start">
+<div>
+<h4 class="font-headline font-bold text-primary text-sm">Personal Information</h4>
+<p class="text-xs text-on-surface-variant mt-1">Status: Field Mapping Complete</p>
+</div>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/5 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+<div class="aspect-video bg-surface-container-highest relative overflow-hidden">
+<img alt="CommonApp Section 2" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500" data-alt="Data dashboard screenshot from an education portal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLo3AvAKz0wqCgsyJrNxX_tcK6UVzmNUuk9wATeZ6beBRhElQTQT0F4orrxh-cj6nNGARpKAWNlLZmR7GZ4IFEzONLjWNiw3N5tNQXqUOZVnWoz7_CCClrqB-CJhxXnN1VNhCE9662O4qamdLJClz1yHse1eLjH61Mtk1fWZGXl11owZkG0XgknM11Dg8CbazxLzakqnHuQuUp3l7M8IhIToRuqZIbDApy102xO3rMlw_AHil7dqidiYHLYTZhAkXxA9BEmkOf8wk"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold text-primary text-sm">Expand Capture</button>
+</div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">09:42:15</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-start">
+<div>
+<h4 class="font-headline font-bold text-primary text-sm">Education History</h4>
+<p class="text-xs text-on-surface-variant mt-1">Status: 12 Entries Processed</p>
+</div>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/5 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+<div class="aspect-video bg-surface-container-highest relative overflow-hidden">
+<img alt="CommonApp Section 3" class="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500" data-alt="Screenshot of college essay being uploaded automatically" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKcAGsFZ-tJmLrZHz4DfaEFRNkOuwllx-ibpovsMI5R838V1uiDDmgMmbaQvKCrLT7nagQagl1AvkOoERwXquqnCJfIhrfUUkC6oEm7K8uKyjeIxlcBa-dKP2SI4pikLvfB8XAUBFKOtmPoTGBBhdfoGEja4_y0qaxTsQjhSmPDKn2QY06S9tAbMEcyKUS5M3GFuYS6lbXN2vIFuqOhhot2XD1dSe9M5K7wObtlwHbSHbumQN30jyhHj6ImBVh7Z-Y2rRwPYoveuk"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold text-primary text-sm">Expand Capture</button>
+</div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">09:44:00</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-start">
+<div>
+<h4 class="font-headline font-bold text-primary text-sm">Writing Supplement</h4>
+<p class="text-xs text-on-surface-variant mt-1">Status: AI Draft Uploaded</p>
+</div>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Card 4 (Actionable/Conflict) -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border-2 border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+<div class="aspect-video bg-surface-container-highest relative overflow-hidden">
+<div class="absolute inset-0 bg-surface-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-on-surface-variant/20">pending</span>
+</div>
+<div class="absolute inset-0 bg-primary/40 flex flex-col items-center justify-center gap-4 text-center px-8">
+<p class="text-white font-bold text-sm">Ambiguity detected in "Extracurricular Activities" section.</p>
+<button class="bg-white text-primary px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg">Resolve Manual</button>
+</div>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="px-2 py-1 bg-white text-primary text-[10px] font-bold uppercase tracking-widest rounded-sm">Current</span>
+</div>
+</div>
+<div class="p-5 flex justify-between items-start">
+<div>
+<h4 class="font-headline font-bold text-primary text-sm">Extracurriculars</h4>
+<p class="text-xs text-error font-medium mt-1">Awaiting Human Input</p>
+</div>
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Logs (Terminal Style) -->
+<div class="bg-tertiary-container text-tertiary-fixed p-6 rounded-xl font-mono text-xs overflow-hidden relative">
+<div class="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-secondary-fixed/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-on-primary-container/40"></div>
+</div>
+<span class="ml-2 font-semibold opacity-60">applypilot_agent_executor.log</span>
+</div>
+<div class="space-y-1 opacity-90">
+<p><span class="text-secondary-fixed">[09:41:02]</span> <span class="text-on-primary-fixed-variant">INFO:</span> Initialized browser context... </p>
+<p><span class="text-secondary-fixed">[09:41:15]</span> <span class="text-on-primary-fixed-variant">INFO:</span> Successfully authenticated into commonapp.org</p>
+<p><span class="text-secondary-fixed">[09:42:00]</span> <span class="text-on-primary-fixed-variant">INFO:</span> Injecting 'Student_Profile_JSON_v4' into form fields...</p>
+<p><span class="text-secondary-fixed">[09:43:45]</span> <span class="text-on-primary-fixed-variant">INFO:</span> Form validation passing (88%)...</p>
+<p><span class="text-error">[09:44:12]</span> <span class="text-error-container">WARN:</span> Unexpected modal detected. Halting for user review.</p>
+<p class="animate-pulse">_</p>
+</div>
+</div>
+</div>
+<!-- Control Sidebar -->
+<div class="col-span-12 lg:col-span-3 space-y-6">
+<!-- Execution Status Card -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-6">
+<h3 class="font-headline font-bold text-primary text-sm tracking-tight">Agent Controls</h3>
+<div class="space-y-4">
+<div class="p-4 bg-surface-container-lowest rounded-lg border border-outline-variant/10">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-semibold text-on-surface-variant">Step Progress</span>
+<span class="text-xs font-bold text-primary">75%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+                                Resume Automation
+                            </button>
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-surface-container-highest text-primary rounded-lg font-bold text-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm">stop</span>
+                                Terminate Session
+                            </button>
+</div>
+<div class="pt-6 border-t border-outline-variant/10">
+<h4 class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">Verification Checklist</h4>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary/5">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-xs font-medium text-on-surface">Address validation</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border border-outline-variant/30 flex items-center justify-center group-hover:bg-primary/5">
+<span class="material-symbols-outlined text-[16px] text-secondary" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-xs font-medium text-on-surface">GPA precision (4-dec)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-5 h-5 rounded border-2 border-primary flex items-center justify-center">
+</div>
+<span class="text-xs font-bold text-primary">Activity categorization</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Meta Info Card -->
+<div class="bg-surface-container-low p-6 rounded-xl">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<h3 class="font-headline font-bold text-primary text-sm tracking-tight">Dossier Context</h3>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px]">
+<span class="text-on-surface-variant">Applicant</span>
+<span class="font-bold text-primary">Marcus Vane</span>
+</div>
+<div class="flex justify-between text-[11px]">
+<span class="text-on-surface-variant">Portal</span>
+<span class="font-bold text-primary">CommonApp 2024</span>
+</div>
+<div class="flex justify-between text-[11px]">
+<span class="text-on-surface-variant">Agent Version</span>
+<span class="font-bold text-primary">v2.1-stable</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating AI-Bar (Glassmorphism) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl z-50 px-4">
+<div class="bg-white/80 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-2xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Pilot Active Intelligence</p>
+<p class="text-sm font-bold text-primary">Suggesting resolution for Step 7...</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-5 py-2 text-xs font-bold text-primary hover:bg-surface-container rounded-lg transition-colors">Dismiss</button>
+<button class="px-5 py-2 text-xs font-bold text-white bg-primary rounded-lg shadow-lg hover:shadow-primary/20 transition-all">Review Solution</button>
+</div>
+</div>
+</div>
+</body></html>
+
+<!-- Browser Agent: Error State -->

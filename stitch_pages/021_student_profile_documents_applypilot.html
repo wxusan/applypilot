@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Profile - Documents | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d5e3fc",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary-fixed-variant": "#364768",
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#4e5e81",
+              "tertiary-container": "#232b3f",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-surface-variant": "#44474e",
+              "on-error": "#ffffff",
+              "tertiary": "#0e1629",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface": "#f7f9fb",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "primary-fixed": "#d8e2ff",
+              "outline": "#75777f",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#131b2e",
+              "primary": "#031635",
+              "error": "#ba1a1a",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#8a92aa",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#8293b8"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar (Shared Component) -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-8 px-4 font-manrope text-sm font-medium tracking-tight">
+<div class="mb-10 px-4 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xl font-bold tracking-tight text-blue-950 dark:text-white font-manrope">ApplyPilot</span>
+<span class="text-[10px] uppercase tracking-widest text-slate-400">College Consulting</span>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="event_upcoming">event_upcoming</span>
+<span>Deadlines</span>
+</a>
+<!-- Active Tab: Documents -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-blue-950 dark:text-blue-300 font-bold border-r-4 border-blue-950 dark:border-blue-400 bg-white/50 dark:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span>Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<button class="mx-4 mt-6 bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-primary/10 flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Student</span>
+</button>
+<div class="mt-auto pt-8 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-blue-900 dark:hover:text-blue-200 hover:bg-slate-200/50" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span>Account</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen bg-surface">
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800/50 flex justify-between items-center h-16 px-8 ml-64 font-manrope tracking-tight">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-lg">search</span>
+</span>
+<input class="bg-surface-container border-none rounded-lg py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all outline-none" placeholder="Search student records..." type="text"/>
+</div>
+<div class="hidden lg:flex items-center gap-6 text-sm">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-800 transition-colors" href="#">Counselor Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-800 transition-colors" href="#">Agency Admin</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<button class="text-sm font-semibold text-primary hover:text-primary-container px-3 py-1 rounded-lg transition-colors">Invite Team</button>
+<div class="flex items-center gap-3 ml-2">
+<img class="w-8 h-8 rounded-full object-cover border border-slate-200" data-alt="Female Counselor Professional Profile Portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZKGVvJmxYBpPQ_z2xdzGLmemqT8dj1OXFHE8yHpJwyVsK9tWvH4htKbJSk9kM8LGC4IvseXLH2emmFsN8-1tJMZzFP8TwK8iAAIs6Hm9BNNaOFwZyUFzeqQgeB_DHT20Gmqfb7AUmpIS-Xo-xBt3dimgpjtsjQEl6oQHIhwSZee1PLdI4QX3YUs25-6rpl2pw7h35aLUhnKXnFj29Fq2OtV_fbOPHwF5rUsDZjbQNnizEarXQaYJiRGoy-mcKhVihZJ-COjgd0zk"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="pt-24 px-12 pb-12">
+<!-- Student Profile Header Shell -->
+<div class="mb-12 flex items-end justify-between">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-secondary-fixed to-primary-fixed p-1">
+<img class="w-full h-full rounded-xl object-cover" data-alt="Portrait of student Alex Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRSh8xhwx_QfBrDZkYBvIc5xYtGinM7FtlwckQlR6v6HUuKY15OEh32M61514hdSSe-NvLYemgDJwWeizsFKnJa_80Jadrs7BS4VbDOh8JZRcjy1g969lEmBnvR3jsS5MnXQMKvL-4-FHFGyV_VxltZFRXVCQ8C6h_7lcCfNy_0CgvabO9rBy08elcXcQRDGo2-L9DoiLjECH31-WSeBNdFCjxlVAl00gew3SnvpLT71BVEfzYEo6Pu-8nI48V_6dEINCsnSeCzq8"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="text-4xl font-extrabold font-headline text-primary tracking-tight">Alex Johnson</h1>
+<span class="bg-primary-fixed text-on-primary-fixed text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Class of 2025</span>
+</div>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">school</span>
+                            St. Jude’s Preparatory Academy • Early Action Track
+                        </p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-5 py-2.5 rounded-xl border-outline-variant/30 border bg-surface-container-lowest text-primary font-semibold text-sm hover:bg-surface-bright transition-all shadow-sm">Edit Profile</button>
+<button class="px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:opacity-90 transition-all shadow-lg shadow-primary/20">Send Message</button>
+</div>
+</div>
+<!-- Profile Navigation Tabs -->
+<div class="flex gap-8 mb-8 border-b border-surface-container">
+<a class="pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Overview</a>
+<a class="pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Applications</a>
+<a class="pb-4 border-b-2 border-primary text-primary font-bold text-sm" href="#">Documents</a>
+<a class="pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Test Scores</a>
+<a class="pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Essays</a>
+</div>
+<!-- Bento Layout for Documents -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Upload & Categories -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Upload Zone -->
+<div class="bg-surface-container-low rounded-xl p-8 border-2 border-dashed border-outline-variant/50 flex flex-col items-center justify-center text-center group hover:border-primary/40 transition-colors">
+<div class="w-16 h-16 bg-surface-container-lowest rounded-full flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">upload_file</span>
+</div>
+<h3 class="font-headline font-bold text-primary mb-1">Upload New Document</h3>
+<p class="text-xs text-on-surface-variant mb-6 px-4">Drag and drop files here or <span class="text-primary font-semibold cursor-pointer underline decoration-primary/30">browse files</span></p>
+<div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Max size 25MB • PDF, DOCX, JPG</div>
+</div>
+<!-- Category Quick Filter -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10">
+<h3 class="font-headline font-bold text-primary mb-4 text-lg">Categories</h3>
+<div class="space-y-2">
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-primary-fixed/30 text-primary group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="text-sm font-semibold">All Files</span>
+</div>
+<span class="text-xs font-bold opacity-60">12</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">description</span>
+<span class="text-sm font-medium">Transcripts</span>
+</div>
+<span class="text-xs font-bold opacity-40">2</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">quiz</span>
+<span class="text-sm font-medium">Test Scores</span>
+</div>
+<span class="text-xs font-bold opacity-40">4</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">history_edu</span>
+<span class="text-sm font-medium">Essays</span>
+</div>
+<span class="text-xs font-bold opacity-40">3</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">recommend</span>
+<span class="text-sm font-medium">Recommendations</span>
+</div>
+<span class="text-xs font-bold opacity-40">2</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-surface-container transition-colors text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+<span class="text-sm font-medium">Other</span>
+</div>
+<span class="text-xs font-bold opacity-40">1</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Document List -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden">
+<!-- Table Toolbar -->
+<div class="px-6 py-4 border-b border-surface-container flex items-center justify-between">
+<div class="flex items-center gap-4">
+<h3 class="font-headline font-bold text-primary">Managed Documents</h3>
+<div class="h-4 w-[1px] bg-slate-200"></div>
+<span class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">12 Total</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-xl">filter_list</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-xl">sort</span>
+</button>
+</div>
+</div>
+<!-- Document List -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/30">
+<th class="px-6 py-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Document Name</th>
+<th class="px-6 py-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Category</th>
+<th class="px-6 py-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Size</th>
+<th class="px-6 py-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Uploaded</th>
+<th class="px-6 py-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<div>
+<div class="text-sm font-semibold text-primary">Unofficial_Transcript_JrYear.pdf</div>
+<div class="text-[10px] text-on-surface-variant font-medium">Verified by Counselor</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container text-[10px] font-bold text-on-surface-variant rounded uppercase">Transcripts</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">2.4 MB</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-primary-fixed/50 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-error hover:bg-error-container/50 transition-all">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<div>
+<div class="text-sm font-semibold text-primary">Personal_Statement_Draft_3.docx</div>
+<div class="text-[10px] text-on-surface-variant font-medium">In Review</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container text-[10px] font-bold text-on-surface-variant rounded uppercase">Essays</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">45 KB</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Yesterday</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-primary-fixed/50 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-error hover:bg-error-container/50 transition-all">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-red-600 text-xl" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<div>
+<div class="text-sm font-semibold text-primary">SAT_Official_Score_Report.pdf</div>
+<div class="text-[10px] text-on-surface-variant font-medium">1540 Total Score</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container text-[10px] font-bold text-on-surface-variant rounded uppercase">Test Scores</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">1.1 MB</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Aug 30, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-primary-fixed/50 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-error hover:bg-error-container/50 transition-all">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-600 text-xl">image</span>
+</div>
+<div>
+<div class="text-sm font-semibold text-primary">Passport_Scan_Copy.jpg</div>
+<div class="text-[10px] text-on-surface-variant font-medium">ID Verification</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-surface-container text-[10px] font-bold text-on-surface-variant rounded uppercase">Other</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">3.2 MB</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Jul 15, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-primary-fixed/50 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-error hover:bg-error-container/50 transition-all">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Pagination / Status -->
+<div class="px-6 py-4 bg-surface-container-low/20 flex items-center justify-between border-t border-surface-container">
+<span class="text-xs text-on-surface-variant font-medium">Showing 4 of 12 documents</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded border border-outline-variant/30 text-xs font-bold text-primary disabled:opacity-40" disabled="">Previous</button>
+<button class="px-3 py-1 rounded border border-outline-variant/30 text-xs font-bold text-primary hover:bg-surface-container">Next</button>
+</div>
+</div>
+</div>
+<!-- AI Assistant Context Tip -->
+<div class="mt-6 p-4 rounded-xl bg-primary-fixed/20 border border-primary-fixed flex items-start gap-4 glass-panel">
+<div class="p-2 bg-primary-container text-white rounded-lg">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-primary">Pilot Insight</h4>
+<p class="text-xs text-on-primary-fixed-variant leading-relaxed mt-1">
+                                Alex is missing <strong>1 Recommendation Letter</strong> for the Harvard EA deadline. Would you like to send a reminder to Dr. Smith?
+                            </p>
+<button class="mt-2 text-xs font-bold text-primary underline">Send Reminder Now</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- Super Admin: Create Agency - ApplyPilot -->

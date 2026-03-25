@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deadlines | Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Anchor (Based on JSON) -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none font-manrope font-semibold tracking-tight h-16 w-full top-0 sticky z-50">
+<div class="flex items-center justify-between px-8 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tighter">ApplyPilot</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 ease-in-out px-3 py-1 rounded" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-white font-bold px-3 py-1 rounded" href="#">Dossiers</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 ease-in-out px-3 py-1 rounded" href="#">AI Drafter</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-surface-container rounded-full px-4 py-1.5 focus-within:ring-2 ring-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Search students..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span></button>
+<button class="p-2 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span></button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 bg-primary-fixed flex items-center justify-center">
+<img alt="Consultant profile avatar" class="w-full h-full object-cover" data-alt="Professional consultant headshot avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhHJIiLRyOW--M_71ZhZe71vNjLT6vr2vfwWqkDchD5eg7zjLuuusmJ8z0WxWcW5vlF020RzLPJbQyNx7x_JvndU_4WPemZqAnklZiT6lTonOhQhSVMllPFW0ULMETSu9yPWmBBiBXkSJ5IPZIvGp6KNiHH6DemVm4BEJBA3kzujHFIH8U27Ov51E4j2H2oqQ6_AXJk1Sy_zqnvkOwp-1P78tvqt5NenclsHlMz4WVjODXUJpF8wGGx5RVNM9cPC5grGiefMXDLjE"/>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full"></div>
+</header>
+<!-- Side Navigation Anchor (Based on JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 dark:border-slate-800/15 z-40 hidden md:flex">
+<div class="flex flex-col py-6 px-4 gap-y-2 h-full">
+<div class="mb-8 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h2 class="font-manrope font-bold text-lg text-[#031635] dark:text-white leading-tight">Academic Architect</h2>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Elite Consulting</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span> Dashboard
+                </a>
+<a class="flex items-center gap-3 px-4 py-2.5 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 font-inter text-sm font-medium transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_shared</span> Dossiers
+                </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">auto_awesome</span> AI Drafter
+                </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">robot_2</span> Automation
+                </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">analytics</span> Analytics
+                </a>
+</nav>
+<button class="mt-4 mx-2 bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-primary/10 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">add_circle</span> New Dossier
+            </button>
+<div class="mt-auto space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">contact_support</span> Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span> Sign Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 p-8 min-h-screen">
+<div class="max-w-6xl mx-auto">
+<!-- Breadcrumbs & Header -->
+<div class="mb-10">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-medium mb-4">
+<span>Dossiers</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span>Student Profiles</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-bold">Benjamin Thorne</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 rounded-2xl bg-surface-container-low overflow-hidden shadow-inner flex items-center justify-center">
+<img alt="Student Profile" class="w-full h-full object-cover" data-alt="Portrait of a young male student looking confident" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANPKx13nEkbJBYZXH5td05o6UOBZSupop5akNuZ7eZCsobeLrHKQCkQwGr1VOSHL3OCZmsm9OedW6ze8WgQTPqka3s6cBnpXloKLMxa7nF9rnxGJg0QJVRRDgFvpKBEmb_OIIa6hcDaNh3C4IVO5HSPHvw--16buiui7XyUzhh3M_qtsNjBXekPN9FKSI5Lua1jew0fhcqBe115yoU0iTRqIurL-wf-_DzwhKmQXuH4ElFEqdbyzseEEb_P2O3l1ZewpulLxm7BAs"/>
+</div>
+<div>
+<h1 class="text-4xl font-headline font-extrabold tracking-tight text-primary">Benjamin Thorne</h1>
+<p class="text-on-surface-variant font-body mt-1">Class of 2025 • Biological Sciences Focus</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed text-[10px] font-bold uppercase rounded">Top Tier Prospect</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase rounded">12 Deadlines</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-xl border border-outline-variant hover:bg-surface-container-low transition-colors font-bold text-sm flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-lg">edit</span> Edit Profile
+                        </button>
+<button class="px-5 py-2.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white shadow-lg shadow-primary/10 hover:opacity-95 transition-all font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">share</span> Export Dossier
+                        </button>
+</div>
+</div>
+</div>
+<!-- Profile Tabs -->
+<div class="flex items-center gap-8 mb-8 border-b-0">
+<button class="pb-4 text-on-surface-variant font-bold text-sm relative hover:text-primary transition-colors">
+                    Overview
+                </button>
+<button class="pb-4 text-on-surface-variant font-bold text-sm relative hover:text-primary transition-colors">
+                    Application List
+                </button>
+<button class="pb-4 text-primary font-bold text-sm relative">
+                    Deadlines
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-primary rounded-full"></div>
+</button>
+<button class="pb-4 text-on-surface-variant font-bold text-sm relative hover:text-primary transition-colors">
+                    Essays &amp; Drafts
+                </button>
+<button class="pb-4 text-on-surface-variant font-bold text-sm relative hover:text-primary transition-colors">
+                    Document Vault
+                </button>
+</div>
+<!-- Deadlines Content Area -->
+<div class="grid grid-cols-1 gap-8">
+<!-- Critical Alerts / Status Bar -->
+<div class="bg-error-container/30 border border-error/10 p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-error text-white flex items-center justify-center shadow-lg shadow-error/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-error-container">Critical Attention Required</h3>
+<p class="text-sm text-on-error-container/80">You have 2 application deadlines that have passed without submission.</p>
+</div>
+</div>
+<button class="px-4 py-2 bg-error text-on-error text-xs font-bold uppercase tracking-widest rounded-lg shadow-md shadow-error/10 hover:brightness-90 transition-all">
+                        Resolve Now
+                    </button>
+</div>
+<!-- Bento Style Deadlines Table -->
+<div class="bg-surface-container-low rounded-3xl p-1 overflow-hidden">
+<div class="bg-surface-container-lowest rounded-[1.4rem] overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container/50">
+<th class="px-8 py-5 text-[11px] font-extrabold text-on-surface-variant uppercase tracking-[0.15em] border-none">Institution &amp; Program</th>
+<th class="px-8 py-5 text-[11px] font-extrabold text-on-surface-variant uppercase tracking-[0.15em] border-none">Admission Type</th>
+<th class="px-8 py-5 text-[11px] font-extrabold text-on-surface-variant uppercase tracking-[0.15em] border-none">Deadline Date</th>
+<th class="px-8 py-5 text-[11px] font-extrabold text-on-surface-variant uppercase tracking-[0.15em] border-none text-right">Submission Status</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Overdue Row 1 -->
+<tr class="group hover:bg-surface-container-low/40 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="University Logo" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Minimalist emblem of a prestigious university" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCLfXXYJbOrjwcQEl2ZHmGI2Ln6AaxAqdngM2Gq5C2VxULmUa2HB14SF6eT8FQpHUlgsMJ24YnrC7wtVyxuUw6wUNWP66yGwRS4azL5oEvq55mjQOuN7XUJ6H-Q185lxzBoLadvOZUuOQEPgeOYf5WDVNBKuwXk9l4d6gqC1m8KzK2BEzk1kwKQcUf_AX86GfFHmK9PD4PgFmg0V13h6xNOc8I6-PKCMo9ISBjpSiTZzpMGUGTAZ93aFKbloje4DABcWWgex1-Y-Y"/>
+</div>
+<div>
+<div class="font-headline font-bold text-primary">Columbia University</div>
+<div class="text-xs text-on-surface-variant font-medium">B.S. Biomedical Engineering</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold uppercase rounded-md tracking-wider">Early Decision</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex flex-col">
+<span class="font-headline font-extrabold text-error">Nov 01, 2023</span>
+<span class="text-[10px] font-bold text-error/60 uppercase tracking-tighter">14 Days Overdue</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-error-container text-error rounded-full border border-error/20">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-[11px] font-black uppercase tracking-widest">PAST DUE</span>
+</div>
+</td>
+</tr>
+<!-- Overdue Row 2 -->
+<tr class="group hover:bg-surface-container-low/40 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="University Logo" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Classical university crest with navy colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBehfWGEs4GG6mO_l4vNH6oYK0ZCk3xgwRDzjNNHx9ilRxdaGZ_Sd8WYu4BosEZkcM74l01JhnI4J54aO2JaUNfYgcFJV6BAEzVTXUaPKoEGQQWg1do7l_vTOslcmI39Q-y-FZ-Gh64tlf1ePsrDOsjGIx5WlSymV_EXTk3rd1gJHpVzNgKtSP4qzTx2P-UDoGjNa41hPljhDqqLRzmYg6gTC1YxUROM6wBK479BJAHk7TGgJp5BQv-1_vloeEdYasQxaMIu2T6Er8"/>
+</div>
+<div>
+<div class="font-headline font-bold text-primary">Stanford University</div>
+<div class="text-xs text-on-surface-variant font-medium">Restricted Early Action</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold uppercase rounded-md tracking-wider">Early Action</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex flex-col">
+<span class="font-headline font-extrabold text-error">Nov 01, 2023</span>
+<span class="text-[10px] font-bold text-error/60 uppercase tracking-tighter">14 Days Overdue</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-error-container text-error rounded-full border border-error/20">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-[11px] font-black uppercase tracking-widest">PAST DUE</span>
+</div>
+</td>
+</tr>
+<!-- Divider -->
+<tr>
+<td class="px-8 py-4" colspan="4">
+<div class="h-[1px] bg-outline-variant/20 w-full"></div>
+</td>
+</tr>
+<!-- Upcoming Row -->
+<tr class="group hover:bg-surface-container-low/40 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="University Logo" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Modern geometric emblem of an elite college" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACgKocdru-NvBTVioy-N5tl2BO6l4tZG89fwhaLsIaQFX_VpNKOb4fKU90EArWhaPT7NqJzQsRVqlhhqAB9WJaKNP7mGilVaerItNSuHVll3cYNV-LNoS-Mr2aYN9icSYnNbBH4UDA81OY_0a4wO18hzvq8PHY4Id6hNVfcbBZHYXh37yLbocje6Rai8pfduYO5BO3MJwBYz53VFaVNEQ_rn0siGw_fkqofZMAZ9HyvTl2oscEvKaJD3VmYbnWoQB32Fd1djA39T8"/>
+</div>
+<div>
+<div class="font-headline font-bold text-primary">Johns Hopkins University</div>
+<div class="text-xs text-on-surface-variant font-medium">B.S. Molecular Biology</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold uppercase rounded-md tracking-wider">Regular Decision</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex flex-col">
+<span class="font-headline font-extrabold text-on-surface">Jan 01, 2024</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">47 Days Remaining</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container text-on-surface-variant rounded-full border border-outline-variant/20">
+<span class="text-[11px] font-bold uppercase tracking-widest">NOT SUBMITTED</span>
+</div>
+</td>
+</tr>
+<!-- Completed Row -->
+<tr class="group hover:bg-surface-container-low/40 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center overflow-hidden">
+<img alt="University Logo" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Architectural logo of a university building" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCsyxzcSDsXbAmyD2HzZbyv6dYl3FQxWFowMrN4E3Gi8OZ_X9I_lpxdUs4WTteV8P1fqbS5bHwC97SAWfHycmm9UFbQUeptGFRmzjAuRL59ZtWXfWAROiwEoIBvnwx_wWq_Zoq_9OItfUkc9LKEh79GvSmHXG1ubDpVXaKf6RgQjWosHeOTDv0VMCJ_8XUj6VNB0HbOgCQ5iUvleGlMptz5q4qEuVpxoxo8lMr1G08l0ftUEwJFD63MvfpXQPDaGcNDgLC2pAEujU"/>
+</div>
+<div>
+<div class="font-headline font-bold text-primary/40">University of Chicago</div>
+<div class="text-xs text-on-surface-variant/40 font-medium">Early Action I</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-highest/40 text-primary/40 text-[10px] font-bold uppercase rounded-md tracking-wider">Early Action</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex flex-col opacity-40">
+<span class="font-headline font-extrabold">Nov 01, 2023</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Completed</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-fixed text-on-primary-fixed rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-[11px] font-bold uppercase tracking-widest">SUBMITTED</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer Action & Legend -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-sm bg-error"></span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Overdue</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-sm bg-primary/20"></span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Upcoming</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-sm bg-primary-fixed"></span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Complete</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest shadow-sm rounded-2xl px-6 py-4 flex items-center gap-6">
+<div class="text-center">
+<div class="text-2xl font-headline font-extrabold text-error">02</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase">Critical</div>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/30"></div>
+<div class="text-center">
+<div class="text-2xl font-headline font-extrabold text-primary">06</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase">Upcoming</div>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/30"></div>
+<div class="text-center">
+<div class="text-2xl font-headline font-extrabold text-on-surface-variant/40">04</div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase">Finalized</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pilot AI Contextual Overlay -->
+<div class="mt-12 bg-white/80 backdrop-blur-xl border border-primary/5 rounded-3xl p-8 flex items-start gap-6 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8">
+<span class="material-symbols-outlined text-primary/5 text-9xl">auto_awesome</span>
+</div>
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shrink-0 shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h4 class="font-headline font-extrabold text-xl text-primary mb-2">Architect AI Analysis</h4>
+<p class="text-on-surface-variant leading-relaxed">
+                        Benjamin's application progress has stalled. The <span class="text-error font-bold italic">Columbia ED</span> deadline was missed by 14 days, potentially impacting the strategy for regular decision cycles. I recommend pivoting to <span class="font-bold text-primary">University of Pennsylvania</span> for Regular Decision to maintain target rankings.
+                    </p>
+<div class="flex gap-4 mt-6">
+<button class="px-6 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-primary/90 transition-all">Adjust Strategy</button>
+<button class="px-6 py-2 bg-surface-container text-on-surface-variant text-xs font-bold rounded-lg hover:bg-surface-container-high transition-all">View Analytics</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile (Based on JSON) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.05)] flex items-center justify-around h-16 z-50 px-4">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_shared</span>
+<span class="text-[10px] font-bold uppercase">Dossiers</span>
+</a>
+<div class="relative -top-4">
+<button class="w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase">Pilot</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase">Profile</span>
+</a>
+</nav>
+</body></html>
+
+<!-- Deadlines: Urgent Items -->

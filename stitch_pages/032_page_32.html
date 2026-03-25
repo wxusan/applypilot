@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c5c6cf",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#0e1629",
+              "on-tertiary-fixed": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#232b3f",
+              "on-primary-container": "#8293b8",
+              "on-primary-fixed": "#081b3a",
+              "primary-container": "#1a2b4b",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-surface-variant": "#44474e",
+              "on-secondary-container": "#57657a",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb",
+              "tertiary-fixed-dim": "#bec6e0",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline": "#75777f",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "primary": "#031635",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#515f74",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed": "#dae2fd",
+              "secondary-fixed": "#d5e3fc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#4e5e81",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "inverse-primary": "#b6c6ef"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex items-center justify-center selection:bg-primary-fixed selection:text-primary">
+<!-- Transactional Screen: Navigation Suppressed per "Shell Visibility & Relevance" mandate -->
+<main class="w-full max-w-6xl px-6 py-12 flex flex-col md:flex-row items-center gap-12 lg:gap-24">
+<!-- Left Side: Editorial Context & Identity -->
+<div class="flex-1 space-y-8 max-w-xl">
+<header class="space-y-2">
+<div class="flex items-center gap-2 mb-6">
+<span class="font-headline font-extrabold text-2xl text-primary tracking-widest uppercase">ApplyPilot</span>
+</div>
+<h1 class="font-headline font-extrabold text-5xl lg:text-6xl text-primary leading-tight tracking-tight">
+                    The Archive Is <br/>
+<span class="text-surface-tint">Unlocked.</span>
+</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-md pt-4">
+                    Your credentials have been verified. You are now part of an elite collective of academic architects. Welcome to the workspace.
+                </p>
+</header>
+<div class="grid grid-cols-1 gap-4 pt-4">
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg" data-icon="verified_user">verified_user</span>
+<div>
+<p class="font-headline font-bold text-primary">Identity Confirmed</p>
+<p class="text-sm text-on-surface-variant">Profile synced with agency security protocols.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-lg" data-icon="terminal">terminal</span>
+<div>
+<p class="font-headline font-bold text-primary">Systems Primed</p>
+<p class="text-sm text-on-surface-variant">AI assistant and student dossier modules active.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Interaction Dossier (The Success Card) -->
+<div class="flex-1 w-full max-w-md">
+<div class="glass-card p-8 lg:p-12 rounded-xl shadow-[0_40px_40px_rgba(3,22,53,0.06)] border border-outline-variant/15 relative overflow-hidden">
+<!-- Decorative Subtle Gradient -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary-fixed/20 rounded-full blur-3xl"></div>
+<div class="relative z-10 flex flex-col items-center text-center">
+<!-- Success Visual -->
+<div class="w-24 h-24 mb-8 relative">
+<div class="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<div class="space-y-4 mb-10">
+<span class="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-fixed text-xs font-bold tracking-widest uppercase">Account Activated</span>
+<h2 class="font-headline font-bold text-3xl text-primary">Welcome, Consultant</h2>
+<p class="text-on-surface-variant text-sm px-4">
+                            Your workspace is ready. Every student journey you architect begins here. Proceed to the main terminal.
+                        </p>
+</div>
+<div class="w-full space-y-4">
+<button class="w-full py-4 px-6 rounded-lg bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold text-sm tracking-wide shadow-lg shadow-primary/10 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 group">
+                            Enter Workspace
+                            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="flex justify-center items-center gap-2 pt-4">
+<div class="h-1 w-1 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] uppercase tracking-[0.2em] font-bold text-outline">System Log: 104-Success</span>
+<div class="h-1 w-1 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Detail: Asymmetric Floating Card -->
+<div class="mt-8 flex justify-end">
+<div class="bg-surface-container-highest p-4 rounded-lg flex items-center gap-3 max-w-xs shadow-sm border-l-4 border-primary">
+<img alt="Agency Director Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="Professional portrait of a female academic director" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd7ItOSdb6n4AnQYK4z7R8ANK_LSDKiOJ_llp-awZIYRqzZ7qrqU9n8SDMSpV5nIfdXH4X7MfrC-F7n118hG_ziuiXoPf39EoxKFNWdGsCeEziqWTYRr79MN-ej6ca855S0reKQCUnbizTwMkrzzaC5hri8oORdpZx0PHITe3pve73lQKQjpTwdWWibXHzSWYZeG73LmdPejgyu0koCcdNzFqLV48aid7BlGIcTUKg0jc7JdYIBGNYHyc0lQoZZxpo5URJHqZBoLw"/>
+<div>
+<p class="text-xs font-bold text-primary">Director's Note</p>
+<p class="text-[10px] text-on-surface-variant leading-tight">"Efficiency is the architect of excellence. Glad to have you."</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Background Decoration -->
+<div class="fixed inset-0 -z-10 pointer-events-none opacity-40">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-fixed/30 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+<div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary-fixed/20 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
+</div>
+</body></html>
+
+<!-- AI Email Drafter (Active State) -->

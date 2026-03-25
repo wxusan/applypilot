@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#8293b8",
+              "primary-fixed": "#d8e2ff",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed": "#0d1c2e",
+              "tertiary": "#0e1629",
+              "outline": "#75777f",
+              "primary-container": "#1a2b4b",
+              "on-tertiary-container": "#8a92aa",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "secondary-container": "#d5e3fc",
+              "inverse-primary": "#b6c6ef",
+              "background": "#f7f9fb",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#bec6e0",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-error-container": "#93000a",
+              "on-background": "#191c1e",
+              "outline-variant": "#c5c6cf",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "surface-variant": "#e0e3e5",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "primary": "#031635",
+              "on-surface": "#191c1e",
+              "surface-bright": "#f7f9fb",
+              "inverse-surface": "#2d3133",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "tertiary-container": "#232b3f",
+              "secondary": "#515f74",
+              "inverse-on-surface": "#eff1f3",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#44474e",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-fixed": "#131b2e",
+              "primary-fixed-dim": "#b6c6ef",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-container": "#eceef0"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col p-4 h-screen w-64 bg-slate-50 dark:bg-[#031635] bg-gradient-to-r from-slate-50 to-slate-100 dark:from-[#031635] dark:to-[#1A2B4B]">
+<div class="mb-8 px-2 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-[#031635] dark:text-white leading-none">ApplyPilot</h1>
+<p class="text-[10px] font-medium text-on-surface-variant tracking-widest uppercase mt-1">Academic Architect</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors hover:bg-white/50 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold bg-white dark:bg-[#1A2B4B] rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined">wb_sunny</span>
+<span class="font-medium text-sm">Workspaces</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors hover:bg-white/50 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-medium text-sm">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors hover:bg-white/50 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-medium text-sm">Pilot AI</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors hover:bg-white/50 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors hover:bg-white/50 dark:hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-medium text-sm">Help</span>
+</a>
+<div class="mt-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/10 flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Professional portrait of an academic counselor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq3UMq1fXU7sntU_KrMB8QuwMVwMCqsZ3B2CW5ZsRjcngvWqapdagl-UzoP53_Fhv9tdR554AhflwXMTu7wTg_izHnxLTdoJXiF33_9FC743qIkvwK7i0FWvPJ9FCGiZgyoZJKMQWn2NUAjgVTytRQXHkydZxTSGOiIisT_Lbscfk98yHBS2PHAkZfMnESaNJC9zEuzKnkJZ40vAQMv18cOTd1uU2yGucKUBUPQezcjIBD3Y8Ty4j-Hp4zMVYGeZ_z1RIc5WPhd0M"/>
+<div class="overflow-hidden">
+<p class="text-xs font-bold text-primary truncate">Dr. Julian Vance</p>
+<p class="text-[10px] text-on-surface-variant truncate">Lead Counselor</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-50 bg-white/80 dark:bg-[#031635]/80 backdrop-blur-xl bg-[#f7f9fb] dark:bg-[#031635]">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<h2 class="font-headline font-bold text-xl tracking-tight text-primary">AI Essay Analysis</h2>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs font-medium text-on-surface-variant">Draft 3: Common App Personal Statement</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="text-xs font-medium text-on-surface-variant">Student: Elena Rodriguez</span>
+</div>
+</div>
+<nav class="ml-10 hidden md:flex items-center gap-8">
+<a class="text-[#031635] dark:text-white border-b-2 border-[#031635] dark:border-[#1A2B4B] pb-1 font-medium text-sm" href="#">Overview</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium text-sm hover:text-[#1A2B4B] dark:hover:text-[#f2f4f6] transition-opacity" href="#">Analytics</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium text-sm hover:text-[#1A2B4B] dark:hover:text-[#f2f4f6] transition-opacity" href="#">Resources</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<input class="bg-surface-container border-none rounded-full px-5 py-2 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search insights..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-on-surface-variant text-lg">search</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">translate</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Analysis Workspace -->
+<section class="flex-1 p-8 grid grid-cols-12 gap-8 items-start">
+<!-- Left: Original Essay Content (Bespoke Dossier Design) -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-low rounded-2xl p-10 shadow-sm border border-outline-variant/5">
+<div class="max-w-2xl mx-auto">
+<div class="flex items-center justify-between mb-12">
+<span class="text-[10px] font-bold tracking-[0.2em] text-on-primary-container bg-primary-fixed/30 px-3 py-1 rounded">MANUSCRIPT_V3.02</span>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-xs font-semibold text-primary hover:opacity-70">
+<span class="material-symbols-outlined text-base">edit</span> Edit Text
+                            </button>
+<button class="flex items-center gap-2 text-xs font-semibold text-primary hover:opacity-70">
+<span class="material-symbols-outlined text-base">history</span> Version History
+                            </button>
+</div>
+</div>
+<article class="font-body text-lg leading-[1.8] text-on-surface/90 space-y-8">
+<p>
+                            The scent of burning sage always brings me back to my grandmother’s kitchen in Oaxaca, where the line between the physical and the spiritual felt as thin as a handmade tortilla. <span class="bg-yellow-100 border-b-2 border-yellow-400/50 cursor-help" title="Suggestion: Narrative Hook Strength">It was here that I first learned that leadership wasn't about the loudest voice in the room, but about the hands that prepared the meal.</span>
+</p>
+<p>
+                            As a child, I watched Abuela lead our community not through titles or decrees, but through the quiet orchestration of our neighborhood's mutual aid network. When the rainy season was late, she didn't organize a protest; she organized a seed bank. This pragmatic approach to communal survival became the blueprint for my own activism at Southside High.
+                        </p>
+<p>
+<span class="bg-blue-100 border-b-2 border-blue-400/50 cursor-help" title="Grammar: Passive Voice Detected">The challenge was encountered by me</span> during my junior year when our school's arts funding was slashed. Remembering Abuela's kitchen, I realized that we didn't need a savior; we needed a system. 
+                        </p>
+<p>
+                            I spent months collaborating with local muralsists and business owners to create 'The Living Canvas'—a rotating street gallery that funded our after-school programs through small-business sponsorships. This project wasn't just about art; it was about reclaiming the agency that Abuela had modeled.
+                        </p>
+<p>
+                            In the face of adversity, we often look for heroes. But my journey has taught me that true impact lies in the "hand-to-hand" work of building sustainable community infrastructure. I am applying to your university not just to study social policy, but to refine the tools I've already begun to build.
+                        </p>
+</article>
+</div>
+</div>
+<!-- Right: AI Intelligence Column -->
+<div class="col-span-12 lg:col-span-5 space-y-6 sticky top-28">
+<!-- Readiness Score Card -->
+<div class="bg-primary rounded-2xl p-8 text-white shadow-xl shadow-primary/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/30 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-primary-container/50 transition-all duration-700"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div>
+<h3 class="font-headline font-bold text-2xl tracking-tight">Readiness Score</h3>
+<p class="text-on-primary-container text-xs mt-1">Ivy League Benchmark Analysis</p>
+</div>
+<div class="flex items-end gap-1">
+<span class="text-5xl font-extrabold tracking-tighter">84</span>
+<span class="text-xl font-bold opacity-40 mb-1">/100</span>
+</div>
+</div>
+<div class="relative z-10 mt-8 space-y-4">
+<div class="h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-white w-[84%] rounded-full shadow-[0_0_12px_rgba(255,255,255,0.4)]"></div>
+</div>
+<p class="text-[11px] leading-relaxed text-on-primary-container">
+                            Current draft shows strong <span class="text-white font-bold">Personal Voice</span> but lacks specific <span class="text-white font-bold">Academic Intent</span> in the final paragraph.
+                        </p>
+</div>
+</div>
+<!-- AI Analysis Bento Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Narrative Flow -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow cursor-default">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">schema</span>
+<span class="text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">Narrative Flow</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-primary">Strong</span>
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-2 leading-relaxed">Transition between childhood and junior year is seamless.</p>
+</div>
+<!-- Authenticity -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow cursor-default">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+<span class="text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">Tone Analysis</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-2xl font-bold text-primary">Authentic</span>
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+</div>
+<p class="text-[11px] text-on-surface-variant mt-2 leading-relaxed">Specific cultural markers increase credibility.</p>
+</div>
+</div>
+<!-- Actionable Critiques (List) -->
+<div class="bg-white rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden">
+<div class="px-6 py-4 bg-surface-container-low flex justify-between items-center">
+<h4 class="font-headline font-bold text-sm text-primary">Critical Improvements</h4>
+<span class="bg-primary/5 text-primary text-[10px] font-bold px-2 py-0.5 rounded">3 NEW</span>
+</div>
+<div class="divide-y divide-outline-variant/10">
+<!-- Critique Item 1 -->
+<div class="p-6 hover:bg-surface-container-low/30 transition-colors group cursor-pointer">
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0">
+<span class="material-symbols-outlined text-lg">spellcheck</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Grammar</span>
+<span class="text-[10px] text-on-surface-variant">Para 3</span>
+</div>
+<p class="text-xs font-bold text-primary mb-1">Passive Voice detected in transition</p>
+<p class="text-[11px] text-on-surface-variant leading-relaxed italic">"The challenge was encountered by me..."</p>
+<div class="mt-3 flex gap-2">
+<button class="text-[10px] font-bold bg-primary text-white px-3 py-1.5 rounded-lg shadow-sm hover:translate-y-[-1px] active:scale-95 transition-all">Apply Fix</button>
+<button class="text-[10px] font-bold text-on-surface-variant px-3 py-1.5 rounded-lg border border-outline-variant/20 hover:bg-surface-container transition-colors">Ignore</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Critique Item 2 -->
+<div class="p-6 hover:bg-surface-container-low/30 transition-colors group cursor-pointer">
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 flex-shrink-0">
+<span class="material-symbols-outlined text-lg">lightbulb</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Impact</span>
+<span class="text-[10px] text-on-surface-variant">Conclusion</span>
+</div>
+<p class="text-xs font-bold text-primary mb-1">Strengthen Educational Fit</p>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">Connect your "seed bank" metaphor to the University's specific Sustainable Policy minor.</p>
+<button class="mt-3 text-[10px] font-bold text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                        See Reference <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Counselor Footer AI Bar (Glassmorphism) -->
+<div class="glass-panel p-4 rounded-2xl border border-white shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+<span class="text-xs font-medium text-primary">Pilot AI is monitoring...</span>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary-container text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md hover:bg-primary transition-colors">
+                            Generate Full Report
+                        </button>
+<button class="bg-surface-container-highest text-primary px-4 py-2 rounded-xl text-xs font-bold hover:bg-surface-container transition-colors">
+                            Send to Student
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Contextual FAB (Restricted to Dashboard/Home, but included here for "Final Review" intent) -->
+<button class="fixed bottom-10 right-10 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="absolute right-20 bg-primary text-white text-xs font-bold px-4 py-2 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Discuss with Pilot AI</span>
+</button>
+</main>
+</body></html>
+
+<!-- Browser Agent Workspace - ApplyPilot -->

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-high": "#e6e8ea",
+              "surface": "#f7f9fb",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d8dadc",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "on-secondary-container": "#57657a",
+              "surface-bright": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "on-primary-container": "#8293b8",
+              "surface-container-lowest": "#ffffff",
+              "tertiary": "#0e1629",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "outline-variant": "#c5c6cf",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-background": "#191c1e",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1a2b4b 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 z-40 h-full w-64 border-r-0 bg-slate-50 dark:bg-[#031635]">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-gradient flex items-center justify-center text-white font-bold text-xl">A</div>
+<div>
+<h1 class="text-xl font-bold text-[#031635] dark:text-white font-['Manrope'] tracking-tight">ApplyPilot</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Agency Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors font-['Manrope'] font-semibold tracking-tight rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors font-['Manrope'] font-semibold tracking-tight rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors font-['Manrope'] font-semibold tracking-tight rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span>Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors font-['Manrope'] font-semibold tracking-tight rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors font-['Manrope'] font-semibold tracking-tight rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold bg-white dark:bg-[#1A2B4B] rounded-lg font-['Manrope'] tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full bg-primary-gradient text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span>New Student</span>
+</button>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-64 h-16 flex items-center justify-between px-8 z-30 bg-white/80 dark:bg-[#031635]/80 backdrop-blur-md shadow-sm dark:shadow-none font-['Inter'] text-sm font-medium">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search billing or settings..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="help">help</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+</div>
+<div class="flex items-center gap-3 pl-6 border-l border-outline-variant/30">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Alex Sterling</p>
+<p class="text-[10px] text-on-surface-variant">Global Director</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="User Profile" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaFIpY2uDTnMTN6c3PJ_EMrs2GkCoKXQotmm070FmGuy-FPn2qfgj9Cp3GaxpIeh5OIawaN6wsqXsFZhvRXomWZksCoyb3UOTsmofoQJo6cqcwq7hXwRIEvkzUz_EpPU9D8mtPSXij65AJotB9QmPBpOvt0U3eKoJU9e7H6X7DoJYow6Pmx8LgZLYPbBoi1ZKwAuMyiIYY7KbZMR4_LQPhLzcXr43JPIcBTom6u58Bi-wgQinDUzv06c5BOmqSpghBG3E6Iar4voY"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-10 min-h-screen bg-surface">
+<div class="max-w-6xl mx-auto space-y-10">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-extrabold font-headline text-primary tracking-tight">Billing &amp; Subscription</h2>
+<p class="text-on-surface-variant mt-1 font-medium">Manage your agency's institutional tier and professional resources.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-xl border border-outline-variant text-primary font-semibold hover:bg-surface-container-low transition-colors text-sm">Download PDF Summary</button>
+<button class="px-5 py-2.5 rounded-xl bg-primary-gradient text-white font-bold shadow-md hover:shadow-xl transition-all active:scale-95 text-sm">Request Upgrade</button>
+</div>
+</div>
+<!-- Bento Layout Overview -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Current Plan Card -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-8 rounded-[1.5rem] shadow-[0_40px_40px_-20px_rgba(3,22,53,0.06)] flex flex-col justify-between border border-white/50">
+<div>
+<span class="px-3 py-1 rounded-full bg-secondary-container text-secondary text-[10px] font-bold tracking-widest uppercase">Institutional Tier</span>
+<h3 class="text-4xl font-extrabold font-headline text-primary mt-4">Professional</h3>
+<p class="text-on-surface-variant mt-2 text-sm">Billed annually since June 2023</p>
+</div>
+<div class="mt-8 space-y-4">
+<div class="flex justify-between items-center py-3 border-b border-surface-container">
+<span class="text-sm font-medium text-on-surface-variant">Renewal Date</span>
+<span class="text-sm font-bold text-primary">June 12, 2024</span>
+</div>
+<div class="flex justify-between items-center py-3">
+<span class="text-sm font-medium text-on-surface-variant">Annual Price</span>
+<span class="text-sm font-bold text-primary">$4,200.00</span>
+</div>
+</div>
+</div>
+<!-- Usage Limits Bento -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6 bg-surface-container-low p-6 rounded-[1.5rem]">
+<!-- Students Limit -->
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<span class="font-bold text-primary">Students</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold">
+<span>142 / 200</span>
+<span class="text-primary">71%</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[71%]"></div>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Institutional limit reached at 200 active student dossiers.</p>
+</div>
+<!-- Staff/Advisors Limit -->
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+</div>
+<span class="font-bold text-primary">Staff</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold">
+<span>8 / 10</span>
+<span class="text-secondary">80%</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[80%]"></div>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Standard Professional tier allows up to 10 consultant logins.</p>
+</div>
+<!-- AI Token Usage -->
+<div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<span class="font-bold text-primary">AI Tokens</span>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold">
+<span>0.8M / 2M</span>
+<span class="text-tertiary">40%</span>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[40%]"></div>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Credits for application essay analysis and strategy generation.</p>
+</div>
+</div>
+</div>
+<!-- Billing History Table -->
+<div class="bg-surface-container-lowest rounded-[1.5rem] shadow-[0_40px_40px_-20px_rgba(3,22,53,0.06)] border border-white/50 overflow-hidden">
+<div class="p-8 border-b border-surface-container flex justify-between items-center">
+<h4 class="text-xl font-extrabold font-headline text-primary">Billing History</h4>
+<button class="text-primary font-bold text-sm flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+<th class="px-8 py-4">Invoice ID</th>
+<th class="px-8 py-4">Status</th>
+<th class="px-8 py-4">Billing Date</th>
+<th class="px-8 py-4">Plan Name</th>
+<th class="px-8 py-4">Amount</th>
+<th class="px-8 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5 font-mono text-xs font-bold text-primary">INV-2023-8842</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-bold border border-green-200">Paid</span>
+</td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Jun 12, 2023</td>
+<td class="px-8 py-5 text-sm font-semibold text-primary">Professional (Annual)</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$4,200.00</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-lg transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5 font-mono text-xs font-bold text-primary">INV-2022-4122</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-bold border border-green-200">Paid</span>
+</td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Jun 12, 2022</td>
+<td class="px-8 py-5 text-sm font-semibold text-primary">Starter (Annual)</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$2,400.00</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-lg transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-5 font-mono text-xs font-bold text-primary">INV-2021-0931</td>
+<td class="px-8 py-5">
+<span class="px-3 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-bold border border-green-200">Paid</span>
+</td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Jun 12, 2021</td>
+<td class="px-8 py-5 text-sm font-semibold text-primary">Starter (Annual)</td>
+<td class="px-8 py-5 text-sm font-bold text-primary">$2,400.00</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 hover:bg-white rounded-lg transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Promotion / Upgrade Card -->
+<div class="relative overflow-hidden bg-primary-gradient rounded-[1.5rem] p-10 flex flex-col md:flex-row items-center justify-between">
+<div class="relative z-10 space-y-4 max-w-xl">
+<h3 class="text-3xl font-extrabold font-headline text-white leading-tight">Scale your agency to the Enterprise Tier.</h3>
+<p class="text-blue-100 text-lg opacity-90">Unlock unlimited students, priority AI response times, and a dedicated Success Manager to optimize your college consulting workflow.</p>
+</div>
+<div class="relative z-10 mt-8 md:mt-0">
+<button class="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:bg-blue-50 transition-all flex items-center gap-3">
+                        Talk to an Expert
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Abstract Decorative Elements -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+</div>
+</div>
+</main>
+<!-- Floating Pilot AI Bar -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass-panel px-6 py-3 rounded-full shadow-[0_20px_50px_rgba(3,22,53,0.15)] flex items-center gap-6 border border-white/20">
+<div class="flex items-center gap-3 pr-6 border-r border-outline-variant/30">
+<div class="w-8 h-8 rounded-full bg-primary-gradient flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<span class="text-xs font-bold text-primary">Pilot Assistant</span>
+</div>
+<p class="text-xs font-medium text-on-surface-variant">"Your student capacity is at 71%. Consider upgrading for the Fall admissions cycle."</p>
+<button class="text-xs font-bold text-primary underline">Dismiss</button>
+</div>
+</body></html>
+
+<!-- Notifications - ApplyPilot -->

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Billing Usage Limit - Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-primary-container": "#8293b8",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "on-tertiary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .gradient-primary {
+        background: linear-gradient(135deg, #031635 0%, #1A2B4B 100%);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopNavBar -->
+<nav class="bg-slate-50/80 backdrop-blur-xl shadow-sm docked full-width top-0 z-50 flex justify-between items-center w-full px-8 py-4 max-w-full sticky">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-950 tracking-tighter font-headline">Academic Architect</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-manrope text-sm font-semibold tracking-tight text-blue-900 border-b-2 border-blue-900 pb-1 hover:text-blue-800 transition-colors" href="#">Dashboard</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 pb-1 hover:text-blue-800 transition-colors" href="#">Students</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 pb-1 hover:text-blue-800 transition-colors" href="#">Messages</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 pb-1 hover:text-blue-800 transition-colors" href="#">Pilot AI</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-blue-900 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-blue-900 transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc8-BT7iwLY1upVW-56dXXEjosvlFQlVUXl_XqJMXOznj_9MU9Erf6X9Y1NW6dw5kqXG6o7jKjlKUvV9XkeSEW_MoHoLRAx4bozVey2b_PFxeRzogh7ZSN18BZZC8zGJR5kv1Kgi526w55PEPjZOmP0H6nXILrZ3rqlXRdLc2gJRgEb7HeiQEydzCNZDw9ZJ0X6yP5c-nKKpq_r0nDBr9vWOn5KNKAq3o5JhpKyYzbHM6vldFPbPdLFR0Tj6aDJ_WY28IWkasl3sw"/>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 border-r border-slate-100 p-4 pt-24 z-40">
+<div class="mb-8 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h2 class="font-manrope font-bold text-blue-950 leading-tight">Dossier Manager</h2>
+<p class="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Elite Consulting Group</p>
+</div>
+</div>
+</div>
+<div class="flex-grow space-y-1">
+<nav class="space-y-1">
+<a class="flex items-center gap-3 bg-white text-blue-950 shadow-sm rounded-lg px-4 py-3 font-bold transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+<span class="text-xs font-inter font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 px-4 py-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+<span class="text-xs font-inter font-medium">Student Roster</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 px-4 py-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="smart_toy">smart_toy</span>
+<span class="text-xs font-inter font-medium">Pilot Agent</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 px-4 py-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="auto_stories">auto_stories</span>
+<span class="text-xs font-inter font-medium">Essay Suite</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 px-4 py-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="description">description</span>
+<span class="text-xs font-inter font-medium">Agency Docs</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto space-y-1 pt-4 border-t border-slate-200/50">
+<button class="w-full gradient-primary text-white rounded-lg py-3 px-4 text-xs font-bold mb-4 shadow-md flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="bolt">bolt</span>
+                Launch Pilot Agent
+            </button>
+<a class="flex items-center gap-3 text-slate-600 px-4 py-2 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+<span class="text-xs font-inter font-medium">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 px-4 py-2 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="logout">logout</span>
+<span class="text-xs font-inter font-medium">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-64 min-h-screen">
+<!-- BILLING WARNING BANNER (Critical Task Component) -->
+<div class="px-8 pt-6">
+<div class="relative overflow-hidden rounded-xl bg-error-container/40 border border-error/10 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<!-- Decorative element -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-error/5 rounded-full blur-3xl"></div>
+<div class="flex items-start gap-4 z-10">
+<div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-error font-bold" data-icon="warning">warning</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-error-container text-lg leading-tight">Student Capacity Limit Reached</h3>
+<p class="font-body text-on-surface-variant text-sm mt-1 max-w-xl">
+                            Elite Consulting Group has reached <span class="font-bold text-error">90%</span> of its current student allocation. Once you hit 100%, new student registrations will be paused.
+                        </p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-4 z-10">
+<div class="w-full md:w-48 bg-white/50 h-2 rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 90%;"></div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 gradient-primary text-white font-headline font-bold text-sm rounded-lg shadow-sm hover:opacity-90 transition-all active:scale-95">
+                            Upgrade Plan
+                        </button>
+<button class="px-6 py-2.5 bg-white border border-outline-variant text-primary font-headline font-bold text-sm rounded-lg hover:bg-surface-container transition-all">
+                            Dismiss
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Dashboard Content -->
+<div class="p-8 space-y-8">
+<header>
+<h1 class="font-headline text-3xl font-extrabold text-primary tracking-tight">Agency Overview</h1>
+<p class="text-on-surface-variant font-body">Welcome back, Admin. Here is what's happening with Elite Consulting Group.</p>
+</header>
+<!-- Bento Grid Section -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Main Stat Card -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/15 shadow-sm">
+<div class="flex justify-between items-end mb-8">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-secondary-container">Total Student Engagement</p>
+<h2 class="font-headline text-4xl font-extrabold text-primary mt-1">450 / 500</h2>
+</div>
+<div class="text-right">
+<span class="text-error font-bold text-sm flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                                +12% this month
+                            </span>
+</div>
+</div>
+<div class="h-48 w-full flex items-end gap-2">
+<!-- Simplified Bar Chart Representative -->
+<div class="flex-grow bg-primary/5 rounded-t-lg h-[40%]"></div>
+<div class="flex-grow bg-primary/10 rounded-t-lg h-[55%]"></div>
+<div class="flex-grow bg-primary/5 rounded-t-lg h-[35%]"></div>
+<div class="flex-grow bg-primary/20 rounded-t-lg h-[70%]"></div>
+<div class="flex-grow bg-primary/15 rounded-t-lg h-[60%]"></div>
+<div class="flex-grow bg-primary/40 rounded-t-lg h-[85%]"></div>
+<div class="flex-grow gradient-primary rounded-t-lg h-[90%]"></div>
+</div>
+</div>
+<!-- Side Pilot Card -->
+<div class="md:col-span-4 bg-primary text-white rounded-xl p-8 relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-16 -bottom-16 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+<div>
+<div class="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-white" data-icon="psychology">psychology</span>
+</div>
+<h3 class="font-headline text-2xl font-bold leading-tight">Pilot AI Insight</h3>
+<p class="text-blue-100/70 text-sm mt-4 leading-relaxed">
+                            Based on current growth, you will exceed your capacity in <span class="text-white font-bold">14 days</span>. We recommend upgrading to the "Institution" tier now to avoid disruption.
+                        </p>
+</div>
+<button class="mt-8 w-full py-3 bg-white text-primary font-bold rounded-lg text-sm hover:bg-blue-50 transition-all">
+                        View Projections
+                    </button>
+</div>
+<!-- Usage Details Bento -->
+<div class="md:col-span-4 bg-surface-container-low rounded-xl p-6 border border-outline-variant/10">
+<h4 class="font-manrope font-bold text-primary mb-4">Storage Usage</h4>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full border-4 border-primary border-t-outline-variant/20 flex items-center justify-center rotate-45">
+<span class="text-[10px] font-bold text-primary -rotate-45">75%</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">15.4 GB / 20 GB</p>
+<p class="text-xs text-on-surface-variant">Cloud Document Storage</p>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 bg-surface-container-low rounded-xl p-6 border border-outline-variant/10">
+<h4 class="font-manrope font-bold text-primary mb-4">Active Sessions</h4>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Team member 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPca13eTMrKhASQSKqdD76O1eAQ9RprKezeGIO5N76j2r-jrBkavVsYkJF8blAqeN9Ne8NrqLa_dDUG4Li3QjAOpjpEUC2FoR15EeeIZpIVmxm9LRnyq9bgmJsnv1Kn7OOxNJC2Xu3vF7ITVfdAlmpmB6Gv4-lIkwXkYgUaoCLngS5iQ1RKmkmBdBgo1Lz4BMu0zUdXsajE9yusWh5i1aSo4Xkc2_bIcd7mVEQw1JR2fHeDNIjStm7WrEVuMDeFWxqUbGcptM6g4I"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Team member 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXIjmWWIDJcgpKq3CbhP9gFpv7OKx5VzMkmtbsdjMcIUoHDABDSaHnrk2i_c4es8tlP4N4qNi2jpo99PFGVLU2Y6tIme9giHyaw07oMc_gAfKQubZ6RuBjzb-I7xdB1TeEeLCh39cjHGpq4sh7mLxGMa8s83wPVWTkcTuM_1hg6M96lF7zUP0j60wWI_GjUIIZWq8XGvuiIRqLSPPn8vCdW2ryHIbI0G2fO9RTpMZk-1Z3J7eLgSyMjtxq_M9fsfMtlDTEMX_eR08"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="Team member 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrluZriBi3s_a5-oxcQmN3Cvc39SyP6sZFYsGaoWlJtDRm8_pONm8Wq5A2qd37w7pu6ReqtKyzuoI5xnHp4YXsOm6DV2uXuQ4qLCtcYqtj1oZEOSemwfp39z14bEI6hET1F3XesRctG5Qf_sLmRw1KdD1yhnRfC8lfbLmZjo2wahEVxQU0XbmlVityMLBb9dL1BOSklwGS8vrUK3JfSYl50kshUqHxZ0JSC3nJTOoKC8nypJZ9Ue0lH41TU4ySg5Y8tZhvn86AyEo"/>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-primary-container flex items-center justify-center text-[10px] text-white font-bold">+12</div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Live Now</p>
+<p class="text-xs text-on-surface-variant">Real-time collaboration</p>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 bg-surface-container-low rounded-xl p-6 border border-outline-variant/10">
+<h4 class="font-manrope font-bold text-primary mb-4">Pilot API Calls</h4>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-on-surface-variant uppercase tracking-wider">Quota</span>
+<span class="text-primary">8,420 / 10,000</span>
+</div>
+<div class="w-full bg-outline-variant/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[84%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-lg flex justify-around items-center px-4 pt-2 pb-6 z-50 lg:hidden border-t border-slate-100 shadow-[0_-4px_20px_rgba(3,22,53,0.06)]">
+<div class="flex flex-col items-center justify-center bg-blue-50 text-blue-900 rounded-xl px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Students</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Pilot</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Settings</span>
+</div>
+</nav>
+<!-- Floating Action Button Contextual Suppression: Not rendered here as this is a dashboard/admin view -->
+</body></html>
+
+<!-- Audit Log: PII Masking Toggle -->

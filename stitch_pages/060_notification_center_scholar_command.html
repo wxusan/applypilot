@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Center | Scholar Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#8293b8",
+              "inverse-primary": "#b6c6ef",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "outline": "#75777f",
+              "tertiary-fixed": "#dae2fd",
+              "on-surface-variant": "#44474e",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d5e3fc",
+              "on-primary-fixed-variant": "#364768",
+              "secondary": "#515f74",
+              "outline-variant": "#c5c6cf",
+              "on-primary-fixed": "#081b3a",
+              "on-secondary-container": "#57657a",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "tertiary": "#0e1629",
+              "secondary-container": "#d5e3fc",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "error": "#ba1a1a",
+              "primary-container": "#1a2b4b",
+              "surface-dim": "#d8dadc",
+              "surface-tint": "#4e5e81",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-bright": "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "error-container": "#ffdad6",
+              "primary": "#031635",
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Inter', sans-serif; }
+      h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 h-screen w-64 border-r-0 bg-slate-50 dark:bg-slate-950">
+<div class="p-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-on-primary font-bold">S</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-[#031635] dark:text-white">Scholar Command</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Institutional Elite</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<!-- Students -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">group</span>
+<span class="text-sm font-medium">Students</span>
+</a>
+<!-- Pipeline -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">view_kanban</span>
+<span class="text-sm font-medium">Pipeline</span>
+</a>
+<!-- Analytics -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<!-- AI Assistant -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+<span class="text-sm font-medium">AI Assistant</span>
+</a>
+<!-- Administration -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="text-sm font-medium">Administration</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-100 dark:border-slate-800">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary/10 flex items-center justify-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Student
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 text-sm font-medium hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 text-sm font-medium hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">account_circle</span>
+                    Account
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 min-h-screen flex flex-col">
+<!-- TopAppBar Component -->
+<header class="sticky top-0 z-30 flex items-center justify-between px-8 py-3 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm shadow-[#031635]/5 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/10 placeholder:text-slate-400" placeholder="Search notifications, files, or students..." type="text"/>
+</div>
+<div class="hidden md:flex items-center gap-4">
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-[#031635] transition-all" href="#">Quick Actions</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-[#031635] transition-all" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-5">
+<div class="flex items-center gap-2">
+<button class="p-2 text-primary hover:bg-slate-100 rounded-full transition-all relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-white"></span>
+</button>
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined">history</span>
+</button>
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+<div class="h-8 w-px bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-slate-200" data-alt="Portrait of an academic professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPA2wKrrjPABlTOxCQVN_MsTfchp3UWHdHlD5dLNYhsAs7K2XttCTXvu-6Xl649hMkb6sCrO9bai1xXK5rfgyjnmPd0z-EQAoHwitU89aEZUrFDuQvJQd_sG3FvWcwBq6z8OYW9As_YzKGDw53RZb-XAcU9FVJH7IXkRuCuuYmXFaUrZIj6b-7dAQza-FLYCopUd26XNTvuAZuvoJf7qiPHsP9S5G0fNQDV-LwyjnIBquxsjLGRwq-Og9vBD7kfXWNF-Grqs2NPKU"/>
+<span class="text-sm font-bold text-primary">Dr. Aris Thorne</span>
+</div>
+</div>
+</header>
+<!-- Notification Center Content -->
+<div class="p-10 max-w-6xl mx-auto w-full">
+<div class="flex items-end justify-between mb-10">
+<div>
+<nav class="flex items-center gap-2 text-xs font-bold text-on-surface-variant mb-2 tracking-widest uppercase">
+<span>Dashboard</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-primary">Notification Center</span>
+</nav>
+<h2 class="text-4xl font-extrabold text-primary tracking-tight">Intelligence Hub</h2>
+<p class="text-on-surface-variant mt-2 max-w-md">Stay synchronized with student milestones, system alerts, and institutional deadlines.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-5 py-2.5 text-sm font-bold text-primary hover:bg-surface-container-high transition-colors rounded-xl flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">done_all</span>
+                        Mark All as Read
+                    </button>
+<button class="px-6 py-2.5 bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-bold rounded-xl shadow-lg shadow-primary/10">
+                        Preferences
+                    </button>
+</div>
+</div>
+<!-- Category Filters -->
+<div class="flex items-center gap-2 mb-8 p-1.5 bg-surface-container-low rounded-2xl w-fit">
+<button class="px-6 py-2 bg-surface-container-lowest text-primary shadow-sm rounded-xl text-sm font-bold flex items-center gap-2">
+                    All <span class="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-[10px]">12</span>
+</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary transition-all rounded-xl text-sm font-semibold flex items-center gap-2">
+                    Deadlines <span class="bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded text-[10px]">4</span>
+</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary transition-all rounded-xl text-sm font-semibold flex items-center gap-2">
+                    Messages <span class="bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded text-[10px]">2</span>
+</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary transition-all rounded-xl text-sm font-semibold flex items-center gap-2">
+                    System <span class="bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded text-[10px]">6</span>
+</button>
+</div>
+<!-- Bento Grid Notification Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Critical Alerts Column -->
+<div class="col-span-12 lg:col-span-8 space-y-4">
+<h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+                        Unread Priority Items
+                    </h3>
+<!-- Notification Item 1: High Priority -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 border border-transparent hover:border-outline-variant/10 flex gap-6 items-start">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error rounded-l-2xl"></div>
+<div class="w-12 h-12 rounded-xl bg-error/5 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-bold text-primary text-lg">Common App Deadline Imminent</h4>
+<span class="text-[10px] font-bold text-error bg-error/10 px-2 py-0.5 rounded uppercase">Urgent</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">Student <span class="font-bold text-primary">Marcus Vance</span> has not submitted the final draft for Harvard Supplementals. Deadline is in 4 hours.</p>
+<div class="flex items-center gap-4">
+<button class="text-xs font-bold text-primary underline underline-offset-4 decoration-primary/20 hover:decoration-primary transition-all">View Dossier</button>
+<button class="text-xs font-bold text-on-surface-variant hover:text-primary transition-all">Remind Student</button>
+<span class="ml-auto text-xs text-slate-400 font-medium italic">12 minutes ago</span>
+</div>
+</div>
+</div>
+<!-- Notification Item 2: Message -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 flex gap-6 items-start">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl"></div>
+<div class="w-12 h-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">chat_bubble</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-bold text-primary text-lg">New Message from Parent</h4>
+<span class="text-[10px] font-bold text-primary bg-primary/5 px-2 py-0.5 rounded uppercase">Consultation</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">"We've reviewed the financial aid package for Stanford. Can we schedule a quick call to discuss the next steps?"</p>
+<div class="flex items-center gap-3">
+<img alt="Parent Avatar" class="w-6 h-6 rounded-full" data-alt="Avatar of parent Elizabeth Foster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3FIF6PF6aTbbochNoIMVOm_Fts9XDfd_W7pF4EuDqvvY6FGGEXqwD-VwyFBS9c974LxtEDMajRDIXBOIwmde6HDhNGvDwzq6jvzKnw1PW_2sGlxpTdmGLLEsNMsZF67xRrOIYalXZmx_47JkDJRuyxG3EHKKI2iXaaVXVkL5nJxLCHeT4jBvEq5zRC9atOo2mDl0Stjqe0w0RdHmyiCPPFpV7GiDV4acK2gIMnBs3UU96-wbNdYXqCz2fMqDu7wnwvuPvmjLTR7g"/>
+<span class="text-xs font-bold text-primary">Elizabeth Foster</span>
+<span class="mx-2 text-slate-300">•</span>
+<button class="text-xs font-bold text-primary underline underline-offset-4 decoration-primary/20 hover:decoration-primary transition-all">Reply Now</button>
+<span class="ml-auto text-xs text-slate-400 font-medium italic">1 hour ago</span>
+</div>
+</div>
+</div>
+<!-- Notification Item 3: System Update -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 flex gap-6 items-start">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary rounded-l-2xl"></div>
+<div class="w-12 h-12 rounded-xl bg-tertiary/5 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-bold text-primary text-lg">AI Insight: Essay Analysis Ready</h4>
+<span class="text-[10px] font-bold text-tertiary bg-tertiary/5 px-2 py-0.5 rounded uppercase">Pilot Intelligence</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">Our AI has detected a consistent tone improvement in Sarah Chen's latest draft. Probability of Ivy acceptance increased by 4%.</p>
+<div class="flex items-center gap-4">
+<button class="text-xs font-bold text-primary underline underline-offset-4 decoration-primary/20 hover:decoration-primary transition-all">Review Insights</button>
+<span class="ml-auto text-xs text-slate-400 font-medium italic">3 hours ago</span>
+</div>
+</div>
+</div>
+<!-- Notification Item 4: Success/Action -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 flex gap-6 items-start opacity-70 grayscale-[0.5]">
+<div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h4 class="font-bold text-slate-500 text-lg">Transcript Verified</h4>
+<span class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase">Completed</span>
+</div>
+<p class="text-slate-400 text-sm leading-relaxed">Official transcripts for <span class="font-semibold">Leo K.</span> have been verified and linked to the UC application.</p>
+<div class="flex items-center gap-4 mt-4">
+<span class="ml-auto text-xs text-slate-400 font-medium italic">Yesterday at 4:30 PM</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Insights -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Deadline Dossier -->
+<div class="bg-primary text-on-primary p-8 rounded-3xl shadow-2xl shadow-primary/20 relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+<h3 class="text-lg font-bold mb-6">Upcoming Deadlines</h3>
+<div class="space-y-6 relative z-10">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center font-bold text-xs">OCT 15</div>
+<div>
+<p class="text-xs font-bold text-primary-fixed uppercase tracking-widest">Early Action</p>
+<p class="text-sm font-semibold">UNC Chapel Hill</p>
+</div>
+<div class="ml-auto flex -space-x-2">
+<img class="w-5 h-5 rounded-full border border-primary" data-alt="Student 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1z7OeHnWd_CUzC7PByoo1-xGeQDYulfG1NS0herzTmZGVPCantjyIEmOZmXYmxsdEqrdbboZnx9J3Y2gp5qbN1oz1_v9eiIyz--OT1vlr9p3IXGsMOsnRNAgB9O9MrtBmF_r2x3RAt-_6Y4ta_pbRJoFY84zKaob-mBDtcmouehFRcOqtvbPWkR0_sK6IeX8Y-BD7cyyeSrjUM0Jt1iArH7zMO4XaUlqeRxrTW8jqiZaiooWJC0X8tF85G_FCbYVUuahFP6xld6g"/>
+<img class="w-5 h-5 rounded-full border border-primary" data-alt="Student 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy86UydlpMsbjVim8h5zrXSLqfk70sLK7erkYjqsWeTvwwql1J4Z1_fhFjLC2ADjlTh1tmuh7k_6DI7Q_eMrT2oYvnEiwgxdMYOs0xdKKaHojvAmS4WRBv20luRkJBK0U75P35sgckxzBY5Qy08YHm0AWbIM6jjEhbBtsTDFpiVj6RVuyQSzNOzcSKeAmGHc5rLlRMjBiROMWd38BlDAljilvvAMj_JgcKRHI77TSkv5WuXfAWmhyi14twnXDZeuPntlz3bynvkgo"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center font-bold text-xs">NOV 01</div>
+<div>
+<p class="text-xs font-bold text-primary-fixed uppercase tracking-widest">Standard</p>
+<p class="text-sm font-semibold">UPenn Decisions</p>
+</div>
+<div class="ml-auto flex -space-x-2">
+<img class="w-5 h-5 rounded-full border border-primary" data-alt="Student 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjcfcGDfiihoQ0mLbvhIAzYfs8fsIXXj2YaBp9ul9-27SbJE9UWNaT28ctaSealiGa1hPB5200WRP2-LM9Nt2v08ttXBr4rdb_pfnPKnwJ7kGy8GoVlz9NNqlhOcyUD_2CxLrUJ0EPr-x08tR0qNinGKeLgqMD7kiLCVX0zsH-d-puftfZ1TW85p1y95THYHeU9aGYDptcsAhr5uq0Pj7JbOz_w-A191Jkuvkb2GcGeIXd_hz4GuxPcpkCRocb72UXdyyTT-en5iI"/>
+</div>
+</div>
+<div class="pt-4 border-t border-white/10">
+<button class="w-full py-3 bg-white/10 hover:bg-white/20 transition-all rounded-xl text-xs font-bold uppercase tracking-widest">Open Deadline Calendar</button>
+</div>
+</div>
+</div>
+<!-- Activity Summary Card -->
+<div class="bg-surface-container-low p-8 rounded-3xl">
+<h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-6">Intelligence Pulse</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm text-on-surface-variant">Response Time</span>
+<span class="text-sm font-bold text-primary">1.2 hrs</span>
+</div>
+<div class="w-full bg-slate-200 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] rounded-full"></div>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="text-sm text-on-surface-variant">Critical Alerts</span>
+<span class="text-sm font-bold text-error">4 Unresolved</span>
+</div>
+<div class="w-full bg-slate-200 h-1 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[40%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- AI Assistant Contextual Footer -->
+<div class="bg-white p-6 rounded-3xl border border-primary/5 shadow-sm flex items-center gap-4">
+<div class="w-10 h-10 bg-gradient-to-tr from-primary to-primary-container rounded-full flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-primary">Pilot Suggestion</p>
+<p class="text-xs text-on-surface-variant">Prioritize Marcus Vance's draft review based on deadline proximity.</p>
+</div>
+<button class="p-2 hover:bg-slate-50 rounded-lg transition-all">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Notification Center FAB (Task-Specific Only) -->
+<div class="fixed bottom-10 right-10 flex flex-col items-end gap-4 pointer-events-none">
+<button class="pointer-events-auto w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95">
+<span class="material-symbols-outlined">bolt</span>
+</button>
+</div>
+</main>
+<!-- Global Glassmorphism Background Elements -->
+<div class="fixed -bottom-20 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="fixed top-1/4 -right-20 w-64 h-64 bg-secondary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+</body></html>
+
+<!-- Agency Profile: Settings -->

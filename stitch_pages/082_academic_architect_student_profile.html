@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Architect | Student Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-container": "#d5e3fc",
+                        "primary-fixed": "#d8e2ff",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-container": "#57657a",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-container": "#8293b8",
+                        "surface-tint": "#4e5e81",
+                        "secondary-fixed": "#d5e3fc",
+                        "inverse-surface": "#2d3133",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1629",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c5c6cf",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "primary-container": "#1a2b4b",
+                        "secondary": "#515f74",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b6c6ef",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "tertiary-container": "#232b3f",
+                        "on-primary-fixed-variant": "#364768",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#031635",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-container": "#8a92aa",
+                        "on-primary-fixed": "#081b3a",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "outline": "#75777f",
+                        "on-surface-variant": "#44474e",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-cursor {
+            border-right: 2px solid #031635;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #031635 }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 border-r border-slate-100 p-4 z-40">
+<div class="mb-8 px-4">
+<h1 class="font-headline font-bold text-lg text-blue-950 tracking-tighter">Dossier Manager</h1>
+<p class="text-[10px] text-slate-500 font-medium uppercase tracking-widest">Elite Consulting Group</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all hover:translate-x-1 duration-200 font-inter text-xs font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Overview
+            </a>
+<a class="bg-white text-blue-950 shadow-sm rounded-lg px-4 py-3 mb-1 flex items-center gap-3 transition-all font-bold font-inter text-xs" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span> Student Roster
+            </a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all hover:translate-x-1 duration-200 font-inter text-xs font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span> Pilot Agent
+            </a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all hover:translate-x-1 duration-200 font-inter text-xs font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span> Essay Suite
+            </a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all hover:translate-x-1 duration-200 font-inter text-xs font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span> Agency Docs
+            </a>
+</nav>
+<div class="mt-auto border-t border-slate-100 pt-4">
+<button class="w-full bg-primary text-white py-3 rounded-lg font-headline text-xs font-bold mb-4 hover:opacity-90 transition-opacity">
+                Launch Pilot Agent
+            </button>
+<a class="text-slate-600 px-4 py-2 flex items-center gap-3 text-xs font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span> Help Center
+            </a>
+<a class="text-slate-600 px-4 py-2 flex items-center gap-3 text-xs font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span> Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-64 min-h-screen">
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="bg-slate-50/80 backdrop-blur-xl sticky top-0 z-30 shadow-sm px-8 py-4 flex justify-between items-center w-full">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="architecture" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<span class="text-xl font-bold text-blue-950 tracking-tighter font-headline">Academic Architect</span>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">Dashboard</a>
+<a class="text-blue-900 border-b-2 border-blue-900 pb-1 font-manrope text-sm font-semibold tracking-tight" href="#">Students</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">Messages</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-manrope text-sm font-semibold tracking-tight" href="#">Pilot AI</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<img alt="User profile avatar" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" data-alt="Professional male counselor headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoGkZMO1Gf1Nei0AQm7nNE5BU-gzWXIUjSmfY_48ibWLiCdFL3pr2kHF__Yq41el3klA42E7DIzyLOrVd88kx5e1cMIqxquYt7xuMsZwaNiB79HvvPPlfCDqpqhBbam-2blBjR-_vROZe_ozzFEGzmJp5zNelwM0w8QVdOzkRb9mnwgQDDoJv7cWkdBuc7qgODdsQUDKf1uutaC4vgE7vXMMYXzPn1V0yIfnqJSNvO5TNOt6qv3JMYp3TDUvz0o62pKKziJGD4TS0"/>
+</div>
+</header>
+<!-- Profile Canvas -->
+<section class="max-w-6xl mx-auto px-8 py-10">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-on-surface-variant text-sm mb-6">
+<span>Roster</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<span class="font-semibold text-primary">Julian Thorne</span>
+</nav>
+<!-- Student Hero Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img alt="Student profile" class="w-24 h-24 rounded-2xl object-cover ring-4 ring-white shadow-lg" data-alt="Modern high school student portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfwmIPp7c7yKxdIIDAbCYFUuHzQIQsIJtBNMaBNglndqXH8LI4UuLgkccoABbdgMJ4ZTgIrQoDfF01MLAFxvR9aByI64RPSGx6Wzhs6gJa0JrR_R_DlMbg0fiMGys_q4VjT2i0vQ2aLVSd-k12BqvsvLPsU3VIfw6APzkBp_pjstDvPPuKleSpby8ECAYI4oZhNM0b5fweN7nb0aNiUA0yUYQmH3qnb25-OVwH0io0l41EHoNKMVTCDCACdqkto0v8TRXpibtytGY"/>
+<div class="absolute -bottom-2 -right-2 bg-white p-1.5 rounded-full shadow-md">
+<span class="material-symbols-outlined text-blue-600 text-lg" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div>
+<h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">Julian Thorne</h2>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-primary-container text-on-primary-container px-3 py-0.5 rounded-full text-xs font-bold font-label uppercase tracking-wider">Class of 2025</span>
+<span class="text-on-surface-variant text-sm font-medium">St. Jude’s Preparatory Academy</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-lg border border-outline-variant text-primary font-bold text-sm hover:bg-white transition-all">
+                        Generate Report
+                    </button>
+<button class="px-5 py-2.5 rounded-lg bg-gradient-to-br from-primary to-primary-container text-white font-bold text-sm shadow-md hover:opacity-90 transition-opacity">
+                        Contact Student
+                    </button>
+</div>
+</div>
+<!-- Profile Tabs -->
+<div class="flex gap-10 border-b border-surface-container-high mb-10 overflow-x-auto pb-px">
+<button class="border-b-2 border-primary pb-4 px-1 text-primary font-bold text-sm whitespace-nowrap">Academic Profile</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-on-surface-variant font-medium text-sm hover:text-primary transition-all whitespace-nowrap">Extracurriculars</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-on-surface-variant font-medium text-sm hover:text-primary transition-all whitespace-nowrap">Essay Progress</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-on-surface-variant font-medium text-sm hover:text-primary transition-all whitespace-nowrap">College List</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-on-surface-variant font-medium text-sm hover:text-primary transition-all whitespace-nowrap">Internal Notes</button>
+</div>
+<!-- Bento Layout Content -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Core Stats -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Stats Section (The Active Inline Edit Task) -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-[0_4px_20px_rgba(3,22,53,0.03)] border border-surface-container">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline font-bold text-xl text-primary">Academic Vitality</h3>
+<span class="text-xs text-on-surface-variant font-medium italic">Last updated 2 hours ago by System AI</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<!-- GPA FIELD: ACTIVE EDIT STATE -->
+<div class="relative group">
+<label class="block text-[10px] font-bold text-on-primary-container uppercase tracking-widest mb-2">Unweighted GPA</label>
+<div class="relative inline-block w-full">
+<div class="flex items-baseline bg-primary-fixed/30 rounded-lg p-3 ring-2 ring-primary ring-offset-2 ring-offset-surface-container-lowest">
+<span class="text-4xl font-headline font-extrabold text-primary bg-primary-container/10 px-1 rounded-sm select-all">3.9</span>
+<span class="custom-cursor h-9 inline-block ml-0.5"></span>
+<span class="text-lg font-headline font-bold text-on-primary-container ml-1">/ 4.0</span>
+<!-- Inline Action Mini-Bar -->
+<div class="absolute -right-2 -top-8 flex items-center gap-1 bg-primary text-white p-1 rounded-lg shadow-lg">
+<button class="p-1 hover:bg-white/10 rounded"><span class="material-symbols-outlined text-xs" data-icon="check">check</span></button>
+<button class="p-1 hover:bg-white/10 rounded"><span class="material-symbols-outlined text-xs" data-icon="close">close</span></button>
+</div>
+</div>
+<p class="mt-2 text-xs text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="info">info</span>
+                                        Editing transcript data. Changes will trigger Pilot AI recalculation.
+                                    </p>
+</div>
+</div>
+<!-- Standard Field -->
+<div>
+<label class="block text-[10px] font-bold text-on-primary-container uppercase tracking-widest mb-2">SAT Super Score</label>
+<div class="flex items-baseline gap-2 group cursor-text">
+<span class="text-4xl font-headline font-extrabold text-primary">1540</span>
+<span class="text-lg font-headline font-bold text-on-primary-container">/ 1600</span>
+<span class="material-symbols-outlined text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity text-sm ml-2" data-icon="edit">edit</span>
+</div>
+<div class="flex gap-4 mt-3">
+<div class="text-[11px]">
+<span class="text-on-surface-variant">EBRW:</span> <span class="font-bold text-primary">760</span>
+</div>
+<div class="text-[11px]">
+<span class="text-on-surface-variant">Math:</span> <span class="font-bold text-primary">780</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Stats Strip -->
+<div class="mt-12 pt-8 border-t border-surface-container flex flex-wrap gap-8">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Class Rank</span>
+<span class="text-lg font-headline font-bold text-primary">Top 5% <span class="text-on-surface-variant font-normal text-sm font-body">(12 / 440)</span></span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">AP Courses</span>
+<span class="text-lg font-headline font-bold text-primary">9 Completed</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">Weighted GPA</span>
+<span class="text-lg font-headline font-bold text-primary">4.62</span>
+</div>
+</div>
+</div>
+<!-- Transcript Snapshot -->
+<div class="bg-surface-container-low rounded-2xl p-8 border border-transparent">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline font-bold text-lg text-primary">Academic Trajectory</h3>
+<button class="text-xs font-bold text-primary-container hover:underline">View Full Transcript</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600" data-icon="functions">functions</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">AP Calculus BC</p>
+<p class="text-[10px] text-on-surface-variant">11th Grade • S2</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-primary">A</p>
+<p class="text-[10px] text-on-surface-variant">Grade</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-600" data-icon="biotech">biotech</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">AP Biology</p>
+<p class="text-[10px] text-on-surface-variant">11th Grade • S2</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-primary">A-</p>
+<p class="text-[10px] text-on-surface-variant">Grade</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-purple-600" data-icon="menu_book">menu_book</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Honors Literature</p>
+<p class="text-[10px] text-on-surface-variant">11th Grade • S2</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-primary">A</p>
+<p class="text-[10px] text-on-surface-variant">Grade</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Sidebar -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Pilot AI Card -->
+<div class="bg-primary-container text-white rounded-2xl p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<h3 class="font-headline font-bold text-lg tracking-tight">Pilot Intelligence</h3>
+</div>
+<p class="text-sm text-on-primary-container leading-relaxed mb-6">
+                                Julian's current GPA and SAT combo places him in the <span class="text-white font-bold">top 18%</span> of applicants for <span class="italic">Duke University</span>.
+                            </p>
+<div class="space-y-4">
+<div class="bg-white/5 p-4 rounded-xl border border-white/10">
+<p class="text-[10px] uppercase font-bold text-primary-fixed tracking-widest mb-2">Admission Probability</p>
+<div class="flex items-center gap-3">
+<div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed w-[68%]"></div>
+</div>
+<span class="text-sm font-bold">68%</span>
+</div>
+</div>
+<div class="bg-white/5 p-4 rounded-xl border border-white/10">
+<p class="text-[10px] uppercase font-bold text-primary-fixed tracking-widest mb-2">Recommended Action</p>
+<p class="text-xs text-on-primary-container italic">"Focus on the 'Personal Growth' essay narrative to offset slightly lower AP Bio grade."</p>
+</div>
+</div>
+<button class="w-full mt-8 py-3 bg-primary-fixed text-primary font-bold text-sm rounded-lg hover:bg-white transition-colors">
+                                View Strategy Plan
+                            </button>
+</div>
+</div>
+<!-- Tags / Labels -->
+<div class="bg-surface-container-high/50 rounded-2xl p-6">
+<h4 class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-4">Focus Areas</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-white border border-outline-variant text-on-surface-variant text-[11px] font-bold rounded-lg">STEM Track</span>
+<span class="px-3 py-1 bg-white border border-outline-variant text-on-surface-variant text-[11px] font-bold rounded-lg">Ivy League Focus</span>
+<span class="px-3 py-1 bg-white border border-outline-variant text-on-surface-variant text-[11px] font-bold rounded-lg">Financial Aid</span>
+<span class="px-3 py-1 bg-white border border-outline-variant text-on-surface-variant text-[11px] font-bold rounded-lg">Early Decision Candidate</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- BottomNavBar (Authority Source: JSON) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-6 bg-white/90 backdrop-blur-lg lg:hidden z-50 border-t border-slate-100 shadow-[0_-4px_20px_rgba(3,22,53,0.06)]">
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 active:bg-slate-50 transition-all scale-95 duration-100">
+<span class="material-symbols-outlined text-lg" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-blue-50 text-blue-900 rounded-xl px-4 py-1.5 active:bg-slate-50 transition-all scale-95 duration-100">
+<span class="material-symbols-outlined text-lg" data-icon="person_search">person_search</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Students</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 active:bg-slate-50 transition-all scale-95 duration-100">
+<span class="material-symbols-outlined text-lg" data-icon="psychology">psychology</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Pilot</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 active:bg-slate-50 transition-all scale-95 duration-100">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Settings</span>
+</div>
+</nav>
+</main>
+<!-- Floating Action Button (FAB) Suppression: Hidden on Detail/Transactional pages as per rules -->
+</body></html>
+
+<!-- Student Profile: Documents Upload Active -->

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c5c6cf",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#0e1629",
+              "on-tertiary-fixed": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#232b3f",
+              "on-primary-container": "#8293b8",
+              "on-primary-fixed": "#081b3a",
+              "primary-container": "#1a2b4b",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-surface-variant": "#44474e",
+              "on-secondary-container": "#57657a",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb",
+              "tertiary-fixed-dim": "#bec6e0",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline": "#75777f",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "primary": "#031635",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#515f74",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed": "#dae2fd",
+              "secondary-fixed": "#d5e3fc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#4e5e81",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "inverse-primary": "#b6c6ef"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface">
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-primary/40 backdrop-blur-sm">
+<div class="bg-surface-container-lowest w-full max-w-5xl h-full max-h-[900px] shadow-2xl rounded-xl overflow-hidden flex flex-col relative">
+<header class="px-8 py-6 flex items-center justify-between bg-surface-container-lowest">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-2xl" data-icon="policy">policy</span>
+</div>
+<div>
+<h1 class="font-headline font-extrabold text-2xl text-primary tracking-tight">ApplyPilot</h1>
+<p class="text-on-surface-variant text-sm font-medium">Условия обслуживания • Academic Architect</p>
+</div>
+</div>
+<div class="hidden md:block">
+<div class="px-4 py-2 bg-surface-container-high rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="language">language</span>
+<span class="text-xs font-semibold uppercase tracking-wider">Русский (RU)</span>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto px-8 py-4 no-scrollbar bg-surface-container-low/50">
+<div class="max-w-3xl mx-auto space-y-10 py-8">
+<section>
+<h2 class="font-headline text-3xl font-extrabold text-primary mb-6">Пользовательское соглашение</h2>
+<div class="bg-primary/5 p-4 rounded-lg mb-8 border-l-4 border-primary">
+<p class="text-on-surface-variant leading-relaxed italic">
+                                Последнее обновление: 24 мая 2024 г. Пожалуйста, внимательно ознакомьтесь с данными условиями перед использованием платформы ApplyPilot.
+                            </p>
+</div>
+<p class="text-on-surface leading-relaxed mb-6">
+                            Добро пожаловать в ApplyPilot. Используя наш сервис, вы соглашаетесь с настоящими условиями. Наша платформа предназначена для оказания помощи в процессе поступления в высшие учебные заведения, обеспечивая интеллектуальное управление документами и аналитику.
+                        </p>
+</section>
+<section class="space-y-4">
+<h3 class="font-headline text-xl font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+                            1. Принятие условий
+                        </h3>
+<p class="text-on-surface-variant leading-relaxed">
+                            Регистрируясь в ApplyPilot, вы подтверждаете, что вам исполнилось 18 лет или вы обладаете законным согласием родителей или опекунов. Вы несете полную ответственность за точность предоставленных данных в процессе подачи заявок.
+                        </p>
+</section>
+<section class="space-y-4">
+<h3 class="font-headline text-xl font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="shield">shield</span>
+                            2. Конфиденциальность данных
+                        </h3>
+<p class="text-on-surface-variant leading-relaxed">
+                            Ваша академическая информация и личные документы обрабатываются в соответствии с нашими протоколами безопасности. Мы используем шифрование корпоративного уровня для защиты ваших досье. ApplyPilot не передает ваши данные третьим лицам без вашего прямого согласия, за исключением случаев, предусмотренных законодательством.
+                        </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary-tint mb-2" data-icon="lock" style="color: #4e5e81">lock</span>
+<h4 class="font-bold text-primary mb-1">Защита данных</h4>
+<p class="text-xs text-on-surface-variant">Шифрование AES-256 для всех загруженных документов.</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-lg shadow-sm border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary-tint mb-2" data-icon="visibility_off" style="color: #4e5e81">visibility_off</span>
+<h4 class="font-bold text-primary mb-1">Анонимность</h4>
+<p class="text-xs text-on-surface-variant">Возможность анонимного анализа статистики поступлений.</p>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<h3 class="font-headline text-xl font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="smart_toy">smart_toy</span>
+                            3. Использование ИИ-советника
+                        </h3>
+<p class="text-on-surface-variant leading-relaxed">
+                            Функция "Pilot AI" предоставляет рекомендации на основе исторических данных и текущих требований университетов. Однако окончательное решение о подаче документов остается за пользователем. Мы не гарантируем 100% вероятность зачисления, так как решение принимается приемными комиссиями университетов.
+                        </p>
+</section>
+<section class="space-y-4">
+<h3 class="font-headline text-xl font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="gavel">gavel</span>
+                            4. Ограничение ответственности
+                        </h3>
+<p class="text-on-surface-variant leading-relaxed">
+                            ApplyPilot (Academic Architect) не несет ответственности за технические сбои на сайтах университетов или изменения в их политике приема, произошедшие после формирования рекомендаций.
+                        </p>
+</section>
+<div class="pt-8 border-t border-outline-variant/20">
+<div class="flex items-start gap-4 p-4 bg-surface-container-high rounded-lg">
+<input class="mt-1 rounded border-outline text-primary focus:ring-primary h-5 w-5 cursor-pointer" id="tos_check" type="checkbox"/>
+<label class="text-sm font-medium text-on-surface select-none cursor-pointer" for="tos_check">
+                                Я подтверждаю, что прочитал(а) и полностью принимаю Условия обслуживания и Политику конфиденциальности платформы ApplyPilot.
+                            </label>
+</div>
+</div>
+</div>
+</div>
+<footer class="p-8 bg-surface-container-lowest border-t border-outline-variant/15 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-6">
+<a class="text-xs font-bold text-primary uppercase tracking-widest hover:underline" href="#">Скачать PDF</a>
+<a class="text-xs font-bold text-primary uppercase tracking-widest hover:underline" href="#">Печать</a>
+</div>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-8 py-3 rounded-lg font-bold text-secondary hover:bg-surface-container-high transition-colors text-sm">
+                        Отклонить
+                    </button>
+<button class="flex-1 md:flex-none px-10 py-3 rounded-lg font-bold text-on-primary bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/10 hover:brightness-110 active:scale-[0.98] transition-all text-sm">
+                        Я принимаю условия
+                    </button>
+</div>
+</footer>
+</div>
+</div>
+<main class="fixed inset-0 -z-10 overflow-hidden bg-surface">
+<div class="absolute inset-0 opacity-40">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary-fixed filter blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-secondary-fixed filter blur-[100px]"></div>
+</div>
+<div class="p-8 max-w-7xl mx-auto h-full opacity-20 pointer-events-none">
+<div class="grid grid-cols-12 gap-6 h-full">
+<div class="col-span-3 bg-surface-container-low rounded-xl"></div>
+<div class="col-span-9 space-y-6">
+<div class="h-16 bg-surface-container-low rounded-xl"></div>
+<div class="grid grid-cols-3 gap-6 h-40">
+<div class="bg-surface-container-low rounded-xl"></div>
+<div class="bg-surface-container-low rounded-xl"></div>
+<div class="bg-surface-container-low rounded-xl"></div>
+</div>
+<div class="flex-1 bg-surface-container-low rounded-xl h-[500px]"></div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- Super Admin: Payment Note -->

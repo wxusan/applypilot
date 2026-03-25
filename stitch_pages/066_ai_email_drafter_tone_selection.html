@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Email Drafter | Tone Selection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1A2B4B 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 border-r border-slate-200/15 py-6 px-4 gap-y-2">
+<div class="mb-8 px-2">
+<h1 class="font-headline font-bold text-lg text-[#031635] tracking-tight">Academic Architect</h1>
+<p class="text-xs text-on-surface-variant">Elite Consulting</p>
+</div>
+<nav class="flex flex-col gap-y-1 flex-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_shared</span>
+<span class="font-medium text-sm">Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 translate-x-1 transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-medium text-sm">AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">robot_2</span>
+<span class="font-medium text-sm">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-medium text-sm">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-y-1">
+<button class="mb-4 active-gradient text-white py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/10 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span>
+<span class="font-headline text-sm font-semibold">New Dossier</span>
+</button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+<span class="font-medium text-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-medium text-sm">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 min-h-screen p-12">
+<!-- Header -->
+<header class="mb-12">
+<nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-4">
+<span>AI Drafter</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary font-medium">New Communication</span>
+</nav>
+<h2 class="font-headline text-4xl font-extrabold text-primary tracking-tight">Email Architect</h2>
+<p class="text-on-surface-variant mt-2 max-w-2xl">Refine your institutional outreach with precision. Select a behavioral profile to guide the AI's linguistic nuances.</p>
+</header>
+<!-- Editor Interface Layout -->
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Left Side: Tone Selection & Configuration -->
+<section class="col-span-4 flex flex-col gap-6">
+<!-- Tone Selection Card -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/15 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline font-bold text-primary tracking-tight">Selection Tone</h3>
+<span class="material-symbols-outlined text-on-primary-container">info</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Tone Option: Encouraging & Expert -->
+<button class="w-full text-left p-4 rounded-xl border border-outline-variant/30 bg-surface-container-lowest flex items-start gap-4 hover:bg-surface-bright hover:shadow-md transition-all duration-200 group">
+<div class="bg-primary-fixed p-2.5 rounded-lg text-primary">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div class="flex-1">
+<p class="font-headline font-bold text-sm text-primary">Encouraging &amp; Expert</p>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Authority-led guidance focused on mentorship and growth milestones.</p>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>
+</div>
+</button>
+<!-- Tone Option: Formal & Direct (ACTIVE STATE) -->
+<button class="w-full text-left p-4 rounded-xl border-2 border-primary bg-surface-container-lowest flex items-start gap-4 shadow-lg shadow-primary/5 transition-all duration-200">
+<div class="active-gradient p-2.5 rounded-lg text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div class="flex-1">
+<p class="font-headline font-bold text-sm text-primary">Formal &amp; Direct</p>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">High-level administrative clarity. Minimal fluff, maximum impact.</p>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-primary flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+</div>
+</button>
+<!-- Tone Option: Warm & Persuasive -->
+<button class="w-full text-left p-4 rounded-xl border border-outline-variant/30 bg-surface-container-lowest flex items-start gap-4 hover:bg-surface-bright hover:shadow-md transition-all duration-200 group">
+<div class="bg-secondary-container p-2.5 rounded-lg text-on-secondary-container">
+<span class="material-symbols-outlined">favorite</span>
+</div>
+<div class="flex-1">
+<p class="font-headline font-bold text-sm text-primary">Warm &amp; Persuasive</p>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Relatable storytelling designed to inspire action and trust.</p>
+</div>
+<div class="w-5 h-5 rounded-full border border-outline-variant flex items-center justify-center">
+<div class="w-2.5 h-2.5 rounded-full bg-transparent"></div>
+</div>
+</button>
+</div>
+</div>
+<!-- Parameters Card -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/15">
+<h3 class="font-headline font-bold text-primary tracking-tight mb-4">Draft Constraints</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs font-medium mb-2">
+<span class="text-on-surface-variant uppercase tracking-wider">Vocabulary Depth</span>
+<span class="text-primary font-bold">Academic</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full w-3/4 active-gradient rounded-full"></div>
+</div>
+</div>
+<div class="pt-2">
+<label class="flex items-center gap-3 cursor-pointer">
+<div class="relative w-10 h-6 bg-surface-container-highest rounded-full transition-colors">
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full shadow-sm translate-x-4 active-gradient"></div>
+</div>
+<span class="text-sm font-medium text-primary">Cite External Sources</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Side: Writing Canvas -->
+<section class="col-span-8 bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-sm min-h-[600px] flex flex-col relative overflow-hidden">
+<!-- Toolbar -->
+<div class="h-14 border-b border-surface-container px-6 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Editor Canvas</span>
+<div class="h-4 w-px bg-surface-container-highest"></div>
+<div class="flex gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">format_bold</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">format_italic</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">link</span></button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] text-on-surface-variant italic">Words: 142</span>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-high text-primary font-medium text-xs hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-[16px]">history</span>
+                            Version History
+                        </button>
+</div>
+</div>
+<!-- Editor Body -->
+<div class="p-12 flex-1">
+<div class="max-w-xl mx-auto space-y-8">
+<div>
+<p class="text-on-surface-variant text-xs mb-1 font-medium">To:</p>
+<h4 class="font-headline font-bold text-primary text-xl">Dean of Admissions, Stanford University</h4>
+</div>
+<div class="space-y-4">
+<p class="font-body text-on-surface leading-relaxed">Dear Dean Henderson,</p>
+<p class="font-body text-on-surface leading-relaxed italic text-on-surface-variant">
+                                [AI Generation in progress based on <span class="text-primary font-semibold">Formal &amp; Direct</span> tone...]
+                            </p>
+<p class="font-body text-on-surface leading-relaxed">
+                                I am writing to formally present the comprehensive application dossier for Student ID #8821. As we discussed during the recent regional symposium, this applicant represents a unique synthesis of high-tier computational research and classical humanities.
+                            </p>
+<p class="font-body text-on-surface leading-relaxed">
+                                We have ensured that all institutional requirements regarding transcripts and secondary assessments are attached in the primary folder. Our internal review suggests a 94% alignment with your upcoming 'Interdisciplinary Tech' initiative.
+                            </p>
+<p class="font-body text-on-surface leading-relaxed">
+                                I look forward to your acknowledgment of receipt and the subsequent evaluation timeline.
+                            </p>
+<p class="font-body text-on-surface leading-relaxed">
+                                Regards,<br/>
+<span class="font-bold">Director of Strategy</span>
+</p>
+</div>
+</div>
+</div>
+<!-- Floating AI Action Bar -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%] bg-surface-container-lowest/80 backdrop-blur-xl border border-outline-variant/20 rounded-2xl p-4 shadow-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="active-gradient w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Pilot AI Assistant</p>
+<p class="text-[10px] text-on-surface-variant">Active profile: Academic Architect (Formal)</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-lg border border-outline-variant text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
+                            Regenerate
+                        </button>
+<button class="px-6 py-2 rounded-lg active-gradient text-white text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-95 transition-all">
+                            Finalize Draft
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>
+
+<!-- Activity: Staff Edits Filter -->

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ApplyPilot - Student Profile: Alex Johnson</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d5e3fc",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary-fixed-variant": "#364768",
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#4e5e81",
+              "tertiary-container": "#232b3f",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-surface-variant": "#44474e",
+              "on-error": "#ffffff",
+              "tertiary": "#0e1629",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface": "#f7f9fb",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "primary-fixed": "#d8e2ff",
+              "outline": "#75777f",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#131b2e",
+              "primary": "#031635",
+              "error": "#ba1a1a",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#8a92aa",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#8293b8"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1A2B4B 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-8 px-4 z-50">
+<div class="mb-10 px-2 flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm" data-icon="school">school</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-blue-950 dark:text-white font-headline">ApplyPilot</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">College Consulting</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Inactive -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<!-- Active: Students -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-blue-950 dark:text-blue-300 font-bold border-r-4 border-blue-950 dark:border-blue-400 bg-white/50 dark:bg-white/5 text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+                Students
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+                Applications
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="event_upcoming">event_upcoming</span>
+                Deadlines
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+                Documents
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/50 space-y-1">
+<button class="w-full btn-gradient text-white py-3 rounded-xl font-bold text-sm mb-6 shadow-lg shadow-primary/10 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Student
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-slate-500 text-sm hover:bg-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+                Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-slate-500 text-sm hover:bg-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                Account
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800/50 flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</span>
+<input class="bg-surface-container border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search students or colleges..." type="text"/>
+</div>
+<nav class="flex items-center gap-6">
+<a class="text-blue-950 dark:text-blue-300 font-semibold border-b-2 border-blue-950 dark:border-blue-400 pb-2 text-sm" href="#">Counselor Dashboard</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors text-sm" href="#">Agency Admin</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-primary text-sm font-semibold hover:bg-surface-container transition-colors">Invite Team</button>
+<div class="flex items-center gap-2 text-slate-500 border-l border-slate-200 pl-4 ml-2">
+<button class="p-2 hover:bg-slate-100 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 ring-2 ring-slate-100">
+<img class="w-full h-full object-cover" data-alt="Counselor Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUmUbCgEv0yg7TojglTnNtjkd2uB7-K4nU-l6w13f5y3pQaU0bANY9qmpF4LzgOapbr1IlPHO3f6hTfQNxR9zptQjEkuYNr4WVA1ADwO5j2uPW0TJ-NFskHTXPNNiPCPL4m1wRRgRR6CO8oaz08ljk627l2nLLQTNFq2Kj1-Kk5ioRCbmS9YDF028dSOzqxTdyp0TPdemtA0Ak_H6C81ECS9c7aOwJipwP-5VswaECIu_ulp0iEQhyz5m7AMkkIf1RC1PXCXowfto"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-24 pb-12 px-12 max-w-7xl mx-auto">
+<!-- Profile Header -->
+<div class="flex items-start justify-between mb-10">
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="w-24 h-24 rounded-2xl overflow-hidden shadow-xl ring-4 ring-white">
+<img class="w-full h-full object-cover" data-alt="Portrait of student Alex Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzwW3RV1wqxdGOML9fszbPtuG9qHt7BCB6hgFBeKC7mcCj6ae-2NeTYRL_lSBrLDaOmlB_SrZABS4R27YsPycT2k7LnBdwGEjUWCZEXdQyx1UXaltzQTTxl3HOot7aeEryXkqMyvEmxCkMBewhRuifMoSxIViWB3dLl8T6TyyHFkFnq4Gs4ZVjkYB5P3nR44uG_Tn0oYZdyecTu2hOyLeVNvq98PuJJWEhkIkVOHatGv-4FJCnGD93OM8PRFK1d8pd_y-c54rTCt8"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-white p-1.5 rounded-lg shadow-md">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="text-3xl font-extrabold font-headline text-primary tracking-tight">Alex Johnson</h2>
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter">Class of 2025</span>
+</div>
+<p class="text-on-surface-variant flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+                            San Francisco, CA • Lincoln High School
+                        </p>
+<div class="mt-3 flex gap-4">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-surface-container-low px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-xs" data-icon="grade">grade</span> 3.92 GPA
+                            </div>
+<div class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-surface-container-low px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-xs" data-icon="article">article</span> 1540 SAT
+                            </div>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="p-2 bg-white rounded-xl border border-outline-variant hover:border-primary transition-all text-primary">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</button>
+<button class="btn-gradient text-white px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                        Edit Profile
+                    </button>
+</div>
+</div>
+<!-- Profile Tabs -->
+<div class="mb-8 border-b border-slate-200">
+<div class="flex gap-10">
+<a class="pb-4 text-slate-500 font-medium hover:text-primary transition-colors text-sm" href="#">Profile</a>
+<a class="pb-4 text-primary font-bold border-b-2 border-primary transition-all text-sm relative" href="#">
+                        Applications
+                        <span class="absolute -top-1 -right-4 w-4 h-4 bg-primary text-white text-[9px] rounded-full flex items-center justify-center">8</span>
+</a>
+<a class="pb-4 text-slate-500 font-medium hover:text-primary transition-colors text-sm" href="#">Deadlines</a>
+<a class="pb-4 text-slate-500 font-medium hover:text-primary transition-colors text-sm" href="#">Documents</a>
+<a class="pb-4 text-slate-500 font-medium hover:text-primary transition-colors text-sm" href="#">Emails</a>
+<a class="pb-4 text-slate-500 font-medium hover:text-primary transition-colors text-sm" href="#">Activity</a>
+</div>
+</div>
+<!-- Content Grid: Asymmetric Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Main Applications Table -->
+<div class="col-span-9">
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+<div class="px-6 py-5 flex items-center justify-between border-b border-slate-50">
+<div>
+<h3 class="font-headline font-bold text-lg text-primary">College List</h3>
+<p class="text-xs text-on-surface-variant">Manage university applications and real-time statuses.</p>
+</div>
+<button class="flex items-center gap-2 text-primary text-sm font-bold bg-primary-fixed/30 px-4 py-2 rounded-lg hover:bg-primary-fixed/50 transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
+                                Add Application
+                            </button>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+<th class="px-6 py-4">University</th>
+<th class="px-6 py-4">Type</th>
+<th class="px-6 py-4">Deadline</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+<!-- Stanford -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-700 font-bold border border-red-100">
+                                                S
+                                            </div>
+<div>
+<p class="font-bold text-primary text-sm">Stanford University</p>
+<p class="text-[11px] text-slate-400">California, USA</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold text-slate-600 px-2 py-1 bg-slate-100 rounded-md">REA</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm font-medium text-primary">Nov 1, 2024</div>
+<div class="text-[10px] text-error font-bold">14 Days Left</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+<span class="text-xs font-bold text-blue-700">Applied</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- MIT -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 font-bold border border-slate-200">
+                                                M
+                                            </div>
+<div>
+<p class="font-bold text-primary text-sm">Massachusetts Institute of Technology</p>
+<p class="text-[11px] text-slate-400">Massachusetts, USA</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold text-slate-600 px-2 py-1 bg-slate-100 rounded-md">EA</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm font-medium text-primary">Nov 1, 2024</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span class="text-xs font-bold text-amber-700">Pending</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- UCLA -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-800 font-bold border border-blue-100">
+                                                U
+                                            </div>
+<div>
+<p class="font-bold text-primary text-sm">UC Los Angeles</p>
+<p class="text-[11px] text-slate-400">California, USA</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold text-slate-600 px-2 py-1 bg-slate-100 rounded-md">RD</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm font-medium text-primary">Nov 30, 2024</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-bold text-emerald-700">Accepted</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Columbia -->
+<tr class="hover:bg-slate-50/80 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center text-sky-800 font-bold border border-sky-100">
+                                                C
+                                            </div>
+<div>
+<p class="font-bold text-primary text-sm">Columbia University</p>
+<p class="text-[11px] text-slate-400">New York, USA</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="text-xs font-semibold text-slate-600 px-2 py-1 bg-slate-100 rounded-md">RD</span>
+</td>
+<td class="px-6 py-5">
+<div class="text-sm font-medium text-primary">Jan 1, 2025</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-slate-300"></span>
+<span class="text-xs font-bold text-slate-500">Not Started</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 bg-slate-50/50 text-center">
+<button class="text-xs font-bold text-primary hover:underline">View All 8 Universities</button>
+</div>
+</div>
+</div>
+<!-- Sidebar Analytics -->
+<div class="col-span-3 space-y-6">
+<!-- Progress Card -->
+<div class="bg-primary p-6 rounded-2xl text-white relative overflow-hidden shadow-xl">
+<div class="relative z-10">
+<h4 class="font-headline font-bold text-lg mb-4">Application Health</h4>
+<div class="flex items-end gap-2 mb-2">
+<span class="text-4xl font-extrabold tracking-tighter">82%</span>
+<span class="text-xs text-blue-200 mb-1">Ready for Submission</span>
+</div>
+<div class="w-full bg-white/20 h-1.5 rounded-full overflow-hidden mb-6">
+<div class="bg-white h-full" style="width: 82%"></div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-xs">
+<span class="text-blue-100">Essays Finalized</span>
+<span class="font-bold">6/8</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="text-blue-100">Rec Letters</span>
+<span class="font-bold text-emerald-400">Complete</span>
+</div>
+</div>
+</div>
+<!-- Abstract Background Decoration -->
+<div class="absolute -bottom-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+<!-- Upcoming Tasks Bento -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-bold text-sm text-primary">Tasks Due</h4>
+<span class="bg-white px-2 py-0.5 rounded text-[10px] font-bold text-primary shadow-sm">3 Today</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="description">description</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Stanford Supplemental</p>
+<p class="text-[10px] text-slate-500">Review final draft</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="payments">payments</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">CSS Profile Submit</p>
+<p class="text-[10px] text-slate-500">Financial aid portal</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Pilot AI Widget -->
+<div class="p-6 rounded-2xl bg-white border border-blue-100 shadow-sm relative group overflow-hidden">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-6 h-6 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-white" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="text-[10px] font-extrabold uppercase tracking-widest text-primary">Pilot Insight</span>
+</div>
+<p class="text-xs text-slate-600 italic leading-relaxed">
+                            "Alex's MIT application has the highest match score (94%). Prioritize the 'Research Portfolio' section as it aligns with their robotics award."
+                        </p>
+<div class="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
+<span class="text-[10px] font-bold text-slate-400">AI Counselor</span>
+<button class="text-[10px] font-extrabold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
+                                FULL ANALYSIS <span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) - Contextual for Student List / Quick Actions -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 btn-gradient rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="chat_bubble" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</button>
+</div>
+</body></html>
+
+<!-- Password Reset - ApplyPilot -->

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Desktop Access Required | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d5e3fc",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary-fixed-variant": "#364768",
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#4e5e81",
+              "tertiary-container": "#232b3f",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-surface-variant": "#44474e",
+              "on-error": "#ffffff",
+              "tertiary": "#0e1629",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface": "#f7f9fb",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "primary-fixed": "#d8e2ff",
+              "outline": "#75777f",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#131b2e",
+              "primary": "#031635",
+              "error": "#ba1a1a",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#8a92aa",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#8293b8"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary text-on-primary min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
+<!-- Background Decoration (Asymmetric Editorial Style) -->
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20 z-0">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-container rounded-full blur-[120px]"></div>
+<div class="absolute bottom-1/4 -right-12 w-64 h-64 bg-surface-tint rounded-full blur-[100px]"></div>
+</div>
+<!-- Main Content Container -->
+<main class="relative z-10 w-full max-w-md flex flex-col items-center text-center space-y-10">
+<!-- Branding Identity (from SideNavBar JSON logic) -->
+<header class="flex items-center space-x-3 mb-4">
+<div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md">
+<span class="material-symbols-outlined text-secondary-fixed text-2xl" data-icon="school">school</span>
+</div>
+<div class="text-left">
+<p class="text-xl font-bold tracking-tight text-white font-headline">ApplyPilot</p>
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-primary-container font-semibold">College Consulting</p>
+</div>
+</header>
+<!-- Visual Anchor: Device Illustration -->
+<div class="relative w-full aspect-square max-w-[280px] flex items-center justify-center">
+<!-- Glassmorphism Ring -->
+<div class="absolute inset-0 border-[0.5px] border-white/20 rounded-full"></div>
+<div class="absolute inset-8 border-[0.5px] border-white/10 rounded-full"></div>
+<!-- Icon Stack -->
+<div class="relative bg-surface-container-lowest/10 backdrop-blur-2xl p-8 rounded-full shadow-2xl">
+<span class="material-symbols-outlined text-[120px] text-white opacity-90 leading-none" data-icon="laptop_mac">laptop_mac</span>
+<!-- Floating Mobile Icon with Prohibited Line -->
+<div class="absolute -bottom-2 -right-2 bg-error p-3 rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl" data-icon="smartphone">smartphone</span>
+<div class="absolute w-8 h-[2px] bg-white rotate-45"></div>
+</div>
+</div>
+</div>
+<!-- Typography & Messaging -->
+<section class="space-y-4 px-4">
+<h1 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                Desktop Access Required
+            </h1>
+<p class="text-on-primary-container text-lg leading-relaxed font-medium">
+                ApplyPilot is optimized for desktop and laptop usage. Please switch to a computer to access the dashboard.
+            </p>
+</section>
+<!-- Actions -->
+<footer class="w-full flex flex-col space-y-4 pt-4">
+<!-- CTA: Primary Instruction style_primary_color mapping -->
+<div class="p-px bg-gradient-to-br from-white/20 to-transparent rounded-xl">
+<button class="w-full bg-surface-container-lowest text-primary py-4 px-8 rounded-[calc(0.5rem-1px)] font-bold text-base transition-all active:scale-95 shadow-xl flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined text-xl" data-icon="monitor">monitor</span>
+<span>Continue on Desktop</span>
+</button>
+</div>
+<!-- Alternative Action: The "Try Anyway" Rule for Large Tablets -->
+<button class="w-full py-3 px-8 rounded-xl text-on-primary-container font-semibold text-sm hover:text-white transition-colors duration-300 flex items-center justify-center space-x-2 border border-white/10">
+<span>Try Anyway</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+</button>
+</footer>
+<!-- Progress/Contextual Anchor -->
+<div class="pt-8 flex items-center justify-center space-x-6 opacity-40">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm" data-icon="security">security</span>
+<span class="text-[10px] font-bold tracking-widest uppercase">Secure Portal</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-white/30"></div>
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+<span class="text-[10px] font-bold tracking-widest uppercase">Academic Standard</span>
+</div>
+</div>
+</main>
+<!-- Visual Detail: The Dossier Shadow -->
+<div class="fixed bottom-0 left-0 w-full h-32 bg-gradient-to-t from-primary to-transparent pointer-events-none z-20"></div>
+<!-- Instructional Subtext for User -->
+<aside class="fixed bottom-8 text-on-primary-container/60 text-[11px] font-medium tracking-wide">
+        © 2024 ApplyPilot Technologies. Professional Grade Desktop Interface.
+    </aside>
+</body></html>
+<!-- Students List (Empty State) - ApplyPilot -->

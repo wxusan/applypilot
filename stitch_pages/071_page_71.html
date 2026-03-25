@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-primary">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 border-r border-slate-200/15 py-6 px-4 gap-y-2 z-50">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h1 class="font-headline font-bold text-lg text-[#031635] leading-none">Academic Architect</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Elite Consulting</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 font-medium transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:text-[#031635] rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span>Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:text-[#031635] rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span>AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:text-[#031635] rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="robot_2">robot_2</span>
+<span>Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:text-[#031635] rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-y-1 pt-4 border-t border-slate-200/50">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Header Section -->
+<header class="h-16 w-full flex items-center justify-between px-10 sticky top-0 bg-slate-50/80 backdrop-blur-xl z-40">
+<div class="flex items-center gap-4">
+<h2 class="font-headline font-bold text-xl text-slate-900 tracking-tight">Staff Management</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container rounded-full px-4 py-1.5 gap-2">
+<span class="material-symbols-outlined text-slate-500 text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Search consultants..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined text-slate-600" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="Senior consultant profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNjZ-7IWQzCrZKr5iSevnCjvgtI0PePf6kY0kvium1dPyJ66LpqeEb1_VNzNT1T3mjBep42UsCCwWb4716QQDm-v6H2LVGURCH8xLfTp0w7W9JCwW9eQaUDu-ZkwgxPHViNgSW9BtmkA2u8Y-2Xay6BGG1DVhcBhjl1BOU6Ik95LD-kOCvnmkr8WWBAN94CbDYUxh41869hSyjJ_LxnNpiSmsHCUmSabJYY-QhGb-htsHRD6V1U5dRx6bcnEq7f1qpPtRDpSrbSmU"/>
+<span class="font-headline font-semibold text-sm text-slate-900">Dr. Julian Vance</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Toast Notification (SUCCESS STATE) -->
+<div class="fixed top-20 right-8 z-50 pointer-events-none">
+<div class="pointer-events-auto flex items-center gap-4 bg-primary text-white p-1 pr-6 rounded-xl shadow-[0_20px_50px_rgba(3,22,53,0.25)] border border-primary-container max-w-md animate-in slide-in-from-top-4 duration-500">
+<div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center m-1">
+<span class="material-symbols-outlined text-white" data-icon="mark_email_read" style="font-variation-settings: 'FILL' 1;">mark_email_read</span>
+</div>
+<div class="py-2">
+<h4 class="font-headline font-bold text-sm leading-tight">Success: Invitation Resent</h4>
+<p class="font-body text-xs text-slate-300 mt-0.5">A new access link was sent to <span class="text-white font-medium underline underline-offset-2">m.chen@academicarchitect.com</span></p>
+</div>
+<button class="ml-auto text-white/40 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<div class="p-10 max-w-7xl mx-auto">
+<!-- Page Content -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h3 class="font-headline font-extrabold text-3xl text-primary tracking-tight">Active Faculty</h3>
+<p class="text-on-surface-variant font-body mt-2">Manage consultant access levels and pending invitations.</p>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow-xl shadow-primary/10 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+<span class="font-label font-semibold text-sm">Add New Counselor</span>
+</button>
+</div>
+<!-- Bento Grid Interface -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Staff Card (Asymmetric Layout) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low rounded-2xl p-8">
+<div class="flex items-center justify-between mb-8">
+<h4 class="font-headline font-bold text-lg text-primary">Pending Invitations</h4>
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed font-bold text-[10px] rounded-full uppercase tracking-widest">3 Actions Required</span>
+</div>
+<div class="space-y-4">
+<!-- Staff Item: THE TARGET OF THE SUCCESS ACTION -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between border border-primary/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-primary font-bold">MC</div>
+<div>
+<h5 class="font-headline font-bold text-slate-900">Marcus Chen</h5>
+<p class="text-xs text-on-surface-variant font-body">Senior Admissions Specialist • Invited 2d ago</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-medium text-amber-600 bg-amber-50 px-2 py-1 rounded">Link Expiring</span>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg font-label font-bold text-xs hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="forward_to_inbox">forward_to_inbox</span>
+                                    Resend
+                                </button>
+</div>
+</div>
+<!-- Staff Item -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between border border-primary/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-primary font-bold">SA</div>
+<div>
+<h5 class="font-headline font-bold text-slate-900">Sarah Al-Fayed</h5>
+<p class="text-xs text-on-surface-variant font-body">Financial Aid Consultant • Invited 5d ago</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs font-medium text-on-surface-variant bg-surface-container px-2 py-1 rounded">Pending</span>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg font-label font-bold text-xs hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="forward_to_inbox">forward_to_inbox</span>
+                                    Resend
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Side Panel -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary text-white rounded-2xl p-6 relative overflow-hidden group">
+<div class="relative z-10">
+<p class="text-white/60 text-xs font-bold uppercase tracking-widest mb-1">Dossier Accuracy</p>
+<h4 class="text-4xl font-headline font-extrabold">98.4%</h4>
+<div class="mt-6 flex items-center gap-2 text-white/80 text-sm">
+<span class="material-symbols-outlined text-green-400" data-icon="trending_up">trending_up</span>
+<span>+2.1% from last month</span>
+</div>
+</div>
+<!-- Abstract Background Decoration -->
+<div class="absolute -right-8 -bottom-8 w-40 h-40 bg-white/5 rounded-full blur-3xl group-hover:scale-110 transition-transform"></div>
+</div>
+<div class="bg-white border border-outline-variant/30 rounded-2xl p-6">
+<h4 class="font-headline font-bold text-primary mb-4">Quick Insights</h4>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="w-1 h-10 bg-secondary-fixed rounded-full"></div>
+<div>
+<p class="text-xs text-on-surface-variant">Average Onboarding Time</p>
+<p class="font-bold text-slate-900">14.2 Hours</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-1 h-10 bg-primary-fixed rounded-full"></div>
+<div>
+<p class="text-xs text-on-surface-variant">Team Engagement Rate</p>
+<p class="font-bold text-slate-900">89%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Pilot Floating Overlay -->
+<div class="col-span-12 mt-4">
+<div class="glass-panel border border-white/40 rounded-3xl p-6 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-6">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-primary-container rounded-2xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined text-3xl" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-xl text-primary leading-tight">AI Pilot Insights</h4>
+<p class="text-sm text-on-surface-variant font-body">Based on activity, Sarah Al-Fayed may require a follow-up call regarding the dossier templates.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 bg-primary-fixed text-on-primary-fixed font-bold text-sm rounded-xl hover:bg-primary-fixed/80 transition-colors">Schedule Call</button>
+<button class="px-6 py-2.5 bg-white border border-outline-variant text-slate-900 font-bold text-sm rounded-xl hover:bg-slate-50 transition-colors">Dismiss Advice</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Visual Polish: Surface Shifts -->
+<div class="fixed top-0 right-0 w-1/3 h-screen bg-surface-container-low/30 -z-10 pointer-events-none"></div>
+</body></html>
+
+<!-- Success: Note Recorded -->

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Architect | Team Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-primary-container": "#8293b8",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "on-tertiary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      h1, h2, h3 {
+        font-family: 'Manrope', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 border-r border-slate-100 p-4">
+<div class="mb-8 px-4">
+<h1 class="font-headline font-bold text-lg text-blue-950 tracking-tight">Dossier Manager</h1>
+<p class="text-[10px] text-on-surface-variant font-medium uppercase tracking-widest">Elite Consulting Group</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-4 py-3 mb-1 text-slate-600 hover:bg-slate-100 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="dashboard">dashboard</span>
+<span class="font-label text-xs font-medium">Overview</span>
+</a>
+<a class="flex items-center bg-white text-blue-950 shadow-sm rounded-lg px-4 py-3 mb-1 font-bold group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="group">group</span>
+<span class="font-label text-xs">Student Roster</span>
+</a>
+<a class="flex items-center px-4 py-3 mb-1 text-slate-600 hover:bg-slate-100 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="smart_toy">smart_toy</span>
+<span class="font-label text-xs font-medium">Pilot Agent</span>
+</a>
+<a class="flex items-center px-4 py-3 mb-1 text-slate-600 hover:bg-slate-100 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="auto_stories">auto_stories</span>
+<span class="font-label text-xs font-medium">Essay Suite</span>
+</a>
+<a class="flex items-center px-4 py-3 mb-1 text-slate-600 hover:bg-slate-100 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="description">description</span>
+<span class="font-label text-xs font-medium">Agency Docs</span>
+</a>
+<a class="flex items-center px-4 py-3 mb-1 text-slate-600 hover:bg-slate-100 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label text-xs font-medium">Super Admin</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-100 pt-4">
+<button class="w-full bg-primary text-white font-headline text-sm font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition-opacity mb-4">
+                Launch Pilot Agent
+                <span class="material-symbols-outlined text-sm" data-icon="bolt" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+<a class="flex items-center px-4 py-2 text-slate-600 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="help">help</span>
+<span class="font-label text-xs font-medium">Help Center</span>
+</a>
+<a class="flex items-center px-4 py-2 text-slate-600 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="logout">logout</span>
+<span class="font-label text-xs font-medium">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 bg-slate-50/80 backdrop-blur-xl z-50">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-headline font-bold text-blue-950 tracking-tighter">Academic Architect</span>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-headline text-sm font-semibold tracking-tight" href="#">Dashboard</a>
+<a class="text-blue-900 border-b-2 border-blue-900 pb-1 font-headline text-sm font-semibold tracking-tight" href="#">Students</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-headline text-sm font-semibold tracking-tight" href="#">Messages</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-headline text-sm font-semibold tracking-tight" href="#">Pilot AI</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ml-2">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close up professional male headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHbLdd8cAuwEDMQd_aWcC-9o_WGZl0hJ6GTJbCsb47gmgTkCKSPh9Qb4WT5f_uf4qD_GUBA7K_SF2l6vKLMiaN-mjVYLigGO82kb2Tmf1e_9dqjCRjHIJOUmtx34FT1rXl7HtH78ku7cm0mvQRCqellGAk4GcVhK5ZzKVPZAj0u6M94oA-6szwgWEB_rChXYjea1GVW9yKdsnMn8xTi3oTZWKSqC_K2VjQrtd-sz-FvJUP5e1o1i932w9TnsAetza_n4_PJkM1bV4"/>
+</div>
+</div>
+</div>
+<div class="bg-slate-200/50 h-[1px] w-full"></div>
+</header>
+<!-- Main Content -->
+<main class="lg:ml-64 pt-24 min-h-screen px-8 pb-20">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight mb-2">Staff Directory</h2>
+<p class="text-on-surface-variant font-body">Manage permissions and team access for ApplyPilot.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest border border-outline-variant/30 px-5 py-2.5 rounded-xl text-primary font-bold text-sm hover:bg-surface-bright transition-all shadow-sm">
+                        Export List
+                    </button>
+<button class="bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                        Invite New Member
+                    </button>
+</div>
+</div>
+<!-- Dashboard Stats Tonal Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-2 block">Total Staff</span>
+<div class="text-3xl font-headline font-bold text-primary">24</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-2 block">Active Invites</span>
+<div class="text-3xl font-headline font-bold text-primary">03</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10">
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-2 block">Expired Links</span>
+<div class="text-3xl font-headline font-bold text-error">01</div>
+</div>
+</div>
+<!-- Bento Styled Staff List -->
+<div class="space-y-4">
+<!-- Header Labels -->
+<div class="grid grid-cols-12 px-6 text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">
+<div class="col-span-5">Staff Member</div>
+<div class="col-span-3">Role &amp; Access</div>
+<div class="col-span-2">Status</div>
+<div class="col-span-2 text-right">Actions</div>
+</div>
+<!-- Expired State Card (Featured) -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border-2 border-error/5 shadow-[0_4px_20px_rgba(186,26,26,0.04)] grid grid-cols-12 items-center">
+<div class="col-span-5 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container relative">
+<span class="material-symbols-outlined" data-icon="person_off">person_off</span>
+<div class="absolute -bottom-1 -right-1 bg-white p-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-xs text-error" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+</div>
+<div>
+<h4 class="font-headline font-bold text-primary">Marcus Richardson</h4>
+<p class="text-xs text-on-surface-variant">m.richardson@applypilot.edu</p>
+</div>
+</div>
+<div class="col-span-3">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-[10px] font-bold text-primary uppercase tracking-wider">Senior Consultant</span>
+</div>
+<div class="col-span-2 flex items-center gap-2">
+<span class="flex items-center gap-1.5 bg-error-container text-on-error-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                            Link Expired
+                        </span>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="bg-primary bg-gradient-to-br from-primary to-primary-container text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-sm" data-icon="send">send</span>
+                            Resend Invitation
+                        </button>
+</div>
+</div>
+<!-- Normal Pending State Card -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 grid grid-cols-12 items-center opacity-80">
+<div class="col-span-5 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-primary">Sophia Chen</h4>
+<p class="text-xs text-on-surface-variant">s.chen@applypilot.edu</p>
+</div>
+</div>
+<div class="col-span-3">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-[10px] font-bold text-primary uppercase tracking-wider">Pilot Admin</span>
+</div>
+<div class="col-span-2">
+<span class="flex items-center gap-1.5 bg-surface-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                            Pending (2d left)
+                        </span>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="text-primary font-bold text-xs hover:underline px-4">Manage</button>
+</div>
+</div>
+<!-- Active Staff Card -->
+<div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 grid grid-cols-12 items-center">
+<div class="col-span-5 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img alt="Staff member photo" class="w-full h-full object-cover" data-alt="Corporate headshot of smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQG2CSwySPu1i9ZcD1cj8GKaoW-ty5G8n4V2TCCHe6EugjuQjb1qyPpZG20oxmih8WdHihwD53tnuvkRpF6KDh7DKxNYk8om9BTVyI5u52DwgVUPJmjNMpv4zcaN9oblYGJSFddfFLqeNHAjbZOj2O-O_qw5tNodKlHx-mSBHa8QIt3BXgM1UqNqv-mdAurG2Nvtfu26k_XbZn8l21auKUSVKB5pC45fbFjAZAH9yr7toNBM2QAV3DKul241dtc1doJ3nOFQKg-g0"/>
+</div>
+<div>
+<h4 class="font-headline font-bold text-primary">Elena Rodriguez</h4>
+<p class="text-xs text-on-surface-variant">e.rodriguez@applypilot.edu</p>
+</div>
+</div>
+<div class="col-span-3">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-[10px] font-bold text-primary uppercase tracking-wider">Head of Admissions</span>
+</div>
+<div class="col-span-2">
+<span class="flex items-center gap-1.5 bg-blue-50 text-blue-800 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                            Active
+                        </span>
+</div>
+<div class="col-span-2 flex justify-end">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- AI Context Bar (The Pilot Interface) -->
+<div class="mt-12 bg-primary-container/10 border border-primary-container/20 rounded-2xl p-6 flex flex-col md:flex-row items-center gap-6">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-white" data-icon="auto_awesome" data-weight="fill" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1">
+<h5 class="font-headline font-bold text-primary">Pilot Insight: Staff Onboarding</h5>
+<p class="text-sm text-on-surface-variant leading-relaxed">It looks like 1 invitation has expired. Resending the link now will reset the 48-hour access window. Our system notes that Marcus Richardson typically checks emails on Monday mornings.</p>
+</div>
+<button class="bg-white border border-outline-variant/40 px-6 py-3 rounded-xl text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all shadow-sm">
+                    Automate Reminders
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-6 lg:hidden bg-white/90 backdrop-blur-lg border-t border-slate-100 z-50 shadow-[0_-4px_20px_rgba(3,22,53,0.06)]">
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-blue-50 text-blue-900 rounded-xl px-4 py-1.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person_search" data-weight="fill" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">Students</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="psychology">psychology</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">Pilot</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">Settings</span>
+</a>
+</nav>
+</body></html>
+
+<!-- Audit Log: Global Export Config -->

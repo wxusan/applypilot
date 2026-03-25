@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Activity Audit - Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-primary-container": "#8293b8",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "on-tertiary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 border-r border-slate-100 p-4">
+<div class="mb-8 px-4">
+<h1 class="font-headline font-bold text-lg text-blue-950 tracking-tight">Dossier Manager</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Elite Consulting Group</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all group" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-inter text-xs font-medium">Overview</span>
+</a>
+<!-- Active Tab: Student Roster because we are in a Student Profile -->
+<a class="bg-white text-blue-950 shadow-sm rounded-lg px-4 py-3 mb-1 font-bold flex items-center gap-3 border border-slate-100" href="#">
+<span class="material-symbols-outlined text-xl text-blue-900">group</span>
+<span class="font-inter text-xs font-medium">Student Roster</span>
+</a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-xl">smart_toy</span>
+<span class="font-inter text-xs font-medium">Pilot Agent</span>
+</a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-xl">auto_stories</span>
+<span class="font-inter text-xs font-medium">Essay Suite</span>
+</a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-xl">description</span>
+<span class="font-inter text-xs font-medium">Agency Docs</span>
+</a>
+<a class="text-slate-600 px-4 py-3 mb-1 flex items-center gap-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-xl">admin_panel_settings</span>
+<span class="font-inter text-xs font-medium">Super Admin</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1">
+<button class="w-full bg-primary text-white text-xs font-bold py-3 rounded-lg mb-6 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">bolt</span>
+                Launch Pilot Agent
+            </button>
+<a class="text-slate-600 px-4 py-3 flex items-center gap-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-xl">help</span>
+<span class="font-inter text-xs font-medium">Help Center</span>
+</a>
+<a class="text-slate-600 px-4 py-3 flex items-center gap-3 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined text-xl">logout</span>
+<span class="font-inter text-xs font-medium">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 min-h-screen pb-24 lg:pb-8">
+<!-- TopAppBar (Authority: JSON) -->
+<header class="sticky top-0 z-50 bg-slate-50/80 backdrop-blur-xl shadow-sm px-8 py-4 flex justify-between items-center w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-950 tracking-tighter">Academic Architect</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 pb-1 font-manrope text-sm font-semibold tracking-tight hover:text-blue-800 transition-colors" href="#">Dashboard</a>
+<a class="text-blue-900 border-b-2 border-blue-900 pb-1 font-manrope text-sm font-semibold tracking-tight" href="#">Students</a>
+<a class="text-slate-500 pb-1 font-manrope text-sm font-semibold tracking-tight hover:text-blue-800 transition-colors" href="#">Messages</a>
+<a class="text-slate-500 pb-1 font-manrope text-sm font-semibold tracking-tight hover:text-blue-800 transition-colors" href="#">Pilot AI</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">settings</button>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User profile avatar" class="h-full w-full object-cover" data-alt="Close up professional male headshot avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbikblqgii1YOEsDM2PqVqAWom0Xfaq-9AXZhv_pV-vhg05hwwDoE-mO7PsUBtWE2FtXI_eZnO21sHEBp3D_d0zLW44YRiNK9NnyLlzc-pkakPGw9s4zf46f-QVxAkrwp1eFg_nPKOyRJaUBo31Mdyz-G6VvD-oRrDPF1a8gEVBKEbhWdb9fA7gOCl9TQgXkOk2HOrobSqOk7DGTkqbnU073tyrClNyg41LmnjyJuihPPAP_sJ9lRliu6CJw2WrOJgrPvemXDScLs"/>
+</div>
+</div>
+</header>
+<!-- Student Header Section -->
+<section class="px-8 py-10 bg-white">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex items-start gap-6">
+<div class="h-24 w-24 rounded-xl overflow-hidden shadow-lg border-4 border-surface">
+<img alt="Student profile photo" class="w-full h-full object-cover" data-alt="Portrait of a young college student candidate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf014QNj2tW_QznEf32cEo-jn6ankTAQBdk5DkVO9jYcc98OUQTJ0A8Yi9Zfr4W_Wp6lUmFVm-J-jkrq1oAfp6w1q1RS7b6jukr2Ft9vnM4wfQob-O6SeR2BFnIBD0l5ddBAPW77n8z5_x_C5aqIFp7ACDBc_CePMh25xwpLv0rS5FVAPltqiVm1vnCvhP0GPNEdMNbUPrLkHni_sjqk0ZfLPNSYC6u8MomJffHupBXQ9759fS3hwiTHd_vdOt6FWUHFqh3gQKGvw"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="font-headline text-3xl font-extrabold text-primary tracking-tight">Julian Sterling</h2>
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Class of '25</span>
+</div>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">school</span>
+                            Prospective Major: Biomedical Engineering
+                        </p>
+<div class="flex gap-4 mt-4">
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">GPA</p>
+<p class="text-primary font-bold">3.94</p>
+</div>
+<div class="w-px h-8 bg-slate-100"></div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">SAT</p>
+<p class="text-primary font-bold">1540</p>
+</div>
+<div class="w-px h-8 bg-slate-100"></div>
+<div class="text-center">
+<p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Apps</p>
+<p class="text-primary font-bold">12</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-lg border border-outline-variant text-sm font-bold text-primary hover:bg-surface transition-colors">Edit Dossier</button>
+<button class="px-5 py-2.5 rounded-lg bg-primary text-white text-sm font-bold shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_fix</span>
+                        Pilot Insights
+                    </button>
+</div>
+</div>
+</section>
+<!-- Activity Tab: Filtered View -->
+<section class="px-8 mt-8">
+<div class="max-w-6xl mx-auto">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-headline text-xl font-bold text-primary">Dossier Audit Log</h3>
+<p class="text-sm text-on-surface-variant">Reviewing counselor modifications and institutional edits.</p>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-1">
+<button class="px-4 py-1.5 text-xs font-bold text-on-surface-variant">All Activity</button>
+<button class="px-4 py-1.5 text-xs font-bold bg-white text-primary shadow-sm rounded-md">Staff Edits</button>
+<button class="px-4 py-1.5 text-xs font-bold text-on-surface-variant">System</button>
+</div>
+</div>
+<!-- Bento Grid Style Audit Log -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Main Audit Timeline (8 cols) -->
+<div class="md:col-span-8 space-y-4">
+<!-- Log Item 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm group hover:bg-surface-bright transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Personal Statement Revision</p>
+<p class="text-[11px] text-slate-500 font-medium">Modified by <span class="text-blue-800">Sarah Jenkins (Senior Consultant)</span></p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">2h ago</span>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4 border border-outline-variant/10">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Previous Version</p>
+<p class="text-xs text-on-surface-variant line-through leading-relaxed">"The laboratory has always been a place where I felt at home, exploring the various chemical reactions..."</p>
+</div>
+<div>
+<p class="text-[10px] text-primary font-bold uppercase mb-2">Updated Version</p>
+<p class="text-xs text-on-surface leading-relaxed font-medium">"Beyond the sterile precision of the pipette, I found a narrative in the data—one that spoke of human impact..."</p>
+</div>
+</div>
+</div>
+<div class="mt-4 flex gap-2">
+<span class="bg-surface-container-high text-[10px] font-bold px-2 py-1 rounded text-on-surface-variant">Content Strategy</span>
+<span class="bg-surface-container-high text-[10px] font-bold px-2 py-1 rounded text-on-surface-variant">Tier 1 Review</span>
+</div>
+</div>
+<!-- Log Item 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-blue-400 shadow-sm group hover:bg-surface-bright transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-900">
+<span class="material-symbols-outlined">list_alt</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">College List Optimization</p>
+<p class="text-[11px] text-slate-500 font-medium">Modified by <span class="text-blue-800">Dr. Marcus Chen</span></p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Yesterday</span>
+</div>
+<div class="flex items-center gap-4 py-2">
+<div class="flex items-center gap-2 text-xs font-bold text-error">
+<span class="material-symbols-outlined text-sm">remove_circle</span>
+                                    Stanford University (Reach)
+                                </div>
+<span class="material-symbols-outlined text-slate-300">arrow_forward</span>
+<div class="flex items-center gap-2 text-xs font-bold text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                                    Johns Hopkins University (Target)
+                                </div>
+</div>
+<p class="text-xs text-on-surface-variant mt-2 italic">"Strategic pivot based on updated Q3 research focus and portfolio strength."</p>
+</div>
+<!-- Log Item 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-slate-200 shadow-sm group hover:bg-surface-bright transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-600">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Transcript Verification</p>
+<p class="text-[11px] text-slate-500 font-medium">Verified by <span class="text-blue-800">Admin Support</span></p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Oct 12</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="text-xs font-medium text-on-surface">Official Mid-Year Transcript (Ver. 2.0) uploaded and cross-referenced with Common App data.</p>
+</div>
+</div>
+</div>
+<!-- Sidebar Stats & Insights (4 cols) -->
+<div class="md:col-span-4 space-y-6">
+<!-- Audit Summary Card -->
+<div class="bg-primary text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-headline text-lg font-bold mb-4">Staff Activity Insights</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-white/10 pb-2">
+<span class="text-xs text-white/70">Total Counselor Edits</span>
+<span class="text-2xl font-extrabold">42</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-2">
+<span class="text-xs text-white/70">Critical Changes</span>
+<span class="text-2xl font-extrabold text-blue-300">08</span>
+</div>
+<div class="flex justify-between items-end">
+<span class="text-xs text-white/70">Approval Rating</span>
+<span class="text-2xl font-extrabold">98%</span>
+</div>
+</div>
+</div>
+<!-- Abstract decoration -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+</div>
+<!-- Top Collaborators -->
+<div class="bg-white p-6 rounded-xl border border-slate-100">
+<h4 class="font-headline text-xs font-bold text-primary uppercase tracking-widest mb-4">Key Contributors</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-slate-100 overflow-hidden">
+<img alt="Sarah J" class="w-full h-full object-cover" data-alt="Portrait of professional female consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtYNZ9DoW9nLnB_BR7M0GPaqabyum7kiHgbXbJSxMQ0lijM9URKS-RNN9K20AVadVZiH5DtVUH9fmWwXYDoD6E5IfG8f-cBwTYCCWfSqcK45nqCdzLrIPnTBNQ2urJGfYWWTM6GtqmPqkT8XMA-Ie8f6rXTNS08FMNfPNuF42TuwPT7ZAiNeC0TFU4AOQm-HNn1t20I0Rul24jRTW_zXG_d3V5ypOHTyOMfqiG-XrWvmNGUenufDyyHc1__86nmJrr7KbJbs3PyXI"/>
+</div>
+<span class="text-xs font-bold text-primary">Sarah Jenkins</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400">18 edits</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-slate-100 overflow-hidden">
+<img alt="Marcus C" class="w-full h-full object-cover" data-alt="Portrait of male professional doctor consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXd_OaFbza6a--f7y-NWHcDMGrVHACknigekeVsrHUlVx2ZMaiJPzjTbdVfuo7jT9xeEeU56cQYawta_EqFZexBnXi9DAnEfY1KBzWPjUH4UlA9nzrRXvKBVWYpj26YxSymCU2RwiSdtUva0sVYVArKwzeeZIBZ392fhP7gYqYhbx4H0m_RaMOWk4MMu1PSZxn3Cfw-VgOmoPoS1ZJH3471AbOb0Oo8JciMGD3aVRRq-FN7oGYsJ-f1JYYjD7F_79E-pMrKdV8oMM"/>
+</div>
+<span class="text-xs font-bold text-primary">Marcus Chen</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400">12 edits</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded-full bg-slate-100 overflow-hidden">
+<img alt="Elena R" class="w-full h-full object-cover" data-alt="Portrait of professional female administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqaBcN-mqyGKwtoxtIsMMWMpyEeOQmO-40HTGb4bqqUUWAgCU_znJGgOZ16dg3mgDexTSmrdM8btp6Euy9_PT5m536PCVWubvGELgK8ciMB_tVSh8qGJ5AjxbK621Alphv3FK5m68DjZjxTYenTsFcvB9XVbhP5DPQba6xSNsXiyPYnBdenlTHvPg4AJh6l2RbMPku0GmMKfglrQCWMHj5U7IrMPi9gMtfcaleyVUvS5yDbkdSy6tFTxn3vBiq6MCIGQX7ERJoNao"/>
+</div>
+<span class="text-xs font-bold text-primary">Elena Rodriguez</span>
+</div>
+<span class="text-[10px] font-bold text-slate-400">07 edits</span>
+</div>
+</div>
+</div>
+<!-- Pilot AI Alert -->
+<div class="glass-panel p-6 rounded-xl border border-blue-100 shadow-sm relative overflow-hidden group">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-blue-900 animate-pulse">psychology</span>
+<span class="text-[10px] font-bold text-blue-900 uppercase tracking-widest">Pilot Suggestion</span>
+</div>
+<p class="text-xs text-on-surface leading-relaxed mb-4">"Staff edits to the Personal Statement align with successful Biomedical Engineering dossiers from 2023. Suggest reviewing 'Activity List' for similar narrative consistency."</p>
+<button class="w-full text-center py-2 text-[11px] font-bold text-blue-900 hover:underline">Apply Pilot Logic</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Authority: JSON - Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-6 lg:hidden bg-white/90 backdrop-blur-lg shadow-[0_-4px_20px_rgba(3,22,53,0.06)] z-50">
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 active:bg-slate-50">
+<span class="material-symbols-outlined">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-blue-50 text-blue-900 rounded-xl px-4 py-1.5">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Students</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 active:bg-slate-50">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Pilot</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5 active:bg-slate-50">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Settings</span>
+</div>
+</nav>
+</body></html>
+
+<!-- Billing: Capacity Warning -->

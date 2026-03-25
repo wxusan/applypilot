@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Detail | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c5c6cf",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#0e1629",
+              "on-tertiary-fixed": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#232b3f",
+              "on-primary-container": "#8293b8",
+              "on-primary-fixed": "#081b3a",
+              "primary-container": "#1a2b4b",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-surface-variant": "#44474e",
+              "on-secondary-container": "#57657a",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb",
+              "tertiary-fixed-dim": "#bec6e0",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline": "#75777f",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "primary": "#031635",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#515f74",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed": "#dae2fd",
+              "secondary-fixed": "#d5e3fc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#4e5e81",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "inverse-primary": "#b6c6ef"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bg-glass {
+            backdrop-filter: blur(24px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Top Navigation Bar -->
+<header class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl font-manrope font-semibold tracking-tight docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-6 w-full border-b border-slate-200/15 dark:border-slate-800/15">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold text-slate-900 dark:text-white">ApplyPilot</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-medium">
+<span class="material-symbols-outlined transition-transform active:scale-95 cursor-pointer hover:bg-slate-200/50 dark:hover:bg-slate-800/50 p-2 rounded-full" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined transition-transform active:scale-95 cursor-pointer hover:bg-slate-200/50 dark:hover:bg-slate-800/50 p-2 rounded-full" data-icon="settings">settings</span>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden ml-2 border border-outline-variant/20">
+<img alt="Consultant Profile" class="w-full h-full object-cover" data-alt="Professional consultant headshot avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2EQkC2G_x5Bq4QvTt0tkppWbeZ7MAblCXZHQRR7B70LFunjdVS78wcAhzxxmu--ZtrzTm4pmjMx8zdH3HADFfgz7Dp0Id158NTPbpDA4YKpyhvU2hbUzVmBdZ7n843jDzRTAKhb37ZxJ-G3yu-VnP_pEpdAj6nE0X9YnBMhMgBOvGItAkKuY-hb7D36PTCF06v-mettLYxk2xa-I7IPDvlfmygxZo8gspB5AXpsyiLethfj_YoOFEaqh5NZvdTu4YZuU8NLQCVM4"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px)]">
+<!-- Side Navigation Bar (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-full py-8 px-4 gap-2 bg-slate-50 dark:bg-slate-950 h-screen w-64 sticky left-0 top-16 z-30 transition-colors from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 border-r border-slate-200/20">
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm tracking-wide">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-inter text-sm tracking-wide">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-900 dark:text-white font-semibold bg-white dark:bg-slate-900 shadow-sm rounded-lg translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-inter text-sm tracking-wide">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter text-sm tracking-wide">Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-inter text-sm tracking-wide">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="Badge">badge</span>
+<span class="font-inter text-sm tracking-wide">Team</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-slate-200/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-inter text-sm tracking-wide">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-inter text-sm tracking-wide">Log out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-6 md:p-12 lg:p-16 max-w-7xl mx-auto w-full transition-all duration-500">
+<!-- Back Action -->
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary mb-8 transition-colors group">
+<span class="material-symbols-outlined text-[20px] group-hover:-translate-x-1 transition-transform" data-icon="arrow_back">arrow_back</span>
+<span class="font-label font-medium text-sm">Back to Notifications</span>
+</button>
+<!-- Detail Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Focus Area -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Notification Card -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_40px_40px_rgba(3,22,53,0.06)] border-l-4 border-error relative overflow-hidden">
+<!-- High Priority Accent -->
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl text-error" data-icon="priority_high">priority_high</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold font-headline uppercase tracking-wider">High Priority</span>
+<span class="text-on-surface-variant text-sm font-label">2 hours ago</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-headline font-extrabold text-primary mb-6 leading-tight">
+                                Urgent: Application Deadline in 24h
+                            </h1>
+<div class="prose prose-slate max-w-none mb-8">
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                                    The early action submission window for <span class="font-semibold text-primary">Stanford University</span> is closing soon. According to our current tracking, <span class="font-semibold text-primary">Alex Chen's</span> final personal statement revision is still pending review. Immediate action is required to ensure a successful submission.
+                                </p>
+</div>
+<div class="flex flex-wrap gap-4">
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-3 rounded-lg font-headline font-bold text-base shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                                    View Deadline
+                                </button>
+<button class="px-8 py-3 rounded-lg font-headline font-bold text-base border-2 border-outline-variant/30 text-primary hover:bg-surface-container-high transition-all">
+                                    Mark as Resolved
+                                </button>
+</div>
+</div>
+</div>
+<!-- Progress Dossier / Timeline -->
+<div class="bg-surface-container-low rounded-xl p-8">
+<h3 class="font-headline font-bold text-primary text-xl mb-6">Submission Timeline</h3>
+<div class="space-y-6 relative">
+<!-- Vertical Line -->
+<div class="absolute left-4 top-2 bottom-2 w-0.5 bg-outline-variant/30"></div>
+<!-- Steps -->
+<div class="flex gap-6 relative items-start">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center z-10 flex-shrink-0">
+<span class="material-symbols-outlined text-sm text-on-primary-fixed" data-icon="check" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<div>
+<p class="font-headline font-bold text-primary">Common App Profile Completed</p>
+<p class="text-sm text-on-surface-variant">Oct 12, 2023 • 14:20 PM</p>
+</div>
+</div>
+<div class="flex gap-6 relative items-start">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center z-10 flex-shrink-0">
+<span class="material-symbols-outlined text-sm text-on-primary-fixed" data-icon="check" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<div>
+<p class="font-headline font-bold text-primary">Letter of Recommendations Uploaded</p>
+<p class="text-sm text-on-surface-variant">Oct 20, 2023 • 09:15 AM</p>
+</div>
+</div>
+<div class="flex gap-6 relative items-start">
+<div class="w-8 h-8 rounded-full bg-white border-2 border-surface-tint flex items-center justify-center z-10 flex-shrink-0 animate-pulse">
+<div class="w-2 h-2 rounded-full bg-surface-tint"></div>
+</div>
+<div>
+<p class="font-headline font-bold text-primary">Final Essay Submission</p>
+<p class="text-sm text-error font-medium">Pending Review • Due in 23h 42m</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Profile Context Sidebar -->
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10">
+<h3 class="font-headline font-bold text-primary mb-4">Related Student</h3>
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-lg group cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="h-16 w-16 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-white shadow-sm">
+<img alt="Alex Chen Profile" class="w-full h-full object-cover" data-alt="Student portrait of Alex Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHSV3r4DY_2bs7y7WJPXJrJGvYn9uga5rhsm9FH9s3gmLIO5V0_ckaPc9pOo0I5xboxl6MZ9adbL0Go3dIE7zenxalGp9j9kpjIBOi1YWjMqckhAW2Y8f0bVqfXN927-PDkRFRmSPgifQg0ndbxyDNFRTrk8JY_BcudhfvOsXIpFJzYbpWy1qang0xbas0Q0fpvy9aIpQvhC8p220pLv8sBOOsaitMMVs2TctMR5vT-VXgoRAbXn4K0FyjM2tFTmxe0mDFsiYx6DQ"/>
+</div>
+<div class="flex-1">
+<h4 class="font-headline font-bold text-primary">Alex Chen</h4>
+<p class="text-xs text-on-surface-variant font-medium">Senior • GPA 3.98</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="mt-6 space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Target School</span>
+<span class="font-bold text-primary">Stanford</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Application Type</span>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[11px] font-bold uppercase">Early Action</span>
+</div>
+<div class="pt-4 border-t border-outline-variant/20">
+<a class="text-surface-tint font-bold text-sm flex items-center gap-1 hover:underline" href="#">
+                                    Open Alex's Full Dossier
+                                    <span class="material-symbols-outlined text-base" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Actions Card -->
+<div class="bg-primary text-on-primary rounded-xl p-6 shadow-xl">
+<h3 class="font-headline font-bold text-lg mb-4">Quick Actions</h3>
+<div class="grid grid-cols-1 gap-3">
+<button class="w-full py-3 bg-white/10 hover:bg-white/20 transition-colors rounded-lg flex items-center justify-center gap-3 font-medium">
+<span class="material-symbols-outlined text-[20px]" data-icon="mail">mail</span>
+                                Email Student
+                            </button>
+<button class="w-full py-3 bg-white/10 hover:bg-white/20 transition-colors rounded-lg flex items-center justify-center gap-3 font-medium">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+                                Snooze for 4h
+                            </button>
+<button class="w-full py-3 bg-white/10 hover:bg-white/20 transition-colors rounded-lg flex items-center justify-center gap-3 font-medium">
+<span class="material-symbols-outlined text-[20px]" data-icon="share">share</span>
+                                Reassign Task
+                            </button>
+</div>
+</div>
+<!-- Pilot AI Insight Overlay (Glassmorphism) -->
+<div class="bg-glass rounded-xl p-6 border border-white/40 shadow-2xl shadow-primary/5">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-headline font-extrabold text-sm tracking-widest text-primary uppercase">Pilot AI Analysis</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Historically, Alex submits drafts late Friday night. I suggest sending a brief reminder via SMS now to increase chances of a pre-deadline review.
+                        </p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button (FAB) - Suppressed per design rules for Detail screens -->
+</body></html>
+
+<!-- Bulk Action Modal -->

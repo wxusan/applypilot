@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Architect | Sync Completion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-primary-container": "#8293b8",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "on-tertiary-fixed": "#131b2e",
+              "on-primary": "#ffffff",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "surface-container-highest": "#e0e3e5"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1a2b4b 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen">
+<!-- Top Navigation (Shell Implementation) -->
+<nav class="bg-slate-50/80 backdrop-blur-xl shadow-sm docked full-width top-0 z-50 flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-950 tracking-tighter font-headline">Academic Architect</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 hover:text-blue-800 transition-colors" href="#">Dashboard</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-blue-900 border-b-2 border-blue-900 pb-1" href="#">Pilot AI</a>
+<a class="font-manrope text-sm font-semibold tracking-tight text-slate-500 hover:text-blue-800 transition-colors" href="#">Students</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-blue-800 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary text-xs font-bold overflow-hidden">
+<img alt="User profile avatar" data-alt="User profile circular avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCriYaBowfesvlyl7hSXtKdPmVSHABb-h77MX4yC6-MEDglQ7jgx6iT2M2a4CtJ9B34vCeOtNtUOYNrkk9Jy0hM_9Kbrvqm2EXGZdrjI_79sZYJnbsaWyCLcFuDwbslhIBlN2NfoWu0wCKzmUDunR_dOrGf-MRcCkYaL85ElxqUdpIB9VumqipptJlqsuA3nahRNNT1QxIFznq2MEXTMUeo1HO3UBe_fgzPEKg09CWhlvYfFvu5xXbUH-dMfO4USsecaxmcmC6zkS4"/>
+</div>
+</div>
+</nav>
+<!-- Content Canvas -->
+<main class="max-w-4xl mx-auto px-6 pt-12 pb-24">
+<!-- Success Hero Header -->
+<header class="text-center mb-12">
+<div class="inline-flex items-center justify-center w-20 h-20 bg-primary-fixed text-primary rounded-full mb-6">
+<span class="material-symbols-outlined !text-4xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-headline text-4xl font-extrabold tracking-tight text-primary mb-4">Pilot Sync Complete</h1>
+<p class="text-on-surface-variant text-lg max-w-xl mx-auto">The Pilot Agent has successfully extracted and populated your data into the institution portal.</p>
+</header>
+<!-- Bento Grid Completion Report -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
+<!-- Section Status: Personal Information -->
+<div class="md:col-span-7 bg-surface-container-lowest rounded-xl p-8 shadow-[0_4px_20px_rgba(3,22,53,0.04)] border border-outline-variant/15 flex flex-col justify-between">
+<div class="flex justify-between items-start mb-8">
+<div>
+<span class="text-xs font-bold uppercase tracking-widest text-primary-container mb-2 block">Task Success</span>
+<h3 class="font-headline text-2xl font-bold text-primary">Personal Information</h3>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-primary-container" data-icon="id_card">id_card</span>
+<span class="text-sm font-medium text-on-surface">Biographic details mapped</span>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface-container-low rounded-lg">
+<span class="material-symbols-outlined text-primary-container" data-icon="location_on">location_on</span>
+<span class="text-sm font-medium text-on-surface">Address &amp; Residency verified</span>
+</div>
+</div>
+</div>
+<!-- Agent Intelligence Visualization -->
+<div class="md:col-span-5 bg-primary-gradient rounded-xl p-8 text-on-primary flex flex-col items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_50%_50%,#ffffff_0%,transparent_70%)]"></div>
+<div class="relative z-10 text-center">
+<span class="material-symbols-outlined !text-5xl mb-4" data-icon="psychology">psychology</span>
+<div class="text-3xl font-bold font-headline mb-1">100%</div>
+<div class="text-xs uppercase tracking-widest opacity-70">Accuracy Rating</div>
+</div>
+</div>
+<!-- Section Status: Education -->
+<div class="md:col-span-12 bg-surface-container-lowest rounded-xl p-8 shadow-[0_4px_20px_rgba(3,22,53,0.04)] border border-outline-variant/15">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-primary !text-3xl" data-icon="school">school</span>
+<h3 class="font-headline text-2xl font-bold text-primary">Education History</h3>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="border border-outline-variant/20 rounded-xl p-5 hover:bg-surface-bright transition-all">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-bold text-on-surface-variant">GPA &amp; Ranking</span>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="task_alt">task_alt</span>
+</div>
+<p class="font-bold text-primary">Unweighted 3.92</p>
+</div>
+<div class="border border-outline-variant/20 rounded-xl p-5 hover:bg-surface-bright transition-all">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-bold text-on-surface-variant">Institution</span>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="task_alt">task_alt</span>
+</div>
+<p class="font-bold text-primary">Elite Prep Academy</p>
+</div>
+<div class="border border-outline-variant/20 rounded-xl p-5 hover:bg-surface-bright transition-all">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-bold text-on-surface-variant">Coursework</span>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="task_alt">task_alt</span>
+</div>
+<p class="font-bold text-primary">12 AP Courses Sync'd</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-surface-container-low rounded-2xl border border-outline-variant/10">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 bg-surface-container-highest rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container" data-icon="pending_actions">pending_actions</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Up Next: Test Scores</p>
+<p class="text-xs text-on-surface-variant">Standardized testing &amp; language proficiency</p>
+</div>
+</div>
+<button class="w-full sm:w-auto px-8 py-4 bg-primary-gradient text-on-primary rounded-xl font-headline font-bold text-sm tracking-tight flex items-center justify-center gap-3 transition-transform active:scale-[0.98]">
+                Continue to Next Section
+                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Secondary Task Control -->
+<div class="mt-8 flex justify-center gap-8">
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="undo">undo</span>
+                Review Filled Data
+            </button>
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+                Export Report
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only Shell Implementation) -->
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-6 bg-white/90 backdrop-blur-lg lg:hidden shadow-[0_-4px_20px_rgba(3,22,53,0.06)] z-50">
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-blue-50 text-blue-900 rounded-xl px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Pilot</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Students</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 px-4 py-1.5">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Settings</span>
+</div>
+</div>
+</body></html>
+
+<!-- Design System -->

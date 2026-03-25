@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manual Intervention Required | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-tint": "#4e5e81",
+                        "secondary-fixed": "#d5e3fc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#8293b8",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1629",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#57657a",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-container": "#d5e3fc",
+                        "primary-fixed": "#d8e2ff",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-container": "#8a92aa",
+                        "on-primary-fixed": "#081b3a",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "outline": "#75777f",
+                        "on-surface-variant": "#44474e",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b6c6ef",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "outline-variant": "#c5c6cf",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "primary-container": "#1a2b4b",
+                        "secondary": "#515f74",
+                        "on-tertiary-fixed": "#131b2e",
+                        "tertiary-container": "#232b3f",
+                        "on-primary-fixed-variant": "#364768",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#031635"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none font-manrope font-semibold tracking-tight h-16 w-full fixed top-0 z-50 flex items-center justify-between px-8">
+<div class="flex items-center gap-8">
+<span class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tighter">ApplyPilot</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-900 dark:text-white font-bold" href="#">Dossiers</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 ease-in-out px-3 py-1 rounded-lg" href="#">Automation</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Consultant profile avatar" data-alt="Professional consultant profile portrait photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwcpFGz_NT79gVMGMhmQjgX8txZhtZCmvGVg8fq4bovkFTEYPaBDHPjtdFNh7SHaC05d3zdvN06gnZDuuhcdeNfHds3QORSYgrYTW_U3J0-OJ3w5IPdy4oxLkmyKRpD99b4xKcKJdttq_iNKufwtFRdPd6PnV6eTTqTh7VlvJdvrOkMNcLEVM-ENU9lWExbUBTPFdck83RuzEMcGV0sLoyZlxcEXKxqa3KUUQVJ2R5sqGmxGXwPoc5aSo4Vj7r-x97CIphllstBYo"/>
+</div>
+</div>
+</header>
+<main class="pt-16 min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 pt-16 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 dark:border-slate-800/15 z-40">
+<div class="flex flex-col py-6 px-4 gap-y-2 h-full">
+<div class="mb-6 px-2">
+<h2 class="font-manrope font-bold text-lg text-[#031635] dark:text-white">Academic Architect</h2>
+<p class="text-xs text-on-surface-variant">Elite Consulting</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 font-inter text-sm font-medium transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">folder_shared</span>
+                        Dossiers
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+                        AI Drafter
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">robot_2</span>
+                        Automation
+                    </a>
+</nav>
+<div class="pt-4 border-t border-slate-200/10 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 font-inter text-sm font-medium hover:translate-x-1 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                        Support
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 font-inter text-sm font-medium hover:translate-x-1 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Sign Out
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Content Canvas -->
+<section class="flex-1 ml-64 p-10 bg-surface">
+<!-- Alert Banner -->
+<div class="mb-10 p-6 bg-error-container/30 border-l-4 border-error rounded-r-xl flex items-start gap-4">
+<div class="bg-error p-2 rounded-full">
+<span class="material-symbols-outlined text-white text-lg">warning</span>
+</div>
+<div>
+<h1 class="font-headline font-bold text-xl text-on-error-container tracking-tight">Manual Intervention Required</h1>
+<p class="font-body text-on-surface-variant mt-1 leading-relaxed max-w-2xl">
+                        The Pilot Agent has encountered a <span class="font-semibold">Security Challenge (hCaptcha)</span> on the Common App portal for Student #4829. Automated submission has been paused to prevent account lockout.
+                    </p>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- Browser Viewport (Mock) -->
+<div class="col-span-8 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-2xl shadow-[#031635]/05 border border-outline-variant/20">
+<!-- Browser Header -->
+<div class="bg-surface-container h-12 flex items-center px-4 gap-4">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-slate-300"></div>
+<div class="w-3 h-3 rounded-full bg-slate-300"></div>
+<div class="w-3 h-3 rounded-full bg-slate-300"></div>
+</div>
+<div class="flex-1 bg-surface-container-lowest h-7 rounded-md flex items-center px-3 gap-2">
+<span class="material-symbols-outlined text-xs text-slate-400">lock</span>
+<span class="text-[10px] text-slate-500 font-medium">apply.commonapp.org/login/verification</span>
+</div>
+</div>
+<!-- Portal Screenshot -->
+<div class="relative group">
+<div class="aspect-video bg-slate-100 flex items-center justify-center overflow-hidden">
+<img alt="Security verification screen" class="opacity-80 grayscale-[30%]" data-alt="Screenshot of a complex web form with a captcha verification challenge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNJr4h4KuM0UDmNCdEJ3PFM0PieMoDDik9KssogGKB7-OziBXagQq9RQOIyIindHshkCLT9ed07llDUUtjpTEjILc-P2J9vfcgoJr48J6RvwJTQ-VdMhy6lWPvDm6532FVTebgumyfW7pmU_hBS8oj_z_86QlZPWqOwCgIPoqa7JDLboJi3UIVTN4y-nIzOWlJhf_eVMpdtgCqIkvD6DrgWOShyyof0Rgm1mScbyWUaJ9Scb6vJqdKMVXxVMtmgYWjZqoA0ulOj70"/>
+<!-- Glass Overlay for Captcha Focus -->
+<div class="absolute inset-0 flex items-center justify-center bg-primary/10 backdrop-blur-[2px]">
+<div class="bg-white p-6 rounded-xl shadow-2xl border border-primary/10 flex flex-col items-center gap-4 max-w-sm text-center">
+<div class="w-16 h-16 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg">Verify you are human</h3>
+<p class="text-xs text-on-surface-variant mt-2">The institution requires a manual captcha completion to proceed with the dossier submission.</p>
+</div>
+<button class="w-full py-3 bg-primary text-white font-semibold rounded-lg text-sm hover:opacity-95 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+                                            Open Interactive Session
+                                        </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Process Status Table -->
+<div class="bg-surface-container-low rounded-xl p-6">
+<h4 class="font-headline font-bold text-sm text-primary mb-4 uppercase tracking-widest">Automation Log</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between text-sm py-2 border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-medium">Authentication</span>
+</div>
+<span class="text-on-surface-variant">Success · 09:42 AM</span>
+</div>
+<div class="flex items-center justify-between text-sm py-2 border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-medium">Academic Record Upload</span>
+</div>
+<span class="text-on-surface-variant">Success · 09:44 AM</span>
+</div>
+<div class="flex items-center justify-between text-sm py-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error text-sm animate-pulse">error</span>
+<span class="font-bold text-error">Submit Dossier</span>
+</div>
+<span class="text-error font-medium">Blocked · Manual Action Needed</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recovery Controls -->
+<div class="col-span-4 space-y-6">
+<!-- Identity Card -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15 shadow-sm">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-on-surface">Julian Thorne</h2>
+<p class="text-xs text-on-surface-variant">Dossier #29910-B</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Institution:</span>
+<span class="font-semibold text-primary">Stanford University</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Deadline:</span>
+<span class="font-semibold text-error">Jan 01 (2 Days Left)</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="space-y-3">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold rounded-lg shadow-xl shadow-primary/10 flex items-center justify-center gap-3 group">
+                            Take Over Control
+                            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full py-4 bg-surface-container-highest text-primary font-headline font-bold rounded-lg flex items-center justify-center gap-3 hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined text-lg">refresh</span>
+                            Retry Automation
+                        </button>
+<button class="w-full py-4 border border-outline-variant/30 text-on-surface-variant font-label font-medium rounded-lg flex items-center justify-center gap-3 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg">flag</span>
+                            Mark for Review
+                        </button>
+</div>
+<!-- AI Insights -->
+<div class="p-5 glass-panel rounded-xl border border-primary/5">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-xs font-bold text-primary uppercase tracking-tighter">Pilot Insights</span>
+</div>
+<p class="text-xs text-slate-600 leading-relaxed italic">
+                            "The captcha was triggered by a rapid sequence of field entries. After you solve this, I can resume at a slower 'Human Emulation' speed to avoid further flags."
+                        </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Pilot AI Bar -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl px-6 z-50">
+<div class="glass-panel border border-white/20 shadow-2xl rounded-full py-3 px-6 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-base" style="font-variation-settings: 'FILL' 1;">robot_2</span>
+</div>
+<div>
+<span class="text-xs font-bold text-primary block">AI Status: Waiting</span>
+<span class="text-[10px] text-on-surface-variant leading-none">Awaiting manual intervention to continue...</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="h-8 w-px bg-slate-200"></div>
+<button class="text-primary hover:bg-primary/5 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="text-on-surface-variant hover:text-error p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">cancel</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>
+<!-- Success: Invite Resent -->

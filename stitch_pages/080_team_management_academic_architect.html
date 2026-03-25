@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team Management | Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl font-manrope font-semibold tracking-tight full-width top-0 sticky shadow-sm dark:shadow-none z-50">
+<div class="flex items-center justify-between px-8 h-16 w-full">
+<div class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tighter">ApplyPilot</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 ease-in-out" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-white font-bold" href="#">Team</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 ease-in-out" href="#">Dossiers</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-highest ring-2 ring-primary-fixed">
+<img alt="Consultant profile avatar" data-alt="Professional consultant headshot in business attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARFgocZ6r_uyNFwkWypbCYHVQhvCL21sYSSPzd63amI1_Txwb7Kz24wHdsDCnvhO4Z7sH5uSqAaLx0Lmvg0ONYgE8piXn0OrKIOcROEpn8jR5-K80Nz6Yi4L3HebYYwuI-lV0ts8HbpvbNskrjHSwHBrbvyjMWWflCzjU17JzvEXUmTIjWKH3gK2KnBzjCByIZ-tEDQnx8I4l5q73SHK0HoSSXq3EvP3XCoZBujk1pKzHRY-DRZIMFDPEhKIJFpAbnptiZX2-H1EA"/>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full"></div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="bg-slate-50 dark:bg-slate-950 h-screen w-64 fixed left-0 top-0 flex flex-col border-r border-slate-200/15 dark:border-slate-800/15 z-40 pt-16">
+<div class="flex flex-col py-6 px-4 gap-y-2 h-full">
+<div class="mb-8 px-2">
+<h2 class="font-manrope font-bold text-lg text-[#031635] dark:text-white">Academic Architect</h2>
+<p class="text-xs text-on-surface-variant opacity-70">Elite Consulting</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter text-sm font-medium">Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-inter text-sm font-medium">AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="robot_2">robot_2</span>
+<span class="font-inter text-sm font-medium">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-inter text-sm font-medium">Team Management</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/10 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="text-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-sm">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 p-12">
+<div class="max-w-6xl mx-auto">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h1 class="font-headline text-4xl font-extrabold text-primary tracking-tight">Team Management</h1>
+<p class="font-body text-on-surface-variant mt-2 text-lg">Orchestrate your consulting collective with precision.</p>
+</div>
+<button class="px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-label font-semibold shadow-lg shadow-primary/10 hover:brightness-110 transition-all">
+                        Invite Staff Member
+                    </button>
+</div>
+<!-- Bento Grid Layout for Team Overview -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Staff Table Container -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low rounded-2xl p-8">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-xl font-bold text-primary">Active Members</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-xs font-semibold text-secondary">12 Total</span>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Team Row -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl hover:bg-surface-bright transition-all group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Team member" data-alt="Portrait of a female professional smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrNOuwU-1oNYZJsa7DRhyowqPwOn4Mnf8aPx2KoIk9GyDM66GEbsnIjBEt7i-tzanVCjqe8t1KwUa6thy9yseovmwMFN7spY5kNBnE4fmYtiTKTreRQgfpGo05O4bSxvxC1MzVNLMFcEKLqsBgKBXAPBx6RXIBt2NcyG1y3B21MhNxRGrSec8VcHMEd5e1jU4B2IahdzXGBruOhGIv7UMvWJPZCSt0Od4hxHvFSNA5CBm_A0YM8E6B55J-0UxRhIFqhA0rksquI0M"/>
+</div>
+<div>
+<h4 class="font-headline font-bold text-primary">Dr. Eleanor Vance</h4>
+<p class="text-sm text-on-surface-variant">Senior Academic Counselor</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary-fixed/30 text-primary text-xs font-bold uppercase tracking-wider">Admin</span>
+</div>
+<button class="p-2 text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl hover:bg-surface-bright transition-all group border-l-4 border-primary/20">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200 overflow-hidden">
+<img alt="Team member" data-alt="Portrait of a male consultant in professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJUgP6rpGzDyt1ogX9gP8LnMdBWZ1ePmwvzo0V6KlrcY6pNQAmkdQR2zC1vuQre_n6sVDboDsXBw53ihgNkjVzxECLhV1vfOrjlE5eiRWF2FM94o2zX3z_eD7KIWKIqPj8OPOq8B4ue0FthhsCtywILqb7dQxNOOHbvumsiz9Ckaq7PfjUDOjNHoot2oBFMgFbTuJOGkMe_unmds_v7sDoRxbtok-KY9k4USXRZ-NhED9-9Z5HJr8zL94_jTXlVLpZYqlni6cszmM"/>
+</div>
+<div>
+<h4 class="font-headline font-bold text-primary">Julian Thorne</h4>
+<p class="text-sm text-on-surface-variant">Lead Dossier Architect</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-secondary text-xs font-bold uppercase tracking-wider">Counselor</span>
+</div>
+<button class="p-2 text-on-surface-variant opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Role Stats -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-primary text-white rounded-2xl p-8 relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+<h3 class="font-headline text-lg font-bold mb-6">Capacity Overview</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span>Dossier Allocation</span>
+<span>84%</span>
+</div>
+<div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim w-[84%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span>Team Efficiency</span>
+<span>92%</span>
+</div>
+<div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim w-[92%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-8">
+<h3 class="font-headline text-lg font-bold text-primary mb-4">Quick Insights</h3>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="mt-1 p-1 bg-primary-fixed rounded-md">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="trending_up">trending_up</span>
+</div>
+<p class="text-sm text-on-surface-variant">Counselors are averaging <span class="font-bold text-primary">4.2</span> dossier completions per week.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- ROLE ASSIGNMENT MODAL OVERLAY -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-sm"></div>
+<!-- Modal Content -->
+<div class="relative w-full max-w-xl glass-panel rounded-2xl shadow-2xl overflow-hidden border border-outline-variant/15">
+<div class="p-8">
+<!-- Modal Header -->
+<div class="flex justify-between items-start mb-10">
+<div>
+<h2 class="font-headline text-2xl font-extrabold text-primary tracking-tight">Modify Staff Role</h2>
+<p class="text-on-surface-variant mt-1">Assign permissions for <span class="font-semibold text-primary">Julian Thorne</span></p>
+</div>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<form class="space-y-8">
+<!-- Email Field (Read Only Style) -->
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Staff Email</label>
+<div class="relative">
+<input class="w-full bg-surface-container rounded-xl px-4 py-3 border-none text-on-surface-variant cursor-not-allowed font-body" disabled="" type="email" value="j.thorne@architect.edu"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant/40" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- Role Selector -->
+<div class="space-y-4">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Assigned Role</label>
+<div class="grid gap-3">
+<!-- Role Option: Admin -->
+<label class="group relative flex cursor-pointer rounded-xl border-2 border-transparent bg-surface-container-low p-4 hover:bg-surface-container transition-all has-[:checked]:border-primary has-[:checked]:bg-surface-container-lowest">
+<input class="sr-only" name="role" type="radio" value="admin"/>
+<div class="flex w-full items-start justify-between">
+<div class="flex items-start gap-4">
+<div class="p-2 rounded-lg bg-surface-container-high group-has-[:checked]:bg-primary-fixed">
+<span class="material-symbols-outlined text-on-surface-variant group-has-[:checked]:text-primary" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<div>
+<span class="block font-headline font-bold text-primary">Admin</span>
+<span class="block text-sm text-on-surface-variant mt-0.5">Full system access, billing, and team management.</span>
+</div>
+</div>
+<div class="hidden group-has-[:checked]:block">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</label>
+<!-- Role Option: Counselor (Active) -->
+<label class="group relative flex cursor-pointer rounded-xl border-2 border-primary bg-surface-container-lowest p-4 hover:bg-surface-container transition-all">
+<input checked="" class="sr-only" name="role" type="radio" value="counselor"/>
+<div class="flex w-full items-start justify-between">
+<div class="flex items-start gap-4">
+<div class="p-2 rounded-lg bg-primary-fixed">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+</div>
+<div>
+<span class="block font-headline font-bold text-primary">Counselor</span>
+<span class="block text-sm text-on-surface-variant mt-0.5">Manage dossiers, students, and use AI Drafting tools.</span>
+</div>
+</div>
+<div class="block">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</label>
+<!-- Role Option: Viewer -->
+<label class="group relative flex cursor-pointer rounded-xl border-2 border-transparent bg-surface-container-low p-4 hover:bg-surface-container transition-all has-[:checked]:border-primary has-[:checked]:bg-surface-container-lowest">
+<input class="sr-only" name="role" type="radio" value="viewer"/>
+<div class="flex w-full items-start justify-between">
+<div class="flex items-start gap-4">
+<div class="p-2 rounded-lg bg-surface-container-high group-has-[:checked]:bg-primary-fixed">
+<span class="material-symbols-outlined text-on-surface-variant group-has-[:checked]:text-primary" data-icon="visibility">visibility</span>
+</div>
+<div>
+<span class="block font-headline font-bold text-primary">Viewer</span>
+<span class="block text-sm text-on-surface-variant mt-0.5">Read-only access to dossiers and analytics.</span>
+</div>
+</div>
+<div class="hidden group-has-[:checked]:block">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</label>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-4 pt-4">
+<button class="flex-1 px-6 py-3 bg-surface-container-high text-primary rounded-xl font-label font-bold hover:bg-surface-container-highest transition-colors" type="button">
+                            Cancel
+                        </button>
+<button class="flex-[2] px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-label font-bold shadow-xl shadow-primary/20 hover:brightness-110 transition-all" type="submit">
+                            Save Changes
+                        </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- AI Pilot Bar (Glassmorphism Footer) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 glass-panel border border-outline-variant/20 px-8 py-4 rounded-full shadow-2xl flex items-center gap-6 z-50">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-sm font-manrope font-bold text-primary uppercase tracking-tighter">Pilot AI Active</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome">auto_awesome</span>
+                Optimize Assignments
+            </button>
+<button class="flex items-center gap-2 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="analytics">analytics</span>
+                Staff Report
+            </button>
+</div>
+</div>
+</body></html>
+
+<!-- Team: Deactivate Member -->

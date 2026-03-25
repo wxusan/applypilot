@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team Management | Scholar Command</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#8293b8",
+              "inverse-primary": "#b6c6ef",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "outline": "#75777f",
+              "tertiary-fixed": "#dae2fd",
+              "on-surface-variant": "#44474e",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d5e3fc",
+              "on-primary-fixed-variant": "#364768",
+              "secondary": "#515f74",
+              "outline-variant": "#c5c6cf",
+              "on-primary-fixed": "#081b3a",
+              "on-secondary-container": "#57657a",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "tertiary": "#0e1629",
+              "secondary-container": "#d5e3fc",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "error": "#ba1a1a",
+              "primary-container": "#1a2b4b",
+              "surface-dim": "#d8dadc",
+              "surface-tint": "#4e5e81",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-bright": "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "error-container": "#ffdad6",
+              "primary": "#031635",
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen overflow-x-hidden">
+<!-- SideNavBar Component (Shared Anchor) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 bg-slate-50 dark:bg-slate-950 h-screen w-64 border-r-0">
+<div class="px-6 py-8">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 bg-primary rounded flex items-center justify-center text-white font-bold">SC</div>
+<div>
+<h2 class="text-xl font-bold tracking-tight text-[#031635] dark:text-white">Scholar Command</h2>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Institutional Elite</p>
+</div>
+</div>
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm font-medium">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="view_kanban">view_kanban</span>
+<span class="text-sm font-medium">Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-sm font-medium">AI Assistant</span>
+</a>
+<!-- Active Item: Administration -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold border-r-4 border-[#031635] dark:border-blue-400 bg-white/50 dark:bg-slate-800/50 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium">Administration</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto px-6 py-8 space-y-2 border-t border-slate-100 dark:border-slate-800">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 mb-6 hover:shadow-lg transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span class="text-sm font-bold">New Student</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="text-sm font-medium">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar Component (Shared Anchor) -->
+<header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl flex items-center justify-between px-8 py-3 w-full shadow-sm shadow-[#031635]/5 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-8 flex-1">
+<!-- Search Bar -->
+<div class="relative w-96 group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors" data-icon="search">search</span>
+<input class="w-full bg-surface-container border-none py-2 pl-10 pr-4 rounded-full text-sm focus:ring-2 focus:ring-primary/10 transition-all outline-none" placeholder="Search team or roles..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-600 hover:text-[#031635] text-sm font-medium transition-all" href="#">Quick Actions</a>
+<a class="text-slate-600 hover:text-[#031635] text-sm font-medium transition-all" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-5">
+<button class="p-2 text-slate-600 hover:text-[#031635] transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-slate-600 hover:text-[#031635] transition-all">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-[#031635] transition-all">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-100 mx-1"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-primary">Dr. Alistair Vance</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Head Consultant</p>
+</div>
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed" data-alt="User Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJNxkcKj0YBu8c23iJMP6geqwNzLTzfRSuuu9c79BhEXPqgs4ap4VszCESuZqwvJjOjOHP0u7ECP4TVuzsy3Qz5WETcc9FngKh7nBbjOggBsbr2c_VBsI-4st1liXfpQT23jM_jbZf6RZk9WNhafLRbHtYBp8FB6hO3mhk41xt39gbdBQ8P1FjDpa19t5dGiCa-FYQyq5krUCaCzTgm-qGPmWJ5v511eZ1sn6s9Y8LdZJ72a5LkfEffYV7PFq4kizYHrCsbyxpVXk"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-10 max-w-7xl mx-auto w-full space-y-12">
+<!-- Hero Header Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<nav class="flex items-center gap-2 text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4">
+<span>Settings</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">Team Management</span>
+</nav>
+<h1 class="text-4xl font-extrabold text-primary tracking-tight">Institutional Team</h1>
+<p class="text-on-surface-variant max-w-xl leading-relaxed">Manage your agency's professional dossier of consultants, administrators, and guest reviewers. Balance authority through precise role assignments.</p>
+</div>
+<div>
+<button class="group relative flex items-center gap-3 px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-xl shadow-primary/10 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-0.5 transition-all overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined relative z-10" data-icon="person_add">person_add</span>
+<span class="relative z-10">Invite Team Member</span>
+</button>
+</div>
+</section>
+<!-- Bento Grid Layout for Stats & Filter -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-1 bg-surface-container-low p-6 rounded-xl space-y-2">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Total Members</p>
+<p class="text-3xl font-extrabold text-primary">24</p>
+<div class="pt-2 flex items-center gap-2 text-xs font-medium text-emerald-700">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+<span>+2 this month</span>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-low p-6 rounded-xl space-y-2">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Active Slots</p>
+<p class="text-3xl font-extrabold text-primary">18/25</p>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-3">
+<div class="bg-primary h-full rounded-full w-[72%]"></div>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface-container-low p-4 flex items-center justify-between rounded-xl">
+<div class="flex items-center gap-2 p-1 bg-surface-container rounded-lg">
+<button class="px-6 py-2 bg-white text-primary font-bold text-sm rounded shadow-sm">All Staff</button>
+<button class="px-6 py-2 text-on-surface-variant font-medium text-sm hover:text-primary transition-all">Counselors</button>
+<button class="px-6 py-2 text-on-surface-variant font-medium text-sm hover:text-primary transition-all">Admins</button>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant/30 rounded-lg text-sm font-bold text-on-surface-variant hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<!-- Team Table Section (The Editorial Dossier) -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant/10">
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Name &amp; Profile</th>
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Access Role</th>
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Status</th>
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest">Performance</th>
+<th class="px-8 py-5 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Staff Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Staff Portrait - Sarah Jenkins" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmUfk708xh04PgpZeIFwdOXv2jeXeawkciGCN2splUM1zZRU-x4OH_sqEdLWLo8NoGBzXlgQGLIAYDtmAbVm32Kn2QnoOuqvvMFjesV0e1XEhTIlcMYE4qBx5Z977ja0tJoybFCka-c5cL6AOEjNaVUVDMnYGJPO5pCx5rckvGS8VbbtHKCKeNoMnmklxj__crXMDyj7xVKPOFeymgYjv3sbV-omKK_Wf-bq2hkBBlkUFgbmXzb8q4SXDLHQq0FeyOkex2Ml2CBpc"/>
+</div>
+<div>
+<p class="font-bold text-primary group-hover:text-primary transition-colors">Sarah Jenkins</p>
+<p class="text-xs text-on-surface-variant">s.jenkins@scholarcommand.edu</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-container/10 text-primary-container rounded-full text-[11px] font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified_user" data-weight="fill">verified_user</span>
+                                        Admin
+                                    </div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+<span class="text-sm font-medium text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-sm font-medium text-on-surface-variant">98% Satisf.</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-lg transition-all">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Staff Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Staff Portrait - Michael Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFIpppiqytk_R9wpg3TPHFtiwNb9OVz6dkPF2IfCDVATUYdMBotNlOFWhJpDN3VehZ_CilkvnL5jrlbAlit_KncW4L0OdVn_64TUwPiGUIpO7U5FGsFhWgw7KvtCyZbgz7OIsUzkzeraVg_H_vsF-asTNKpgxv9gN7G43RFWNiBL-_OYH02_EhMGIt9zzNwWVPXWM83-LlZxRsfp22xqrNfuy2h3eRpofEYTSVk9_G0wlcxizOy6XL7vHdstGznIRNiz5I-qcg2xM"/>
+</div>
+<div>
+<p class="font-bold text-primary">Michael Chen</p>
+<p class="text-xs text-on-surface-variant">m.chen@scholarcommand.edu</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[11px] font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-[14px]" data-icon="school">school</span>
+                                        Counselor
+                                    </div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+<span class="text-sm font-medium text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-sm font-medium text-on-surface-variant">14 Active Cases</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-lg transition-all">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Staff Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest overflow-hidden flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<div>
+<p class="font-bold text-primary">Elena Rodriguez</p>
+<p class="text-xs text-on-surface-variant">e.rodriguez@external.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-[11px] font-bold uppercase tracking-tight">
+<span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span>
+                                        Viewer
+                                    </div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-slate-300"></div>
+<span class="text-sm font-medium text-on-surface-variant">Pending</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="text-xs italic text-on-surface-variant/60">Invite sent 2h ago</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-lg transition-all">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Role Permissions Management Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-bold text-primary">Role-Based Matrix</h2>
+<p class="text-on-surface-variant text-sm">Define granular access layers for institutional integrity.</p>
+</div>
+<button class="px-6 py-2 border border-primary text-primary font-bold text-sm rounded-lg hover:bg-primary/5 transition-all">Edit Matrix</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Admin Role Card -->
+<div class="bg-surface-container-low p-8 rounded-xl border-t-4 border-primary space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-bold text-lg text-primary">Administrator</h3>
+<span class="material-symbols-outlined text-primary" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<ul class="space-y-3">
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Financial Access
+                            </li>
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Team Hiring/Firing
+                            </li>
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Global API Config
+                            </li>
+</ul>
+</div>
+<!-- Counselor Role Card -->
+<div class="bg-surface-container-low p-8 rounded-xl border-t-4 border-secondary space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-bold text-lg text-primary">Counselor</h3>
+<span class="material-symbols-outlined text-secondary" data-icon="person_search">person_search</span>
+</div>
+<ul class="space-y-3">
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Student Data Write
+                            </li>
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Essay Annotation
+                            </li>
+<li class="flex items-center gap-2 text-sm text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined text-[18px]" data-icon="cancel">cancel</span>
+                                Agency Billing
+                            </li>
+</ul>
+</div>
+<!-- Viewer Role Card -->
+<div class="bg-surface-container-low p-8 rounded-xl border-t-4 border-outline-variant space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-bold text-lg text-primary">External Viewer</h3>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="visibility">visibility</span>
+</div>
+<ul class="space-y-3">
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Dashboard Read-Only
+                            </li>
+<li class="flex items-center gap-2 text-sm text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" data-icon="check_circle">check_circle</span>
+                                Performance View
+                            </li>
+<li class="flex items-center gap-2 text-sm text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined text-[18px]" data-icon="cancel">cancel</span>
+                                Personal Contacts
+                            </li>
+</ul>
+</div>
+</div>
+</section>
+</div>
+<!-- Pilot AI-Bar (Specialized Component) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-50">
+<div class="bg-white/80 backdrop-blur-2xl border border-primary/5 rounded-2xl shadow-2xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Pilot AI Intelligence</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Roles are optimized for current staff workload.</p>
+</div>
+</div>
+<button class="bg-primary/5 hover:bg-primary/10 text-primary px-4 py-2 rounded-lg text-xs font-bold transition-all">
+                    Show Insights
+                </button>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- Agency Settings: Billing -->

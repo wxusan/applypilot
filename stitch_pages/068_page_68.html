@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed-dim">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 dark:border-slate-800/15 z-50">
+<div class="flex flex-col py-6 px-4 gap-y-2 h-full">
+<div class="mb-8 px-2">
+<div class="font-manrope font-bold text-lg text-[#031635] dark:text-white mb-1">Academic Architect</div>
+<div class="text-xs text-on-surface-variant font-medium tracking-wide uppercase opacity-70">Elite Consulting</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter text-sm font-medium">Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-inter text-sm font-medium">AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="robot_2">robot_2</span>
+<span class="font-inter text-sm font-medium">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all duration-200 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-inter text-sm font-medium">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-inter text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-inter text-sm font-medium">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none full-width top-0 sticky z-40 ml-64">
+<div class="flex items-center justify-between px-8 h-16 w-full">
+<h1 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tighter">AI Context Review</h1>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500">
+<span class="material-symbols-outlined hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors" data-icon="help_outline">help_outline</span>
+<span class="material-symbols-outlined hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors" data-icon="settings">settings</span>
+</div>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Consultant profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOhuzHi7BTvKxJb2uSX6nS6ldTcDHR5GCknBVKf1OQDcYpZPONJnL2q6gz82mcbn5_FnDtjYJUhjvvT33J368TW2FrzdKuGwq-fkocDox0nLv4X9mbX_a3B_Nw0zd5JBz1cz8nu99jyfJBS_3ke0vMSipYAfMmLN735LHbuQkLE8goNKUiGruaXvpTRW4NVgeGeN-cWncOqTePDdzghSjtlXxHzIn0wsoao3DGjrCGqou3DPTKvasCSuMgDjka_dTJLdUwFIt9nWk"/>
+</div>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full"></div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-12 max-w-7xl">
+<div class="grid grid-cols-12 gap-10">
+<!-- Context Summary Header -->
+<div class="col-span-12 mb-4">
+<span class="text-primary text-xs font-bold tracking-[0.2em] uppercase mb-2 block">Personalization Engine</span>
+<h2 class="font-headline text-4xl font-extrabold tracking-tight text-primary">Contextual Blueprint</h2>
+<p class="text-on-surface-variant max-w-2xl mt-4 leading-relaxed font-body">
+                    Review the data points extracted from the dossier. The AI Drafter will prioritize these specific achievements to construct a high-impact outreach email for <span class="text-primary font-semibold">Julianna Thorne</span>.
+                </p>
+</div>
+<!-- Left Column: Data Points (Bento Layout) -->
+<div class="col-span-12 lg:col-span-7 grid grid-cols-2 gap-6">
+<!-- GPA Card -->
+<div class="col-span-1 bg-surface-container-low p-6 rounded-xl flex flex-col justify-between group hover:bg-surface-bright transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="text-[10px] bg-primary/5 text-primary px-2 py-1 rounded font-bold uppercase tracking-wider">Academic Weight: High</span>
+</div>
+<h3 class="font-headline font-bold text-primary text-lg">Unweighted GPA</h3>
+<p class="text-on-surface-variant text-sm mt-1">Consistency across core curriculum</p>
+</div>
+<div class="mt-8 flex items-baseline gap-2">
+<span class="text-4xl font-black text-primary tracking-tighter">3.98</span>
+<span class="text-on-surface-variant font-medium">/ 4.0</span>
+</div>
+</div>
+<!-- Test Scores Card -->
+<div class="col-span-1 bg-surface-container-low p-6 rounded-xl flex flex-col justify-between hover:bg-surface-bright transition-all duration-300">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span class="text-[10px] bg-primary/5 text-primary px-2 py-1 rounded font-bold uppercase tracking-wider">Verification: Official</span>
+</div>
+<h3 class="font-headline font-bold text-primary text-lg">SAT Composite</h3>
+<p class="text-on-surface-variant text-sm mt-1">99th Percentile Performance</p>
+</div>
+<div class="mt-8 flex items-baseline gap-2">
+<span class="text-4xl font-black text-primary tracking-tighter">1560</span>
+<div class="flex flex-col text-[10px] text-on-surface-variant font-bold leading-tight uppercase">
+<span>M: 790</span>
+<span>ERW: 770</span>
+</div>
+</div>
+</div>
+<!-- Extracurriculars Large Card -->
+<div class="col-span-2 bg-surface-container-low p-8 rounded-xl hover:bg-surface-bright transition-all duration-300">
+<div class="flex items-center gap-3 mb-6">
+<div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="star_rate" style="font-variation-settings: 'FILL' 1;">star_rate</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-primary text-xl tracking-tight">Extracurricular Pillars</h3>
+<p class="text-on-surface-variant text-sm">Identifying leadership &amp; distinctiveness</p>
+</div>
+</div>
+<div class="space-y-6 mt-4">
+<div class="flex items-start gap-4">
+<div class="w-1 bg-primary/20 h-full rounded-full self-stretch"></div>
+<div>
+<h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-1">Pillar 01: Robotics Captain</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Led team to State Finals; implemented Python-based autonomous navigation systems.</p>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-highest text-[10px] font-bold text-primary rounded">LEADERSHIP</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-[10px] font-bold text-primary rounded">STEM</span>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-1 bg-primary/20 h-full rounded-full self-stretch"></div>
+<div>
+<h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-1">Pillar 02: Varsity Debate</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Top 10 National Ranking in Lincoln-Douglas. Expertise in ethical framework analysis.</p>
+<div class="mt-2 flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-highest text-[10px] font-bold text-primary rounded">COMMUNICATION</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-[10px] font-bold text-primary rounded">HUMANITIES</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: AI Action Panel (Glassmorphism) -->
+<div class="col-span-12 lg:col-span-5 relative">
+<div class="glass-panel p-8 rounded-2xl shadow-[0_40px_40px_rgba(3,22,53,0.06)] sticky top-24 border border-outline-variant/15">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-headline font-extrabold text-primary tracking-tight">Drafter Pilot</span>
+</div>
+<div class="flex gap-1">
+<div class="h-1 w-4 bg-primary rounded-full"></div>
+<div class="h-1 w-1 bg-primary/20 rounded-full"></div>
+<div class="h-1 w-1 bg-primary/20 rounded-full"></div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="p-5 bg-surface-container-low rounded-xl">
+<p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">AI Reasoning Strategy</p>
+<p class="text-on-surface italic text-sm leading-relaxed">
+                                "Synthesizing Robotics leadership with Debate achievements to demonstrate a 'Polymath Academic Profile'. Email tone will be authoritative yet curious."
+                            </p>
+</div>
+<div class="space-y-4">
+<label class="block">
+<span class="text-sm font-bold text-primary mb-2 block">Personalization Depth</span>
+<div class="relative h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-[85%] bg-gradient-to-r from-primary to-primary-container"></div>
+</div>
+<div class="flex justify-between mt-2">
+<span class="text-[10px] font-bold text-on-surface-variant">General</span>
+<span class="text-[10px] font-bold text-primary">Ultra-Tailored (85%)</span>
+</div>
+</label>
+<div class="space-y-3">
+<span class="text-sm font-bold text-primary mb-2 block">Injected Keywords</span>
+<div class="flex flex-wrap gap-2">
+<span class="flex items-center gap-1.5 px-3 py-1.5 bg-white shadow-sm border border-outline-variant/10 rounded-lg text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        State Robotics
+                                    </span>
+<span class="flex items-center gap-1.5 px-3 py-1.5 bg-white shadow-sm border border-outline-variant/10 rounded-lg text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        3.98 GPA
+                                    </span>
+<span class="flex items-center gap-1.5 px-3 py-1.5 bg-white shadow-sm border border-outline-variant/10 rounded-lg text-xs font-medium text-primary">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        Lincoln-Douglas
+                                    </span>
+</div>
+</div>
+</div>
+<div class="pt-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-4 rounded-xl font-headline font-bold text-sm tracking-wide shadow-lg shadow-primary/10 hover:brightness-110 transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-lg" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                                GENERATE DRAFT
+                            </button>
+<p class="text-center text-[10px] text-on-surface-variant mt-4 font-medium">Estimated Generation Time: 4.2 Seconds</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Meta Info -->
+<div class="col-span-12 mt-12 border-t border-outline-variant/20 pt-8 flex items-center justify-between">
+<div class="flex gap-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="database">database</span>
+<span class="text-xs font-semibold text-on-surface-variant uppercase tracking-widest">Source: Internal CRM Dossier</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-semibold text-on-surface-variant uppercase tracking-widest">Encryption: SOC2 Type II</span>
+</div>
+</div>
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline flex items-center gap-1">
+                    Edit Raw Data Points
+                    <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- AI Overlay Status (Pilot Bar) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 glass-panel border border-primary/10 px-6 py-3 rounded-full shadow-2xl z-50 flex items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="h-2 w-2 bg-primary rounded-full animate-ping absolute"></div>
+<div class="h-2 w-2 bg-primary rounded-full relative"></div>
+</div>
+<span class="text-xs font-bold text-primary tracking-widest uppercase">Pilot Active</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<div class="text-xs font-medium text-on-surface-variant">Monitoring <span class="font-bold text-primary">Julianna Thorne</span> application cycle.</div>
+</div>
+</body></html>
+
+<!-- Browser Agent: Screenshots -->

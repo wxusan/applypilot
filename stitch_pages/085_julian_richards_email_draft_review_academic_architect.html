@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Julian Richards - Email Draft Review | Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-container": "#d5e3fc",
+                        "primary-fixed": "#d8e2ff",
+                        "background": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-container": "#57657a",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-container": "#8293b8",
+                        "surface-tint": "#4e5e81",
+                        "secondary-fixed": "#d5e3fc",
+                        "inverse-surface": "#2d3133",
+                        "error": "#ba1a1a",
+                        "tertiary": "#0e1629",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c5c6cf",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "primary-container": "#1a2b4b",
+                        "secondary": "#515f74",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b6c6ef",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "tertiary-container": "#232b3f",
+                        "on-primary-fixed-variant": "#364768",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "primary": "#031635",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#dae2fd",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-container": "#8a92aa",
+                        "on-primary-fixed": "#081b3a",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "outline": "#75777f",
+                        "on-surface-variant": "#44474e",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pilot-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1a2b4b 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm dark:shadow-none docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-blue-950 dark:text-white tracking-tighter font-headline">Academic Architect</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 pb-1 font-headline text-sm font-semibold tracking-tight hover:text-blue-800 dark:hover:text-blue-100 transition-colors" href="#">Dashboard</a>
+<a class="text-blue-900 dark:text-blue-200 border-b-2 border-blue-900 dark:border-blue-400 pb-1 font-headline text-sm font-semibold tracking-tight" href="#">Students</a>
+<a class="text-slate-500 dark:text-slate-400 pb-1 font-headline text-sm font-semibold tracking-tight hover:text-blue-800 dark:hover:text-blue-100 transition-colors" href="#">Messages</a>
+<a class="text-slate-500 dark:text-slate-400 pb-1 font-headline text-sm font-semibold tracking-tight hover:text-blue-800 dark:hover:text-blue-100 transition-colors" href="#">Pilot AI</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">settings</span>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Professional male counselor headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKx6m4blj22Z7xSujjhnFRCcEB8_WZv1ylAC5NGtaAXkXRXfYnoSvpU7V6NnGLrJvZpjqmEsECc9Kijw3Nks_nbbwIVKlxI6nXhTsx_I8RJmv8j40fwqBZ6QmSDYF2NCtxf6CWjo2YbGCFsICSe88uoCqB98tp5k_aXOHq6p1mDs6sGdXb7p4E4Ek9FKVW6fIN6LdKSMyuRkPCFFtOETDVPQOJkaNeTFNxgZtJ6pfEDlUE-7iEYdOnjXpmLPSogv4PrgGym_oVosQ"/>
+</div>
+</div>
+<div class="bg-slate-200/50 dark:bg-slate-800/50 h-[1px] w-full"></div>
+</header>
+<div class="flex">
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="h-[calc(100vh-73px)] w-64 hidden lg:flex flex-col p-4 border-r border-slate-100 dark:border-slate-900 sticky top-[73px] bg-slate-50 dark:bg-slate-950">
+<div class="mb-8 px-4">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">architecture</span>
+</div>
+<span class="font-manrope font-bold text-lg text-blue-950 dark:text-white">Dossier Manager</span>
+</div>
+<p class="font-inter text-xs font-medium text-slate-500">Elite Consulting Group</p>
+</div>
+<nav class="flex-1">
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 mb-1 flex items-center gap-3 font-inter text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-900 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">dashboard</span> Overview
+                </div>
+<div class="bg-white dark:bg-blue-900/20 text-blue-950 dark:text-blue-100 shadow-sm rounded-lg px-4 py-3 mb-1 font-bold flex items-center gap-3 font-inter text-xs font-medium">
+<span class="material-symbols-outlined text-lg">group</span> Student Roster
+                </div>
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 mb-1 flex items-center gap-3 font-inter text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-900 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">smart_toy</span> Pilot Agent
+                </div>
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 mb-1 flex items-center gap-3 font-inter text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-900 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">auto_stories</span> Essay Suite
+                </div>
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 mb-1 flex items-center gap-3 font-inter text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-900 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">description</span> Agency Docs
+                </div>
+</nav>
+<div class="mt-auto border-t border-slate-200/30 pt-4">
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 mb-1 flex items-center gap-3 font-inter text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-900 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">help</span> Help Center
+                </div>
+<div class="text-slate-600 dark:text-slate-400 px-4 py-3 mb-1 flex items-center gap-3 font-inter text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-900 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-lg">logout</span> Sign Out
+                </div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-8 lg:p-12 overflow-x-hidden">
+<!-- Student Header Section -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img alt="Julian Richards" class="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-white" data-alt="Portrait of Julian Richards, a teenage male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa-CmsCHi9wuBpFZfYHR3z1ZGbxLDuH8L7ZoS9vrqLTNrUeIuKgbil23y3UNzKdIfM_HgeJCSVqe6NW3K2duol7nwKsfrT1XDc40bkH0nLp4Rn6pDo7d1KDk8ppoSzqxUaRrm1zseZDWGwt-kAeDFmDKwUHV4eoo5raURdnPnAyGNoLlHP-O125eVdFgnT35CFmpk_tzfA5RayJ9C06UTyWb8KAR4yF4jdDylXnyCiOYk89BkQR940go7mzaOFb5HefGiGx15MKqI"/>
+<div class="absolute bottom-1 right-1 w-6 h-6 bg-green-500 border-2 border-white rounded-full"></div>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="text-3xl font-extrabold font-headline tracking-tight text-primary">Julian Richards</h1>
+<span class="bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded text-[10px] font-bold tracking-widest uppercase">Class of 2025</span>
+</div>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span> Palo Alto High School • 4.2 GPA
+                        </p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-xl text-primary font-bold text-sm bg-surface-container-high hover:bg-surface-container transition-colors">View Profile</button>
+<button class="px-6 py-2.5 rounded-xl text-white font-bold text-sm pilot-gradient flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">smart_toy</span> Pilot Actions
+                    </button>
+</div>
+</div>
+<!-- Tab Navigation (Sub-navigation) -->
+<div class="flex gap-8 mb-8 border-b border-surface-container-high">
+<button class="pb-4 text-sm font-semibold text-on-surface-variant hover:text-primary transition-all">Overview</button>
+<button class="pb-4 text-sm font-semibold text-on-surface-variant hover:text-primary transition-all">Applications</button>
+<button class="pb-4 text-sm font-semibold text-primary border-b-2 border-primary transition-all">Emails &amp; Correspondence</button>
+<button class="pb-4 text-sm font-semibold text-on-surface-variant hover:text-primary transition-all">Documents</button>
+<button class="pb-4 text-sm font-semibold text-on-surface-variant hover:text-primary transition-all">Timeline</button>
+</div>
+<!-- Email Draft Review Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Context & History -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<section class="bg-surface-container-low p-6 rounded-2xl">
+<h3 class="font-headline font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">info</span> Context Panel
+                        </h3>
+<div class="space-y-4">
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-primary-container">Draft Intent</label>
+<p class="text-sm font-medium text-primary mt-1">Introduction to UPenn Regional AO</p>
+</div>
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-primary-container">Key Talking Points</label>
+<ul class="mt-2 space-y-2">
+<li class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span> Summer Research at Stanford
+                                    </li>
+<li class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span> Interest in Huntsman Program
+                                    </li>
+<li class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed"></span> Clarification on CS Dual Degree
+                                    </li>
+</ul>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low p-6 rounded-2xl border border-primary/5">
+<h3 class="font-headline font-bold text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">history</span> Draft Versions
+                        </h3>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-xl bg-white/50 border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-[10px] font-bold">V1</div>
+<div>
+<p class="text-xs font-bold">Initial Generation</p>
+<p class="text-[10px] text-on-surface-variant">2 hours ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-primary-fixed/30 border border-primary/10">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold">V2</div>
+<div>
+<p class="text-xs font-bold">Polished (Active)</p>
+<p class="text-[10px] text-on-surface-variant">15 mins ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: The Editor -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-2xl shadow-[0_40px_40px_-15px_rgba(3,22,53,0.06)] overflow-hidden border border-outline-variant/10">
+<!-- Editor Header -->
+<div class="bg-primary p-6 text-white flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined p-2 bg-white/10 rounded-lg">mail</span>
+<div>
+<h2 class="font-headline font-bold">Reviewing AI Draft: Julian Richards</h2>
+<p class="text-xs text-white/70">Target: University of Pennsylvania Admissions</p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="bg-blue-400/20 text-blue-100 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span> AI GENERATED
+                                </span>
+</div>
+</div>
+<!-- Email Composition Area -->
+<div class="p-8 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+<label class="md:col-span-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">To</label>
+<div class="md:col-span-11 p-3 bg-surface-container rounded-lg text-sm text-primary font-medium flex justify-between">
+<span>admissions-regional@upenn.edu</span>
+<span class="text-xs text-on-surface-variant italic">UPenn - Regional Representative</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+<label class="md:col-span-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Sub</label>
+<div class="md:col-span-11 p-3 bg-surface-container rounded-lg text-sm text-primary font-medium">
+                                    Inquiry regarding Huntsman Program &amp; CS Integration — Julian Richards
+                                </div>
+</div>
+<div class="mt-8 relative group">
+<div class="absolute -left-4 top-0 bottom-0 w-1 bg-primary/10 group-hover:bg-primary/30 transition-colors"></div>
+<div class="font-body text-base leading-relaxed text-on-surface-variant space-y-4 min-h-[400px]">
+<p>Dear Admissions Committee,</p>
+<p>I am writing to express my strong interest in the University of Pennsylvania, specifically the <span class="bg-primary-fixed/40 px-1 rounded">Huntsman Program in International Studies and Business</span>. After completing a summer research internship at Stanford focused on algorithmic trading patterns in emerging markets, I've become particularly interested in how UPenn facilitates the bridge between technical computer science rigor and global market strategy.</p>
+<p>I would appreciate any clarification on the flexibility for Huntsman students to pursue a double major or minor within the <span class="bg-primary-fixed/40 px-1 rounded">School of Engineering and Applied Science</span>. Given the data-heavy nature of modern international finance, I am eager to understand how I might integrate these academic tracks effectively.</p>
+<p>Thank you for your time and for the work you do in shaping the UPenn community. I look forward to the possibility of contributing to the Quaker tradition.</p>
+<p>Sincerely,<br/><strong>Julian Richards</strong><br/><span class="text-xs">Class of 2025 | Palo Alto High School</span></p>
+</div>
+</div>
+</div>
+<!-- Editor Actions (Sticky Bottom) -->
+<div class="bg-surface-container-low p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-outline text-on-surface font-bold text-sm hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg">edit</span> Manual Edit
+                                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg">refresh</span> Regenerate
+                                </button>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 rounded-xl pilot-gradient text-white font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
+                                    Approve &amp; Send <span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-2 pb-safe bg-white/90 dark:bg-slate-950/90 backdrop-blur-lg lg:hidden z-50 border-t border-slate-100 dark:border-slate-900 shadow-[0_-4px_20px_rgba(3,22,53,0.06)]">
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 active:bg-slate-50 dark:active:bg-slate-900 transition-all">
+<span class="material-symbols-outlined">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 rounded-xl px-4 py-1.5 transition-all">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Students</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 active:bg-slate-50 dark:active:bg-slate-900 transition-all">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Pilot</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-1.5 active:bg-slate-50 dark:active:bg-slate-900 transition-all">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-widest mt-1">Settings</span>
+</div>
+</nav>
+<!-- Floating AI Suggestion (Pilot UI Element) -->
+<div class="fixed bottom-24 right-8 z-40 hidden xl:block">
+<div class="glass-panel w-72 rounded-2xl shadow-xl p-6 border border-primary/10">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-8 h-8 rounded-full pilot-gradient flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm" data-weight="fill">smart_toy</span>
+</div>
+<h4 class="font-headline font-bold text-primary text-sm">Pilot AI Suggestion</h4>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed italic">
+                "I've optimized the second paragraph to emphasize the 'Huntsman' program specifically, as Julian's transcript shows a high volume of international business electives."
+            </p>
+<button class="w-full mt-4 py-2 rounded-lg bg-surface-container-high text-[10px] font-bold uppercase tracking-wider text-primary hover:bg-surface-container transition-all">
+                Explain Logic
+            </button>
+</div>
+</div>
+</body></html>
+
+<!-- Pipeline: Dragging Interaction -->

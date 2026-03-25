@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Token Usage Detail | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 py-6 px-4 gap-y-2 z-50">
+<div class="mb-8 px-2">
+<h1 class="font-manrope font-bold text-lg text-[#031635] dark:text-white">Academic Architect</h1>
+<p class="text-xs text-on-surface-variant tracking-wider uppercase">Elite Consulting</p>
+</div>
+<nav class="flex flex-col gap-y-1 flex-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200/50 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200/50 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter text-sm font-medium">Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200/50 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-inter text-sm font-medium">AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200/50 transition-all duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="robot_2">robot_2</span>
+<span class="font-inter text-sm font-medium">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-inter text-sm font-medium">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/15 flex flex-col gap-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-inter text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-inter text-sm font-medium">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="bg-slate-50/80 backdrop-blur-xl h-16 sticky top-0 z-40 flex items-center justify-between px-8 w-full shadow-sm">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-extrabold text-slate-900 tracking-tighter">ApplyPilot</h2>
+<div class="h-4 w-[1px] bg-slate-300 mx-2"></div>
+<nav class="flex gap-6">
+<span class="text-slate-900 font-bold font-manrope text-sm tracking-tight">Billing</span>
+<span class="text-slate-500 font-manrope text-sm tracking-tight cursor-pointer hover:text-slate-900 transition-colors">Usage Logs</span>
+<span class="text-slate-500 font-manrope text-sm tracking-tight cursor-pointer hover:text-slate-900 transition-colors">Limits</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors" data-icon="help_outline">help_outline</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors" data-icon="settings">settings</span>
+</div>
+<img alt="Consultant profile avatar" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Professional consultant headshot in business attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHqb4y4LNhE2FG_fj_nUT0K_heYBSZ6MralmbZMkNHWAqARe4hBCMbq1hLWz8mxQ8OG-CepbYOVx-yaXlkOc0AQaLfJO_t69-G5ydOV_j5oQgsJkDRrdNEF926rZFgQciyJiyCaHm1WDhBbwnKRNyttjdR2Qz3fw8FDWogMTa4337u9xrSlG2_VBXrMexqhlJRwoMFrrlFlTdY2fccT2YRSvjfPpakzREBGs2GeXtPlpcg8JdHgs8MEjQ9uc3x6gm8jc9n0kw4Pq4"/>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-12 max-w-7xl mx-auto space-y-10">
+<!-- Breadcrumbs & Header -->
+<section class="space-y-2">
+<div class="flex items-center gap-2 text-on-surface-variant text-sm font-medium">
+<span>Administration</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<span>Billing</span>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary font-semibold">Token Usage</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<h3 class="font-headline text-4xl font-extrabold text-primary tracking-tight">Token Usage Detail</h3>
+<p class="text-on-surface-variant body-md mt-2 max-w-2xl">A comprehensive breakdown of your institutional computational resources utilized by AI Pilot during the current billing cycle.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 bg-surface-container text-on-surface font-semibold rounded-lg hover:bg-surface-container-high transition-colors flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span> Export Report
+                        </button>
+<button class="px-6 py-2.5 bg-gradient-to-br from-primary to-primary-container text-white font-semibold rounded-lg shadow-lg shadow-primary/10 hover:brightness-110 transition-all text-sm">
+                            Purchase Credits
+                        </button>
+</div>
+</div>
+</section>
+<!-- Usage Overview Bento Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Chart Area -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-[0_40px_40px_rgba(3,22,53,0.04)] relative overflow-hidden group">
+<div class="flex items-center justify-between mb-8">
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Utilization Velocity</p>
+<h4 class="font-headline text-2xl font-bold text-primary">Resource Consumption</h4>
+</div>
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg">
+<button class="px-4 py-1.5 text-xs font-bold bg-surface-container-lowest text-primary rounded shadow-sm">30 Days</button>
+<button class="px-4 py-1.5 text-xs font-bold text-on-surface-variant hover:text-primary transition-colors">90 Days</button>
+</div>
+</div>
+<!-- Simplified Visual Representation of a Data Chart -->
+<div class="h-64 flex items-end justify-between gap-4 px-4">
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-40">
+<div class="w-full bg-primary/20 h-2/3"></div>
+<div class="w-full bg-primary h-1/3"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Mon</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-48">
+<div class="w-full bg-primary/20 h-1/2"></div>
+<div class="w-full bg-primary h-1/2"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Tue</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-32">
+<div class="w-full bg-primary/20 h-1/3"></div>
+<div class="w-full bg-primary h-2/3"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Wed</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-56">
+<div class="w-full bg-primary/20 h-2/5"></div>
+<div class="w-full bg-primary h-3/5"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Thu</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-44">
+<div class="w-full bg-primary/20 h-1/4"></div>
+<div class="w-full bg-primary h-3/4"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Fri</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-24">
+<div class="w-full bg-primary/20 h-1/2"></div>
+<div class="w-full bg-primary h-1/2"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Sat</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group/bar">
+<div class="w-full bg-primary/10 rounded-t-lg relative flex flex-col justify-end overflow-hidden h-20">
+<div class="w-full bg-primary/20 h-1/2"></div>
+<div class="w-full bg-primary h-1/2"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Sun</span>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/15 flex gap-8">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-bold text-primary">Input Tokens</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary/20"></span>
+<span class="text-xs font-bold text-primary">Output Tokens</span>
+</div>
+</div>
+</div>
+<!-- Summary Cards -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary p-8 rounded-xl text-white shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-xs font-bold opacity-70 uppercase tracking-widest mb-1">Current Balance</p>
+<h4 class="text-4xl font-extrabold tracking-tight mb-4">1,248,000</h4>
+<p class="text-sm font-medium opacity-80">Remaining tokens across all Pilot services.</p>
+</div>
+<!-- Abstract decorative element -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl flex-1 border border-outline-variant/15">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1 text-center">Efficiency Rating</p>
+<div class="flex flex-col items-center justify-center h-full gap-4">
+<div class="w-32 h-32 rounded-full border-[10px] border-primary-container flex items-center justify-center relative">
+<svg class="absolute inset-0 w-full h-full -rotate-90">
+<circle cx="64" cy="64" fill="none" r="54" stroke="#031635" stroke-dasharray="339.29" stroke-dashoffset="67.85" stroke-width="10"></circle>
+</svg>
+<span class="text-2xl font-extrabold text-primary">82%</span>
+</div>
+<p class="text-xs font-semibold text-on-surface-variant text-center leading-relaxed">Optimization level compared to peer institutional benchmarks.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Breakdown Detail Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h4 class="font-headline text-2xl font-bold text-primary">Service Breakdown</h4>
+<span class="text-sm font-bold text-on-surface-variant">Last updated: Today, 10:42 AM</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Essay Analysis -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/5 rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+</div>
+<h5 class="font-headline text-lg font-extrabold text-primary mb-2">Essay Analysis</h5>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Structural review, tone assessment, and semantic coherence for student submissions.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-xs font-bold text-on-surface-variant uppercase">Token Usage</span>
+<span class="text-lg font-bold text-primary">482,102</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase">
+<span>324 Documents</span>
+<span>+12% vs LY</span>
+</div>
+</div>
+</div>
+<!-- Email Drafting -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/5 rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="alternate_email">alternate_email</span>
+</div>
+<h5 class="font-headline text-lg font-extrabold text-primary mb-2">Email Drafting</h5>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Personalized correspondence automation for admissions and scholarship inquiries.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-xs font-bold text-on-surface-variant uppercase">Token Usage</span>
+<span class="text-lg font-bold text-primary">215,890</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[28%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase">
+<span>1,240 Drafts</span>
+<span>-4% vs LY</span>
+</div>
+</div>
+</div>
+<!-- Profile Reviews -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-12 h-12 bg-primary/5 rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="person_search">person_search</span>
+</div>
+<h5 class="font-headline text-lg font-extrabold text-primary mb-2">Profile Reviews</h5>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Holistic data synthesis and gap analysis for student academic and extracurricular profiles.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<span class="text-xs font-bold text-on-surface-variant uppercase">Token Usage</span>
+<span class="text-lg font-bold text-primary">549,908</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[82%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase">
+<span>142 Profiles</span>
+<span>+22% vs LY</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Detailed Log Table -->
+<section class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/10 shadow-sm">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h4 class="font-headline text-lg font-bold text-primary">Recent Transactions</h4>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container-low border-none rounded-lg text-xs font-medium focus:ring-1 focus:ring-primary w-64" placeholder="Search logs..." type="text"/>
+</div>
+<button class="p-2 bg-surface-container-low rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+<tr>
+<th class="px-6 py-4">Timestamp</th>
+<th class="px-6 py-4">Operation</th>
+<th class="px-6 py-4">Client/Dossier</th>
+<th class="px-6 py-4">Resource Cost</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 text-xs font-medium text-on-surface-variant">Oct 24, 2023 · 14:22</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-sm font-semibold text-primary">Essay Analysis</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium">Harvard 2024 Application Pack</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">12,402 Tokens</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold rounded-full uppercase">Completed</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 text-xs font-medium text-on-surface-variant">Oct 24, 2023 · 12:05</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary/60"></span>
+<span class="text-sm font-semibold text-primary">Profile Reviews</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium">Undergrad Portfolio: Anderson</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">8,115 Tokens</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold rounded-full uppercase">Completed</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 text-xs font-medium text-on-surface-variant">Oct 24, 2023 · 09:14</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary/30"></span>
+<span class="text-sm font-semibold text-primary">Email Drafting</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium">Yale Admissions Follow-up</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">2,045 Tokens</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold rounded-full uppercase">Completed</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5 text-xs font-medium text-on-surface-variant">Oct 23, 2023 · 17:45</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-sm font-semibold text-primary">Essay Analysis</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium">Personal Statement: Thompson</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">15,820 Tokens</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-bold rounded-full uppercase">Completed</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-low flex items-center justify-between">
+<span class="text-xs font-semibold text-on-surface-variant">Showing 1-4 of 1,842 operations</span>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-lg hover:bg-surface transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-2 bg-surface-container-lowest border border-outline-variant/10 rounded-lg hover:bg-surface transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating Pilot AI Bar (As per Design System) -->
+<footer class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass-panel border border-white/20 px-6 py-4 rounded-full shadow-2xl flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-sm font-bold text-primary font-headline">Pilot Active</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-4 text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
+<span>Quota Optimization: High</span>
+<span>Est. Burn: 42k/day</span>
+</div>
+<button class="bg-primary text-white p-2 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-md">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+</button>
+</footer>
+</body></html>
+
+<!-- Super Admin: Billing Control -->

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #eceef0;
+        border-radius: 10px;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="bg-slate-50/80 backdrop-blur-xl shadow-sm z-50 full-width top-0 sticky">
+<div class="flex items-center justify-between px-8 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-extrabold text-slate-900 tracking-tighter font-manrope">ApplyPilot</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 hover:bg-slate-200/50 transition-colors px-3 py-2 rounded-lg duration-200 ease-in-out font-manrope font-semibold tracking-tight" href="#">Dashboard</a>
+<a class="text-slate-900 font-bold px-3 py-2 rounded-lg duration-200 ease-in-out font-manrope tracking-tight" href="#">Dossiers</a>
+<a class="text-slate-500 hover:bg-slate-200/50 transition-colors px-3 py-2 rounded-lg duration-200 ease-in-out font-manrope font-semibold tracking-tight" href="#">AI Drafter</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-surface-container px-4 py-1.5 rounded-full border border-outline-variant/15">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Search dossiers..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors"><span class="material-symbols-outlined" data-icon="settings">settings</span></button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 border border-outline-variant/30">
+<img alt="Consultant profile avatar" data-alt="Portrait of a professional male consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB-pJdQPG-mS6SxpnH_gG6Y50soVES1Wp_QP574psYah_DUgyGcnKNZifEkqhfJNy4yRTHYO71YKBAHUg3QM57xqYhBBTuPers9yX9QOSiOO9Z9zuFo6oghjLN95hafRJIwctgtZaMoUAELm-xM28wNJ3YFGmA7SXs0-z0gnTul73KjfKYVDCNlUXz2oMXlnsiO710_SBmS8755g7CTwKmnfHMXxdeLL48mH1-ZAqWHPzyw5S8f0XuUhHBYjw6dY6ntySHsd-wLq4"/>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-slate-100 h-[1px] w-full"></div>
+</header>
+<div class="flex min-h-[calc(100-4rem)]">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-16 flex flex-col bg-slate-50 border-r border-slate-200/15 py-6 px-4 gap-y-2">
+<div class="px-4 mb-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="architecture" data-weight="fill" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h2 class="font-manrope font-bold text-lg text-[#031635]">Academic Architect</h2>
+<p class="text-xs text-slate-500 font-medium">Elite Consulting</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-[#031635] hover:bg-slate-200/50 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span>Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-[#031635] hover:bg-slate-200/50 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span>AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-[#031635] hover:bg-slate-200/50 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="robot_2">robot_2</span>
+<span>Automation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-[#031635] hover:bg-slate-200/50 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-200/30 pt-4 space-y-1">
+<button class="w-full mb-4 py-2.5 px-4 bg-gradient-to-br from-[#031635] to-[#1A2B4B] text-white rounded-lg font-inter font-medium text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    New Dossier
+                </button>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Sign Out
+                </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 flex-1 p-10 pt-8">
+<!-- Header Section -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex items-center gap-6">
+<div class="h-24 w-24 rounded-full border-4 border-surface-container-lowest shadow-xl overflow-hidden">
+<img alt="Student Profile" data-alt="Portrait of a young male student in a scholarly setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsayh9luctqSGRDbcfsAQmkeA3PLuCUcEQ9RXA1hgRAOTTqvTGgzSwMrt6b-OT_Iv6FdpCrJccv3Y7MqvGfgQWWldTOvXpd3GevOWLIYqP1gBxnboAOEa0D11kYMiVLMuRuYig1rusV-uK_eZalw74bI-D7Ot9_I0Qjna0hMa0lPfCu-8hUb4AP_Nn80q_df56RyTmLJJOI3ReDDL7P-iUik5PGIRy73gaF9iXyLLUe4gpSui2999tqcbEgwIpVeX-ohRIvZYTUYs"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="font-headline font-extrabold text-3xl text-primary tracking-tight">Benjamin Harrison</h1>
+<span class="bg-primary-fixed text-on-primary-fixed text-[10px] font-bold px-2 py-0.5 rounded-full tracking-widest uppercase">Class of 2025</span>
+</div>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="school">school</span>
+                            Applying for: Computer Science &amp; Philosophy
+                        </p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-primary font-medium text-sm hover:bg-surface-bright transition-colors">Edit Profile</button>
+<button class="px-5 py-2.5 bg-gradient-to-br from-[#031635] to-[#1A2B4B] text-white rounded-xl font-medium text-sm shadow-lg shadow-primary/10">Share Dossier</button>
+</div>
+</div>
+<!-- Tab Navigation -->
+<div class="flex border-b border-surface-container mb-8">
+<button class="px-6 py-3 text-on-surface-variant font-semibold text-sm relative">Overview</button>
+<button class="px-6 py-3 text-primary font-bold text-sm relative border-b-2 border-primary">
+                    Deadlines
+                    <span class="absolute -top-1 -right-0.5 h-4 w-4 bg-error text-white text-[10px] flex items-center justify-center rounded-full font-bold">4</span>
+</button>
+<button class="px-6 py-3 text-on-surface-variant font-semibold text-sm relative">Essays</button>
+<button class="px-6 py-3 text-on-surface-variant font-semibold text-sm relative">Recommendations</button>
+<button class="px-6 py-3 text-on-surface-variant font-semibold text-sm relative">Test Scores</button>
+</div>
+<!-- Urgent State Alert -->
+<div class="mb-8 p-4 bg-error-container/30 border-l-4 border-error rounded-r-xl flex items-start gap-4">
+<div class="mt-0.5">
+<span class="material-symbols-outlined text-error" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-error-container text-sm">Immediate Attention Required</h3>
+<p class="text-on-error-container/80 text-sm mt-1">There are 4 critical deadlines approaching within the next 72 hours. Ensure all supplements are finalized by midnight.</p>
+</div>
+<button class="ml-auto text-on-error-container text-xs font-bold underline decoration-error/30 underline-offset-4">Dismiss Warning</button>
+</div>
+<!-- Deadline Table Container -->
+<div class="bg-surface-container-low rounded-2xl p-1">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Institution</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Application Type</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Deadline</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Priority</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Urgent Deadline 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center p-1 border border-outline-variant/20">
+<img alt="Stanford Logo" class="rounded-sm" data-alt="Stanford University circular crest logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr2ijR5RQsLg7Ybi7QE2gYYEkuCklLafrZqndSl4k55iThtO6qULlgDSDmvxYnj3HFVii0Ep1-CpXfG_Fm8BpeKbhl9TcBDi3oIB8RpCX4qC5NKVlNAfV8TjuiY0szEexqz3KesquqouTHVZGP5GRe63dDY1HuObMOLQj71-vszC6DFU_P6pRViaXf7n8ZETDfZC8JjGI97j80qgXFl8j-n7TWIx-KVVuM5v5KHCUDXMGRNcbzyqF0U7ow-5krILn8r4tEV9gISxI"/>
+</div>
+<div>
+<div class="font-bold text-primary">Stanford University</div>
+<div class="text-xs text-on-surface-variant">Early Restrictive Action</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">Common App</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-error">Nov 01, 2024</span>
+<span class="text-[10px] font-bold text-error/80">In 2 Days</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-error"></div>
+<span class="text-sm font-medium">Pending Review</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-[#FFF3E0] text-[#E65100] border border-[#FFE0B2] tracking-wide">URGENT</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Urgent Deadline 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center p-1 border border-outline-variant/20">
+<img alt="MIT Logo" class="rounded-sm" data-alt="MIT technology institute minimalist logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGnKAWiwqfVa3AJVbTks6Xk_l_dzIttB1vvgM0wBjirgkNZSmulP3oSjYKmg5skCFpnmZSzlZWwwX7YW4wK-8Nn8A4rcpLOcnHbxEItzPBRgDgIg0doV2_qoW4eKrmfOR6z_Jk_mJqjBrXLS1TqzKkB7l5NY3r4l5nquL53eHgkt6uIoV26lCsb2Yz9lB6v39fsoN4TvKaGAJblSevXDxRN1XeRAwPHJf83oRQyA45C-V7wmh89lvLp77Imjypr9tLVPoy4U_kP2o"/>
+</div>
+<div>
+<div class="font-bold text-primary">MIT</div>
+<div class="text-xs text-on-surface-variant">Early Action</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">MIT Portal</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-error">Nov 01, 2024</span>
+<span class="text-[10px] font-bold text-error/80">In 2 Days</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-error"></div>
+<span class="text-sm font-medium">Missing Checklist</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-extrabold bg-[#FFF3E0] text-[#E65100] border border-[#FFE0B2] tracking-wide">URGENT</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Normal Deadline 1 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center p-1 border border-outline-variant/20">
+<img alt="Harvard Logo" class="rounded-sm" data-alt="Harvard University traditional shield logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4ANE2Z7VN8Eou5QQSfVapSaAv5Vq1sxHNzD_bgK6HvlLidigLp_GjC9PeKfLbIJE0OHAlItd6ApWBRnbF1D4u8QoaMIi2dWoPW5PI10VHnfuwYJPwiOezbDO8OwH9mZn2whvV1dBfWdLv19vAcQ9eLyudeaFhDarKDDS77oYRppZSlbrhQO_Fkl6F4DLr_V_-vldrkvLmlrn297FNaPxPlrU9Lm37xOe_eoUZCgCWdL88glVP8HkjVv7bZbsM6hXDMOzjv793RSo"/>
+</div>
+<div>
+<div class="font-bold text-primary">Harvard University</div>
+<div class="text-xs text-on-surface-variant">Regular Decision</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">Common App</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-on-surface">Jan 01, 2025</span>
+<span class="text-[10px] font-medium text-on-surface-variant">In 63 Days</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-secondary"></div>
+<span class="text-sm font-medium">In Progress</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-surface-container-high text-on-surface-variant border border-outline-variant/20 tracking-wide uppercase">Routine</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Normal Deadline 2 -->
+<tr class="hover:bg-surface-bright transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center p-1 border border-outline-variant/20">
+<img alt="Yale Logo" class="rounded-sm" data-alt="Yale University blue and white logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMIfAHO0yHiYX5rezHqoXO_vRXBI7lroM8CLazCPIqIQ25ExEyslBmDAa--td5DI_9RBG__CtfYUqXmiI7d-tlwN2ACY_wnY1vOroavAVmDOsKmYE4drgael74rW69c1gfIm92DYew7nwr1L3AbxNSX8mTzEjigckfYZBIV5cRkDAfCWcdeXcDOPlDyG-_D67K49HRGw0UBHj8KI7VOyXEqbRCQ65BFa8vyplTPmDfOrYax5dMzhpGbXzCCjTN0xjaOrKzUoSllKU"/>
+</div>
+<div>
+<div class="font-bold text-primary">Yale University</div>
+<div class="text-xs text-on-surface-variant">Regular Decision</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">Common App</td>
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-on-surface">Jan 02, 2025</span>
+<span class="text-[10px] font-medium text-on-surface-variant">In 64 Days</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-secondary"></div>
+<span class="text-sm font-medium">In Progress</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold bg-surface-container-high text-on-surface-variant border border-outline-variant/20 tracking-wide uppercase">Routine</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="p-2 rounded-full hover:bg-surface-container transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bento Stats Grid (Bottom) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+<div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between h-40 group">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform" data-icon="history_edu">history_edu</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Essay Drafts</span>
+</div>
+<div>
+<div class="text-3xl font-extrabold text-primary">12/28</div>
+<div class="text-xs text-on-surface-variant mt-1 font-medium">4 Completed this week</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between h-40 group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-8xl" data-icon="timer">timer</span>
+</div>
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-error" data-icon="alarm">alarm</span>
+<span class="text-[10px] font-bold text-error uppercase tracking-widest">Urgent Actions</span>
+</div>
+<div>
+<div class="text-3xl font-extrabold text-error">04</div>
+<div class="text-xs text-on-surface-variant mt-1 font-medium">Critical supplements required</div>
+</div>
+</div>
+<div class="bg-primary p-6 rounded-2xl flex flex-col justify-between h-40 group">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="rocket_launch">rocket_launch</span>
+<span class="text-[10px] font-bold text-primary-fixed uppercase tracking-widest">Application Health</span>
+</div>
+<div>
+<div class="text-3xl font-extrabold text-white">84%</div>
+<div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary-fixed h-full w-[84%]"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- AI Pilot Bar (Floating Footer Overlay) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl px-6 z-40">
+<div class="glass-panel rounded-full p-2 border border-outline-variant/20 shadow-2xl flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined text-xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-primary">Pilot AI Draft Insight</p>
+<p class="text-[11px] text-on-surface-variant truncate">Stanford's "Intellectual Vitality" supplement lacks specific evidence of project execution...</p>
+</div>
+<button class="px-4 py-2 bg-primary text-white text-[11px] font-bold rounded-full hover:bg-primary/90 transition-colors">Action Required</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</button>
+</div>
+</div>
+</body></html>
+
+<!-- Documents: Transcripts Filter -->

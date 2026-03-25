@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pipeline | Academic Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#8a92aa",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-container": "#57657a",
+                        "on-primary-fixed": "#081b3a",
+                        "secondary": "#515f74",
+                        "outline-variant": "#c5c6cf",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-primary-fixed-variant": "#364768",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-surface-variant": "#44474e",
+                        "tertiary-fixed": "#dae2fd",
+                        "outline": "#75777f",
+                        "inverse-primary": "#b6c6ef",
+                        "primary-fixed": "#d8e2ff",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#8293b8",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-surface": "#191c1e",
+                        "on-background": "#191c1e",
+                        "primary": "#031635",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "surface-tint": "#4e5e81",
+                        "primary-container": "#1a2b4b",
+                        "surface-dim": "#d8dadc",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#232b3f",
+                        "surface": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-tertiary-fixed": "#131b2e",
+                        "tertiary": "#0e1629",
+                        "secondary-container": "#d5e3fc",
+                        "surface-container": "#eceef0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .kanban-column { min-width: 280px; }
+        .drag-handle { cursor: grab; }
+        .drag-handle:active { cursor: grabbing; }
+    </style>
+</head>
+<body class="bg-background font-body text-on-background antialiased overflow-hidden">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 z-40 h-full w-64 border-r-0 bg-slate-50 dark:bg-[#031635] font-['Manrope'] font-semibold tracking-tight">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-[#031635] dark:text-white leading-tight">Academic Architect</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-tertiary-container">Premium Consulting</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<!-- Active State: Pipeline -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold bg-white dark:bg-[#1A2B4B] rounded-lg active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span>Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                New Student
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex flex-col h-screen">
+<!-- TopAppBar (Execution from JSON) -->
+<header class="fixed top-0 right-0 left-64 h-16 flex items-center justify-between px-8 z-30 bg-white/80 dark:bg-[#031635]/80 backdrop-blur-md shadow-sm dark:shadow-none font-['Inter'] text-sm font-medium">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search students, dossiers, or files..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-slate-500" data-icon="help">help</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors relative">
+<span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
+<button class="flex items-center gap-3 pl-2 pr-1 py-1 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="font-semibold text-primary">Dr. Henderson</span>
+<img alt="User Profile" class="w-8 h-8 rounded-full border-2 border-white" data-alt="Professional portrait of a male consultant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAVrkLMncG2925Qj6mU_5cUeDMEH99kNOJ4M_dQeb9IzTBwq-t9FacFE3yvMo3hJE3sq_ou3Lo73kE1cJc0-FDKZOuAwPnKCxwO5HIWxhZ8jNW9M7aHnLY8tAKu4m566YihgYQUHaVx8bCi1k0HzCTwDM10Xgb_8K3KoqDT7mZzV_VVMBKtDROgaAeEAionhe7gtfJW5oUJxLab8yDgQhm6BM2GoRz9zU-zVAIRuGoCH5QGcayJq1JeYpoVnEBW94Ugh9AAUMS-KA"/>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<section class="mt-16 p-8 flex-1 flex flex-col overflow-hidden">
+<!-- Filters & Summary Section -->
+<div class="mb-8 space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-extrabold font-headline tracking-tight text-primary">Student Pipeline</h2>
+<p class="text-on-surface-variant mt-1">Lifecycle tracking for Class of 2025 Applications</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-lowest rounded-xl px-4 py-2 flex items-center gap-4 shadow-sm">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant">Counselor</span>
+<select class="bg-transparent border-none p-0 font-semibold text-primary focus:ring-0 text-sm cursor-pointer">
+<option>All Counselors</option>
+<option>Dr. Henderson</option>
+<option>Sarah Miller</option>
+</select>
+</div>
+<div class="w-px h-8 bg-outline-variant/30"></div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant">Season</span>
+<select class="bg-transparent border-none p-0 font-semibold text-primary focus:ring-0 text-sm cursor-pointer">
+<option>Fall 2025</option>
+<option>Spring 2025</option>
+</select>
+</div>
+</div>
+<button class="bg-surface-container-highest p-3 rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+</div>
+<!-- Distribution Bar -->
+<div class="bg-surface-container-low p-4 rounded-2xl">
+<div class="flex justify-between items-center mb-3">
+<span class="text-xs font-bold text-primary uppercase tracking-wider">Pipeline Distribution</span>
+<span class="text-xs text-on-surface-variant">Total: 142 Active Students</span>
+</div>
+<div class="h-3 flex w-full rounded-full overflow-hidden bg-surface-container-highest">
+<div class="h-full bg-primary" style="width: 15%" title="Intake"></div>
+<div class="h-full bg-primary/80" style="width: 20%" title="Forms"></div>
+<div class="h-full bg-primary/60" style="width: 25%" title="Writing"></div>
+<div class="h-full bg-primary/40" style="width: 15%" title="Review"></div>
+<div class="h-full bg-primary/25" style="width: 10%" title="Submitted"></div>
+<div class="h-full bg-tertiary-fixed-dim" style="width: 10%" title="Accepted"></div>
+<div class="h-full bg-outline-variant" style="width: 5%" title="Rejected"></div>
+</div>
+<div class="flex gap-6 mt-3 overflow-x-auto hide-scrollbar">
+<div class="flex items-center gap-2 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[11px] font-medium">Intake (15%)</span>
+</div>
+<div class="flex items-center gap-2 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-primary/60"></span>
+<span class="text-[11px] font-medium">Writing (25%)</span>
+</div>
+<div class="flex items-center gap-2 whitespace-nowrap">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-[11px] font-medium">Accepted (10%)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Kanban Board -->
+<div class="flex-1 overflow-x-auto pb-6 -mx-8 px-8 flex gap-6 select-none">
+<!-- Column: Intake -->
+<div class="kanban-column flex flex-col h-full bg-surface-container-low rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-primary font-headline">Intake</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">12</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<div class="flex-1 space-y-4 overflow-y-auto hide-scrollbar">
+<!-- Student Card 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all drag-handle">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-bold text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded-md uppercase">High Interest</span>
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-bold text-primary text-sm">Alexander Vance</h4>
+<p class="text-xs text-on-surface-variant mb-3">Mechanical Engineering</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-xs text-error" data-icon="event">event</span>
+<span class="text-[10px] font-semibold text-error">Nov 01 • Early Action</span>
+</div>
+<div class="pt-3 border-t border-outline-variant/10">
+<p class="text-[10px] leading-relaxed italic text-on-surface-variant">"Top 5% class rank, Varsity Lacrosse, interest in robotics."</p>
+</div>
+</div>
+<!-- Student Card 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all drag-handle">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-bold text-slate-500 bg-surface-container-high px-2 py-0.5 rounded-md uppercase">Discovery</span>
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-bold text-primary text-sm">Elena Rodriguez</h4>
+<p class="text-xs text-on-surface-variant mb-3">Public Health</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-xs text-on-surface-variant" data-icon="event">event</span>
+<span class="text-[10px] font-semibold text-on-surface-variant">Dec 15 • Regular</span>
+</div>
+<div class="pt-3 border-t border-outline-variant/10">
+<p class="text-[10px] leading-relaxed italic text-on-surface-variant">"Transfer student, focused on policy and global outreach."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Forms -->
+<div class="kanban-column flex flex-col h-full bg-surface-container-low rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-primary font-headline">Forms</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">8</span>
+</div>
+</div>
+<div class="flex-1 space-y-4 overflow-y-auto hide-scrollbar">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all drag-handle">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-bold text-on-secondary-fixed-variant bg-secondary-fixed px-2 py-0.5 rounded-md uppercase">Financial Aid</span>
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-bold text-primary text-sm">Marcus Chen</h4>
+<p class="text-xs text-on-surface-variant mb-3">Computer Science</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-xs text-error" data-icon="event">event</span>
+<span class="text-[10px] font-semibold text-error">Oct 28 • CSS Profile</span>
+</div>
+<div class="pt-3 border-t border-outline-variant/10">
+<p class="text-[10px] leading-relaxed italic text-on-surface-variant">"Awaiting parents' tax returns for FAFSA completion."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Writing -->
+<div class="kanban-column flex flex-col h-full bg-surface-container-low rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-primary font-headline">Writing</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">24</span>
+</div>
+</div>
+<div class="flex-1 space-y-4 overflow-y-auto hide-scrollbar">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all drag-handle">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-bold text-on-primary-fixed-variant bg-primary-fixed px-2 py-0.5 rounded-md uppercase">Drafting</span>
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-bold text-primary text-sm">Sophia Dubois</h4>
+<p class="text-xs text-on-surface-variant mb-3">Creative Writing</p>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-xs text-on-surface-variant" data-icon="history_edu">history_edu</span>
+<span class="text-[10px] font-semibold text-on-surface-variant">Personal Statement v3</span>
+</div>
+<div class="pt-3 border-t border-outline-variant/10">
+<p class="text-[10px] leading-relaxed italic text-on-surface-variant">"Strong narrative voice. Needs to tighten word count."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Review -->
+<div class="kanban-column flex flex-col h-full bg-surface-container-low rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-primary font-headline">Review</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">15</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border-2 border-primary/10 opacity-60">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-bold text-on-primary-fixed-variant bg-primary-fixed px-2 py-0.5 rounded-md">CONSULTANT REVIEW</span>
+</div>
+<h4 class="font-bold text-primary text-sm">Liam Gallagher</h4>
+<p class="text-xs text-on-surface-variant">Economics</p>
+</div>
+</div>
+</div>
+<!-- Column: Submitted -->
+<div class="kanban-column flex flex-col h-full bg-surface-container-low rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-primary font-headline">Submitted</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">32</span>
+</div>
+</div>
+<div class="flex-1 space-y-4 overflow-y-auto hide-scrollbar">
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all drag-handle">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-md uppercase">Sent</span>
+<span class="material-symbols-outlined text-slate-300 text-sm" data-icon="drag_indicator">drag_indicator</span>
+</div>
+<h4 class="font-bold text-primary text-sm">Isabella Sato</h4>
+<p class="text-xs text-on-surface-variant mb-3">Applied Physics</p>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-xs text-on-surface-variant" data-icon="check_circle">check_circle</span>
+<span class="text-[10px] font-semibold text-on-surface-variant">MIT, Stanford, CalTech</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Accepted -->
+<div class="kanban-column flex flex-col h-full bg-tertiary-container rounded-2xl p-4">
+<div class="flex items-center justify-between mb-4 px-1">
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-white font-headline">Accepted</h3>
+<span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">5</span>
+</div>
+</div>
+<div class="flex-1 space-y-4">
+<div class="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/10">
+<h4 class="font-bold text-white text-sm">Jordan Smith</h4>
+<p class="text-xs text-tertiary-fixed-dim mb-2">Yale University</p>
+<span class="text-[10px] text-white/60 font-medium">Waitlisted: Harvard</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating Action Button -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="bg-primary text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-90 transition-all group flex items-center gap-3">
+<span class="material-symbols-outlined text-2xl" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 font-bold whitespace-nowrap">Ask Academic Pilot</span>
+</button>
+</div>
+</main>
+</body></html>
+<!-- Student Profile: Applications - ApplyPilot -->

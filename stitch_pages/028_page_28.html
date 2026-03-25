@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="uz"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#8293b8",
+              "primary-fixed": "#d8e2ff",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed": "#0d1c2e",
+              "tertiary": "#0e1629",
+              "outline": "#75777f",
+              "primary-container": "#1a2b4b",
+              "on-tertiary-container": "#8a92aa",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "secondary-container": "#d5e3fc",
+              "inverse-primary": "#b6c6ef",
+              "background": "#f7f9fb",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#bec6e0",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-error-container": "#93000a",
+              "on-background": "#191c1e",
+              "outline-variant": "#c5c6cf",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "surface-variant": "#e0e3e5",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "primary": "#031635",
+              "on-surface": "#191c1e",
+              "surface-bright": "#f7f9fb",
+              "inverse-surface": "#2d3133",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "tertiary-container": "#232b3f",
+              "secondary": "#515f74",
+              "inverse-on-surface": "#eff1f3",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#44474e",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-fixed": "#131b2e",
+              "primary-fixed-dim": "#b6c6ef",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-container": "#eceef0"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { font-family: 'Inter', sans-serif; }
+      h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar Shell (Suppressed Navigation for Task Focus) -->
+<header class="flex justify-between items-center w-full px-8 py-6 sticky top-0 z-50 bg-white/80 backdrop-blur-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="policy">policy</span>
+<span class="text-xl font-bold tracking-tighter text-primary">ApplyPilot</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-medium text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="language">language</span>
+                O'zbekcha (UZ)
+            </div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-6 py-12 md:py-20">
+<!-- Hero Section -->
+<section class="mb-16">
+<div class="mb-4 inline-flex items-center px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-xs font-bold tracking-wider uppercase">
+                Huquqiy hujjat
+            </div>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-primary mb-6">Xizmat ko'rsatish shartlari</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-2xl">
+                ApplyPilot xizmatlaridan foydalanishdan oldin ushbu shartlarni diqqat bilan o'qib chiqing. Ushbu hujjat sizning huquqlaringiz va majburiyatlaringizni belgilaydi.
+            </p>
+<div class="mt-8 flex items-center gap-4 text-sm text-on-surface-variant italic">
+<span>Oxirgi yangilanish: 2024-yil 24-may</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span>Versiya 2.4.0</span>
+</div>
+</section>
+<!-- Terms Content (Bento-style layout for key sections) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20">
+<!-- Main Content Area -->
+<div class="md:col-span-8 space-y-12">
+<article>
+<h2 class="text-2xl font-bold text-primary mb-4">1. Umumiy qoidalar</h2>
+<p class="text-on-surface-variant leading-relaxed mb-4">
+                        Ushbu Xizmat ko'rsatish shartlari ("Shartlar") ApplyPilot platformasidan ("Platforma") foydalanish tartibini belgilaydi. Platformadan foydalanish orqali siz ushbu Shartlarga to'liq rozilik bildirasiz.
+                    </p>
+<p class="text-on-surface-variant leading-relaxed">
+                        Agar siz ushbu Shartlarning biror qismiga rozi bo'lmasangiz, xizmatdan foydalanishni darhol to'xtatishingiz kerak.
+                    </p>
+</article>
+<article>
+<h2 class="text-2xl font-bold text-primary mb-4">2. Akademik halollik</h2>
+<p class="text-on-surface-variant leading-relaxed mb-4">
+                        ApplyPilot akademik maslahat va arxitektura vositasi hisoblanadi. Biz foydalanuvchilarni o'z arizalarini tayyorlashda sun'iy intellektdan yordamchi vosita sifatida foydalanishga undaymiz, biroq barcha taqdim etilgan ma'lumotlarning haqiqiyligi uchun foydalanuvchi javobgardir.
+                    </p>
+<div class="bg-surface-container-low p-6 rounded-xl border-l-4 border-primary">
+<p class="text-sm font-medium text-primary leading-relaxed">
+                            "Foydalanuvchi ta'lim muassasalarining barcha qoidalariga rioya qilishi va akademik plagiatga yo'l qo'ymasligi shart."
+                        </p>
+</div>
+</article>
+<article>
+<h2 class="text-2xl font-bold text-primary mb-4">3. Ma'lumotlar maxfiyligi</h2>
+<p class="text-on-surface-variant leading-relaxed mb-4">
+                        Sizning arizalaringiz va shaxsiy ma'lumotlaringiz bizning xavfsiz serverlarimizda saqlanadi. Biz ma'lumotlaringizni uchinchi tomonlarga sotmaymiz. Batafsil ma'lumot uchun Maxfiylik siyosati bilan tanishing.
+                    </p>
+</article>
+<article>
+<h2 class="text-2xl font-bold text-primary mb-4">4. Obuna va to'lovlar</h2>
+<p class="text-on-surface-variant leading-relaxed">
+                        Premium xizmatlar uchun to'lovlar qaytarilmaydi, qonunda ko'zda tutilgan hollar bundan mustasno. Obunani istalgan vaqtda shaxsiy kabinetingiz orqali bekor qilishingiz mumkin.
+                    </p>
+</article>
+</div>
+<!-- Sidebar Navigation/Summary -->
+<aside class="md:col-span-4">
+<div class="sticky top-32 space-y-6">
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-sm border border-outline-variant/10">
+<h3 class="text-sm font-bold tracking-widest text-primary uppercase mb-6">Mundarija</h3>
+<nav class="space-y-4">
+<a class="block text-sm font-medium text-primary hover:translate-x-1 transition-transform" href="#">1. Umumiy qoidalar</a>
+<a class="block text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">2. Akademik halollik</a>
+<a class="block text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">3. Ma'lumotlar maxfiyligi</a>
+<a class="block text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">4. Obuna va to'lovlar</a>
+<a class="block text-sm font-medium text-on-surface-variant hover:text-primary transition-colors" href="#">5. Mas'uliyatni cheklash</a>
+</nav>
+</div>
+<div class="bg-primary text-on-primary p-8 rounded-2xl">
+<span class="material-symbols-outlined text-4xl mb-4" data-icon="help_center">help_center</span>
+<h3 class="text-lg font-bold mb-2">Savollaringiz bormi?</h3>
+<p class="text-sm text-on-primary-container mb-6">
+                            Agar shartlar bo'yicha tushunmovchiliklar bo'lsa, huquqiy bo'limimiz bilan bog'laning.
+                        </p>
+<a class="text-sm font-bold border-b border-on-primary pb-1" href="mailto:legal@applypilot.com">Email yuborish</a>
+</div>
+</div>
+</aside>
+</div>
+<!-- Sticky Action Bar (Pilot Overlay Style) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-2xl z-50">
+<div class="glass-effect p-6 rounded-2xl border border-white/20 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Rozilik bildirish</p>
+<p class="text-xs text-on-surface-variant">Davom etish orqali barcha shartlarni qabul qilasiz</p>
+</div>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-high transition-all">
+                        Rad etish
+                    </button>
+<button class="flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
+                        Qabul qilaman
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Space -->
+<footer class="h-40 bg-surface-container-low flex items-center justify-center">
+<div class="text-center">
+<p class="text-xs text-on-surface-variant tracking-widest uppercase mb-2">ApplyPilot Academic Architect</p>
+<p class="text-[10px] text-outline">© 2024 ApplyPilot Inc. Barcha huquqlar himoyalangan.</p>
+</div>
+</footer>
+</body></html>
+
+<!-- Export Preview - ApplyPilot -->

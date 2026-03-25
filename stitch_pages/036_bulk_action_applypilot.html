@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bulk Action - ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#c5c6cf",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#0e1629",
+              "on-tertiary-fixed": "#131b2e",
+              "on-tertiary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#232b3f",
+              "on-primary-container": "#8293b8",
+              "on-primary-fixed": "#081b3a",
+              "primary-container": "#1a2b4b",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-background": "#191c1e",
+              "surface-container-low": "#f2f4f6",
+              "on-surface-variant": "#44474e",
+              "on-secondary-container": "#57657a",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb",
+              "tertiary-fixed-dim": "#bec6e0",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline": "#75777f",
+              "surface-bright": "#f7f9fb",
+              "surface-container-highest": "#e0e3e5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "primary": "#031635",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "inverse-surface": "#2d3133",
+              "secondary": "#515f74",
+              "on-surface": "#191c1e",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed": "#dae2fd",
+              "secondary-fixed": "#d5e3fc",
+              "error-container": "#ffdad6",
+              "surface-tint": "#4e5e81",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "inverse-primary": "#b6c6ef"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-hidden">
+<!-- Side Navigation Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-slate-50 dark:bg-slate-950 flex flex-col py-8 px-4 gap-2 transition-colors from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 border-r border-slate-200/20">
+<div class="mb-10 px-4">
+<h1 class="font-manrope font-extrabold text-slate-900 dark:text-white uppercase tracking-widest text-lg">ApplyPilot</h1>
+<p class="text-xs text-on-surface-variant font-medium opacity-70">Academic Architect</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm tracking-wide">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-900 dark:text-white font-semibold bg-white dark:bg-slate-900 shadow-sm rounded-lg Active: translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-inter text-sm tracking-wide">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-inter text-sm tracking-wide">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter text-sm tracking-wide">Documents</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-200/10 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-slate-900" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-inter text-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-slate-900" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-inter text-sm">Log out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area (Background list) -->
+<main class="ml-64 p-10 bg-surface min-h-screen">
+<header class="mb-12 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tight text-primary mb-2">Student Roster</h2>
+<p class="text-on-surface-variant max-w-lg leading-relaxed">Manage your current applicants and their enrollment status within the academic architectural framework.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-semibold shadow-lg shadow-primary/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Application
+            </button>
+</header>
+<!-- Asymmetric Bento Grid for Table Replacement -->
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 bg-surface-container-low rounded-xl p-6">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-4">
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-xs font-bold">5 SELECTED</span>
+<p class="text-sm font-medium text-primary">Actions available for bulk processing</p>
+</div>
+<div class="flex gap-2">
+<div class="h-10 w-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="filter_list">filter_list</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Placeholder Student Rows (Simulating the background list) -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/10 flex items-center gap-4 opacity-50">
+<div class="h-5 w-5 rounded border-2 border-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-slate-200"></div>
+<div class="flex-1">
+<p class="font-bold text-primary">Alexander Thorne</p>
+<p class="text-xs text-on-surface-variant">Architecture • Yale University</p>
+</div>
+<div class="bg-surface-container-high px-3 py-1 rounded text-xs">Awaiting Documents</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/10 flex items-center gap-4 opacity-50">
+<div class="h-5 w-5 rounded border-2 border-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-slate-200"></div>
+<div class="flex-1">
+<p class="font-bold text-primary">Elena Rodriguez</p>
+<p class="text-xs text-on-surface-variant">Biomedical Science • Oxford</p>
+</div>
+<div class="bg-surface-container-high px-3 py-1 rounded text-xs">Interview Scheduled</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-primary/20 backdrop-blur-sm">
+<!-- The Bulk Action Modal Card -->
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden border border-outline-variant/20 animate-in fade-in zoom-in duration-300">
+<!-- Header Section -->
+<div class="p-8 pb-4">
+<div class="flex items-center justify-between mb-4">
+<div class="h-12 w-12 bg-primary-fixed flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-primary" data-icon="group_work">group_work</span>
+</div>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="close">close</span>
+</button>
+</div>
+<h3 class="text-2xl font-bold text-primary">Bulk Action</h3>
+<p class="text-on-surface-variant mt-1">You are about to modify 5 selected student records.</p>
+</div>
+<!-- Content Section -->
+<div class="px-8 py-6 bg-surface-container-low/50 space-y-6">
+<!-- Selected Students Preview Pill -->
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-outline-variant/20 shadow-sm">
+<div class="h-5 w-5 rounded-full bg-slate-300 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjM6eYSNrpPj9PsT5Yhk9vy88LuSgbN75UKovi3N72UPum4QGz9vgRB-emyHJh6Ub2jotk2rt_2PXBj1QTx6U81nbWhw6vWvEM8GuoSPTy0LcCN49_jdiL5Rc-qAbWMq4DJDQ-MZ8gX6IKzAOHd14MWST3RWQxf4fAv2YX4c7iUufajoU53AuiH7EpLvpZyv5E4VAnZELnDyaLadQsxOq7vkL7KbJI-cDttjSJ9zk1PDlsoZD5Y8Vk9z12r_nUxTLBAiaKPxGq0Lg"/>
+</div>
+<span class="text-xs font-semibold text-primary">Alexander T.</span>
+</div>
+<div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-outline-variant/20 shadow-sm">
+<div class="h-5 w-5 rounded-full bg-slate-300 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfJuy1zuGAeS8qteMx8KqU90Vacfkq1YuHL4W1eye03Q5COzga2Cz0veY1SLdB3tvZHRCu6KXcct0yW8OkKx7gvfulxrplHsDat8Z-Uqkd-jddC8y3qQhF8kwcAClW8ulXZLdZ46Xz-OIYpH4JyvsPI45UdyFbUNRPfPpOjfDvqRnEOhYmOYrmuE8FMklzLHVad2riTYABywh9cALOpiqlP7rwaDxu0fNxBXBfD6BT4I1CPuImteHSHo2-h33thHEfX4k_geP3838"/>
+</div>
+<span class="text-xs font-semibold text-primary">Elena R.</span>
+</div>
+<div class="flex items-center gap-2 bg-primary-container/10 px-3 py-1.5 rounded-lg border border-primary-container/20">
+<span class="text-xs font-bold text-primary">+ 3 more</span>
+</div>
+</div>
+<!-- Action Form -->
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-xs font-bold text-primary uppercase tracking-widest">Change Status to...</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm font-medium text-primary">
+<option value="select">Select new status</option>
+<option value="pending">Review Pending</option>
+<option value="docs">Document Collection</option>
+<option value="interview">Interview Process</option>
+<option value="enrolled">Final Enrollment</option>
+<option value="withdrawn">Application Withdrawn</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 bg-tertiary-container/5 rounded-xl border border-tertiary-container/10">
+<span class="material-symbols-outlined text-tertiary mt-0.5" data-icon="info">info</span>
+<p class="text-xs text-tertiary leading-relaxed">
+                            This action will send an automated notification to the students and update the agency dashboard in real-time.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Footer Section -->
+<div class="p-8 pt-6 flex gap-3">
+<button class="flex-1 bg-surface-container-highest text-primary font-bold py-4 rounded-xl hover:bg-surface-container-high transition-colors active:scale-[0.98]">
+                    Cancel
+                </button>
+<button class="flex-[1.5] bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="sync" style="font-variation-settings: 'wght' 700;">sync</span>
+                    Update Students
+                </button>
+</div>
+</div>
+</div>
+</body></html>
+
+<!-- TOS (Russian) -->

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+      }
+      .asymmetric-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-slate-50/80 backdrop-blur-xl text-slate-900 font-manrope font-semibold tracking-tight full-width top-0 sticky shadow-sm z-40">
+<div class="flex items-center justify-between px-8 h-16 w-full">
+<div class="text-xl font-extrabold text-slate-900 tracking-tighter">ApplyPilot</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-4 text-slate-500">
+<span class="material-symbols-outlined hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors">help_outline</span>
+<span class="material-symbols-outlined hover:bg-slate-200/50 p-2 rounded-full cursor-pointer transition-colors">settings</span>
+</div>
+<img alt="Consultant profile avatar" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="Professional consultant headshot in office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrjgJRlDU9mkgiW4GtbSUaZt9olK0TuRLdbRJ3slP_ip40e6FCLEJFV2UQYbXu9SKe422eRTzcWFFm_BuCVKW2ZdJvv3DW8jdDYCT8iZu-NTrl3Zi5W2zyF4_-6JzoxDQ5OVfxh__TpidXVIKRs45ukFrm7AIUumKmFg5DStOoAhGofRzzTB6ics_1E9J9MsbiYwj3sG0Vdf8GmEEI-8qRDK3BJzoTc7OC_IwzntUVqeuvohwD-HFOJDTro6s8ueedgAAax02IInI"/>
+</div>
+</div>
+<div class="bg-slate-100 h-[1px] w-full"></div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 border-r border-slate-200/15 py-6 px-4 gap-y-2 z-30 hidden md:flex">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h2 class="font-manrope font-bold text-lg text-[#031635]">Academic Architect</h2>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Elite Consulting</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg transition-all group" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 group" href="#">
+<span class="material-symbols-outlined text-xl">folder_shared</span>
+<span class="font-inter text-sm font-medium">Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl">auto_awesome</span>
+<span class="font-inter text-sm font-medium">AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl">robot_2</span>
+<span class="font-inter text-sm font-medium">Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 hover:translate-x-1 duration-200 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined text-xl">analytics</span>
+<span class="font-inter text-sm font-medium">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-y-1 pt-4 border-t border-slate-200/15">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">contact_support</span>
+<span class="font-inter text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200/50 transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined text-xl">logout</span>
+<span class="font-inter text-sm font-medium">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-8 lg:p-12 relative">
+<!-- Dashboard Header Section (Blurred Background Content) -->
+<div class="max-w-6xl mx-auto opacity-40 select-none pointer-events-none">
+<div class="mb-10">
+<h1 class="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">Team Management</h1>
+<p class="font-body text-on-surface-variant max-w-2xl text-lg">Manage consultant access, dossiers, and academic authority levels across your firm.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15">
+<p class="text-sm font-label text-on-surface-variant mb-1 uppercase tracking-wider">Active Consultants</p>
+<p class="text-3xl font-headline font-bold text-primary">12</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15">
+<p class="text-sm font-label text-on-surface-variant mb-1 uppercase tracking-wider">Pending Invites</p>
+<p class="text-3xl font-headline font-bold text-primary">3</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15">
+<p class="text-sm font-label text-on-surface-variant mb-1 uppercase tracking-wider">Storage Usage</p>
+<p class="text-3xl font-headline font-bold text-primary">84%</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/15">
+<div class="p-6 bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline font-bold text-primary">Staff Roster</h3>
+</div>
+<div class="divide-y divide-surface-container">
+<div class="p-6 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200"></div>
+<div>
+<p class="font-bold">Julian Sterling</p>
+<p class="text-sm text-on-surface-variant">Senior Admissions Strategist</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-primary/5 text-primary text-xs font-bold rounded-full">ACTIVE</span>
+</div>
+<div class="p-6 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200"></div>
+<div>
+<p class="font-bold">Eleanor Vance</p>
+<p class="text-sm text-on-surface-variant">Lead Dossier Architect</p>
+</div>
+</div>
+<span class="px-3 py-1 bg-primary/5 text-primary text-xs font-bold rounded-full">ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL OVERLAY: Deactivation Confirmation -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-md"></div>
+<!-- Modal Container -->
+<div class="relative bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-[0_40px_80px_rgba(3,22,53,0.15)] overflow-hidden flex flex-col md:flex-row">
+<!-- Left Column: Context & Visual -->
+<div class="w-full md:w-2/5 bg-primary p-8 text-white flex flex-col justify-between relative overflow-hidden">
+<div class="relative z-10">
+<div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-white text-3xl">person_off</span>
+</div>
+<h2 class="font-headline text-2xl font-bold leading-tight mb-4">Deactivate Consultant Account</h2>
+<p class="text-on-primary-container text-sm leading-relaxed">Account deactivation is a restricted action. Ensure all transition protocols are met before proceeding.</p>
+</div>
+<!-- Visual Element -->
+<div class="absolute -bottom-10 -right-10 opacity-10">
+<span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div class="relative z-10 pt-12">
+<div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
+<img alt="Julian Sterling" class="w-10 h-10 rounded-full object-cover grayscale" data-alt="Professional woman in business attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVhsxfBkItLLRd60q0uoV7UWgpMVS2_3R7vlowtBsAYBf-0c2IIauoVRkFdLoFXazAfHSyKh-iAK71l8As8ylFz7RF4L2y7LmlGXGV81D2qaJhBgQ_yps3KTvVDXY0buSGt4HPvC_EbcyOLxBMZN8fl4fYbD4XwEs6R3DoZEeNA99k5mHP4kVQby-s7QjfOeQ0jhGI_qSH3CiCFhmhGWeQtZLJMax1piGgk2LYyU4jdEdnGkLWFwDoTlukGHe2x6Sa_Ffkq8WO0rE"/>
+<div>
+<p class="text-sm font-bold">Eleanor Vance</p>
+<p class="text-[10px] uppercase tracking-widest opacity-60">Lead Architect</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Form & Actions -->
+<div class="w-full md:w-3/5 p-8 flex flex-col">
+<div class="mb-8">
+<h3 class="text-error font-headline font-bold text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">warning</span>
+                                Critical Action Warning
+                            </h3>
+<div class="space-y-4">
+<div class="flex gap-4">
+<div class="mt-1 w-5 h-5 flex-shrink-0 bg-error/10 text-error rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">close</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Immediate Access Revocation</p>
+<p class="text-xs text-on-surface-variant leading-normal">Eleanor will immediately lose access to the Scholar Command portal and all proprietary dossier drafts.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="mt-1 w-5 h-5 flex-shrink-0 bg-error/10 text-error rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">assignment</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Orphaned Student Assignments</p>
+<p class="text-xs text-on-surface-variant leading-normal">14 active student dossiers will be unassigned. You must manually reallocate these to another architect.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="mt-1 w-5 h-5 flex-shrink-0 bg-error/10 text-error rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">history</span>
+</div>
+<div>
+<p class="font-bold text-sm text-on-surface">Audit Trail Preservation</p>
+<p class="text-xs text-on-surface-variant leading-normal">All historical activity and communication logs will be archived for institutional compliance but remain read-only.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Confirmation Action -->
+<div class="mt-auto pt-6 border-t border-surface-container">
+<label class="flex items-center gap-3 mb-6 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="text-xs font-medium text-on-surface-variant group-hover:text-on-surface transition-colors">
+                                    I confirm that I have secured all sensitive data and informed the student stakeholders.
+                                </span>
+</label>
+<div class="flex gap-3">
+<button class="flex-1 bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-bold py-3 px-6 rounded-lg transition-all text-sm">
+                                    Cancel
+                                </button>
+<button class="flex-1 bg-gradient-to-br from-primary to-primary-container hover:shadow-lg hover:shadow-primary/20 text-white font-bold py-3 px-6 rounded-lg transition-all text-sm flex items-center justify-center gap-2">
+                                    Deactivate Staff
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating AI Bar (Design System Reference) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-md z-40 px-4 pointer-events-none">
+<div class="glass-panel rounded-full p-2 border border-white/20 shadow-xl flex items-center gap-3 pointer-events-auto">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter opacity-70">Pilot Insights</p>
+<p class="text-xs font-medium text-on-surface truncate">Identify dossier reassignment candidates...</p>
+</div>
+<button class="bg-primary/5 hover:bg-primary/10 text-primary p-2 rounded-full transition-colors mr-1">
+<span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>
+<!-- Student Profile: Inline Edit Active -->

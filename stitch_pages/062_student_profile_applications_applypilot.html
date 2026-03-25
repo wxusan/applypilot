@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Profile - Applications | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "inverse-surface": "#2d3133",
+              "on-primary-container": "#8293b8",
+              "error": "#ba1a1a",
+              "tertiary": "#0e1629",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#57657a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b6c6ef",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#b9c7df",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-container": "#1a2b4b",
+              "secondary": "#515f74",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+      }
+      .asymmetric-pattern {
+        background-image: radial-gradient(circle at 2px 2px, rgba(3, 22, 53, 0.03) 1px, transparent 0);
+        background-size: 24px 24px;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 flex flex-col bg-slate-50 dark:bg-slate-950 border-r border-slate-200/15 dark:border-slate-800/15 z-50">
+<div class="flex flex-col py-6 px-4 gap-y-2 h-full">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="font-manrope font-bold text-lg text-[#031635] dark:text-white leading-tight">Academic Architect</h1>
+<p class="text-[10px] font-bold tracking-widest uppercase text-on-surface-variant/60">Elite Consulting</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-[#031635] text-white rounded-lg shadow-lg shadow-[#031635]/10 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_shared</span>
+<span>Dossiers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span>AI Drafter</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">robot_2</span>
+<span>Automation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200 font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-y-1 pt-4 border-t border-slate-200/10">
+<button class="w-full mb-4 bg-gradient-to-br from-primary to-primary-container text-white py-2.5 rounded-lg font-manrope font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-95 transition-opacity">
+                    New Dossier
+                </button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-[#031635] font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:text-error font-inter text-sm font-medium rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none h-16 w-full sticky top-0 z-40 flex items-center justify-between px-8">
+<div class="flex items-center gap-4">
+<nav class="flex items-center gap-6 font-manrope font-semibold tracking-tight">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors duration-200" href="#">Profiles</a>
+<span class="text-slate-300">/</span>
+<span class="text-slate-900 dark:text-white font-bold">Julianne Sterling</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="bg-surface-container border-none focus:ring-2 focus:ring-primary/20 rounded-full pl-10 pr-4 py-1.5 text-sm w-64 transition-all" placeholder="Search application..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden ring-2 ring-white shadow-sm ml-2">
+<img alt="Consultant profile avatar" class="w-full h-full object-cover" data-alt="Female professional portrait with neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbuoINh1GNohuycxLOB4gjbrpyK6L0IG3cMVqTLI7xorjWZcfSrfQwIjqxnWISz2q4l3EJSDYhUBlSG2eeMUQzRpsO_N0g57bY2q9d9WjAscDUbqbTrPXAq4i4RKdfQrMNhagxzBaUs-VApEx-czPSI1hxSV8qoxUU2YfGQubL1kBAEQR48khdl-GJsHRRvBA6YiJY6uweVztQMgwi0mnwfETRY9hG-lrnkEw_Go2r0mF6XAs7yPjk69U8DVk4guogXTCC_TjUYVw"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-10 asymmetric-pattern">
+<!-- Profile Header -->
+<div class="flex items-end justify-between mb-12">
+<div class="flex gap-8 items-center">
+<div class="relative">
+<div class="w-28 h-28 rounded-2xl bg-white shadow-xl shadow-primary/5 flex items-center justify-center overflow-hidden border-4 border-white">
+<img alt="Student photo" class="w-full h-full object-cover" data-alt="Young female student smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJM71UectSj8QBO16qRzOJlhocHwsOSOmVAvZdoFlWedoZkmhYo2imrBv6fdGEgrmVKA-VBlRM4MT6Ckx0R2PbWXuOEDhnwVKl9U0VURpUbrGaVMYNE3c8SSBwO5T-NX9qle4xotrUeaE4-JwbhWmnLPrLcF4DbvennN1mmUW0yYH9YPdW_MQMlqi4hbvpQrGf81zhEmQ_qPgrcR4NnpVtq-FpBvMxldZVNvGQsCyl6lhLMLB_lTWDWvb2E0O07-plv4CrjCLLUcc"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-white p-1.5 rounded-full shadow-md">
+<div class="bg-green-500 w-3 h-3 rounded-full border-2 border-white"></div>
+</div>
+</div>
+<div>
+<h2 class="font-headline text-4xl font-extrabold text-primary tracking-tight mb-1">Julianne Sterling</h2>
+<div class="flex items-center gap-4 text-on-surface-variant text-sm">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">school</span> Class of 2025</span>
+<span class="w-1 h-1 rounded-full bg-slate-300"></span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">location_on</span> Palo Alto, CA</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-primary bg-white border border-outline-variant/30 shadow-sm hover:bg-surface-bright transition-all">
+                        Edit Profile
+                    </button>
+<button class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-br from-primary to-primary-container shadow-lg shadow-primary/10 hover:opacity-95 transition-all">
+                        Share Dossier
+                    </button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="mb-8 flex gap-8 border-b border-surface-container-high">
+<a class="pb-4 text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Overview</a>
+<a class="pb-4 text-primary font-bold border-b-2 border-primary relative" href="#">
+                    Applications
+                    <span class="absolute -top-1 -right-4 bg-surface-container-highest text-[10px] px-1.5 py-0.5 rounded-full text-on-surface-variant font-bold">0</span>
+</a>
+<a class="pb-4 text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Test Scores</a>
+<a class="pb-4 text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Extracurriculars</a>
+<a class="pb-4 text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Documents</a>
+</div>
+<!-- Empty State Section (Bento Inspired) -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- Main Empty State Canvas -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low rounded-3xl p-1 relative overflow-hidden">
+<div class="bg-surface-container-lowest rounded-[1.25rem] border border-outline-variant/10 shadow-sm min-h-[500px] flex flex-col items-center justify-center p-12 text-center">
+<!-- Premium Illustration Concept -->
+<div class="relative mb-10">
+<div class="absolute inset-0 bg-primary/5 blur-3xl rounded-full scale-150"></div>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- Abstract Architectural Elements -->
+<div class="absolute inset-0 border-2 border-dashed border-primary/10 rounded-full animate-pulse"></div>
+<div class="absolute w-32 h-32 bg-primary/5 rounded-2xl rotate-12"></div>
+<div class="absolute w-32 h-32 bg-primary/5 rounded-2xl -rotate-12"></div>
+<div class="relative z-10 w-24 h-24 bg-white shadow-xl rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary/40">account_balance</span>
+</div>
+<div class="absolute -top-4 -right-4 w-12 h-12 bg-primary-fixed text-primary rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-2xl">add</span>
+</div>
+</div>
+</div>
+<div class="max-w-md mx-auto">
+<h3 class="font-headline text-2xl font-bold text-primary mb-3">Begin the Academic Blueprint</h3>
+<p class="text-on-surface-variant leading-relaxed mb-10 font-body">
+                                This student's university list is currently a blank canvas. Start architecting their future by adding target, reach, and safety institutions to their digital dossier.
+                            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="group flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-manrope font-bold shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                                    Add First University
+                                </button>
+<button class="flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-surface-container text-primary font-manrope font-bold hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined">auto_fix</span>
+                                    AI Recommendations
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Guidance / Context Panel -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary-container rounded-3xl p-8 text-white relative overflow-hidden">
+<div class="absolute -bottom-8 -right-8 opacity-10">
+<span class="material-symbols-outlined text-[160px]">lightbulb</span>
+</div>
+<h4 class="font-headline text-lg font-bold mb-4 relative z-10">Consultant's Tip</h4>
+<p class="text-sm leading-relaxed text-on-primary-container font-medium mb-6 relative z-10">
+                            Research suggests that starting with a "Safety" list of 2-3 schools builds momentum for students early in the process. 
+                        </p>
+<a class="text-sm font-bold flex items-center gap-2 text-primary-fixed hover:gap-3 transition-all relative z-10" href="#">
+                            Read Strategy Guide <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-1">
+<div class="bg-white rounded-[1.25rem] p-6">
+<h4 class="font-headline text-sm font-extrabold text-primary uppercase tracking-widest mb-6">Recent University Lookups</h4>
+<div class="space-y-6">
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-xl">travel_explore</span>
+</div>
+<div class="flex-1">
+<div class="text-sm font-bold text-primary">Stanford University</div>
+<div class="text-[11px] text-on-surface-variant">Private Research • CA</div>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary">add</span>
+</div>
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-xl">travel_explore</span>
+</div>
+<div class="flex-1">
+<div class="text-sm font-bold text-primary">Columbia University</div>
+<div class="text-[11px] text-on-surface-variant">Ivy League • NY</div>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary">add</span>
+</div>
+<div class="flex items-center gap-4 group cursor-pointer">
+<div class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-xl">travel_explore</span>
+</div>
+<div class="flex-1">
+<div class="text-sm font-bold text-primary">UC Berkeley</div>
+<div class="text-[11px] text-on-surface-variant">Public Research • CA</div>
+</div>
+<span class="material-symbols-outlined text-slate-300 group-hover:text-primary">add</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pilot AI Floating Bar (Fixed Footer Shell) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl z-50 px-4">
+<div class="glass-effect bg-white/80 border border-white shadow-2xl shadow-primary/10 rounded-2xl p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-white text-xl animate-pulse">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="text-[11px] font-bold text-primary/50 uppercase tracking-widest">Pilot AI Assistant</div>
+<div class="text-sm text-primary font-medium italic">"I can suggest target schools based on Julianne's SAT scores. Shall I begin?"</div>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                        Yes, suggest
+                    </button>
+<button class="bg-surface-container text-on-surface-variant p-2 rounded-lg">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- Deadlines: Overdue Items -->

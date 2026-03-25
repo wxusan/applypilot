@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Essay Analysis | Scholar Command</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-container": "#8293b8",
+                        "inverse-primary": "#b6c6ef",
+                        "primary-fixed": "#d8e2ff",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#75777f",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-surface-variant": "#44474e",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-primary-fixed-variant": "#364768",
+                        "secondary": "#515f74",
+                        "outline-variant": "#c5c6cf",
+                        "on-primary-fixed": "#081b3a",
+                        "on-secondary-container": "#57657a",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-container": "#8a92aa",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#0e1629",
+                        "secondary-container": "#d5e3fc",
+                        "surface": "#f7f9fb",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed-dim": "#b6c6ef",
+                        "on-tertiary-fixed": "#131b2e",
+                        "tertiary-container": "#232b3f",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1a2b4b",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#4e5e81",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "surface-bright": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "error-container": "#ffdad6",
+                        "primary": "#031635",
+                        "on-surface": "#191c1e",
+                        "on-background": "#191c1e",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .essay-scroll::-webkit-scrollbar { width: 4px; }
+        .essay-scroll::-webkit-scrollbar-track { background: transparent; }
+        .essay-scroll::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 bg-slate-50 dark:bg-slate-950 h-screen w-64 border-r-0">
+<div class="p-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="school">school</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-[#031635] dark:text-white">Scholar Command</h1>
+</div>
+<p class="text-[10px] uppercase tracking-widest mt-1 text-on-surface-variant font-bold opacity-60">Institutional Elite</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium Inter">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm font-medium Inter">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[#031635] dark:text-white font-bold border-r-4 border-[#031635] dark:border-blue-400 bg-white/50 dark:bg-slate-800/50 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-sm font-medium Inter">AI Assistant</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="view_kanban">view_kanban</span>
+<span class="text-sm font-medium Inter">Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium Inter">Analytics</span>
+</a>
+</nav>
+<div class="p-6 mt-auto">
+<div class="bg-primary-container rounded-xl p-4 mb-6">
+<p class="text-xs text-on-primary-container mb-2 font-medium">Scholar AI Credits</p>
+<div class="w-full bg-primary/30 h-1.5 rounded-full mb-3">
+<div class="bg-white w-3/4 h-full rounded-full"></div>
+</div>
+<button class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg hover:bg-slate-100 transition-colors">Upgrade Plan</button>
+</div>
+<div class="flex items-center gap-3 px-4 py-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhEIOWyxyFOf4NOvH-C4BQu91g-t5vkv-Qg596OmaLYnYGN3bX3wmu6OhJc2AJ1HilQmztw3NiDLRVKFcfbHYpnlqBexUsgVG-GXvsMWbWb2b1xSNfEeeSJZgU9yWGdqpgJxQ7IMDPJJ9nlTnpmwJgDGi44BhyOPpDQMyz9MQsYL_NH5KbNZqw4TmU0B9zpoJuh7RxFdUza_9JtS1Of8VVHW638InqUS6CRHrRMVYy66EV8-wlU4fD4tllz_K91WIwkIgPgr_xYwI"/>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Marcus Vane</p>
+<p class="text-[10px] text-on-surface-variant">Senior Consultant</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pl-64 flex flex-col min-h-screen">
+<!-- TopAppBar Shell -->
+<header class="flex items-center justify-between px-8 py-3 w-full border-b border-slate-100 dark:border-slate-800 sticky top-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl z-30 shadow-sm shadow-[#031635]/5">
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-surface-container px-3 py-2 rounded-lg border-[0.5px] border-outline-variant/15 w-80">
+<span class="material-symbols-outlined text-on-surface-variant text-xl mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 p-0 w-full placeholder:text-on-surface-variant/60" placeholder="Search students or drafts..." type="text"/>
+</div>
+<div class="flex gap-4">
+<a class="text-sm font-semibold text-[#031635] dark:text-blue-400" href="#">Quick Actions</a>
+<a class="text-sm text-slate-600 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-all" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<button class="p-2 text-slate-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
+<button class="bg-primary text-white px-5 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="file_upload">file_upload</span>
+                    Export Analysis
+                </button>
+</div>
+</header>
+<!-- Workspace Section -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left: Essay Workspace -->
+<section class="flex-1 bg-surface-container-low p-10 overflow-y-auto essay-scroll border-r border-outline-variant/10">
+<div class="max-w-2xl mx-auto space-y-8">
+<header>
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<span class="text-xs font-medium tracking-wide uppercase">Student: Julian Richards</span>
+<span class="text-xs opacity-30">•</span>
+<span class="text-xs font-medium tracking-wide uppercase">Draft 4</span>
+</div>
+<h2 class="text-3xl font-headline font-extrabold text-primary leading-tight">Navigating the Intersection of Architecture and Social Equity</h2>
+</header>
+<div class="space-y-6 text-on-surface leading-relaxed font-body">
+<p class="text-lg">
+                            My fascination with the built environment began not in a museum or a cathedral, but in the cramped, sun-drenched alleyways of <span class="bg-blue-100/50 border-b-2 border-primary/20 cursor-help" title="Highlight: Tone suggests personal connection.">my childhood neighborhood</span>. I watched as the architecture defined the social interactions of the residents. The narrow passages dictated a forced intimacy, a shared existence that flourished despite the physical constraints.
+                        </p>
+<p class="text-lg">
+                            As I transitioned into my formal studies, I began to realize that architecture is never just about aesthetics or structural integrity. It is a political statement. <span class="bg-error-container/40 border-b-2 border-error/20 cursor-help" title="AI Note: Word choice 'unforgiving' might be too aggressive here.">The unforgiving glass towers of the financial district</span> stand in stark contrast to the dilapidated community centers of the suburbs. This disparity ignited a passion for what I call "Equity by Design."
+                        </p>
+<p class="text-lg">
+                            I believe that the role of the modern architect is to serve as a bridge between the historical context of a site and the future needs of its marginalized inhabitants. In my senior capstone project, I proposed a modular housing system that prioritizes community space over individual footprint. This was not just a design challenge; it was an exercise in empathy.
+                        </p>
+<p class="text-lg">
+                            The challenge of the 21st century is not building higher, but building wider—expanding our reach to those who have been systematically excluded from the benefits of thoughtful urban planning. I seek to join the Master of Architecture program at Yale because I believe its commitment to social impact aligns with my vision of a more inclusive world.
+                        </p>
+</div>
+<div class="pt-12 flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-highest text-primary font-bold text-sm hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                            Continue Editing
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-highest text-primary font-bold text-sm hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="comment">comment</span>
+                            Add Manual Note
+                        </button>
+</div>
+</div>
+</section>
+<!-- Right: AI Intelligence Panel -->
+<aside class="w-[420px] bg-white flex flex-col shadow-[-10px_0_30px_rgba(3,22,53,0.02)] z-20">
+<div class="p-6 border-b border-outline-variant/10">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline font-bold text-xl text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+                            Analysis Report
+                        </h3>
+<span class="bg-primary/5 text-primary text-[10px] font-bold px-2 py-1 rounded border border-primary/10">AI PILOT v2.4</span>
+</div>
+<!-- Scoring Grid -->
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-surface-container-low rounded-xl p-3 flex flex-col items-center justify-center text-center">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant mb-1">Structure</span>
+<span class="text-2xl font-headline font-extrabold text-primary">8.4</span>
+<div class="w-full bg-outline-variant/30 h-1 rounded-full mt-2">
+<div class="bg-primary w-[84%] h-full rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex flex-col items-center justify-center text-center">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant mb-1">Tone</span>
+<span class="text-2xl font-headline font-extrabold text-primary">9.1</span>
+<div class="w-full bg-outline-variant/30 h-1 rounded-full mt-2">
+<div class="bg-primary w-[91%] h-full rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex flex-col items-center justify-center text-center">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant mb-1">Grammar</span>
+<span class="text-2xl font-headline font-extrabold text-primary">7.8</span>
+<div class="w-full bg-outline-variant/30 h-1 rounded-full mt-2">
+<div class="bg-primary w-[78%] h-full rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 essay-scroll">
+<!-- Critical Feedback -->
+<div class="space-y-4">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Core Intelligence</h4>
+<!-- Suggestion Card 1 -->
+<div class="bg-surface-container-lowest border-[0.5px] border-outline-variant/20 rounded-xl p-4 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="mt-1 bg-primary/10 p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="lightbulb">lightbulb</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-bold text-primary mb-1">Strengthen Hook</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">The opening paragraph establishes personal stakes well, but could benefit from a more vivid sensory detail about the "forced intimacy."</p>
+<div class="mt-3 bg-surface-container p-2 rounded-lg">
+<p class="text-[11px] font-medium text-primary-container">AI Suggestion:</p>
+<p class="text-[11px] italic text-on-surface-variant">"I watched as the architecture defined the rhythmic social pulses of the block..."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Suggestion Card 2 -->
+<div class="bg-surface-container-lowest border-[0.5px] border-outline-variant/20 rounded-xl p-4 shadow-sm">
+<div class="flex items-start gap-3">
+<div class="mt-1 bg-error-container/20 p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-error text-lg" data-icon="warning">warning</span>
+</div>
+<div class="flex-1">
+<h5 class="text-sm font-bold text-primary mb-1">Vocabulary Precision</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">"Unforgiving" in paragraph 2 carries a heavy emotional weight. Consider a more analytical term to maintain professional distance.</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-1 bg-surface-container text-[10px] rounded font-medium text-primary">Imposing</span>
+<span class="px-2 py-1 bg-surface-container text-[10px] rounded font-medium text-primary">Monolithic</span>
+<span class="px-2 py-1 bg-surface-container text-[10px] rounded font-medium text-primary">Stark</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Revision Assistant Overlay -->
+<div class="bg-primary text-white rounded-2xl p-5 relative overflow-hidden group">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-sm" data-icon="psychology">psychology</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Pilot Deep Scan</span>
+</div>
+<h4 class="font-headline font-bold text-lg mb-2">Institutional Alignment</h4>
+<p class="text-xs text-on-primary-container leading-relaxed mb-4">
+                                This draft currently aligns 88% with Yale's architectural philosophy of 'Prosocial Sustainability.'
+                            </p>
+<button class="w-full py-2.5 bg-white text-primary text-xs font-bold rounded-lg hover:bg-slate-100 transition-colors flex items-center justify-center gap-2">
+                                Run Comparative Study
+                                <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Abstract Pattern -->
+<div class="absolute -right-4 -bottom-4 w-32 h-32 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-9xl" data-icon="grid_view" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+</div>
+</div>
+</div>
+<!-- Footer Action -->
+<div class="p-6 bg-surface-container-low border-t border-outline-variant/10">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-3 group transition-all">
+                        Generate Revised Draft
+                        <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="magic_button">magic_button</span>
+</button>
+</div>
+</aside>
+</div>
+<!-- Floating AI Command Bar (Pilot Interface) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-50">
+<div class="bg-surface-container-lowest/80 backdrop-blur-2xl border border-outline-variant/20 rounded-full h-14 flex items-center px-4 shadow-[0_20px_50px_rgba(3,22,53,0.15)] overflow-hidden">
+<div class="bg-primary w-8 h-8 rounded-full flex items-center justify-center mr-3 animate-pulse">
+<span class="material-symbols-outlined text-white text-lg" data-icon="mic">mic</span>
+</div>
+<input class="flex-1 bg-transparent border-none text-sm focus:ring-0 placeholder:text-on-surface-variant/50" placeholder="Ask AI to 'Make the conclusion more impactful'..." type="text"/>
+<div class="flex items-center gap-2 text-on-surface-variant/40 ml-4">
+<kbd class="px-2 py-0.5 border border-outline-variant/30 rounded text-[10px] font-bold">CMD</kbd>
+<span class="text-[10px] font-bold">K</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- Empty State: Pipeline Board -->

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Student Intake | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-high": "#e6e8ea",
+              "surface": "#f7f9fb",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d8dadc",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "on-secondary-container": "#57657a",
+              "surface-bright": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "on-primary-container": "#8293b8",
+              "surface-container-lowest": "#ffffff",
+              "tertiary": "#0e1629",
+              "error": "#ba1a1a",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "primary-fixed-dim": "#b6c6ef",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-secondary": "#ffffff",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "outline-variant": "#c5c6cf",
+              "on-tertiary-fixed": "#131b2e",
+              "tertiary-fixed-dim": "#bec6e0",
+              "primary": "#031635",
+              "tertiary-container": "#232b3f",
+              "on-primary-fixed-variant": "#364768",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "outline": "#75777f",
+              "on-surface-variant": "#44474e",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-background": "#191c1e",
+              "tertiary-fixed": "#dae2fd",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#8a92aa",
+              "on-primary-fixed": "#081b3a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, #031635 0%, #1A2B4B 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar (Predicted Component) -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 z-40 h-full w-64 border-r-0 bg-slate-50 dark:bg-[#031635] font-['Manrope'] font-semibold tracking-tight">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-8 h-8 rounded-lg bg-primary-gradient flex items-center justify-center text-white shadow-sm">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+</div>
+<span class="text-xl font-bold text-[#031635] dark:text-white">ApplyPilot</span>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold bg-white dark:bg-[#1A2B4B] rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span>Pipeline</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] hover:bg-slate-200 dark:hover:bg-[#1A2B4B]/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-8">
+<div class="p-4 rounded-xl bg-surface-container-low dark:bg-[#1A2B4B] flex items-center gap-3">
+<img class="w-10 h-10 rounded-full border-2 border-white" data-alt="User profile photo of agency admin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgodvkX13HBWisjjhYty9Eo4zb6YMJrDdARXjddRB0JGdrKKxf06zVvqhrCHqL4Jb_0Iy7ZiIQOWfSGj2QY3SJgYIAb8bah-wXuvP96-Rp9PFSjCFCRoO0K8f7qXnp5-nPUBF6qIorEzjy7FGr6qet8eATIj5qgAR2nGOQHJbnZuslAlAtFV9IsQa1n7SCFNgzEtRVybBWBJVY-YhOUAD3fA77LUIzBAd5ihis_G2LI1EU8qCKBBnnSnzeihtYMMrJ3ePdst-MmFQ"/>
+<div>
+<p class="text-sm font-bold text-primary dark:text-white">Admin User</p>
+<p class="text-xs text-on-surface-variant">Agency Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar (Predicted Component) -->
+<header class="fixed top-0 right-0 left-64 h-16 flex items-center justify-between px-12 z-30 bg-white/80 dark:bg-[#031635]/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<span class="text-lg font-bold tracking-tighter text-[#031635] dark:text-white">ApplyPilot</span>
+<div class="h-4 w-[1px] bg-outline-variant opacity-30"></div>
+<h1 class="font-headline font-bold text-on-surface">New Student Intake</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-xl text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search global database..." type="text"/>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="help">help</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="pt-24 pb-12 px-12 max-w-6xl mx-auto">
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Left Column: Stepper/Progress Dossier -->
+<aside class="lg:w-1/4">
+<div class="sticky top-32">
+<h2 class="font-headline text-2xl font-extrabold text-primary mb-8 tracking-tight">Onboarding Dossier</h2>
+<div class="relative">
+<!-- Stepper Line -->
+<div class="absolute left-3 top-0 bottom-0 w-[2px] bg-surface-container-high"></div>
+<ul class="space-y-10 relative">
+<li class="flex gap-6 items-start">
+<div class="relative z-10 w-6 h-6 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface">
+<span class="material-symbols-outlined text-[14px] text-white" data-icon="check">check</span>
+</div>
+<div>
+<p class="font-bold text-primary text-sm leading-none mb-1">Personal Identity</p>
+<p class="text-xs text-on-surface-variant">Core student data</p>
+</div>
+</li>
+<li class="flex gap-6 items-start">
+<div class="relative z-10 w-6 h-6 rounded-full bg-primary ring-4 ring-surface flex items-center justify-center animate-pulse">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<div>
+<p class="font-bold text-primary text-sm leading-none mb-1">Academic Profile</p>
+<p class="text-xs text-on-surface-variant">Transcript &amp; test scores</p>
+</div>
+</li>
+<li class="flex gap-6 items-start">
+<div class="relative z-10 w-6 h-6 rounded-full bg-surface-container-high ring-4 ring-surface"></div>
+<div>
+<p class="font-semibold text-on-surface-variant text-sm leading-none mb-1">Enrollment Intent</p>
+<p class="text-xs text-on-surface-variant">Cycle &amp; major targets</p>
+</div>
+</li>
+<li class="flex gap-6 items-start">
+<div class="relative z-10 w-6 h-6 rounded-full bg-surface-container-high ring-4 ring-surface"></div>
+<div>
+<p class="font-semibold text-on-surface-variant text-sm leading-none mb-1">Review &amp; Submit</p>
+<p class="text-xs text-on-surface-variant">Final validation check</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<!-- Right Column: Form Sections -->
+<div class="lg:w-3/4 space-y-12">
+<!-- Section: Personal Information -->
+<section class="bg-surface-container-low rounded-2xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+<h3 class="font-headline font-bold text-xl text-primary">Personal Information</h3>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Given Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all" placeholder="e.g. Alexander" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Family Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all" placeholder="e.g. Hamilton" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Email Address</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all" placeholder="student@university.edu" type="email"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Citizenship</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all appearance-none">
+<option>Select Country</option>
+<option>United States</option>
+<option>China</option>
+<option>India</option>
+<option>United Kingdom</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section: Academic Profile -->
+<section class="bg-surface-container-low rounded-2xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="menu_book">menu_book</span>
+<h3 class="font-headline font-bold text-xl text-primary">Academic Profile</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">Cumulative GPA</label>
+<div class="flex items-end gap-2">
+<input class="w-20 text-2xl font-headline font-bold text-primary border-none p-0 focus:ring-0" type="text" value="3.85"/>
+<span class="text-on-surface-variant text-sm pb-1">/ 4.0</span>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[92%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">SAT / ACT Score</label>
+<div class="flex items-center gap-2">
+<input class="w-full text-2xl font-headline font-bold text-primary border-none p-0 focus:ring-0" placeholder="1540" type="text"/>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-4 font-semibold uppercase">Super-scored Total</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3">TOEFL / IELTS</label>
+<div class="flex items-center gap-2">
+<input class="w-full text-2xl font-headline font-bold text-primary border-none p-0 focus:ring-0" placeholder="112" type="text"/>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-4 font-semibold uppercase">Latest Proficiency</p>
+</div>
+</div>
+<div class="mt-8 space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Current High School</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all" placeholder="Search school database..." type="text"/>
+</div>
+</section>
+<!-- Section: Enrollment Intent -->
+<section class="bg-surface-container-low rounded-2xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="target">target</span>
+<h3 class="font-headline font-bold text-xl text-primary">Enrollment Strategy</h3>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-4">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Application Cycle</label>
+<div class="flex flex-col gap-2">
+<label class="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl cursor-pointer border-2 border-transparent hover:border-primary/20 transition-all has-[:checked]:border-primary">
+<input checked="" class="text-primary focus:ring-primary" name="cycle" type="radio"/>
+<span class="text-sm font-semibold">Fall 2025 (Regular)</span>
+</label>
+<label class="flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl cursor-pointer border-2 border-transparent hover:border-primary/20 transition-all has-[:checked]:border-primary">
+<input class="text-primary focus:ring-primary" name="cycle" type="radio"/>
+<span class="text-sm font-semibold">Fall 2024 (Gap Year/Transfer)</span>
+</label>
+</div>
+</div>
+<div class="space-y-4">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Primary Interest Area</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="px-4 py-3 bg-primary text-white text-xs font-bold rounded-xl transition-all">STEM</button>
+<button class="px-4 py-3 bg-surface-container-lowest text-primary text-xs font-bold rounded-xl hover:bg-surface-bright transition-all">Humanities</button>
+<button class="px-4 py-3 bg-surface-container-lowest text-primary text-xs font-bold rounded-xl hover:bg-surface-bright transition-all">Business</button>
+<button class="px-4 py-3 bg-surface-container-lowest text-primary text-xs font-bold rounded-xl hover:bg-surface-bright transition-all">Arts</button>
+</div>
+<div class="pt-2">
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all" placeholder="Specific Major (e.g. Astrophysics)" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Actions -->
+<div class="flex items-center justify-between pt-8">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-green-600" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-medium">Auto-saved 2 minutes ago</span>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-surface-container-high text-primary font-bold rounded-xl text-sm hover:bg-surface-dim transition-all">Discard Draft</button>
+<button class="px-10 py-3 bg-primary-gradient text-white font-headline font-extrabold rounded-xl text-sm shadow-xl hover:scale-[1.02] transition-all flex items-center gap-2">
+<span>Create Student Profile</span>
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Contextual) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform z-50">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+</button>
+</body></html>
+
+<!-- Pipeline Board - ApplyPilot -->

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Export Preview | ApplyPilot</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#8293b8",
+              "primary-fixed": "#d8e2ff",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#364768",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed": "#0d1c2e",
+              "tertiary": "#0e1629",
+              "outline": "#75777f",
+              "primary-container": "#1a2b4b",
+              "on-tertiary-container": "#8a92aa",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#4e5e81",
+              "secondary-fixed": "#d5e3fc",
+              "secondary-container": "#d5e3fc",
+              "inverse-primary": "#b6c6ef",
+              "background": "#f7f9fb",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#bec6e0",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-error-container": "#93000a",
+              "on-background": "#191c1e",
+              "outline-variant": "#c5c6cf",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "surface-variant": "#e0e3e5",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "surface": "#f7f9fb",
+              "primary": "#031635",
+              "on-surface": "#191c1e",
+              "surface-bright": "#f7f9fb",
+              "inverse-surface": "#2d3133",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "tertiary-container": "#232b3f",
+              "secondary": "#515f74",
+              "inverse-on-surface": "#eff1f3",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#44474e",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-fixed": "#131b2e",
+              "primary-fixed-dim": "#b6c6ef",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface-container": "#eceef0"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e0e3e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col p-4 bg-slate-50 dark:bg-[#031635] h-screen w-64 border-r-0 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-[#031635] dark:to-[#1A2B4B]">
+<div class="mb-8 px-4 flex items-center gap-3">
+<span class="text-xl font-bold tracking-tighter text-[#031635] dark:text-white">ApplyPilot</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label font-medium text-xs">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#031635] dark:text-white font-bold bg-white dark:bg-[#1A2B4B] rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="wb_sunny">wb_sunny</span>
+<span class="font-label font-medium text-xs">Workspaces</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label font-medium text-xs">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label font-medium text-xs">Pilot AI</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label font-medium text-xs">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant/10 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 dark:text-slate-400 hover:text-[#031635] dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-label font-medium text-xs">Help</span>
+</a>
+<div class="mt-4 px-4 py-3 flex items-center gap-3 bg-surface-container-low rounded-xl">
+<img alt="User Profile" class="w-8 h-8 rounded-full bg-primary-container" data-alt="Professional user profile headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSZpjs8ntAfJlOMcThcf-D-1NlQ0WmmS0HhPnvs4UWxO13FjOQHmPeNuLHqLSy-jUO02K13S7nd2kFCefkskG-GGJosrc6iwoPvUaAXcrAhpjHJPPeziV8huqoOFM9jLNBSqYAWxE21RjzqhD7kaqA6YqKsJeQ1TL522BY2BdkzaGffwhj7akwSqjKqkZRx498W0KlNx79BgKel-I2i1YI2003smSM8kbkrrItl3Su_2-yGINLnMYzuCr5j4t1KhmUjW59k-wQVbk"/>
+<div class="flex flex-col">
+<span class="text-xs font-bold font-headline">Academic Architect</span>
+<span class="text-[10px] text-on-surface-variant">Lead Consultant</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area (Blurred Background for Modal) -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-50 bg-white/80 dark:bg-[#031635]/80 backdrop-blur-xl">
+<div class="flex items-center gap-8">
+<h1 class="font-headline font-bold text-xl tracking-tight text-primary">Workspace / Students List</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 font-medium font-label text-sm" href="#">Overview</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-medium font-label text-sm" href="#">Analytics</a>
+<a class="text-slate-500 font-medium font-label text-sm" href="#">Resources</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-primary/20" placeholder="Search students..." type="text"/>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Page Content (Placeholder behind modal) -->
+<section class="p-8 space-y-8">
+<div class="grid grid-cols-12 gap-6 opacity-40 grayscale-[0.5]">
+<div class="col-span-12 bg-surface-container-low rounded-2xl p-6 h-96 flex flex-col justify-center items-center">
+<span class="material-symbols-outlined text-6xl text-outline-variant mb-4" data-icon="table_view">table_view</span>
+<div class="h-4 w-64 bg-outline-variant/20 rounded mb-2"></div>
+<div class="h-4 w-48 bg-outline-variant/20 rounded"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- MODAL OVERLAY -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-sm"></div>
+<!-- Modal Container -->
+<div class="relative w-full max-w-5xl bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant/10 overflow-hidden flex flex-col max-h-[921px]">
+<!-- Modal Header -->
+<div class="p-6 bg-surface-container-low flex justify-between items-center border-b border-outline-variant/5">
+<div>
+<h2 class="font-headline font-extrabold text-2xl text-primary tracking-tight">Export to CSV Preview</h2>
+<p class="font-body text-sm text-on-surface-variant mt-1">Review and configure the data set for your academic dossier export.</p>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-hidden flex flex-col md:flex-row">
+<!-- Left Sidebar: Field Selection -->
+<aside class="w-full md:w-72 bg-surface-container-low border-r border-outline-variant/10 p-6 flex flex-col gap-6 overflow-y-auto">
+<div>
+<h3 class="font-label font-bold text-xs uppercase tracking-widest text-on-surface-variant mb-4">Include Fields</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface group-hover:text-primary transition-colors">Student Name</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface group-hover:text-primary transition-colors">Application ID</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface group-hover:text-primary transition-colors">GPA (Weighted)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface group-hover:text-primary transition-colors">Target Universities</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface group-hover:text-primary transition-colors">Admission Status</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface-variant group-hover:text-primary transition-colors">Internal Notes</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded-sm border-outline text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="font-label text-sm text-on-surface-variant group-hover:text-primary transition-colors">Last Login Date</span>
+</label>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-outline-variant/10">
+<h3 class="font-label font-bold text-xs uppercase tracking-widest text-on-surface-variant mb-3">Format Settings</h3>
+<div class="space-y-4">
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant mb-1">Delimiter</label>
+<select class="w-full text-xs bg-surface-container border-none rounded-lg focus:ring-primary">
+<option>Comma (,)</option>
+<option>Semicolon (;)</option>
+<option>Tab (\t)</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] font-bold text-on-surface-variant mb-1">Encoding</label>
+<select class="w-full text-xs bg-surface-container border-none rounded-lg focus:ring-primary">
+<option>UTF-8</option>
+<option>UTF-16</option>
+<option>ASCII</option>
+</select>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Side: Table Preview -->
+<section class="flex-1 p-8 overflow-hidden flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-4">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold font-label flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]" data-icon="data_array">data_array</span>
+                                5 Fields Selected
+                            </span>
+<span class="text-on-surface-variant text-xs font-medium">Showing first 4 rows of 124 records</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-primary text-xs font-bold hover:underline">Select All</button>
+<span class="text-outline-variant">|</span>
+<button class="text-primary text-xs font-bold hover:underline">Clear</button>
+</div>
+</div>
+<!-- Data Grid Container -->
+<div class="flex-1 border border-outline-variant/10 rounded-xl overflow-hidden bg-white shadow-sm flex flex-col">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant/10">
+<tr>
+<th class="px-6 py-4 text-[11px] font-bold text-primary uppercase tracking-wider whitespace-nowrap">Student Name</th>
+<th class="px-6 py-4 text-[11px] font-bold text-primary uppercase tracking-wider whitespace-nowrap">Application ID</th>
+<th class="px-6 py-4 text-[11px] font-bold text-primary uppercase tracking-wider whitespace-nowrap text-right">GPA (W)</th>
+<th class="px-6 py-4 text-[11px] font-bold text-primary uppercase tracking-wider whitespace-nowrap">Target Universities</th>
+<th class="px-6 py-4 text-[11px] font-bold text-primary uppercase tracking-wider whitespace-nowrap">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 text-sm font-semibold text-on-surface whitespace-nowrap">Alistair Sterling</td>
+<td class="px-6 py-4 text-xs font-mono text-on-surface-variant">APP-2024-001</td>
+<td class="px-6 py-4 text-sm font-medium text-right">4.82</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Stanford, MIT, Harvard</td>
+<td class="px-6 py-4">
+<span class="bg-secondary-container/30 text-secondary px-2 py-0.5 rounded text-[10px] font-bold uppercase">Submitted</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 text-sm font-semibold text-on-surface whitespace-nowrap">Beatrix Vance</td>
+<td class="px-6 py-4 text-xs font-mono text-on-surface-variant">APP-2024-042</td>
+<td class="px-6 py-4 text-sm font-medium text-right">4.65</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Yale, Princeton, UChicago</td>
+<td class="px-6 py-4">
+<span class="bg-primary-fixed/30 text-primary-fixed-dim px-2 py-0.5 rounded text-[10px] font-bold uppercase">Reviewing</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 text-sm font-semibold text-on-surface whitespace-nowrap">Cillian Thorne</td>
+<td class="px-6 py-4 text-xs font-mono text-on-surface-variant">APP-2024-098</td>
+<td class="px-6 py-4 text-sm font-medium text-right">3.95</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">UPenn, Duke, Columbia</td>
+<td class="px-6 py-4">
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded text-[10px] font-bold uppercase">Draft</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-6 py-4 text-sm font-semibold text-on-surface whitespace-nowrap">Daphne Moreau</td>
+<td class="px-6 py-4 text-xs font-mono text-on-surface-variant">APP-2024-112</td>
+<td class="px-6 py-4 text-sm font-medium text-right">4.91</td>
+<td class="px-6 py-4 text-xs text-on-surface-variant">Oxford, Cambridge, ETH Zurich</td>
+<td class="px-6 py-4">
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-[10px] font-bold uppercase">Accepted</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Empty space and fade -->
+<div class="bg-gradient-to-t from-surface-container-low to-transparent h-16 w-full flex items-center justify-center">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">End of Preview</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Modal Footer -->
+<div class="p-6 bg-surface-container-low border-t border-outline-variant/10 flex justify-end gap-4">
+<button class="px-6 py-2.5 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors">Cancel</button>
+<button class="px-8 py-2.5 bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-bold rounded-xl shadow-lg shadow-primary/10 flex items-center gap-2 transform active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="file_download">file_download</span>
+                    Confirm Export
+                </button>
+</div>
+</div>
+</div>
+<!-- Background Pilot Overlay (Glassmorphism AI-Bar) -->
+<div class="fixed bottom-6 right-6 z-[110]">
+<div class="bg-surface-container-lowest/80 backdrop-blur-3xl border border-outline-variant/10 p-4 rounded-full shadow-2xl flex items-center gap-4">
+<div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="pr-6">
+<p class="text-[10px] font-bold text-primary uppercase tracking-tighter">Pilot AI Active</p>
+<p class="text-xs text-on-surface-variant">Optimizing export schema for CSV compliance.</p>
+</div>
+</div>
+</div>
+</body></html>
+<!-- Agency Analytics (Empty State) - ApplyPilot -->

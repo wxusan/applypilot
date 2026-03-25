@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#d5e3fc",
+              "outline-variant": "#c5c6cf",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d8dadc",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed-variant": "#3f465c",
+              "on-primary-fixed-variant": "#364768",
+              "surface-variant": "#e0e3e5",
+              "surface-tint": "#4e5e81",
+              "tertiary-container": "#232b3f",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#b6c6ef",
+              "surface-container": "#eceef0",
+              "surface-bright": "#f7f9fb",
+              "on-surface-variant": "#44474e",
+              "on-error": "#ffffff",
+              "tertiary": "#0e1629",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "secondary": "#515f74",
+              "primary-container": "#1a2b4b",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface": "#f7f9fb",
+              "tertiary-fixed": "#dae2fd",
+              "on-primary-fixed": "#081b3a",
+              "primary-fixed": "#d8e2ff",
+              "outline": "#75777f",
+              "secondary-container": "#d5e3fc",
+              "primary-fixed-dim": "#b6c6ef",
+              "tertiary-fixed-dim": "#bec6e0",
+              "on-tertiary-fixed": "#131b2e",
+              "primary": "#031635",
+              "error": "#ba1a1a",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#8a92aa",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#8293b8"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-8 px-4 z-50">
+<div class="mb-10 px-4 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container flex items-center justify-center rounded-xl shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-on-primary-fixed text-2xl active-fill">auto_stories</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-blue-950 dark:text-white font-manrope">ApplyPilot</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold opacity-60">College Consulting</p>
+</div>
+</div>
+<button class="mb-8 mx-2 bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-xl shadow-primary/20 hover:scale-[0.98] transition-all duration-200">
+<span class="material-symbols-outlined text-sm">add</span>
+<span class="font-label font-semibold text-sm">New Student</span>
+</button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-blue-950 dark:text-blue-300 font-bold border-r-4 border-blue-950 dark:border-blue-400 bg-white/50 dark:bg-white/5 font-manrope text-sm tracking-tight transition-all duration-200" href="#">
+<span class="material-symbols-outlined active-fill">group</span>
+<span>Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span>Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">event_upcoming</span>
+<span>Deadlines</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span>Documents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="mt-auto pt-8 border-t border-slate-100 dark:border-slate-800/50 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 font-manrope text-sm font-medium tracking-tight" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span>Account</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen relative">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800/50 shadow-sm dark:shadow-none h-16 px-8 flex justify-between items-center">
+<div class="flex items-center flex-1">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="w-full bg-surface-container border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search students..." type="text"/>
+</div>
+<nav class="ml-8 flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-manrope tracking-tight text-sm" href="#">Counselor Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-manrope tracking-tight text-sm" href="#">Agency Admin</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined">history_edu</span>
+</button>
+<div class="h-8 w-px bg-slate-200 mx-2"></div>
+<button class="flex items-center gap-2 bg-primary/5 hover:bg-primary/10 text-primary px-4 py-2 rounded-lg transition-all">
+<span class="material-symbols-outlined text-lg">person_add</span>
+<span class="text-sm font-semibold font-manrope">Invite Team</span>
+</button>
+<img alt="Counselor Profile" class="w-8 h-8 rounded-full border-2 border-white shadow-sm" data-alt="Counselor profile avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7nMYKBB-FsdK9DCGWh33TOKt3Bb2A9P4SxmYZ9RSIQ9c2npwsLJTP_-yVyLbULQe0pBE53D4XbpNAPYrkIiipwdB4rB2c9fePn6-mXEG_R9_VZEhu7mLQRJGO1zO5Wwfs7VOLGEYnynfcTeo6FyQQzJUdwjHAIMvaWSN9Rj5MnqRV_n4V9bcb_9SCAfb7VIy5JGnrQbh8UNN6AFdSRH_iBm0B7uLNmRYQ3yD0QHxxNx7IfON77zpf6Tx2z5BYydO3W9d2GuDTgZY"/>
+</div>
+</header>
+<!-- Profile Canvas -->
+<div class="pt-24 px-10 pb-16 max-w-7xl mx-auto">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-6 font-manrope">
+<a class="hover:text-primary transition-colors" href="#">Students</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface font-semibold">Alex Johnson</span>
+</nav>
+<!-- Student Profile Header (Contextual Anchor) -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
+<div class="flex items-center gap-6">
+<div class="relative">
+<img alt="Alex Johnson Profile" class="w-24 h-24 rounded-2xl object-cover shadow-lg border-4 border-white" data-alt="Profile photo of student Alex Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF7btihpQyQvBSD6GrW5Ke48p3fa5XyQL3TeQJp0Lv8ay0KB0J5lRxkq6BcEJXkVxbBqcdkKQUsIYWZGRo5AHKSWb6wJiSi7jMHrXmHZKzXihpK-sZ8W9fubyBxhkQsoYMg1VbWy2iYbbXDtc8IPJq4arkZ73GvVT8VEZjdt-NVnqiGZe0U5Qyn6sCuSu1r9Ch7CSBUbeJqXKIeTbA_WmG8w9Md0Io3a_exqW3SDxN-flQETmYEQATRn_HrQ0fDoCmfyvW4knXpyg"/>
+<div class="absolute -bottom-2 -right-2 bg-white p-1.5 rounded-lg shadow-md">
+<span class="material-symbols-outlined text-primary text-lg active-fill">verified</span>
+</div>
+</div>
+<div>
+<h2 class="text-3xl font-extrabold text-primary font-headline tracking-tight">Alex Johnson</h2>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-primary-container text-on-primary-container px-3 py-0.5 rounded-full text-xs font-bold tracking-wide uppercase">Class of 2025</span>
+<span class="text-on-surface-variant text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                Chicago, IL
+                            </span>
+</div>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest border border-outline-variant/30 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-surface-bright transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">mail</span>
+                        Message
+                    </button>
+<button class="bg-primary text-on-primary px-5 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-lg">edit</span>
+                        Edit Profile
+                    </button>
+</div>
+</div>
+<!-- Tab Navigation (Sub-navigation) -->
+<div class="flex gap-8 border-b border-surface-container-high mb-10 overflow-x-auto pb-px">
+<a class="px-1 pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Overview</a>
+<a class="px-1 pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Academic History</a>
+<a class="px-1 pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Essays &amp; Goals</a>
+<a class="px-1 pb-4 text-primary font-bold text-sm border-b-2 border-primary transition-colors" href="#">Activity Log</a>
+<a class="px-1 pb-4 text-on-surface-variant font-medium text-sm hover:text-primary transition-colors" href="#">Documents</a>
+</div>
+<!-- Activity Tab Content: Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Main Audit Log Feed -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Date Group: Today -->
+<div>
+<div class="flex items-center gap-4 mb-6">
+<span class="text-xs font-bold tracking-[0.2em] text-on-surface-variant uppercase">Today</span>
+<div class="h-px flex-1 bg-surface-container-high"></div>
+</div>
+<div class="space-y-4">
+<!-- Log Entry 1: Status Change -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 flex gap-5 hover:shadow-md transition-all group">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary active-fill">sync_alt</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary tracking-tight">Status updated to <span class="text-secondary">Reviewing</span></h4>
+<span class="text-xs font-medium text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">10:42 AM</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-3 leading-relaxed">System recorded a manual transition of application status from 'Draft' to 'Reviewing'.</p>
+<div class="flex items-center gap-2">
+<img alt="Sarah Johnson" class="w-5 h-5 rounded-full" data-alt="Avatar of counselor Sarah Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA38lbA-vT1FUEzFWWhNiXasIctY4ifgQ61vrk38bTzxpE-_zet6YtY_miWXkqkUPofX5ZiQbcA_K5FxxQyLLOy9aMoTg6EVm6LEgyxataYX4-aZFWcYCtsy3kF6QuQeFbpx9eMUNMmrW3NsHg_EbkwO18IHwTorZYs_ILqnUuVkvX_6nF1YvymPOfPtNSvouJfojKTg-hYd8Mfy7VWYhIKzVPDNnI2kQT5B94boISQdOSVrsWQC-8Wm2xm7akBZ1t3EgjaJZWok8w"/>
+<span class="text-xs font-semibold text-primary">Sarah Johnson</span>
+<span class="text-[10px] text-on-surface-variant">• Senior Counselor</span>
+</div>
+</div>
+</div>
+<!-- Log Entry 2: Transcript Upload -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 flex gap-5 hover:shadow-md transition-all group">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary active-fill">upload_file</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary tracking-tight">Transcript uploaded</h4>
+<span class="text-xs font-medium text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">9:15 AM</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-4 leading-relaxed">Official high school transcript (PDF) added to document dossier for early decision cycle.</p>
+<div class="bg-surface-container rounded-xl p-3 flex items-center gap-3 w-fit border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary">description</span>
+<span class="text-xs font-bold text-primary">Alex_Johnson_Transcript_V2.pdf</span>
+<button class="text-primary hover:text-primary-container transition-colors ml-4">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Date Group: Yesterday -->
+<div class="pt-4">
+<div class="flex items-center gap-4 mb-6">
+<span class="text-xs font-bold tracking-[0.2em] text-on-surface-variant uppercase">Yesterday</span>
+<div class="h-px flex-1 bg-surface-container-high"></div>
+</div>
+<div class="space-y-4">
+<!-- Log Entry 3: Email Sent -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 flex gap-5 hover:shadow-md transition-all group">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary active-fill">outgoing_mail</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary tracking-tight">Email sent to student</h4>
+<span class="text-xs font-medium text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">4:30 PM</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-2 font-medium italic">"Subject: Reminder - Application Deadline approaching..."</p>
+<p class="text-sm text-on-surface-variant mb-3 leading-relaxed">Automated trigger: 7-day proximity alert for Early Decision 1.</p>
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white">smart_toy</span>
+</div>
+<span class="text-xs font-semibold text-primary">ApplyPilot AI</span>
+<span class="text-[10px] text-on-surface-variant">• System Automation</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Activity Stats & Filter -->
+<div class="space-y-6">
+<!-- Search & Filter Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm">
+<h3 class="font-headline font-bold text-primary mb-4">Filter Activity</h3>
+<div class="space-y-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
+<select class="w-full bg-surface-container border-none rounded-xl pl-10 pr-4 py-2 text-sm font-medium focus:ring-2 focus:ring-primary/20 appearance-none">
+<option>All Activities</option>
+<option>Status Changes</option>
+<option>Files &amp; Docs</option>
+<option>Communications</option>
+</select>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-bold">Latest</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant text-xs font-bold hover:bg-surface-container-high transition-colors">Oldest</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant text-xs font-bold hover:bg-surface-container-high transition-colors">By Counselor</button>
+</div>
+</div>
+</div>
+<!-- Activity Summary Card -->
+<div class="bg-gradient-to-br from-primary to-primary-container rounded-2xl p-6 text-on-primary shadow-xl shadow-primary/10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary-fixed">monitoring</span>
+<h3 class="font-headline font-bold text-lg leading-tight">Interaction Profile</h3>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest opacity-70 mb-2">
+<span>Profile Completeness</span>
+<span>82%</span>
+</div>
+<div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[82%]"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white/5 p-4 rounded-xl border border-white/10">
+<p class="text-2xl font-bold font-headline">12</p>
+<p class="text-[10px] font-bold uppercase tracking-wider opacity-60 mt-1">Files Uploaded</p>
+</div>
+<div class="bg-white/5 p-4 rounded-xl border border-white/10">
+<p class="text-2xl font-bold font-headline">24</p>
+<p class="text-[10px] font-bold uppercase tracking-wider opacity-60 mt-1">System Events</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 transition-all font-semibold text-sm">
+                            Export Full Dossier
+                        </button>
+</div>
+<!-- Counselor Access Card -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm">
+<h3 class="font-headline font-bold text-primary mb-4">Assigned Team</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Sarah Johnson" class="w-8 h-8 rounded-full border border-surface-container-high" data-alt="Portrait of Sarah Johnson" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiEGsMuRnSbtRfjWzPM0egysyFPnvIgLTzwmrwBvZAtnTyfH1t_QboeK2gKkJPm_u7PgVJQpoWo0U-s26fnrEPWg_d7Kd0MThIoNfeJFeA0e4fsAw42Fjx9kU7VQne8uVP3TbEqZfLtcSPAhGPpsRd0AXGnNV9WDBQRfGC7NfXATEEJF2c-PQrPEQW-EK-n0uyU5XgP-yAHW5N3c3BjPXnX5TPD96g2-LAH-_5SoIcVHnqHSHTl2DM8coSaI_A5txApUS-Si6smIA"/>
+<div>
+<p class="text-sm font-bold text-primary">Sarah Johnson</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Lead Strategist</p>
+</div>
+<span class="material-symbols-outlined text-secondary ml-auto text-lg">shield_with_heart</span>
+</div>
+<div class="flex items-center gap-3">
+<img alt="Mark Keller" class="w-8 h-8 rounded-full border border-surface-container-high" data-alt="Portrait of Mark Keller" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD_yAT2UKGffWqq5aoPS1iagjxkWj0eoP72I3vpnlneO5k6MwLzGkGzrM3YmQOCNFtqaVZm7jxFm8m12UJdGffzxeCdHZ2fQrCqxjVkHrVr_MM3mKhXvgn4pi94zrGhlfRh1BPsWzY5eJFFeFf_24qqW7aSoLlra2DVhJt8LPBNkic3hb6DvhczjbJKq2QaVK_BzD5Dj72srquzyqnm5FzsaYo_0_Yj_wItWSybumAacttAq7AA9FW1WTVqZ6lKANzX6Ok2D7ex40"/>
+<div>
+<p class="text-sm font-bold text-primary">Mark Keller</p>
+<p class="text-[10px] text-on-surface-variant font-medium">Essay Specialist</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pilot AI Floating Bar -->
+<div class="fixed bottom-6 left-[calc(16rem+2.5rem)] right-10 z-30">
+<div class="max-w-4xl mx-auto bg-surface-container-lowest/80 backdrop-blur-2xl p-4 rounded-2xl border border-outline-variant/20 shadow-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-white active-fill">smart_toy</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary tracking-tight">AI Insights Available</p>
+<p class="text-xs text-on-surface-variant">Alex has 2 upcoming deadlines in the next 7 days.</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container text-primary font-bold text-xs hover:bg-surface-container-high transition-all">Dismiss</button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-bold text-xs shadow-lg shadow-primary/20 hover:scale-[0.98] transition-all">Generate Summary</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
+
+<!-- Student Profile: Documents - ApplyPilot -->
