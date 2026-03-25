@@ -13,6 +13,7 @@ const URL_ERRORS: Record<string, string> = {
   no_agency: "Your account isn't linked to any active agency. Contact your administrator.",
   auth_failed: 'Authentication failed. Please try again.',
   missing_code: 'Sign-in was cancelled or expired. Please try again.',
+  session_expired: 'Your session has expired. Please sign in again.',
 }
 
 export default function LoginPage() {

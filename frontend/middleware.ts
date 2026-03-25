@@ -27,8 +27,14 @@ export async function middleware(request: NextRequest) {
   // Redirect logged-in users away from / and /login → /auth/me
   // /auth/me is a server route that checks the user's role (using the
   // service key, bypassing RLS) and redirects to /admin or /dashboard.
+  // IMPORTANT: Do NOT redirect if there's an ?error= param — that means
+  // /auth/me already ran and hit an error (e.g. no_agency). Redirecting
+  // again would cause an infinite loop (ERR_TOO_MANY_REDIRECTS).
   if (loggedIn && (pathname === '/' || pathname === '/login')) {
-    return NextResponse.redirect(new URL('/auth/me', request.url))
+    const hasError = request.nextUrl.searchParams.has('error')
+    if (!hasError) {
+      return NextResponse.redirect(new URL('/auth/me', request.url))
+    }
   }
 
   return NextResponse.next()

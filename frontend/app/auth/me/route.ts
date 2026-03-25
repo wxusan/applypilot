@@ -39,7 +39,9 @@ export async function GET(request: NextRequest) {
   const { data: { user } } = await anonClient.auth.getUser()
 
   if (!user) {
-    return NextResponse.redirect(`${origin}/login`)
+    // Use ?error=session_expired so the middleware won't redirect back
+    // to /auth/me (which would cause ERR_TOO_MANY_REDIRECTS).
+    return NextResponse.redirect(`${origin}/login?error=session_expired`)
   }
 
   // 2. Use the service key (bypasses RLS) to reliably read the role
