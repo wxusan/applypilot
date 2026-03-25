@@ -742,10 +742,13 @@ async def get_scheduler_jobs(user: AuthUser = Depends(get_super_admin)):
 
         jobs.append({
             "id": job_id,
-            "label": meta["label"],
+            "name": meta["label"],        # frontend expects "name"
+            "label": meta["label"],       # keep for backwards compat
             "desc": meta["desc"],
-            "schedule": meta["schedule"],
-            "next_run": next_run,
+            "trigger": meta["schedule"],  # frontend expects "trigger"
+            "schedule": meta["schedule"], # keep for backwards compat
+            "next_run_time": next_run,    # frontend expects "next_run_time"
+            "next_run": next_run,         # keep for backwards compat
             "scheduler_running": running,
         })
 
