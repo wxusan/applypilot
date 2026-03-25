@@ -7,6 +7,10 @@ import {
   Building2,
   Activity,
   LogOut,
+  CreditCard,
+  Timer,
+  Users,
+  Settings2,
 } from 'lucide-react'
 import { createBrowserClient } from '@/lib/supabase-browser'
 import { useRouter } from 'next/navigation'
@@ -20,9 +24,13 @@ const NAV_ITEMS = [
   {
     section: 'PLATFORM OWNER',
     items: [
-      { href: '/admin', label: 'Global Overview', icon: Activity },
-      { href: '/admin/agencies', label: 'Agency Management', icon: Building2 },
-      { href: '/admin/audit', label: 'Audit Matrix', icon: ShieldAlert },
+      { href: '/admin', label: 'Global Overview', icon: Activity, exact: true },
+      { href: '/admin/agencies', label: 'Agency Management', icon: Building2, exact: false },
+      { href: '/admin/automation', label: 'Billing & Oversight', icon: CreditCard, exact: false },
+      { href: '/admin/audit', label: 'Audit Matrix', icon: ShieldAlert, exact: false },
+      { href: '/admin/scheduler', label: 'Scheduler', icon: Timer, exact: false },
+      { href: '/admin/contacts', label: 'People DB', icon: Users, exact: false },
+      { href: '/admin/plans', label: 'Plan Config', icon: Settings2, exact: false },
     ],
   },
 ]
@@ -63,7 +71,9 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
             </p>
             <ul className="space-y-1">
               {group.items.map((item) => {
-                const active = pathname === item.href || pathname.startsWith(item.href + '/')
+                const active = item.exact
+                  ? pathname === item.href
+                  : pathname === item.href || pathname.startsWith(item.href + '/')
                 const Icon = item.icon
                 return (
                   <li key={item.href}>

@@ -1,10 +1,23 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+// Empty string = same-origin relative URLs (/api/...) which go through
+// the Next.js proxy rewrites defined in next.config.js.
+// This eliminates all cross-origin fetch issues (CORS "Failed to fetch").
+// In production, set NEXT_PUBLIC_API_URL='' (or leave unset) and configure
+// BACKEND_URL in Vercel env vars for the server-side proxy.
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? ''
+
+// Singleton Supabase browser client — avoids re-creating on every API call
+let _supabaseClient: any = null
+function getSupabaseClient() {
+  if (!_supabaseClient && typeof window !== 'undefined') {
+    const { createBrowserClient } = require('./supabase-browser')
+    _supabaseClient = createBrowserClient()
+  }
+  return _supabaseClient
+}
 
 async function getAuthHeaders(): Promise<Record<string, string>> {
-  // Token is managed by Supabase SSR — retrieve from cookie/session
-  if (typeof window !== 'undefined') {
-    const { createBrowserClient } = await import('./supabase-browser')
-    const supabase = createBrowserClient()
+  const supabase = getSupabaseClient()
+  if (supabase) {
     const { data: { session } } = await supabase.auth.getSession()
     if (session?.access_token) {
       return {
@@ -31,7 +44,14 @@ export async function apiFetch<T>(
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({ detail: res.statusText }))
-    throw new Error(body.detail || `API error ${res.status}`)
+    // FastAPI 422 validation errors return detail as an array of {loc, msg, type}
+    let message: string
+    if (Array.isArray(body.detail)) {
+      message = body.detail.map((e: any) => e.msg || JSON.stringify(e)).join(', ')
+    } else {
+      message = body.detail || body.message || `API error ${res.status}`
+    }
+    throw new Error(message)
   }
 
   // 204 No Content (DELETE responses) — return undefined instead of trying to parse empty body

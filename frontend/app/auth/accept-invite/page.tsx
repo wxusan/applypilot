@@ -32,8 +32,10 @@ export default function AcceptInvitePage() {
           throw new Error('No invitation token found in the link. Please request a new invitation.')
         }
 
+        // Always redirect to password setup — never skip it.
+        // The reset-password page detects type=invite / reason=setup_required and shows the right copy.
         setStage('success')
-        setTimeout(() => router.replace('/dashboard'), 2000)
+        setTimeout(() => router.replace('/reset-password?reason=setup_required'), 2000)
       } catch (err) {
         setErrorMsg(err instanceof Error ? err.message : 'Failed to accept invitation.')
         setStage('error')
@@ -101,10 +103,10 @@ export default function AcceptInvitePage() {
               </div>
               <div>
                 <h1 className="font-headline text-3xl font-bold text-primary tracking-tight mb-2">
-                  Welcome to the Team
+                  Invitation Verified!
                 </h1>
                 <p className="text-on-surface-variant leading-relaxed">
-                  Your invitation has been accepted. Redirecting you to the dashboard...
+                  Redirecting you to set up your password…
                 </p>
               </div>
             </div>

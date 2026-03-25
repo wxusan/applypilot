@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, delay, ease: 'easeOut' },
+  transition: { duration: 0.5, delay, ease: 'easeOut' as const },
 })
 
 const cardVariants = {
@@ -13,7 +13,7 @@ const cardVariants = {
   animate: (i: number) => ({
     opacity: 1,
     x: 0,
-    transition: { duration: 0.5, delay: 0.4 + i * 0.12, ease: 'easeOut' },
+    transition: { duration: 0.5, delay: 0.4 + i * 0.12, ease: 'easeOut' as const },
   }),
 }
 
@@ -48,7 +48,7 @@ export default function Hero() {
               <span className="material-symbols-outlined">arrow_forward</span>
             </motion.a>
             <motion.a
-              href="#pricing"
+              href="#features"
               whileHover={{ scale: 1.04, boxShadow: '0 8px 24px rgba(3,22,53,0.08)' }}
               whileTap={{ scale: 0.97 }}
               className="px-8 py-4 bg-white border border-outline-variant text-primary rounded-2xl font-bold hover:bg-surface-bright transition-colors"

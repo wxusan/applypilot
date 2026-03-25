@@ -13,18 +13,25 @@ export default function Footer() {
             <span className="text-xs font-bold uppercase tracking-widest text-primary">Product</span>
             <nav className="flex flex-col gap-3 text-sm">
               <a className="text-slate-500 hover:text-primary transition-all" href="#features">Features</a>
-              <a className="text-slate-500 hover:text-primary transition-all" href="#features">Integrations</a>
               <a className="text-slate-500 hover:text-primary transition-all" href="#pricing">Pricing</a>
-              <a className="text-slate-500 hover:text-primary transition-all" href="#contact">API Documentation</a>
+              <a className="text-slate-500 hover:text-primary transition-all" href="/request-access">Request Access</a>
+              <a className="text-slate-500 hover:text-primary transition-all" href="/login">Log In</a>
             </nav>
           </div>
           <div className="flex flex-col gap-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-primary">Resources</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-primary">Company</span>
             <nav className="flex flex-col gap-3 text-sm">
-              <a className="text-slate-500 hover:text-primary transition-all" href="#contact">Case Studies</a>
-              <a className="text-slate-500 hover:text-primary transition-all" href="#contact">Whitepapers</a>
               <a className="text-slate-500 hover:text-primary transition-all" href="#contact">Contact</a>
-              <a className="text-slate-500 hover:text-primary transition-all" href="#contact">Security</a>
+              <a className="text-slate-500 hover:text-primary transition-all" href="/terms">Terms of Service</a>
+              <a className="text-slate-500 hover:text-primary transition-all" href="/privacy">Privacy Policy</a>
+              <a
+                className="text-slate-500 hover:text-primary transition-all"
+                href="https://t.me/wwxusan"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Telegram Support
+              </a>
             </nav>
           </div>
         </div>

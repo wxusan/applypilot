@@ -9,42 +9,40 @@ SECURITY CONTRACT:
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import jwt, JWTError
-from supabase import create_client, Client
 from core.config import settings
 from core.db import get_service_client
 from models.user import AuthUser
-import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 security = HTTPBearer()
 
 
-def _decode_token(token: str) -> dict:
-    """Decode a Supabase JWT. Raises HTTPException if invalid or expired."""
+def _get_user_id_from_token(token: str) -> str:
+    """
+    Verify a Supabase JWT using Supabase's own admin API.
+    Returns the user_id (sub) on success, raises 401 on failure.
+    """
+    db = get_service_client()
     try:
-        # Supabase signs tokens with the JWT secret
-        payload = jwt.decode(
-            token,
-            settings.SUPABASE_JWT_SECRET,
-            algorithms=["HS256"],
-            options={"verify_aud": False},
-        )
-    except JWTError:
+        response = db.auth.get_user(token)
+        if not response or not response.user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid or expired token",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return response.user.id
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"[auth] get_user failed: {type(e).__name__}: {e}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
+            detail=f"Token verification failed: {type(e).__name__}: {e}",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
-    # Check expiry manually as a safety net
-    exp = payload.get("exp")
-    if exp and int(time.time()) > exp:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token has expired",
-        )
-
-    return payload
 
 
 async def get_current_user(
@@ -52,18 +50,11 @@ async def get_current_user(
 ) -> AuthUser:
     """
     Dependency that:
-    1. Validates the JWT
+    1. Validates the JWT via Supabase admin API
     2. Looks up the user in agency_members
     3. Returns AuthUser with agency_id baked in from the DB — not from the token
     """
-    payload = _decode_token(credentials.credentials)
-    user_id: str = payload.get("sub")  # type: ignore
-
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token missing sub claim",
-        )
+    user_id = _get_user_id_from_token(credentials.credentials)
 
     db = get_service_client()
 
@@ -111,24 +102,17 @@ async def get_super_admin(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> AuthUser:
     """Require the current user to be a global super_admin."""
-    payload = _decode_token(credentials.credentials)
-    user_id: str = payload.get("sub")  # type: ignore
-
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token missing sub claim"
-        )
+    user_id = _get_user_id_from_token(credentials.credentials)
 
     db = get_service_client()
     result = db.table("users").select("id, email, full_name, role, telegram_chat_id").eq("id", user_id).single().execute()
-    
+
     if not result.data or result.data.get("role") != "super_admin":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Super Admin access required",
         )
-        
+
     user_data = result.data
     return AuthUser(
         id=user_id,

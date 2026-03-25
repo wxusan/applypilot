@@ -48,7 +48,7 @@ export default function ReportsPage() {
     setLoading(true)
     try {
       const params = filter ? `?report_type=${filter}` : ''
-      const data = await apiFetch<{ reports: Report[] }>(`/api/reports/${params}`)
+      const data = await apiFetch<{ reports: Report[] }>(`/api/reports${params}`)
       setReports(data.reports || [])
     } catch (err) {
       console.error(err)

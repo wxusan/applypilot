@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { apiFetch } from '@/lib/api'
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface AuditLog {
   id: string
@@ -15,152 +17,239 @@ interface AuditLog {
   user_id: string
 }
 
-function getActionBadgeClass(action: string) {
-  if (action.includes('created')) return 'bg-emerald-50 text-emerald-700'
-  if (action.includes('deleted')) return 'bg-red-50 text-red-700'
-  if (action.includes('reverted')) return 'bg-purple-50 text-purple-700'
-  return 'bg-blue-50 text-blue-700'
+interface Agency {
+  id: string
+  name: string
+  slug: string
+}
+
+const PAGE_SIZE = 50
+
+const ENTITY_TYPES = ['', 'agency', 'student', 'staff', 'application', 'scheduler']
+
+function getActionBadge(action: string) {
+  if (action.includes('creat')) return 'bg-emerald-50 text-emerald-700'
+  if (action.includes('delet')) return 'bg-red-50 text-red-700'
+  if (action.includes('revert')) return 'bg-purple-50 text-purple-700'
+  if (action.includes('approv') || action.includes('billing')) return 'bg-blue-50 text-blue-700'
+  if (action.includes('suspend') || action.includes('block')) return 'bg-orange-50 text-orange-700'
+  return 'bg-gray-100 text-gray-600'
 }
 
 export default function GlobalAuditMatrix() {
-  const [logs, setLogs] = useState<AuditLog[]>([])
-  const [loading, setLoading] = useState(true)
-  const [reverting, setReverting] = useState<string | null>(null)
-  const [search, setSearch] = useState('')
+  const searchParams = useSearchParams()
 
-  async function loadLogs() {
+  const [logs, setLogs] = useState<AuditLog[]>([])
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [agencies, setAgencies] = useState<Agency[]>([])
+
+  // Filters
+  const [agencyId, setAgencyId] = useState(searchParams.get('agency_id') || '')
+  const [entityType, setEntityType] = useState('')
+  const [actionSearch, setActionSearch] = useState('')
+  const [fromDate, setFromDate] = useState('')
+  const [offset, setOffset] = useState(0)
+
+  // Load agencies for filter dropdown
+  useEffect(() => {
+    apiFetch<{ agencies: Agency[] }>('/api/super-admin/agencies')
+      .then((d) => setAgencies(d.agencies || []))
+      .catch(console.error)
+  }, [])
+
+  const loadLogs = useCallback(async () => {
+    setLoading(true)
     try {
-      const data = await apiFetch<{ logs: AuditLog[] }>('/api/super-admin/audit')
+      const params = new URLSearchParams()
+      if (agencyId) params.set('agency_id', agencyId)
+      if (entityType) params.set('entity_type', entityType)
+      if (actionSearch) params.set('action_like', actionSearch)
+      if (fromDate) params.set('from_date', fromDate)
+      params.set('limit', String(PAGE_SIZE))
+      params.set('offset', String(offset))
+
+      const data = await apiFetch<{ logs: AuditLog[]; total: number }>(`/api/super-admin/audit?${params}`)
       setLogs(data.logs || [])
+      setTotal(data.total || 0)
     } catch (err) {
       console.error(err)
     } finally {
       setLoading(false)
     }
-  }
+  }, [agencyId, entityType, actionSearch, fromDate, offset])
 
   useEffect(() => {
     loadLogs()
-  }, [])
+  }, [loadLogs])
 
-  const handleRevert = async (logId: string) => {
-    if (!confirm('WARNING: Are you sure you want to completely inverse this action? This edits the database directly.')) return
-    setReverting(logId)
-    try {
-      await apiFetch(`/api/super-admin/audit/${logId}/revert`, { method: 'POST' })
-      alert('Action successfully rolled back!')
-      loadLogs()
-    } catch (err: any) {
-      alert(err.message || 'Cannot mathematically revert this action.')
-    } finally {
-      setReverting(null)
-    }
+  // Reset offset when filters change
+  function applyFilter(fn: () => void) {
+    fn()
+    setOffset(0)
   }
 
-  const filtered = logs.filter(
-    (l) =>
-      !search ||
-      l.action.toLowerCase().includes(search.toLowerCase()) ||
-      l.entity_type?.toLowerCase().includes(search.toLowerCase()) ||
-      l.entity_id?.toLowerCase().includes(search.toLowerCase())
-  )
+  const totalPages = Math.ceil(total / PAGE_SIZE)
+  const currentPage = Math.floor(offset / PAGE_SIZE) + 1
 
   return (
-    <div>
+    <div className="max-w-6xl mx-auto space-y-6">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
-          Platform Audit Log
-        </h1>
-        <p className="text-on-surface-variant font-body text-lg">
-          An immutable ledger of every row modified across all tenants.
+      <div>
+        <h1 className="text-[20px] font-semibold text-gray-900">Audit Matrix</h1>
+        <p className="text-[13px] text-gray-500 mt-1">
+          Immutable ledger of every row modified across all tenants.
         </p>
       </div>
 
-      <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 overflow-hidden shadow-sm">
-        {/* Search */}
-        <div className="p-4 border-b border-outline-variant/10 bg-surface-container-low/50 flex items-center gap-3">
-          <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
-          <input
-            type="text"
-            placeholder="Search action or UUID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-transparent border-none focus:outline-none text-sm text-on-surface w-full font-mono placeholder:text-on-surface-variant/50 placeholder:font-sans"
-          />
-          <span className="text-xs text-on-surface-variant">{filtered.length} entries</span>
+      {/* Filters */}
+      <div className="bg-white rounded-[10px] border border-gray-200 shadow-sm p-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {/* Agency filter */}
+          <div>
+            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Agency</label>
+            <select
+              value={agencyId}
+              onChange={(e) => applyFilter(() => setAgencyId(e.target.value))}
+              className="w-full border border-gray-200 rounded-lg px-2.5 py-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-[#031635]/20 focus:border-[#031635] transition"
+            >
+              <option value="">All agencies</option>
+              {agencies.map((a) => (
+                <option key={a.id} value={a.id}>{a.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Entity type filter */}
+          <div>
+            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Entity Type</label>
+            <select
+              value={entityType}
+              onChange={(e) => applyFilter(() => setEntityType(e.target.value))}
+              className="w-full border border-gray-200 rounded-lg px-2.5 py-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-[#031635]/20 focus:border-[#031635] transition"
+            >
+              {ENTITY_TYPES.map((t) => (
+                <option key={t} value={t}>{t || 'All types'}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Action search */}
+          <div>
+            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Action</label>
+            <div className="relative">
+              <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="e.g. billing_approve"
+                value={actionSearch}
+                onChange={(e) => applyFilter(() => setActionSearch(e.target.value))}
+                className="w-full border border-gray-200 rounded-lg pl-7 pr-3 py-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-[#031635]/20 focus:border-[#031635] transition"
+              />
+            </div>
+          </div>
+
+          {/* Date from */}
+          <div>
+            <label className="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">From Date</label>
+            <input
+              type="date"
+              value={fromDate}
+              onChange={(e) => applyFilter(() => setFromDate(e.target.value))}
+              className="w-full border border-gray-200 rounded-lg px-2.5 py-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-[#031635]/20 focus:border-[#031635] transition"
+            />
+          </div>
         </div>
 
-        <div className="overflow-auto max-h-[70vh]">
+        {/* Active filters summary + clear */}
+        {(agencyId || entityType || actionSearch || fromDate) && (
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+            <p className="text-[11px] text-gray-400">
+              Showing filtered results — {total} entries
+            </p>
+            <button
+              onClick={() => {
+                setAgencyId('')
+                setEntityType('')
+                setActionSearch('')
+                setFromDate('')
+                setOffset(0)
+              }}
+              className="text-[11px] text-gray-500 hover:text-gray-800 underline underline-offset-2"
+            >
+              Clear filters
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-[10px] border border-gray-200 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-surface-container-low/80 sticky top-0 z-10 border-b border-outline-variant/10">
-              <tr>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Timestamp</th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Action Trace</th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Entity Target</th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant w-1/3">State Deltas</th>
-                <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-center">Controls</th>
+            <thead>
+              <tr className="border-b border-gray-100 bg-gray-50">
+                <th className="px-5 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-500 whitespace-nowrap">Timestamp</th>
+                <th className="px-5 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-500">Action</th>
+                <th className="px-5 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-500">Entity</th>
+                <th className="px-5 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-500 w-[300px]">State Delta</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-outline-variant/5">
+            <tbody className="divide-y divide-gray-50">
               {loading ? (
+                Array.from({ length: 8 }).map((_, i) => (
+                  <tr key={i}>
+                    <td colSpan={4} className="px-5 py-3">
+                      <div className="h-5 bg-gray-100 rounded animate-pulse" />
+                    </td>
+                  </tr>
+                ))
+              ) : logs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-on-surface-variant">
-                    <span className="material-symbols-outlined text-2xl">autorenew</span>
-                    <p className="text-sm mt-2">Syncing ledger...</p>
-                  </td>
-                </tr>
-              ) : filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-on-surface-variant italic">
-                    No events captured.
+                  <td colSpan={4} className="px-5 py-12 text-center text-gray-400 text-[13px] italic">
+                    No audit entries found.
                   </td>
                 </tr>
               ) : (
-                filtered.map((log) => {
-                  const isRevertable = !!log.old_value && !!log.entity_id && !!log.entity_type
+                logs.map((log) => {
                   return (
-                    <tr key={log.id} className="hover:bg-surface-container-low/30 transition-colors font-mono">
-                      <td className="px-6 py-4 text-on-surface-variant text-xs whitespace-nowrap">
+                    <tr key={log.id} className="hover:bg-gray-50/70 transition-colors">
+                      {/* Timestamp */}
+                      <td className="px-5 py-3 text-[11px] text-gray-400 font-mono whitespace-nowrap">
                         {new Date(log.created_at).toLocaleString()}
                       </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-0.5 rounded font-sans font-bold text-[10px] mb-1 uppercase ${getActionBadgeClass(log.action)}`}>
+
+                      {/* Action */}
+                      <td className="px-5 py-3">
+                        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase ${getActionBadge(log.action)}`}>
                           {log.action}
                         </span>
-                        <div className="text-[10px] text-on-surface-variant/60 truncate w-[160px]">
-                          usr: {log.user_id?.split('-')[0]}...
+                        <div className="text-[10px] text-gray-400 font-mono mt-0.5 truncate max-w-[160px]">
+                          usr:{log.user_id?.slice(0, 8)}…
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="text-on-surface font-sans font-medium text-sm">{log.entity_type}</div>
-                        <div className="text-[10px] text-on-surface-variant/60">{log.entity_id?.slice(0, 8)}...</div>
+
+                      {/* Entity */}
+                      <td className="px-5 py-3">
+                        <div className="text-[13px] font-medium text-gray-700">{log.entity_type || '—'}</div>
+                        <div className="text-[10px] text-gray-400 font-mono">{log.entity_id?.slice(0, 10)}…</div>
                       </td>
-                      <td className="px-6 py-4">
+
+                      {/* State delta */}
+                      <td className="px-5 py-3 max-w-[300px]">
                         {log.old_value && (
-                          <div className="text-error bg-error-container/30 p-1.5 rounded mb-1 text-[10px] truncate w-[280px]">
-                            - {JSON.stringify(log.old_value)}
+                          <div className="text-[10px] text-red-600 bg-red-50 border border-red-100 rounded px-1.5 py-1 mb-1 font-mono truncate">
+                            − {JSON.stringify(log.old_value)}
                           </div>
                         )}
                         {log.new_value && (
-                          <div className="text-emerald-700 bg-emerald-50/80 p-1.5 rounded text-[10px] truncate w-[280px]">
+                          <div className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-100 rounded px-1.5 py-1 font-mono truncate">
                             + {JSON.stringify(log.new_value)}
                           </div>
                         )}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <button
-                          disabled={!isRevertable || reverting === log.id}
-                          onClick={() => handleRevert(log.id)}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-sans text-xs font-medium transition-all ${
-                            isRevertable
-                              ? 'bg-surface-container-lowest border border-outline-variant/30 text-on-surface hover:text-error hover:border-error/30'
-                              : 'bg-surface-container text-on-surface-variant/30 cursor-not-allowed'
-                          }`}
-                        >
-                          <span className="material-symbols-outlined text-sm">undo</span>
-                          {reverting === log.id ? 'Reverting...' : 'Revert'}
-                        </button>
+                        {!log.old_value && !log.new_value && (
+                          <span className="text-[11px] text-gray-300 italic">no delta</span>
+                        )}
                       </td>
                     </tr>
                   )
@@ -169,7 +258,33 @@ export default function GlobalAuditMatrix() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        {total > PAGE_SIZE && (
+          <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100 bg-gray-50/50">
+            <p className="text-[12px] text-gray-400">
+              Page {currentPage} of {totalPages} · {total} total entries
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
+                disabled={offset === 0 || loading}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 text-[12px] text-gray-600 hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition"
+              >
+                <ChevronLeft size={13} /> Prev
+              </button>
+              <button
+                onClick={() => setOffset(offset + PAGE_SIZE)}
+                disabled={offset + PAGE_SIZE >= total || loading}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 text-[12px] text-gray-600 hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition"
+              >
+                Next <ChevronRight size={13} />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
+
     </div>
   )
 }

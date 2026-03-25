@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { apiFetch } from '@/lib/api'
+import { trackContact } from '@/lib/trackContact'
 import { formatDistanceToNow } from '@/lib/utils'
 
 interface StaffMember {
@@ -75,6 +76,13 @@ export default function StaffManager({ staff: initialStaff, maxStaff, agencyId }
       const res: { message: string } = await apiFetch('/api/staff/invite', {
         method: 'POST',
         body: JSON.stringify({ email: inviteEmail.trim() }),
+      })
+      trackContact({
+        email: inviteEmail.trim(),
+        source: 'staff_invite',
+        role: 'staff',
+        note: `Invited to agency ${agencyId}`,
+        agency_id: agencyId,
       })
       setInviteEmail('')
       showToast('success', res.message || `Invitation sent to ${inviteEmail}`)

@@ -62,7 +62,7 @@ function BulkActions({
   const handleBulkStatus = async (newStatus: string) => {
     setOpen(false)
     setSaving(true)
-    const ids = [...selectedIds]
+    const ids = Array.from(selectedIds)
     try {
       await Promise.all(
         ids.map((id) =>

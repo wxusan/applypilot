@@ -1,120 +1,139 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { trackContact } from '@/lib/trackContact'
 
 export default function CTASection() {
-  const [form, setForm] = useState({ name: '', phone: '', agency: '', message: '' })
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!name || !phone) return
     setLoading(true)
-    setError(null)
-
     try {
-      const res = await fetch('/api/contact', {
+      await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name,
+          phone,
+          email: '',
+          agency: 'Unknown',
+          message: 'Access requested from landing page CTA',
+        }),
       })
-      if (!res.ok) throw new Error('Request failed')
-      setSubmitted(true)
-    } catch {
-      setError('Something went wrong. Please try again or contact us on Telegram.')
-    } finally {
-      setLoading(false)
-    }
+    } catch { /* silent */ }
+    trackContact({ name, phone, source: 'waitlist', role: 'prospect' })
+    setSent(true)
+    setLoading(false)
   }
 
   return (
-    <section id="contact" className="px-8 py-24">
+    <section id="contact" className="px-6 py-24">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-primary rounded-[3rem] p-16 lg:p-24 relative overflow-hidden"
+          className="bg-primary rounded-[3rem] p-14 lg:p-20 relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary-container rounded-full -mr-48 -mt-48 opacity-20 blur-3xl pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-on-primary-container rounded-full -ml-48 -mb-48 opacity-10 blur-3xl pointer-events-none"></div>
+          {/* Background blobs */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full -mr-64 -mt-64 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 rounded-full -ml-48 -mb-48 pointer-events-none" />
 
-          <div className="relative z-10 max-w-2xl mx-auto text-center">
-            <h2 className="text-5xl lg:text-6xl font-extrabold font-headline text-on-primary mb-4">Secure Your Command</h2>
-            <p className="text-on-primary-container text-xl mb-12 leading-relaxed">
-              Join the next generation of academic architects. Request early access to the Pilot Dashboard.
-            </p>
+          <div className="relative z-10 max-w-2xl mx-auto text-center space-y-10">
+            {/* Heading */}
+            <div className="space-y-4">
+              <h2 className="text-5xl lg:text-6xl font-extrabold font-headline text-on-primary leading-tight">
+                Secure Your Command
+              </h2>
+              <p className="text-on-primary/70 text-lg leading-relaxed">
+                Join the next generation of academic architects.<br />
+                Request early access to the Pilot Dashboard.
+              </p>
+            </div>
 
-            {submitted ? (
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-on-primary">
-                <div className="text-4xl mb-4">✅</div>
-                <p className="text-xl font-bold">Request sent!</p>
-                <p className="text-on-primary-container mt-2">We&apos;ll contact you on Telegram shortly.</p>
-              </div>
+            {/* Form or success */}
+            {sent ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white/15 backdrop-blur-md rounded-2xl px-8 py-7 space-y-2"
+              >
+                <div className="text-3xl">✅</div>
+                <p className="text-on-primary font-bold text-xl">You're on the list.</p>
+                <p className="text-on-primary/70 text-sm">
+                  We'll reach out via Telegram or phone call within 24 hours.
+                </p>
+              </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 space-y-4 text-left">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-on-primary-container mb-1.5">Full Name</label>
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-primary/40 text-sm pointer-events-none">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </span>
                     <input
-                      required
+                      className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-4 text-on-primary placeholder:text-on-primary/40 focus:outline-none focus:border-white/50 focus:bg-white/15 transition-all text-[15px]"
+                      placeholder="Your full name"
                       type="text"
-                      placeholder="Your name"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-on-primary placeholder:text-on-primary-container/60 focus:ring-2 focus:ring-white/30 outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-on-primary-container mb-1.5">Phone Number</label>
-                    <input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       required
+                    />
+                  </div>
+                  <div className="relative flex-1">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-on-primary/40 pointer-events-none">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </span>
+                    <input
+                      className="w-full bg-white/10 border border-white/20 rounded-xl pl-10 pr-4 py-4 text-on-primary placeholder:text-on-primary/40 focus:outline-none focus:border-white/50 focus:bg-white/15 transition-all text-[15px]"
+                      placeholder="+998 XX XXX XX XX"
                       type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-on-primary placeholder:text-on-primary-container/60 focus:ring-2 focus:ring-white/30 outline-none"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-on-primary-container mb-1.5">Agency Name</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="Your consulting firm"
-                    value={form.agency}
-                    onChange={(e) => setForm({ ...form, agency: e.target.value })}
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-on-primary placeholder:text-on-primary-container/60 focus:ring-2 focus:ring-white/30 outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-on-primary-container mb-1.5">Message (optional)</label>
-                  <textarea
-                    rows={3}
-                    placeholder="Tell us about your needs..."
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-on-primary placeholder:text-on-primary-container/60 focus:ring-2 focus:ring-white/30 outline-none resize-none"
-                  />
-                </div>
-
-                {error && <p className="text-sm text-red-300 bg-red-900/20 rounded-xl px-4 py-3">{error}</p>}
 
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={loading}
-                  className="w-full btn-shimmer bg-on-primary text-primary font-bold px-10 py-4 rounded-xl hover:bg-surface-bright transition-all text-lg disabled:opacity-60"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-on-primary text-primary font-bold py-4 rounded-xl hover:bg-white transition-all text-[15px] disabled:opacity-60 shadow-lg shadow-black/20"
                 >
-                  {loading ? 'Sending…' : 'Request Access'}
+                  {loading ? 'Sending…' : 'Request Early Access →'}
                 </motion.button>
+
+                <p className="text-on-primary/40 text-xs pt-1">
+                  We'll reach out via Telegram or phone call — no spam, ever.
+                </p>
               </form>
             )}
+
+            {/* Telegram link — no username */}
+            <a
+              href="https://t.me/wwxusan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-on-primary/50 hover:text-on-primary transition-colors text-sm"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
+              </svg>
+              Message us on Telegram
+            </a>
           </div>
         </motion.div>
       </div>

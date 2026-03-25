@@ -21,7 +21,11 @@ const NAV_ITEMS = [
   { href: '/reports', label: 'Reports', icon: 'summarize' },
 ]
 
-const BOTTOM_NAV_ITEMS = [
+const BOTTOM_NAV_ITEMS_ALL = [
+  { href: '/settings', label: 'Settings', icon: 'settings' },
+]
+
+const BOTTOM_NAV_ITEMS_ADMIN = [
   { href: '/settings', label: 'Settings', icon: 'settings' },
   { href: '/settings/staff', label: 'Team', icon: 'groups' },
 ]
@@ -101,7 +105,7 @@ export default function Sidebar({ agency, user, userRole }: SidebarProps) {
           <span className="material-symbols-outlined text-sm">add_circle</span>
           New Student
         </Link>
-        {BOTTOM_NAV_ITEMS.map((item) => {
+        {(userRole === 'admin' ? BOTTOM_NAV_ITEMS_ADMIN : BOTTOM_NAV_ITEMS_ALL).map((item) => {
           const active = isActive(item.href)
           return (
             <Link

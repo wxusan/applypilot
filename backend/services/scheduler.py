@@ -10,6 +10,19 @@ logger = logging.getLogger(__name__)
 
 _scheduler: AsyncIOScheduler = None
 
+# Maps job_id → the async function to call when manually triggered
+_JOB_FUNCS: dict = {}
+
+
+def get_scheduler() -> AsyncIOScheduler:
+    """Return the running scheduler instance (or None if not started)."""
+    return _scheduler
+
+
+def get_job_func(job_id: str):
+    """Return the async function for a given job_id, or None."""
+    return _JOB_FUNCS.get(job_id)
+
 
 async def start_scheduler() -> None:
     global _scheduler
@@ -63,6 +76,14 @@ async def start_scheduler() -> None:
         id="email_sync",
         replace_existing=True,
     )
+
+    # Register all job functions for manual triggering
+    _JOB_FUNCS["morning_briefing"] = _run_morning_briefing
+    _JOB_FUNCS["evening_summary"] = _run_evening_summary
+    _JOB_FUNCS["deadline_tracker_morning"] = _run_deadline_tracker
+    _JOB_FUNCS["deadline_tracker_noon"] = _run_emergency_deadline_alerts
+    _JOB_FUNCS["deadline_tracker_evening"] = _run_emergency_deadline_alerts
+    _JOB_FUNCS["email_sync"] = _run_email_sync
 
     _scheduler.start()
     logger.info("Scheduler started with all cron jobs")

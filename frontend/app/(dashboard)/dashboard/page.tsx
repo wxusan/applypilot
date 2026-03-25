@@ -22,7 +22,7 @@ export default async function DashboardPage() {
     return <div className="p-6 text-error">Agency not found. Please contact support.</div>
   }
 
-  const [studentsRes, appRes, pendingRes, urgentRes] = await Promise.all([
+  const [studentsRes, appRes, pendingRes, urgentRes, decisionsRes] = await Promise.all([
     db.from('students').select('id, status', { count: 'exact' }).eq('agency_id', agencyId),
     db.from('applications').select('id, status', { count: 'exact' }).eq('agency_id', agencyId),
     db.from('agent_jobs').select('id', { count: 'exact' }).eq('agency_id', agencyId).eq('status', 'awaiting_approval'),
@@ -32,7 +32,13 @@ export default async function DashboardPage() {
       .eq('agency_id', agencyId)
       .eq('is_complete', false)
       .lte('due_date', new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]),
+    db.from('applications').select('decision').eq('agency_id', agencyId).in('decision', ['accepted', 'rejected']),
   ])
+
+  const decisions = decisionsRes.data ?? []
+  const acceptedCount = decisions.filter((a: any) => a.decision === 'accepted').length
+  const decidedCount = decisions.length
+  const acceptanceRate = decidedCount > 0 ? Math.round((acceptedCount / decidedCount) * 100) : null
 
   const stats = {
     totalStudents: studentsRes.count ?? 0,
@@ -89,9 +95,11 @@ export default async function DashboardPage() {
     },
     {
       label: 'Acceptance Rate',
-      value: '0.0%',
+      value: acceptanceRate !== null ? `${acceptanceRate}%` : '--',
       icon: 'verified',
-      sub: 'Awaiting Admissions',
+      sub: acceptanceRate !== null
+        ? `${acceptedCount} / ${decidedCount} decided`
+        : 'No decisions yet',
     },
     {
       label: 'Applications',

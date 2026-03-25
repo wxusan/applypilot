@@ -1,18 +1,53 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase-browser'
 
 export const dynamic = 'force-dynamic'
 
+const TELEGRAM = 'https://t.me/wwxusan'
+
+const URL_ERRORS: Record<string, string> = {
+  not_invited: "Your Google account isn't registered on this platform. Contact your agency admin or request access below.",
+  no_agency: "Your account isn't linked to any active agency. Contact your administrator.",
+  auth_failed: 'Authentication failed. Please try again.',
+  missing_code: 'Sign-in was cancelled or expired. Please try again.',
+}
+
 export default function LoginPage() {
+  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
   const [loginAttempts, setLoginAttempts] = useState(0)
   const [lockedUntil, setLockedUntil] = useState<Date | null>(null)
+
+  // Show errors passed back from OAuth callback or /auth/me
+  useEffect(() => {
+    const urlError = searchParams.get('error')
+    if (urlError && URL_ERRORS[urlError]) {
+      setError(URL_ERRORS[urlError])
+    }
+  }, [searchParams])
+
+  const handleGoogleLogin = async () => {
+    try {
+      const supabase = createBrowserClient()
+      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
+      if (oauthError) setError('Google sign-in failed. Please try again.')
+    } catch {
+      setError('Google sign-in failed. Please try again.')
+    }
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +68,11 @@ export default function LoginPage() {
 
     try {
       const supabase = createBrowserClient()
-      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password })
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+        options: rememberMe ? { persistSession: true } : undefined,
+      })
 
       if (authError) {
         const newAttempts = loginAttempts + 1
@@ -51,38 +90,15 @@ export default function LoginPage() {
 
       setLoginAttempts(0)
 
-      // Check role and redirect accordingly
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', data.user.id)
-          .single()
-
-        if (profile?.role === 'super_admin') {
-          window.location.assign('/admin')
-        } else {
-          window.location.assign('/dashboard')
-        }
-      } else {
-        window.location.assign('/dashboard')
-      }
+      // Let the server determine the correct redirect based on role.
+      // /auth/me uses the service key to bypass RLS and reliably reads
+      // the role, then redirects to /admin (super_admin) or /dashboard.
+      window.location.assign('/auth/me')
     } catch {
       setError('An unexpected error occurred. Please try again.')
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleGoogleLogin = async () => {
-    const supabase = createBrowserClient()
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
-    if (error) console.error('Google OAuth error:', error)
   }
 
   return (
@@ -172,7 +188,13 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center gap-3">
-              <input className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary-fixed" id="remember" type="checkbox" />
+              <input
+                className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary-fixed"
+                id="remember"
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
               <label className="text-sm font-medium text-on-surface-variant" htmlFor="remember">Keep me signed in for 30 days</label>
             </div>
 
@@ -206,10 +228,11 @@ export default function LoginPage() {
           </div>
 
           {/* Social Login */}
-          <div className="space-y-3">
+          <div className="flex flex-col gap-3">
             <button
+              type="button"
               onClick={handleGoogleLogin}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-surface-container-lowest border border-outline-variant/20 rounded-xl hover:bg-surface-container transition-colors shadow-sm"
+              className="flex items-center justify-center gap-2 py-3 bg-surface-container-lowest border border-outline-variant/20 rounded-xl hover:bg-surface-container transition-colors shadow-sm w-full"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -219,29 +242,23 @@ export default function LoginPage() {
               </svg>
               <span className="text-sm font-bold text-primary">Continue with Google</span>
             </button>
+          </div>
 
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-surface px-3 text-on-surface-variant">or</span>
-              </div>
-            </div>
-
+          {/* Support link — clearly separated from login options */}
+          <p className="text-center text-xs text-on-surface-variant">
+            Need help?{' '}
             <a
-              href="https://t.me/wwxusan"
+              href={TELEGRAM}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-gray-200 bg-white hover:bg-[#f0f9ff] hover:border-[#229ED9] transition-all text-[#031635] font-medium"
+              className="font-bold text-[#229ED9] hover:underline inline-flex items-center gap-1"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#229ED9">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#229ED9">
                 <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
               </svg>
               Contact us on Telegram
             </a>
-          </div>
+          </p>
 
           {/* Legal Documentation */}
           <div className="space-y-6">
@@ -254,11 +271,11 @@ export default function LoginPage() {
                 By signing in, you agree to our professional services agreement and data processing standards.
               </p>
               <div className="flex flex-wrap gap-x-6 gap-y-2">
-                <a className="group flex items-center gap-2" href="#">
+                <a className="group flex items-center gap-2" href="/terms">
                   <span className="text-sm font-bold text-primary border-b-2 border-primary/20 group-hover:border-primary transition-all">Terms of Service</span>
                   <span className="material-symbols-outlined text-sm">open_in_new</span>
                 </a>
-                <a className="group flex items-center gap-2" href="#">
+                <a className="group flex items-center gap-2" href="/privacy">
                   <span className="text-sm font-bold text-primary border-b-2 border-primary/20 group-hover:border-primary transition-all">Privacy Policy</span>
                   <span className="material-symbols-outlined text-sm">open_in_new</span>
                 </a>
@@ -267,7 +284,7 @@ export default function LoginPage() {
             <div className="text-center">
               <p className="text-sm text-on-surface-variant">
                 Don&apos;t have an account?{' '}
-                <a className="font-bold text-primary hover:underline" href="/#contact">Request Access</a>
+                <a className="font-bold text-primary hover:underline" href={TELEGRAM} target="_blank" rel="noopener noreferrer">Request Access</a>
               </p>
             </div>
           </div>

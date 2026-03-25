@@ -44,6 +44,11 @@ class Settings(BaseSettings):
     # Leave empty to use signed URLs instead of public links.
     R2_PUBLIC_URL: str = ""
 
+    # Email (Gmail SMTP)
+    # Generate an App Password at: Google Account → Security → App Passwords
+    GMAIL_USER: str = "nasux1222@gmail.com"
+    GMAIL_APP_PASSWORD: str = ""   # set in .env — 16-char App Password
+
     # Rate limits
     RATE_LIMIT_AGENCY: str = "1000/hour"
     RATE_LIMIT_USER: str = "200/hour"

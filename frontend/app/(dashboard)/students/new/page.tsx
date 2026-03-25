@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { studentsApi } from '@/lib/api'
+import { trackContact } from '@/lib/trackContact'
 import Link from 'next/link'
 
 export default function NewStudentPage() {
@@ -64,6 +65,14 @@ export default function NewStudentPage() {
       }
 
       const student = await studentsApi.create(payload) as { id: string }
+      trackContact({
+        name: form.full_name,
+        phone: form.phone || form.parent_phone || undefined,
+        email: form.email || form.parent_email || undefined,
+        source: 'student',
+        role: 'student',
+        note: [form.high_school_name, form.nationality, form.intended_major].filter(Boolean).join(' · ') || undefined,
+      })
       router.push(`/students/${student.id}/profile`)
     } catch (err) {
       setError((err as Error).message)

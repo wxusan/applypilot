@@ -1,13 +1,40 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 interface TopBarProps {
   agency: { id: string; name: string } | null
   user: { full_name: string; email: string } | null
+  notificationCount?: number
 }
 
-export default function TopBar({ agency, user }: TopBarProps) {
+const PATH_LABELS: Record<string, string> = {
+  '/dashboard': 'Dashboard',
+  '/students': 'Students',
+  '/kanban': 'Pipeline',
+  '/analytics': 'Analytics',
+  '/approvals': 'Approvals',
+  '/reports': 'Reports',
+  '/settings': 'Settings',
+  '/notifications': 'Notifications',
+  '/search': 'Search',
+}
+
+function getPageLabel(pathname: string): string {
+  // Exact match first
+  if (PATH_LABELS[pathname]) return PATH_LABELS[pathname]
+  // Prefix match (e.g. /students/123/profile → Students)
+  for (const [prefix, label] of Object.entries(PATH_LABELS)) {
+    if (pathname.startsWith(prefix + '/')) return label
+  }
+  return 'Dashboard'
+}
+
+export default function TopBar({ agency, user, notificationCount = 0 }: TopBarProps) {
+  const pathname = usePathname()
+  const pageLabel = getPageLabel(pathname)
+
   const initials = user?.full_name
     ? user.full_name
         .split(' ')
@@ -25,7 +52,7 @@ export default function TopBar({ agency, user }: TopBarProps) {
           {agency?.name ?? 'ApplyPilot'}
         </h1>
         <div className="bg-surface-container-low h-6 w-[1px]" />
-        <span className="text-on-surface-variant text-sm font-medium">Dashboard</span>
+        <span className="text-on-surface-variant text-sm font-medium">{pageLabel}</span>
       </div>
 
       {/* Right */}
@@ -34,7 +61,9 @@ export default function TopBar({ agency, user }: TopBarProps) {
           <span className="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-200">
             notifications
           </span>
-          <span className="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface" />
+          {notificationCount > 0 && (
+            <span className="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface" />
+          )}
         </Link>
         <Link href="/search">
           <span className="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-200">
