@@ -97,10 +97,10 @@ export default function ResetPasswordPage() {
       await fetch('/api/auth/mark-password-set', { method: 'POST' })
 
       setStage('done')
-      // Route through /auth/me so the server does a clean session + role check
-      // after the password update. Going directly to /dashboard can race with
-      // the refreshed session cookie being written, landing the user on /login.
-      setTimeout(() => { window.location.href = '/auth/me' }, 2000)
+      // Redirect to /login with a success message so the user sees clear
+      // confirmation and logs in fresh (avoids session race conditions).
+      const successParam = isInvite ? 'account_activated' : 'password_reset'
+      setTimeout(() => { window.location.href = `/login?success=${successParam}` }, 2000)
     } catch {
       setError('Something went wrong. Please try again.')
     } finally {

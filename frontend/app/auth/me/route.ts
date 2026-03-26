@@ -51,6 +51,20 @@ export async function GET(request: NextRequest) {
     { auth: { persistSession: false } }
   )
 
+  // 2. Check agency membership first — agency members always go to /dashboard
+  //    (even if they also happen to be super_admin, e.g. invited as agency owner)
+  const { data: member } = await db
+    .from('agency_members')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('is_active', true)
+    .single()
+
+  if (member) {
+    return NextResponse.redirect(`${origin}/dashboard`)
+  }
+
+  // 3. No agency membership — check for super_admin role
   const { data: profile } = await db
     .from('users')
     .select('role')
@@ -61,18 +75,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/admin`)
   }
 
-  // 3. Regular agency user — verify they have an active agency_members row
-  const { data: member } = await db
-    .from('agency_members')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('is_active', true)
-    .single()
-
-  if (!member) {
-    // Authenticated but not part of any agency — show a clear error instead of a loop
-    return NextResponse.redirect(`${origin}/login?error=no_agency`)
-  }
-
-  return NextResponse.redirect(`${origin}/dashboard`)
+  // 4. Authenticated but not part of any agency and not super_admin
+  return NextResponse.redirect(`${origin}/login?error=no_agency`)
 }

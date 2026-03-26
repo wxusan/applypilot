@@ -16,22 +16,32 @@ const URL_ERRORS: Record<string, string> = {
   session_expired: 'Your session has expired. Please sign in again.',
 }
 
+const URL_SUCCESS: Record<string, string> = {
+  account_activated: 'Account activated! Sign in below to access your dashboard.',
+  password_reset: 'Password updated! Sign in with your new password.',
+}
+
 export default function LoginPage() {
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
   const [loginAttempts, setLoginAttempts] = useState(0)
   const [lockedUntil, setLockedUntil] = useState<Date | null>(null)
 
-  // Show errors passed back from OAuth callback or /auth/me
+  // Show errors or success messages passed back via URL params
   useEffect(() => {
     const urlError = searchParams.get('error')
     if (urlError && URL_ERRORS[urlError]) {
       setError(URL_ERRORS[urlError])
+    }
+    const urlSuccess = searchParams.get('success')
+    if (urlSuccess && URL_SUCCESS[urlSuccess]) {
+      setSuccess(URL_SUCCESS[urlSuccess])
     }
   }, [searchParams])
 
@@ -198,6 +208,14 @@ export default function LoginPage() {
               />
               <label className="text-sm font-medium text-on-surface-variant" htmlFor="remember">Keep me signed in for 30 days</label>
             </div>
+
+            {/* Success message (e.g. after password set/reset) */}
+            {success && (
+              <div className="rounded-xl px-4 py-3 text-sm bg-green-50 border border-green-200 text-green-800 flex items-center gap-2">
+                <span className="material-symbols-outlined text-green-600 text-base">check_circle</span>
+                {success}
+              </div>
+            )}
 
             {/* Error message */}
             {error && (
