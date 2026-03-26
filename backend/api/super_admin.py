@@ -246,7 +246,16 @@ async def create_agency(
                     "email": data.owner_email,
                     "redirect_to": f"{settings.FRONTEND_URL}/reset-password",
                 })
-                activate_link = link_res.properties.action_link
+                # Use hashed_token to build a direct deep-link into the app.
+                # This avoids the Supabase redirect hop that delivers the session
+                # via the URL hash (#access_token=…), which the @supabase/ssr
+                # browser client doesn't reliably auto-detect before the page's
+                # verifyOtp check runs — causing the "Link expired or invalid" error.
+                hashed_token = link_res.properties.hashed_token
+                activate_link = (
+                    f"{settings.FRONTEND_URL}/reset-password"
+                    f"?token_hash={hashed_token}&type={link_type}"
+                )
 
                 html = invite_email_html(
                     owner_name=data.owner_name or "",
@@ -460,13 +469,30 @@ async def resend_agency_invite(
         agency_name = agency_res.data.get("name", "your agency") if agency_res.data else "your agency"
         plan = agency_res.data.get("subscription_plan", "starter") if agency_res.data else "starter"
 
+        # Detect whether the owner's email is already confirmed.
+        # generate_link with type="invite" is rejected by Supabase for confirmed
+        # users — use "recovery" instead so the link always works.
+        all_users = admin_client.auth.admin.list_users()
+        owner_auth = next((u for u in all_users if u.email == owner_email), None)
+        resend_link_type = (
+            "recovery"
+            if (owner_auth and owner_auth.email_confirmed_at)
+            else "invite"
+        )
+
         # Python SDK: redirect_to is top-level, NOT nested inside "options"
         link_res = admin_client.auth.admin.generate_link({
-            "type": "invite",
+            "type": resend_link_type,
             "email": owner_email,
             "redirect_to": f"{settings.FRONTEND_URL}/reset-password",
         })
-        activate_link = link_res.properties.action_link
+        # Use hashed_token to build a direct deep-link (avoids the hash-redirect
+        # race condition that causes "Link expired or invalid" in the browser).
+        hashed_token = link_res.properties.hashed_token
+        activate_link = (
+            f"{settings.FRONTEND_URL}/reset-password"
+            f"?token_hash={hashed_token}&type={resend_link_type}"
+        )
 
         html = invite_email_html(
             owner_name=owner_data.get("full_name", ""),

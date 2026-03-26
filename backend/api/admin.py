@@ -2,6 +2,8 @@
 Admin API — agency owner operations only.
 All endpoints require role == 'admin'.
 """
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, EmailStr
 from typing import Optional
@@ -10,6 +12,8 @@ from core.auth import get_current_user, require_admin
 from core.db import get_service_client
 from core.audit import write_audit_log
 from models.user import AuthUser
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["Admin"], prefix="/admin")
 
@@ -62,11 +66,14 @@ async def invite_staff(
             detail=f"Staff limit reached ({agency['max_staff']}). Upgrade your plan."
         )
 
-    # Create Supabase auth user
+    # Create Supabase auth user.
+    # email_confirm=False keeps the account in "unconfirmed" state so that
+    # generate_link(type="invite") works correctly — Supabase rejects the
+    # invite type for already-confirmed users.
     admin_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
     auth_result = admin_client.auth.admin.create_user({
         "email": data.email,
-        "email_confirm": True,
+        "email_confirm": False,
         "user_metadata": {"full_name": data.full_name},
     })
 
@@ -101,7 +108,52 @@ async def invite_staff(
         ip_address=request.client.host if request.client else None,
     )
 
-    return {"message": "Staff member invited", "user_id": new_user_id}
+    # Send invite email with a direct password-setup link.
+    # We use hashed_token (not action_link) so the link lands on /reset-password
+    # with ?token_hash=…&type=invite in the query params — no Supabase redirect
+    # hop required, which avoids the "Link expired or invalid" race condition.
+    invite_email_sent = False
+    try:
+        from core.email import send_email, invite_email_html
+
+        agency_info = db.table("agencies").select("name, subscription_plan").eq(
+            "id", user.agency_id
+        ).single().execute()
+        agency_name = agency_info.data.get("name", "your agency") if agency_info.data else "your agency"
+        plan = agency_info.data.get("subscription_plan", "starter") if agency_info.data else "starter"
+
+        link_res = admin_client.auth.admin.generate_link({
+            "type": "invite",
+            "email": data.email,
+            "redirect_to": f"{settings.FRONTEND_URL}/reset-password",
+        })
+        hashed_token = link_res.properties.hashed_token
+        activate_link = (
+            f"{settings.FRONTEND_URL}/reset-password"
+            f"?token_hash={hashed_token}&type=invite"
+        )
+
+        html = invite_email_html(
+            owner_name=data.full_name,
+            agency_name=agency_name,
+            plan=plan,
+            activate_link=activate_link,
+        )
+        invite_email_sent = send_email(
+            to=data.email,
+            subject="You've been invited to ApplyPilot — Set up your account",
+            html=html,
+            text=(
+                f"Hi {data.full_name},\n\n"
+                f"You've been invited to join {agency_name} on ApplyPilot.\n\n"
+                f"Set your password and activate your account here:\n{activate_link}\n\n"
+                f"This link expires in 24 hours.\n\nApplyPilot Team"
+            ),
+        )
+    except Exception as email_ex:
+        logger.warning(f"[admin.invite] Invite email failed for {data.email}: {email_ex}")
+
+    return {"message": "Staff member invited", "user_id": new_user_id, "invite_email_sent": invite_email_sent}
 
 
 @router.patch("/members/{member_id}")

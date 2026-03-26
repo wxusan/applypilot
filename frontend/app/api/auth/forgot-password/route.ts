@@ -76,12 +76,18 @@ export async function POST(req: NextRequest) {
       redirect_to: `${SITE_URL}/reset-password`,
     })
 
-    if (linkError || !linkData?.properties?.action_link) {
+    if (linkError || !linkData?.properties?.hashed_token) {
       console.error('[forgot-password] generateLink error:', linkError)
       return NextResponse.json({ error: 'Failed to generate reset link.' }, { status: 500 })
     }
 
-    const resetLink: string = linkData.properties.action_link
+    // Build a direct deep-link using hashed_token instead of action_link.
+    // action_link goes through Supabase's verify server and delivers the session
+    // via the URL hash (#access_token=…), which the @supabase/ssr browser client
+    // doesn't reliably detect before verifyOtp runs — causing "Link expired or
+    // invalid". The hashed_token URL lands the user directly on /reset-password
+    // with ?token_hash=…&type=recovery, which verifyOtp handles correctly.
+    const resetLink = `${SITE_URL}/reset-password?token_hash=${linkData.properties.hashed_token}&type=recovery`
 
     // ── 1. Send email ─────────────────────────────────────────────────────────
     const html = resetPasswordEmailHtml(normalizedEmail, resetLink)
