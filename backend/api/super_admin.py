@@ -215,13 +215,26 @@ async def create_agency(
             if existing:
                 owner_user_id = str(existing.id)
                 user_is_new = False
-                # Ensure they exist in our users table
-                db.table("users").upsert({
-                    "id": owner_user_id,
-                    "email": data.owner_email,
-                    "full_name": data.owner_name or existing.user_metadata.get("full_name", ""),
-                    "role": "admin",
-                }).execute()
+                # Ensure they exist in our users table.
+                # IMPORTANT: never overwrite an existing role (e.g. super_admin).
+                # Check first; only set role="admin" for brand-new profile rows.
+                existing_profile = db.table("users").select("role").eq(
+                    "id", owner_user_id
+                ).maybe_single().execute()
+                if existing_profile.data:
+                    # Profile exists — update name/email only, preserve role
+                    db.table("users").update({
+                        "email": data.owner_email,
+                        "full_name": data.owner_name or existing.user_metadata.get("full_name", ""),
+                    }).eq("id", owner_user_id).execute()
+                else:
+                    # No profile yet — insert with admin role
+                    db.table("users").insert({
+                        "id": owner_user_id,
+                        "email": data.owner_email,
+                        "full_name": data.owner_name or existing.user_metadata.get("full_name", ""),
+                        "role": "admin",
+                    }).execute()
 
         if owner_user_id:
             # Link to agency (upsert in case they're already a member)
