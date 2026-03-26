@@ -1,48 +1,37 @@
 """
-Gmail SMTP email utility for ApplyPilot.
+Resend email utility for ApplyPilot.
 
 Requires env vars:
-  GMAIL_USER         – sender address, e.g. nasux1222@gmail.com
-  GMAIL_APP_PASSWORD – Gmail App Password (16-char, no spaces)
-
-To generate an App Password:
-  Google Account → Security → 2-Step Verification → App Passwords
+  RESEND_API_KEY – API key from resend.com
+  GMAIL_USER     – used as the reply-to address
 """
 
-import smtplib
-import ssl
+import resend
 import logging
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from core.config import settings
 
 logger = logging.getLogger(__name__)
 
 
 def send_email(to: str, subject: str, html: str, text: str = "") -> bool:
-    """Send an email via Gmail SMTP. Returns True on success, False on failure."""
+    """Send an email via Resend. Returns True on success, False on failure."""
     try:
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = f"ApplyPilot <{settings.GMAIL_USER}>"
-        msg["To"] = to
-        msg["Reply-To"] = settings.GMAIL_USER
+        resend.api_key = settings.RESEND_API_KEY
 
+        params: resend.Emails.SendParams = {
+            "from": "ApplyPilot <onboarding@resend.dev>",
+            "to": [to],
+            "subject": subject,
+            "html": html,
+            "reply_to": settings.GMAIL_USER,
+        }
         if text:
-            msg.attach(MIMEText(text, "plain", "utf-8"))
-        msg.attach(MIMEText(html, "html", "utf-8"))
+            params["text"] = text
 
-        ctx = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=ctx) as server:
-            server.login(settings.GMAIL_USER, settings.GMAIL_APP_PASSWORD)
-            server.sendmail(settings.GMAIL_USER, to, msg.as_string())
-
+        resend.Emails.send(params)
         logger.info(f"[email] Sent '{subject}' to {to}")
         return True
 
-    except smtplib.SMTPAuthenticationError:
-        logger.error("[email] Gmail auth failed — check GMAIL_USER and GMAIL_APP_PASSWORD")
-        return False
     except Exception as e:
         logger.error(f"[email] Failed to send '{subject}' to {to}: {type(e).__name__}: {e}")
         return False
