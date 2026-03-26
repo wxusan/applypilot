@@ -7,7 +7,7 @@ import { NextResponse, type NextRequest } from 'next/server'
  */
 function hasAuthSession(request: NextRequest): boolean {
   return request.cookies.getAll().some((c) =>
-    c.name.startsWith('sb-') && c.name.endsWith('-auth-token')
+    c.name.startsWith('sb-') && c.name.includes('-auth-token')
   )
 }
 
