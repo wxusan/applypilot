@@ -23,6 +23,7 @@ class CreateAgencyRequest(BaseModel):
     max_staff: int = 5
     max_students: int = 50
     ai_token_limit: int = 50000
+    trial_days: int = 14  # days until trial expires; 0 = no expiry
 
 
 class UpdatePlanConfigRequest(BaseModel):
@@ -168,8 +169,13 @@ async def create_agency(
 
     agency_id = str(uuid.uuid4())
 
+    # Calculate trial expiry (if trial_days > 0)
+    trial_expires_at = None
+    if data.trial_days and data.trial_days > 0:
+        trial_expires_at = (datetime.now(timezone.utc) + timedelta(days=data.trial_days)).isoformat()
+
     # Create agency
-    agency_res = db.table("agencies").insert({
+    agency_insert: dict = {
         "id": agency_id,
         "name": data.name,
         "slug": slug,
@@ -178,7 +184,11 @@ async def create_agency(
         "max_staff": data.max_staff,
         "ai_token_limit": data.ai_token_limit,
         "ai_tokens_used": 0,
-    }).execute()
+    }
+    if trial_expires_at:
+        agency_insert["subscription_expires_at"] = trial_expires_at
+
+    agency_res = db.table("agencies").insert(agency_insert).execute()
 
     if not agency_res.data:
         raise HTTPException(status_code=500, detail="Failed to create agency record")

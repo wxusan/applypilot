@@ -26,6 +26,7 @@ interface CreateAgencyForm {
   counselor_seats: number
   max_students: number
   ai_tokens: number
+  trial_days: number
 }
 
 interface PlanConfig {
@@ -143,7 +144,7 @@ export default function AgencyManagement() {
   const [createError, setCreateError] = useState<string | null>(null)
   const [createResult, setCreateResult] = useState<{ invite_error?: string | null } | null>(null)
   const [form, setForm] = useState<CreateAgencyForm>({
-    name: '', owner_email: '', plan: 'starter', counselor_seats: 2, max_students: 15, ai_tokens: 750000,
+    name: '', owner_email: '', plan: 'starter', counselor_seats: 2, max_students: 15, ai_tokens: 750000, trial_days: 14,
   })
 
   async function loadAgencies() {
@@ -208,6 +209,7 @@ export default function AgencyManagement() {
             max_staff: form.counselor_seats,
             max_students: form.max_students,
             ai_token_limit: form.ai_tokens,
+            trial_days: form.trial_days,
           }),
         }
       )
@@ -219,7 +221,7 @@ export default function AgencyManagement() {
         note: `Agency: ${form.name} · Plan: ${form.plan}`,
       })
       const starterCfg = planConfigs['starter']
-      setForm({ name: '', owner_email: '', plan: 'starter', counselor_seats: starterCfg?.max_staff || 2, max_students: starterCfg?.max_students || 15, ai_tokens: starterCfg?.ai_token_limit || 750000 })
+      setForm({ name: '', owner_email: '', plan: 'starter', counselor_seats: starterCfg?.max_staff || 2, max_students: starterCfg?.max_students || 15, ai_tokens: starterCfg?.ai_token_limit || 750000, trial_days: 14 })
       loadAgencies()
     } catch (err: any) {
       setCreateError(err?.message || 'Failed to create agency.')
@@ -701,6 +703,39 @@ export default function AgencyManagement() {
                     </div>
                   </div>
                 )}
+
+                {/* Trial Duration */}
+                <div className="border border-gray-200 rounded-xl p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[12px] font-semibold text-gray-600">Trial Duration</label>
+                    <span className="text-[12px] font-bold text-gray-900">
+                      {form.trial_days === 0 ? 'No expiry' : `${form.trial_days} days`}
+                    </span>
+                  </div>
+                  <input
+                    type="range" min={0} max={90} step={1} value={form.trial_days}
+                    onChange={(e) => setForm({ ...form, trial_days: parseInt(e.target.value) })}
+                    className="w-full accent-[#031635]"
+                  />
+                  <div className="flex justify-between text-[10px] text-gray-400">
+                    <span>No expiry</span>
+                    <span>90 days</span>
+                  </div>
+                  {form.trial_days > 0 && (
+                    <p className="text-[11px] text-gray-500">
+                      Trial expires on{' '}
+                      <strong>
+                        {new Date(Date.now() + form.trial_days * 86400000).toLocaleDateString('en-US', {
+                          month: 'long', day: 'numeric', year: 'numeric',
+                        })}
+                      </strong>
+                      . After that, the owner's dashboard will be locked until you extend their trial or activate their account.
+                    </p>
+                  )}
+                  {form.trial_days === 0 && (
+                    <p className="text-[11px] text-gray-500">Agency can access the platform indefinitely until you manually suspend or change their status.</p>
+                  )}
+                </div>
 
                 {createError && <p className="text-[12px] text-red-500 font-medium">{createError}</p>}
 
