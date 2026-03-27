@@ -265,9 +265,12 @@ async def create_agency(
                 # browser client doesn't reliably auto-detect before the page's
                 # verifyOtp check runs — causing the "Link expired or invalid" error.
                 hashed_token = link_res.properties.hashed_token
+                # Always add context=invite so the reset-password page shows
+                # "Set your password" copy regardless of whether link_type is
+                # "invite" (new user) or "recovery" (existing user re-invited).
                 activate_link = (
                     f"{settings.FRONTEND_URL}/reset-password"
-                    f"?token_hash={hashed_token}&type={link_type}"
+                    f"?token_hash={hashed_token}&type={link_type}&context=invite"
                 )
 
                 html = invite_email_html(

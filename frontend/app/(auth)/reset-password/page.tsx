@@ -33,9 +33,12 @@ export default function ResetPasswordPage() {
       const type = params.get('type') as any
       const code = params.get('code')
       const reason = params.get('reason') // 'setup_required' from auth/callback
+      const context = params.get('context') // 'invite' when sent from agency invite flow
 
       // Detect invite flow for copy purposes
-      if (type === 'invite' || reason === 'setup_required') {
+      // context=invite is set by the backend for both new (type=invite) and
+      // existing (type=recovery) users invited as agency owners.
+      if (type === 'invite' || reason === 'setup_required' || context === 'invite') {
         setIsInvite(true)
       }
 
