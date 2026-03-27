@@ -136,6 +136,8 @@ export default function AdminBillingPage() {
       return <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-red-50 text-red-700">Suspended</span>
     if (isExpired(a))
       return <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-orange-50 text-orange-700">Expired</span>
+    if (a.subscription_status === 'trial')
+      return <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-yellow-50 text-yellow-700">Trial</span>
     return <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-green-50 text-green-700">Active</span>
   }
 
