@@ -76,7 +76,8 @@ export default function SettingsForm({ agency, user, role }: Props) {
       const session = await supabase.auth.getSession()
       const token = session.data.session?.access_token ?? ''
 
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+      // Use ?? (not ||) so empty string env var stays empty → relative URL works in production
+      const API_URL = process.env.NEXT_PUBLIC_API_URL ?? ''
       const res: { url: string } = await fetch(`${API_URL}/api/settings/agency/logo`, {
         method: 'POST',
         headers: token ? { Authorization: `Bearer ${token}` } : {},

@@ -6,6 +6,37 @@ import { studentsApi } from '@/lib/api'
 import { trackContact } from '@/lib/trackContact'
 import Link from 'next/link'
 
+// ─── These must be defined OUTSIDE the page component ───────────────────────
+// If defined inside, React treats them as new component types on every render,
+// which unmounts and remounts every Field on each keystroke → focus is lost.
+const inputClass = "w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all text-on-surface placeholder:text-on-surface-variant/50"
+const labelClass = "block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2"
+
+function Field({
+  label, field, type = 'text', placeholder = '', form, onChange,
+}: {
+  label: string
+  field: string
+  type?: string
+  placeholder?: string
+  form: Record<string, string>
+  onChange: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void
+}) {
+  return (
+    <div className="space-y-2">
+      <label className={labelClass}>{label}</label>
+      <input
+        type={type}
+        value={form[field] ?? ''}
+        onChange={onChange(field)}
+        placeholder={placeholder}
+        className={inputClass}
+      />
+    </div>
+  )
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function NewStudentPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -39,6 +70,11 @@ export default function NewStudentPage() {
   })
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [field]: e.target.value }))
+  }
+
+  // Typed version for Field component (input only)
+  const setInput = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }))
   }
 
@@ -80,22 +116,6 @@ export default function NewStudentPage() {
       setLoading(false)
     }
   }
-
-  const inputClass = "w-full bg-surface-container-lowest border border-outline-variant/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/10 outline-none transition-all text-on-surface placeholder:text-on-surface-variant/50"
-  const labelClass = "block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2"
-
-  const Field = ({ label, field, type = 'text', placeholder = '' }: { label: string; field: string; type?: string; placeholder?: string }) => (
-    <div className="space-y-2">
-      <label className={labelClass}>{label}</label>
-      <input
-        type={type}
-        value={(form as Record<string, string>)[field]}
-        onChange={set(field)}
-        placeholder={placeholder}
-        className={inputClass}
-      />
-    </div>
-  )
 
   return (
     <div className="flex flex-col lg:flex-row gap-12 max-w-6xl">
@@ -156,13 +176,13 @@ export default function NewStudentPage() {
               <h3 className="font-headline font-bold text-xl text-primary">Personal Information</h3>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              <Field label="Full Name *" field="full_name" placeholder="e.g. Alexander Hamilton" />
-              <Field label="Preferred Name" field="preferred_name" placeholder="e.g. Alex" />
-              <Field label="Email Address" field="email" type="email" placeholder="student@university.edu" />
-              <Field label="Phone" field="phone" placeholder="+1 (555) 000-0000" />
-              <Field label="Date of Birth" field="date_of_birth" type="date" />
-              <Field label="Nationality / Citizenship" field="nationality" placeholder="e.g. United States" />
-              <Field label="Telegram Username" field="telegram_username" placeholder="@username" />
+              <Field label="Full Name *" field="full_name" placeholder="e.g. Alexander Hamilton" form={form} onChange={setInput} />
+              <Field label="Preferred Name" field="preferred_name" placeholder="e.g. Alex" form={form} onChange={setInput} />
+              <Field label="Email Address" field="email" type="email" placeholder="student@university.edu" form={form} onChange={setInput} />
+              <Field label="Phone" field="phone" placeholder="+1 (555) 000-0000" form={form} onChange={setInput} />
+              <Field label="Date of Birth" field="date_of_birth" type="date" form={form} onChange={setInput} />
+              <Field label="Nationality / Citizenship" field="nationality" placeholder="e.g. United States" form={form} onChange={setInput} />
+              <Field label="Telegram Username" field="telegram_username" placeholder="@username" form={form} onChange={setInput} />
               <div className="space-y-2">
                 <label className={labelClass}>Status</label>
                 <select
@@ -185,9 +205,9 @@ export default function NewStudentPage() {
               <h3 className="font-headline font-bold text-xl text-primary">Parent / Guardian</h3>
             </div>
             <div className="grid grid-cols-3 gap-6">
-              <Field label="Parent Name" field="parent_name" placeholder="Full name" />
-              <Field label="Parent Email" field="parent_email" type="email" placeholder="parent@example.com" />
-              <Field label="Parent Phone" field="parent_phone" placeholder="+1 (555) 000-0000" />
+              <Field label="Parent Name" field="parent_name" placeholder="Full name" form={form} onChange={setInput} />
+              <Field label="Parent Email" field="parent_email" type="email" placeholder="parent@example.com" form={form} onChange={setInput} />
+              <Field label="Parent Phone" field="parent_phone" placeholder="+1 (555) 000-0000" form={form} onChange={setInput} />
             </div>
           </section>
 
@@ -277,10 +297,10 @@ export default function NewStudentPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-6">
-              <Field label="High School Name" field="high_school_name" placeholder="Search school database..." />
-              <Field label="High School Country" field="high_school_country" placeholder="e.g. United States" />
-              <Field label="Graduation Year" field="graduation_year" type="number" placeholder="2025" />
-              <Field label="GPA Scale" field="gpa_scale" type="number" placeholder="4.0" />
+              <Field label="High School Name" field="high_school_name" placeholder="Search school database..." form={form} onChange={setInput} />
+              <Field label="High School Country" field="high_school_country" placeholder="e.g. United States" form={form} onChange={setInput} />
+              <Field label="Graduation Year" field="graduation_year" type="number" placeholder="2025" form={form} onChange={setInput} />
+              <Field label="GPA Scale" field="gpa_scale" type="number" placeholder="4.0" form={form} onChange={setInput} />
             </div>
           </section>
 
@@ -316,8 +336,8 @@ export default function NewStudentPage() {
                 </div>
               </div>
               <div className="space-y-4">
-                <Field label="Application Season" field="season" placeholder="e.g. 2024-25" />
-                <Field label="Intended Major" field="intended_major" placeholder="e.g. Computer Science" />
+                <Field label="Application Season" field="season" placeholder="e.g. 2024-25" form={form} onChange={setInput} />
+                <Field label="Intended Major" field="intended_major" placeholder="e.g. Computer Science" form={form} onChange={setInput} />
               </div>
             </div>
 
