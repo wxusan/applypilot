@@ -410,15 +410,49 @@ async def update_agency(
     return result.data[0]
 
 
-@router.delete("/agencies/{agency_id}", status_code=200)
-async def delete_agency(
+@router.post("/agencies/{agency_id}/suspend", status_code=200)
+async def suspend_agency(
     agency_id: str,
     user: AuthUser = Depends(get_super_admin),
 ):
     """
-    Permanently delete an agency and all its associated data.
-    Cascades are handled by the DB FK constraints.
-    This is irreversible — the frontend must require name confirmation.
+    Suspend an agency. All members are deactivated so they cannot log in.
+    The agency data (students, staff, etc.) is fully preserved.
+    """
+    from supabase import create_client
+    from core.config import settings
+
+    db = get_service_client()
+
+    agency_res = db.table("agencies").select("id, name, subscription_status").eq("id", agency_id).single().execute()
+    if not agency_res.data:
+        raise HTTPException(status_code=404, detail="Agency not found")
+
+    agency_name = agency_res.data["name"]
+
+    db.table("agencies").update({"subscription_status": "suspended"}).eq("id", agency_id).execute()
+    db.table("agency_members").update({"is_active": False}).eq("agency_id", agency_id).execute()
+
+    await write_audit_log(
+        agency_id=agency_id,
+        user_id=user.id,
+        action="agency.suspended_by_super_admin",
+        entity_type="agency",
+        entity_id=agency_id,
+        old_value={"subscription_status": agency_res.data.get("subscription_status")},
+        new_value={"subscription_status": "suspended"},
+    )
+
+    return {"message": f"Agency '{agency_name}' suspended"}
+
+
+@router.post("/agencies/{agency_id}/unsuspend", status_code=200)
+async def unsuspend_agency(
+    agency_id: str,
+    user: AuthUser = Depends(get_super_admin),
+):
+    """
+    Re-activate a suspended agency. Restores all member access.
     """
     db = get_service_client()
 
@@ -428,24 +462,94 @@ async def delete_agency(
 
     agency_name = agency_res.data["name"]
 
-    # Write the audit entry FIRST (while the agency still exists)
+    db.table("agencies").update({"subscription_status": "active"}).eq("id", agency_id).execute()
+    db.table("agency_members").update({"is_active": True}).eq("agency_id", agency_id).execute()
+
+    await write_audit_log(
+        agency_id=agency_id,
+        user_id=user.id,
+        action="agency.unsuspended_by_super_admin",
+        entity_type="agency",
+        entity_id=agency_id,
+        new_value={"subscription_status": "active"},
+    )
+
+    return {"message": f"Agency '{agency_name}' reactivated"}
+
+
+@router.delete("/agencies/{agency_id}", status_code=200)
+async def delete_agency(
+    agency_id: str,
+    user: AuthUser = Depends(get_super_admin),
+):
+    """
+    Permanently delete an agency and all its associated data.
+
+    What gets deleted:
+    - All agency data (students, staff, applications, docs, etc.) via FK CASCADE
+    - All agency member Supabase Auth accounts (wipes login + password history)
+    - All agency_members rows
+    - The agency itself
+
+    What is preserved:
+    - The users table rows for each member (name + email kept for your records)
+      These rows are detached from auth so they cannot log in.
+    - The audit log (agency_id is nulled out so history is preserved)
+
+    This is irreversible — the frontend must require name confirmation.
+    """
+    from supabase import create_client
+    from core.config import settings
+
+    db = get_service_client()
+    admin_client = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
+
+    agency_res = db.table("agencies").select("id, name").eq("id", agency_id).single().execute()
+    if not agency_res.data:
+        raise HTTPException(status_code=404, detail="Agency not found")
+
+    agency_name = agency_res.data["name"]
+
+    # 1. Collect all non-super_admin members so we can wipe their auth accounts
+    members_res = db.table("agency_members").select("user_id").eq("agency_id", agency_id).execute()
+    member_ids = [m["user_id"] for m in (members_res.data or [])]
+
+    deleted_auth_emails = []
+    for uid in member_ids:
+        profile = db.table("users").select("id, email, role").eq("id", uid).maybe_single().execute()
+        if profile.data and profile.data.get("role") != "super_admin":
+            # Delete their Supabase Auth account — wipes login credentials and
+            # password history so a future re-invite starts completely fresh.
+            try:
+                admin_client.auth.admin.delete_user(uid)
+                deleted_auth_emails.append(profile.data["email"])
+            except Exception:
+                pass  # may already be deleted
+            # NOTE: we intentionally keep the users table row so name/email
+            # remains in your records. The row is now orphaned (no auth user)
+            # and cannot be used to log in.
+
+    # 2. Write the audit entry BEFORE deleting (while the agency still exists)
     await write_audit_log(
         agency_id=agency_id,
         user_id=user.id,
         action="agency.deleted_by_super_admin",
         entity_type="agency",
         entity_id=agency_id,
-        old_value={"name": agency_name},
+        old_value={"name": agency_name, "deleted_member_emails": deleted_auth_emails},
     )
 
-    # The audit_logs table FK on agency_id lacks ON DELETE SET NULL in the live DB,
-    # so we NULL-out the reference manually before deleting the agency row.
-    # This preserves the audit history while satisfying the FK constraint.
+    # 3. Null out audit_log agency references (no ON DELETE SET NULL in live DB)
     db.table("audit_logs").update({"agency_id": None}).eq("agency_id", agency_id).execute()
 
+    # 4. Delete agency — FK CASCADE handles students, agency_members, applications,
+    #    documents, deadlines, essays, reports, billing, etc.
     db.table("agencies").delete().eq("id", agency_id).execute()
 
-    return {"message": f"Agency '{agency_name}' permanently deleted"}
+    return {
+        "message": f"Agency '{agency_name}' permanently deleted",
+        "wiped_auth_accounts": deleted_auth_emails,
+    }
 
 
 @router.post("/agencies/{agency_id}/resend-invite")

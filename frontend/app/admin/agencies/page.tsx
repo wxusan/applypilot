@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { apiFetch } from '@/lib/api'
 import { trackContact } from '@/lib/trackContact'
-import { Edit2, Check, X, ExternalLink, Search, AlertTriangle } from 'lucide-react'
+import { Edit2, Check, X, ExternalLink, Search, AlertTriangle, Pause, Play, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
 interface Agency {
@@ -82,6 +82,60 @@ export default function AgencyManagement() {
     pro:        { max_staff: 4,  max_students: 35,  ai_token_limit: 2500000,  price_monthly: 199 },
     enterprise: { max_staff: 0,  max_students: 0,   ai_token_limit: 0,        price_monthly: 499 },
   })
+
+  // Suspend / Unsuspend confirm
+  const [suspendTarget, setSuspendTarget] = useState<Agency | null>(null)
+  const [unsuspendTarget, setUnsuspendTarget] = useState<Agency | null>(null)
+  const [actionLoading, setActionLoading] = useState(false)
+  const [actionError, setActionError] = useState<string | null>(null)
+
+  // Delete confirm (requires typing agency name)
+  const [deleteTarget, setDeleteTarget] = useState<Agency | null>(null)
+  const [deleteConfirmName, setDeleteConfirmName] = useState('')
+
+  const handleSuspend = async (agency: Agency) => {
+    setActionLoading(true)
+    setActionError(null)
+    try {
+      await apiFetch(`/api/super-admin/agencies/${agency.id}/suspend`, { method: 'POST' })
+      setSuspendTarget(null)
+      loadAgencies()
+    } catch (err: any) {
+      setActionError(err.message || 'Failed to suspend agency.')
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  const handleUnsuspend = async (agency: Agency) => {
+    setActionLoading(true)
+    setActionError(null)
+    try {
+      await apiFetch(`/api/super-admin/agencies/${agency.id}/unsuspend`, { method: 'POST' })
+      setUnsuspendTarget(null)
+      loadAgencies()
+    } catch (err: any) {
+      setActionError(err.message || 'Failed to reactivate agency.')
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  const handleDelete = async (agency: Agency) => {
+    if (deleteConfirmName !== agency.name) return
+    setActionLoading(true)
+    setActionError(null)
+    try {
+      await apiFetch(`/api/super-admin/agencies/${agency.id}`, { method: 'DELETE' })
+      setDeleteTarget(null)
+      setDeleteConfirmName('')
+      loadAgencies()
+    } catch (err: any) {
+      setActionError(err.message || 'Failed to delete agency.')
+    } finally {
+      setActionLoading(false)
+    }
+  }
 
   // Create Modal
   const [showCreate, setShowCreate] = useState(false)
@@ -305,13 +359,39 @@ export default function AgencyManagement() {
                         </p>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <button
-                          onClick={() => { setEditingId(a.id); setEditPlan(a.subscription_plan); setEditStaff(a.max_staff); setEditTokenLimit(a.ai_token_limit || 0); setEditError(null) }}
-                          className="text-gray-400 hover:text-[#031635] transition-colors p-1"
-                          title="Edit limits"
-                        >
-                          <Edit2 size={14} />
-                        </button>
+                        <div className="inline-flex items-center gap-1">
+                          <button
+                            onClick={() => { setEditingId(a.id); setEditPlan(a.subscription_plan); setEditStaff(a.max_staff); setEditTokenLimit(a.ai_token_limit || 0); setEditError(null) }}
+                            className="text-gray-400 hover:text-[#031635] transition-colors p-1 rounded"
+                            title="Edit limits"
+                          >
+                            <Edit2 size={14} />
+                          </button>
+                          {a.subscription_status === 'suspended' ? (
+                            <button
+                              onClick={() => { setUnsuspendTarget(a); setActionError(null) }}
+                              className="text-gray-400 hover:text-green-600 transition-colors p-1 rounded"
+                              title="Reactivate agency"
+                            >
+                              <Play size={14} />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => { setSuspendTarget(a); setActionError(null) }}
+                              className="text-gray-400 hover:text-orange-500 transition-colors p-1 rounded"
+                              title="Suspend agency"
+                            >
+                              <Pause size={14} />
+                            </button>
+                          )}
+                          <button
+                            onClick={() => { setDeleteTarget(a); setDeleteConfirmName(''); setActionError(null) }}
+                            className="text-gray-400 hover:text-red-600 transition-colors p-1 rounded"
+                            title="Delete agency"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
                       </td>
                     </>
                   )}
@@ -321,6 +401,148 @@ export default function AgencyManagement() {
           </tbody>
         </table>
       </div>
+
+      {/* ── Suspend Confirm Modal ── */}
+      {suspendTarget && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(3,22,53,0.55)', backdropFilter: 'blur(4px)' }}
+        >
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
+                <Pause size={18} className="text-orange-600" />
+              </div>
+              <div>
+                <h2 className="text-[17px] font-bold text-gray-900">Suspend Agency</h2>
+                <p className="text-[12px] text-gray-500 mt-0.5">This will block all member logins.</p>
+              </div>
+            </div>
+            <p className="text-[13px] text-gray-700">
+              Are you sure you want to suspend <strong>{suspendTarget.name}</strong>?
+              All members will lose access until you reactivate.
+              Agency data is fully preserved.
+            </p>
+            {actionError && <p className="text-[12px] text-red-500 font-medium">{actionError}</p>}
+            <div className="flex gap-3 pt-1">
+              <button
+                onClick={() => { setSuspendTarget(null); setActionError(null) }}
+                className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleSuspend(suspendTarget)}
+                disabled={actionLoading}
+                className="flex-1 py-2.5 rounded-xl text-[13px] font-bold text-white bg-orange-500 hover:bg-orange-600 disabled:opacity-60 transition-colors"
+              >
+                {actionLoading ? 'Suspending…' : 'Suspend'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Unsuspend Confirm Modal ── */}
+      {unsuspendTarget && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(3,22,53,0.55)', backdropFilter: 'blur(4px)' }}
+        >
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <Play size={18} className="text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-[17px] font-bold text-gray-900">Reactivate Agency</h2>
+                <p className="text-[12px] text-gray-500 mt-0.5">Restores full access for all members.</p>
+              </div>
+            </div>
+            <p className="text-[13px] text-gray-700">
+              Reactivate <strong>{unsuspendTarget.name}</strong>?
+              All previously active members will regain access immediately.
+            </p>
+            {actionError && <p className="text-[12px] text-red-500 font-medium">{actionError}</p>}
+            <div className="flex gap-3 pt-1">
+              <button
+                onClick={() => { setUnsuspendTarget(null); setActionError(null) }}
+                className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleUnsuspend(unsuspendTarget)}
+                disabled={actionLoading}
+                className="flex-1 py-2.5 rounded-xl text-[13px] font-bold text-white bg-green-600 hover:bg-green-700 disabled:opacity-60 transition-colors"
+              >
+                {actionLoading ? 'Reactivating…' : 'Reactivate'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Delete Confirm Modal ── */}
+      {deleteTarget && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(3,22,53,0.55)', backdropFilter: 'blur(4px)' }}
+        >
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                <Trash2 size={18} className="text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-[17px] font-bold text-gray-900">Delete Agency</h2>
+                <p className="text-[12px] text-red-500 mt-0.5 font-medium">This action is permanent and cannot be undone.</p>
+              </div>
+            </div>
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-[12px] text-red-700 space-y-1">
+              <p className="font-semibold">What will be deleted:</p>
+              <ul className="list-disc list-inside space-y-0.5 text-[11px]">
+                <li>All students, applications, documents, and reports</li>
+                <li>All staff login accounts (Supabase Auth)</li>
+                <li>The agency and all its data</li>
+              </ul>
+              <p className="font-semibold mt-2">What is preserved:</p>
+              <ul className="list-disc list-inside space-y-0.5 text-[11px]">
+                <li>Staff name and email (for your records, login disabled)</li>
+                <li>Audit log history</li>
+              </ul>
+            </div>
+            <div>
+              <label className="block text-[12px] font-semibold text-gray-700 mb-1.5">
+                Type <span className="font-mono bg-gray-100 px-1 rounded text-gray-900">{deleteTarget.name}</span> to confirm
+              </label>
+              <input
+                type="text"
+                value={deleteConfirmName}
+                onChange={(e) => setDeleteConfirmName(e.target.value)}
+                placeholder={deleteTarget.name}
+                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-[13px] focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition"
+              />
+            </div>
+            {actionError && <p className="text-[12px] text-red-500 font-medium">{actionError}</p>}
+            <div className="flex gap-3 pt-1">
+              <button
+                onClick={() => { setDeleteTarget(null); setDeleteConfirmName(''); setActionError(null) }}
+                className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(deleteTarget)}
+                disabled={actionLoading || deleteConfirmName !== deleteTarget.name}
+                className="flex-1 py-2.5 rounded-xl text-[13px] font-bold text-white bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                {actionLoading ? 'Deleting…' : 'Permanently Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Create Agency Modal */}
       {showCreate && (
