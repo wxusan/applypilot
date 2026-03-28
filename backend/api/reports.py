@@ -9,7 +9,9 @@ Agency admins can:
 Super admins can also fetch platform-scope reports via /api/reports?scope=platform.
 """
 
+from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import Response
 from pydantic import BaseModel
 from typing import Optional
 
@@ -50,6 +52,48 @@ async def list_reports(
 
     result = query.execute()
     return {"reports": result.data or []}
+
+
+@router.get("/{report_id}/pdf")
+async def stream_report_pdf(
+    report_id: str,
+    user: AuthUser = Depends(get_current_user),
+):
+    """Regenerate and stream the PDF directly — no R2 required."""
+    db = get_service_client()
+
+    report = (
+        db.table("reports")
+        .select("id, agency_id, report_type, period_label, period_start, period_end")
+        .eq("id", report_id)
+        .single()
+        .execute()
+    )
+    if not report.data:
+        raise HTTPException(status_code=404, detail="Report not found")
+
+    r = report.data
+    if r.get("agency_id") != user.agency_id:
+        raise HTTPException(status_code=403, detail="Not authorised")
+
+    ag = db.table("agencies").select("name").eq("id", user.agency_id).single().execute()
+    agency_name = ag.data["name"] if ag.data else "Agency"
+
+    from agents.reporter import ReporterAgent
+    reporter = ReporterAgent()
+    period_start = date.fromisoformat(r["period_start"])
+    period_end   = date.fromisoformat(r["period_end"])
+    metrics   = await reporter._fetch_agency_metrics(user.agency_id, period_start, period_end)
+    pdf_bytes = reporter._build_agency_pdf(
+        agency_name, r["report_type"], r["period_label"], period_start, period_end, metrics
+    )
+
+    filename = f"ApplyPilot_{r['period_label'].replace(' ', '_')}.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @router.get("/{report_id}/download")

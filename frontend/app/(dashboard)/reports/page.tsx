@@ -76,16 +76,32 @@ export default function ReportsPage() {
     }
   }
 
-  const handleDownload = async (reportId: string) => {
+  const handleDownload = async (reportId: string, periodLabel: string) => {
     setDownloading(reportId)
     try {
-      const res = await apiFetch<{ download_url: string; period_label: string }>(`/api/reports/${reportId}/download`)
-      if (res.download_url) {
-        window.open(res.download_url, '_blank')
-        toastSuccess('PDF opened in new tab.')
-      }
+      // Stream PDF directly from backend — no R2 dependency
+      const { createBrowserClient } = await import('@/lib/supabase-browser')
+      const supabase = createBrowserClient()
+      const { data: { session } } = await supabase.auth.getSession()
+      const token = session?.access_token ?? ''
+
+      const res = await fetch(`/api/reports/${reportId}/pdf`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error('PDF generation failed')
+
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `ApplyPilot_${periodLabel.replace(/\s+/g, '_')}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      toastSuccess('PDF downloaded.')
     } catch {
-      toastError('Could not retrieve download link. The PDF may still be generating.')
+      toastError('Could not generate PDF. Please try again.')
     } finally {
       setDownloading(null)
     }
@@ -191,17 +207,17 @@ export default function ReportsPage() {
                   </div>
 
                   <button
-                    onClick={() => handleDownload(r.id)}
-                    disabled={downloading === r.id || !r.pdf_url}
+                    onClick={() => handleDownload(r.id, r.period_label)}
+                    disabled={downloading === r.id}
                     className="flex items-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-all disabled:opacity-50 hover:scale-[1.02] active:scale-95"
-                    style={{ background: r.pdf_url ? 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' : undefined, color: r.pdf_url ? 'white' : undefined, backgroundColor: !r.pdf_url ? undefined : undefined }}
+                    style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)', color: 'white' }}
                   >
                     {downloading === r.id ? (
                       <span className="material-symbols-outlined text-lg animate-spin">autorenew</span>
                     ) : (
                       <span className="material-symbols-outlined text-lg">download</span>
                     )}
-                    {r.pdf_url ? 'Download PDF' : 'Generating...'}
+                    {downloading === r.id ? 'Generating...' : 'Download PDF'}
                   </button>
                 </div>
 
