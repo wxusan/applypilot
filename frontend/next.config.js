@@ -3,7 +3,12 @@
 // The Python backend URL — never exposed to the browser.
 // Locally: http://localhost:8000
 // Production: set BACKEND_URL in your Vercel environment variables.
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000'
+// Force https:// in production so Railway's HTTP→HTTPS redirect doesn't
+// leak to the browser and cause "Failed to fetch" on POST/PATCH/DELETE.
+const _rawBackendURL = process.env.BACKEND_URL || 'http://localhost:8000'
+const BACKEND_URL = _rawBackendURL.startsWith('http://localhost')
+  ? _rawBackendURL
+  : _rawBackendURL.replace(/^http:\/\//, 'https://')
 
 const nextConfig = {
   images: {
