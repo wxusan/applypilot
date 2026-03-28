@@ -3,6 +3,7 @@ import { createServerClient, createServiceClient } from '@/lib/supabase-server'
 import { notFound } from 'next/navigation'
 import StudentTabs from '@/components/students/StudentTabs'
 import StudentHeader from '@/components/students/StudentHeader'
+import ChatPanel from '@/components/students/ChatPanel'
 
 export default async function StudentProfilePage({ params }: { params: { id: string } }) {
   const anonClient = createServerClient()
@@ -27,10 +28,13 @@ export default async function StudentProfilePage({ params }: { params: { id: str
 
   if (error || !student) notFound()
 
+  const studentName = `${student.first_name ?? ''} ${student.last_name ?? ''}`.trim()
+
   return (
     <div>
       <StudentHeader student={student} />
       <StudentTabs studentId={params.id} active="profile" />
+      <ChatPanel studentId={params.id} studentName={studentName || undefined} />
 
       {/* Bento Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">

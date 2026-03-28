@@ -44,9 +44,10 @@ class Settings(BaseSettings):
     # Leave empty to use signed URLs instead of public links.
     R2_PUBLIC_URL: str = ""
 
-    # Email (Resend)
+    # Email (Resend / Gmail SMTP)
     RESEND_API_KEY: str = ""
     GMAIL_USER: str = "nasux1222@gmail.com"  # used as reply-to address
+    GMAIL_APP_PASSWORD: str = ""
 
     # Rate limits
     RATE_LIMIT_AGENCY: str = "1000/hour"

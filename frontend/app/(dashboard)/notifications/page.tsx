@@ -1,89 +1,90 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { apiFetch } from '@/lib/api'
 
-type NotificationType = 'decision' | 'deadline' | 'student' | 'message' | 'system'
+// API notification types map to display types
+type NotificationType = 'decision' | 'deadline' | 'student' | 'message' | 'system' | 'info' | 'warning' | 'error' | 'success' | 'approval'
 
 interface Notification {
   id: string
   type: NotificationType
   title: string
-  time: string
-  description: string
-  read: boolean
-  actions: string[]
+  body: string
+  is_read: boolean
+  created_at: string
+  metadata?: Record<string, any>
+  user_id?: string | null
 }
 
-const MOCK_NOTIFICATIONS: Notification[] = [
-  {
-    id: '1',
-    type: 'decision',
-    title: 'Admission Decision Received',
-    time: '2 min ago',
-    description: 'Stanford University has released an admission decision for Alexander Chen. Application ID: APP-2024-0891.',
-    read: false,
-    actions: ['View Decision', 'Notify Student'],
-  },
-  {
-    id: '2',
-    type: 'deadline',
-    title: 'Deadline in 48 Hours',
-    time: '15 min ago',
-    description: 'MIT Regular Decision deadline is approaching for 3 students. Documents still pending review.',
-    read: false,
-    actions: ['Review Now', 'Snooze'],
-  },
-  {
-    id: '3',
-    type: 'student',
-    title: 'New Student Onboarded',
-    time: '1 hr ago',
-    description: 'Priya Sharma has completed her profile setup and is ready for application assignment.',
-    read: false,
-    actions: ['View Profile', 'Assign Apps'],
-  },
-  {
-    id: '4',
-    type: 'message',
-    title: 'Message from UC Berkeley Admissions',
-    time: '3 hrs ago',
-    description: 'UC Berkeley Admissions Office sent a follow-up regarding supplemental materials for Jordan Williams.',
-    read: true,
-    actions: ['Read Message', 'Reply'],
-  },
-  {
-    id: '5',
-    type: 'system',
-    title: 'Pilot AI Completed 12 Tasks',
-    time: '5 hrs ago',
-    description: 'The browser agent successfully filled 12 application sections across 4 portals. Review recommended.',
-    read: true,
-    actions: ['View Report'],
-  },
-]
-
-const TYPE_CONFIG: Record<NotificationType, { icon: string; iconBg: string; iconColor: string }> = {
+const TYPE_CONFIG: Record<string, { icon: string; iconBg: string; iconColor: string }> = {
   decision: { icon: 'verified', iconBg: '#dcfce7', iconColor: '#16a34a' },
   deadline: { icon: 'event_busy', iconBg: '#fee2e2', iconColor: '#dc2626' },
   student: { icon: 'person_add', iconBg: '#dbeafe', iconColor: '#2563eb' },
   message: { icon: 'mail', iconBg: '#f3e8ff', iconColor: '#9333ea' },
   system: { icon: 'rocket_launch', iconBg: '#e0e7ff', iconColor: '#4f46e5' },
+  info: { icon: 'info', iconBg: '#e0e7ff', iconColor: '#4f46e5' },
+  warning: { icon: 'warning', iconBg: '#fef9c3', iconColor: '#ca8a04' },
+  error: { icon: 'error', iconBg: '#fee2e2', iconColor: '#dc2626' },
+  success: { icon: 'check_circle', iconBg: '#dcfce7', iconColor: '#16a34a' },
+  approval: { icon: 'approval', iconBg: '#f3e8ff', iconColor: '#9333ea' },
+}
+
+function timeAgo(dateStr: string): string {
+  const now = Date.now()
+  const then = new Date(dateStr).getTime()
+  const diff = Math.floor((now - then) / 1000)
+  if (diff < 60) return `${diff}s ago`
+  if (diff < 3600) return `${Math.floor(diff / 60)} min ago`
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hr ago`
+  return `${Math.floor(diff / 86400)} days ago`
 }
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>(MOCK_NOTIFICATIONS)
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [loading, setLoading] = useState(true)
   const [pilotDismissed, setPilotDismissed] = useState(false)
 
-  const unreadCount = notifications.filter((n) => !n.read).length
-  const decisionsCount = notifications.filter((n) => n.type === 'decision').length
+  const unreadCount = notifications.filter((n) => !n.is_read).length
+  const decisionsCount = notifications.filter((n) => n.type === 'decision' || n.type === 'approval').length
   const newStudentsCount = notifications.filter((n) => n.type === 'student').length
 
-  function markAllRead() {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const data = await apiFetch<Notification[]>('/api/notifications/')
+      setNotifications(data)
+    } catch (err) {
+      console.error('[notifications] fetch failed:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchNotifications()
+  }, [fetchNotifications])
+
+  async function markAllRead() {
+    // Optimistic update
+    setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))
+    try {
+      await apiFetch('/api/notifications/read-all', { method: 'POST' })
+    } catch (err) {
+      console.error('[notifications] mark-all-read failed:', err)
+      // Revert on failure
+      fetchNotifications()
+    }
   }
 
-  function markRead(id: string) {
-    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)))
+  async function markRead(id: string) {
+    // Optimistic update
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)))
+    try {
+      await apiFetch(`/api/notifications/${id}/read`, { method: 'POST' })
+    } catch (err) {
+      console.error('[notifications] mark-read failed:', err)
+      fetchNotifications()
+    }
   }
 
   return (
@@ -134,16 +135,19 @@ export default function NotificationsPage() {
               </span>
             </div>
             <p className="text-2xl font-extrabold text-white mt-3" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              3 Deadlines Approaching
+              {unreadCount} Unread{unreadCount !== 1 ? 's' : ''}
             </p>
             <p className="text-sm mt-2" style={{ color: '#94a3b8' }}>
-              MIT, Yale, and Columbia have Regular Decision deadlines within 48 hours. Immediate action required.
+              {unreadCount > 0
+                ? `You have ${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''} requiring your attention.`
+                : 'All caught up! No pending notifications.'}
             </p>
             <button
+              onClick={markAllRead}
               className="mt-5 w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-80"
               style={{ backgroundColor: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)' }}
             >
-              Review Timeline
+              Mark All Read
             </button>
           </div>
 
@@ -163,7 +167,7 @@ export default function NotificationsPage() {
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium" style={{ color: '#475569' }}>Decisions Received</span>
+                <span className="text-sm font-medium" style={{ color: '#475569' }}>Decisions / Approvals</span>
                 <span
                   className="text-sm font-bold px-2.5 py-0.5 rounded-full"
                   style={{ backgroundColor: '#f3e8ff', color: '#7c3aed' }}
@@ -172,7 +176,7 @@ export default function NotificationsPage() {
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium" style={{ color: '#475569' }}>New Inquiries</span>
+                <span className="text-sm font-medium" style={{ color: '#475569' }}>New Students</span>
                 <span
                   className="text-sm font-bold px-2.5 py-0.5 rounded-full"
                   style={{ backgroundColor: '#dbeafe', color: '#1d4ed8' }}
@@ -186,16 +190,32 @@ export default function NotificationsPage() {
 
         {/* Right column — notification feed */}
         <div className="col-span-8 flex flex-col gap-3">
-          {notifications.map((notification) => {
-            const cfg = TYPE_CONFIG[notification.type]
+          {loading && (
+            <div className="flex items-center justify-center py-16" style={{ color: '#94a3b8' }}>
+              <span className="material-symbols-outlined text-[28px] animate-spin mr-2">progress_activity</span>
+              Loading notifications…
+            </div>
+          )}
+
+          {!loading && notifications.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-16 rounded-2xl" style={{ border: '1px dashed #e2e8f0' }}>
+              <span className="material-symbols-outlined text-[40px] mb-3" style={{ color: '#cbd5e1' }}>
+                notifications_off
+              </span>
+              <p className="text-sm font-medium" style={{ color: '#94a3b8' }}>No notifications yet</p>
+            </div>
+          )}
+
+          {!loading && notifications.map((notification) => {
+            const cfg = TYPE_CONFIG[notification.type] ?? TYPE_CONFIG['info']
             return (
               <div
                 key={notification.id}
                 className="rounded-2xl p-5 transition-all"
                 style={{
-                  backgroundColor: notification.read ? '#f8fafc' : '#ffffff',
-                  border: `1px solid ${notification.read ? '#e2e8f0' : '#e2e8f0'}`,
-                  opacity: notification.read ? 0.85 : 1,
+                  backgroundColor: notification.is_read ? '#f8fafc' : '#ffffff',
+                  border: `1px solid #e2e8f0`,
+                  opacity: notification.is_read ? 0.85 : 1,
                 }}
               >
                 <div className="flex gap-4">
@@ -217,9 +237,9 @@ export default function NotificationsPage() {
                       </p>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         <span className="text-xs" style={{ color: '#94a3b8' }}>
-                          {notification.time}
+                          {timeAgo(notification.created_at)}
                         </span>
-                        {!notification.read && (
+                        {!notification.is_read && (
                           <span
                             className="w-2 h-2 rounded-full flex-shrink-0"
                             style={{ backgroundColor: '#dc2626' }}
@@ -228,24 +248,19 @@ export default function NotificationsPage() {
                       </div>
                     </div>
                     <p className="text-sm mt-1" style={{ color: '#64748b' }}>
-                      {notification.description}
+                      {notification.body}
                     </p>
-                    <div className="flex items-center gap-2 mt-3">
-                      {notification.actions.map((action, i) => (
+                    {!notification.is_read && (
+                      <div className="flex items-center gap-2 mt-3">
                         <button
-                          key={action}
                           onClick={() => markRead(notification.id)}
                           className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-                          style={
-                            i === 0
-                              ? { backgroundColor: '#031635', color: '#ffffff' }
-                              : { backgroundColor: '#f1f5f9', color: '#475569' }
-                          }
+                          style={{ backgroundColor: '#031635', color: '#ffffff' }}
                         >
-                          {action}
+                          Mark as Read
                         </button>
-                      ))}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -269,7 +284,10 @@ export default function NotificationsPage() {
             auto_awesome
           </span>
           <p className="flex-1 text-sm font-medium text-white">
-            Pilot AI: <span style={{ color: '#94a3b8' }}>3 high-priority tasks remaining today</span>
+            Pilot AI:{' '}
+            <span style={{ color: '#94a3b8' }}>
+              {unreadCount > 0 ? `${unreadCount} notification${unreadCount !== 1 ? 's' : ''} need your attention` : 'All caught up'}
+            </span>
           </p>
           <div className="flex items-center gap-2">
             <button
