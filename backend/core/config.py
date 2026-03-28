@@ -60,5 +60,23 @@ class Settings(BaseSettings):
         env_file = ".env"
         case_sensitive = True
 
+    # ── R2 short-name aliases (used by reporter.py and other agents) ──────────
+    # These mirror the CLOUDFLARE_R2_* fields so both naming styles work.
+    @property
+    def R2_ENDPOINT_URL(self) -> str:
+        return f"https://{self.CLOUDFLARE_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+
+    @property
+    def R2_ACCESS_KEY_ID(self) -> str:
+        return self.CLOUDFLARE_R2_ACCESS_KEY_ID
+
+    @property
+    def R2_SECRET_ACCESS_KEY(self) -> str:
+        return self.CLOUDFLARE_R2_SECRET_ACCESS_KEY
+
+    @property
+    def R2_BUCKET_NAME(self) -> str:
+        return self.CLOUDFLARE_R2_BUCKET_NAME
+
 
 settings = Settings()
