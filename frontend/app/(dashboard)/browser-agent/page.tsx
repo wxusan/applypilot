@@ -50,7 +50,7 @@ export default function BrowserAgentPage() {
       setLoading(true)
       try {
         const [jobsRes, studentsRes] = await Promise.all([
-          apiFetch<{ jobs: AgentJob[]; total: number }>('/api/agent-jobs?job_type=browser_agent&limit=20'),
+          apiFetch<{ jobs: AgentJob[]; total: number }>('/api/agent-jobs?agent_type=browser&limit=20'),
           apiFetch<{ students: Student[]; total: number }>('/api/students?limit=100'),
         ])
 
