@@ -1,194 +1,221 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { apiFetch } from '@/lib/api'
 
-const MOCK_DOCUMENTS = [
-  {
-    id: '1',
-    name: 'Fall 2024 Admissions Policy_Final.pdf',
-    type: 'pdf',
-    typeColor: 'bg-error-container text-on-error-container',
-    size: '2.4 MB',
-    date: 'Dec 12, 2024',
-    author: 'AA',
-    authorBg: 'bg-primary-fixed',
-    preview: true,
-  },
-  {
-    id: '2',
-    name: 'Hansen_Marcus_Transcript_2024.pdf',
-    type: 'pdf',
-    typeColor: 'bg-secondary-container text-on-secondary-container',
-    size: '1.1 MB',
-    date: 'Dec 10, 2024',
-    author: 'MH',
-    authorBg: 'bg-primary-fixed-dim',
-    preview: false,
-  },
-  {
-    id: '3',
-    name: 'Master_Email_Templates_2024.docx',
-    type: 'docx',
-    typeColor: 'bg-tertiary-container text-on-tertiary-container',
-    size: '48 KB',
-    date: 'Dec 8, 2024',
-    author: 'SJ',
-    authorBg: 'bg-surface-tint',
-    preview: false,
-  },
-  {
-    id: '4',
-    name: 'Q4_Strategy_Notes.pdf',
-    type: 'pdf',
-    typeColor: 'bg-error-container text-on-error-container',
-    size: '820 KB',
-    date: 'Dec 5, 2024',
-    author: 'AA',
-    authorBg: 'bg-primary-fixed',
-    preview: false,
-  },
-]
-
-const FILTER_CHIPS = ['All Types', 'PDF', 'DOCX', 'Student', 'Agency']
-
-interface SearchPageProps {
-  searchParams?: { q?: string }
+interface Student {
+  id: string
+  full_name: string
+  email?: string | null
+  high_school_name?: string | null
+  graduation_year?: number | null
+  gpa?: number | null
+  sat_total?: number | null
+  act_score?: number | null
+  status?: string | null
+  target_country?: string | null
 }
 
-export default function SearchPage({ searchParams }: SearchPageProps) {
-  const query = searchParams?.q ?? 'Admissions 2024'
-  const [activeFilter, setActiveFilter] = useState('All Types')
+function getInitials(name: string) {
+  return name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
+}
+
+function SearchContent() {
+  const searchParams = useSearchParams()
+  const query = searchParams.get('q') ?? ''
+  const [inputValue, setInputValue] = useState(query)
+  const [students, setStudents] = useState<Student[]>([])
+  const [loading, setLoading] = useState(false)
+  const [total, setTotal] = useState(0)
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setStudents([])
+      setTotal(0)
+      return
+    }
+    setLoading(true)
+    const params = new URLSearchParams({ q: query, limit: '30' })
+    apiFetch<{ students: Student[]; total: number }>(`/api/students?${params.toString()}`)
+      .then((res) => {
+        setStudents(res.students ?? [])
+        setTotal(res.total ?? 0)
+      })
+      .catch(() => {
+        setStudents([])
+        setTotal(0)
+      })
+      .finally(() => setLoading(false))
+  }, [query])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (inputValue.trim()) {
+      window.location.href = `/search?q=${encodeURIComponent(inputValue.trim())}`
+    }
+  }
 
   return (
-    <div className="px-8 pt-12 pb-6 max-w-6xl mx-auto">
-      <div className="flex flex-col gap-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h1 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">
-              Keyword: &ldquo;{query}&rdquo;
-            </h1>
-            <p className="text-on-surface-variant text-sm">{MOCK_DOCUMENTS.length} documents matched across all dossiers</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
-              <input
-                className="pl-10 pr-4 py-2.5 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-sm font-body w-full md:w-64 outline-none"
-                placeholder="Search within results..."
-                type="text"
-                defaultValue={query}
-              />
-            </div>
-          </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-[22px] font-bold text-[#031635]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            {query ? (
+              <>Search: &ldquo;{query}&rdquo;</>
+            ) : (
+              'Search Students'
+            )}
+          </h1>
+          {query && (
+            <p className="text-[13px] text-gray-500 mt-0.5">
+              {loading ? 'Searching...' : `${total} student${total !== 1 ? 's' : ''} found`}
+            </p>
+          )}
         </div>
-
-        {/* Filter Chips */}
-        <div className="flex flex-wrap gap-2 pt-2">
-          {FILTER_CHIPS.map((chip) => (
-            <button
-              key={chip}
-              onClick={() => setActiveFilter(chip)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${
-                activeFilter === chip
-                  ? 'bg-primary text-on-primary'
-                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-              }`}
-            >
-              {chip}
-            </button>
-          ))}
-          <div className="h-6 w-[1px] bg-outline-variant mx-1 self-center"></div>
-          <button className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-on-surface-variant bg-surface-container hover:bg-surface-container-high transition-colors">
-            <span className="material-symbols-outlined text-sm">tune</span>
-            Advanced
+        <form onSubmit={handleSearch} className="flex gap-2">
+          <div className="relative">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" style={{ fontSize: '18px' }}>
+              search
+            </span>
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Search by student name..."
+              className="pl-10 pr-4 py-2 rounded-xl text-[13px] text-gray-700 outline-none focus:ring-2 focus:ring-[#031635]/20 w-72"
+              style={{ border: '0.5px solid #e5e7eb' }}
+            />
+          </div>
+          <button
+            type="submit"
+            className="h-9 px-4 rounded-xl text-[13px] font-semibold text-white"
+            style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+          >
+            Search
           </button>
+        </form>
+      </div>
+
+      {/* Empty prompt */}
+      {!query && !loading && (
+        <div className="bg-white rounded-2xl p-12 text-center" style={{ border: '0.5px solid #e5e7eb' }}>
+          <span className="material-symbols-outlined text-gray-300 text-5xl block mb-3">search</span>
+          <h3 className="text-[15px] font-bold text-[#031635] mb-2">Search your students</h3>
+          <p className="text-[13px] text-gray-500">Type a student name in the search box above to find matching records.</p>
         </div>
+      )}
 
-        {/* Results Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Keyword Analysis Card (spans 2 cols) */}
-          <div className="md:col-span-2 bg-primary-container p-6 rounded-xl border border-primary/20 relative overflow-hidden flex flex-col md:flex-row gap-6">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="material-symbols-outlined text-primary-fixed-dim text-sm">analytics</span>
-                <span className="text-xs font-bold text-on-primary-container uppercase tracking-widest">Keyword Analysis</span>
+      {/* Loading */}
+      {loading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="bg-white rounded-xl p-5 animate-pulse" style={{ border: '0.5px solid #e5e7eb' }}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-gray-100 shrink-0" />
+                <div className="flex-1">
+                  <div className="h-3 bg-gray-100 rounded w-3/4 mb-1.5" />
+                  <div className="h-2.5 bg-gray-100 rounded w-1/2" />
+                </div>
               </div>
-              <h3 className="font-headline font-bold text-xl text-white mb-2">Keyword Analysis: {query}</h3>
-              <p className="text-on-primary-container text-sm leading-relaxed">
-                Found across {MOCK_DOCUMENTS.length} documents. Most references appear in admission policy and student transcript files.
-              </p>
-              <div className="mt-6 flex gap-3">
-                <button className="px-5 py-2.5 bg-primary-fixed text-on-primary-fixed rounded-xl text-sm font-bold hover:opacity-90 transition-opacity">
-                  View All Matches
-                </button>
-                <button className="px-5 py-2.5 bg-white/10 text-white rounded-xl text-sm font-bold hover:bg-white/20 transition-colors">
-                  Export Results
-                </button>
-              </div>
+              <div className="h-2 bg-gray-100 rounded w-full mb-1.5" />
+              <div className="h-2 bg-gray-100 rounded w-2/3" />
             </div>
-            <div className="w-full md:w-48 aspect-square rounded-xl bg-primary/40 backdrop-blur-sm border border-white/5 flex flex-col items-center justify-center p-4 text-center flex-shrink-0">
-              <div className="text-3xl font-extrabold text-white mb-1">{MOCK_DOCUMENTS.length}</div>
-              <div className="text-[10px] text-on-primary-container font-bold uppercase tracking-widest">Matched Files</div>
-              <div className="mt-4 flex -space-x-2">
-                {['bg-slate-400', 'bg-slate-500', 'bg-slate-600'].map((bg, i) => (
-                  <div key={i} className={`w-8 h-8 rounded-full border-2 border-primary-container ${bg}`}></div>
-                ))}
-              </div>
-            </div>
-          </div>
+          ))}
+        </div>
+      )}
 
-          {/* Document Cards */}
-          {MOCK_DOCUMENTS.map((doc) => (
-            <div
-              key={doc.id}
-              className="group bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col gap-4"
+      {/* Results */}
+      {!loading && query && students.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {students.map((student) => (
+            <Link
+              key={student.id}
+              href={`/students/${student.id}/profile`}
+              className="bg-white rounded-xl p-5 hover:shadow-md transition-all block"
+              style={{ border: '0.5px solid #e5e7eb' }}
             >
-              <div className="flex justify-between items-start">
-                <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${doc.typeColor}`}>
-                  <span className="material-symbols-outlined text-2xl">
-                    {doc.type === 'pdf' ? 'picture_as_pdf' : 'description'}
+              <div className="flex items-center gap-3 mb-3">
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-[13px] shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+                >
+                  {getInitials(student.full_name)}
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-[14px] font-bold text-[#031635] truncate">{student.full_name}</h3>
+                  <p className="text-[11px] text-gray-400 truncate">
+                    {student.high_school_name ?? student.email ?? '—'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-x-4 gap-y-1">
+                {student.graduation_year && (
+                  <span className="text-[11px] text-gray-500">Class of {student.graduation_year}</span>
+                )}
+                {student.gpa && (
+                  <span className="text-[11px] text-gray-500">GPA {student.gpa}</span>
+                )}
+                {student.sat_total && (
+                  <span className="text-[11px] text-gray-500">SAT {student.sat_total}</span>
+                )}
+                {student.act_score && (
+                  <span className="text-[11px] text-gray-500">ACT {student.act_score}</span>
+                )}
+              </div>
+
+              {student.status && (
+                <div className="mt-3">
+                  <span
+                    className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                    style={{
+                      backgroundColor: student.status === 'active' ? '#D1FAE5' : '#F3F4F6',
+                      color: student.status === 'active' ? '#059669' : '#6B7280',
+                    }}
+                  >
+                    {student.status.charAt(0).toUpperCase() + student.status.slice(1)}
                   </span>
                 </div>
-                <button className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant">
-                  <span className="material-symbols-outlined text-sm">more_horiz</span>
-                </button>
-              </div>
-
-              <div className="flex-1">
-                <h3 className="font-headline font-bold text-base text-primary leading-tight group-hover:text-surface-tint transition-colors line-clamp-2">
-                  {doc.name}
-                </h3>
-                <p className="text-xs text-on-surface-variant mt-1">{doc.size} · {doc.date}</p>
-              </div>
-
-              {doc.preview && (
-                <div className="h-20 rounded-lg bg-surface-container relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/5"></div>
-                  <div className="p-3 space-y-1.5">
-                    <div className="h-2 w-3/4 bg-white/60 rounded-full"></div>
-                    <div className="h-2 w-full bg-white/40 rounded-full"></div>
-                    <div className="h-2 w-2/3 bg-white/40 rounded-full"></div>
-                  </div>
-                </div>
               )}
-
-              <div className="mt-auto pt-4 border-t border-surface-container flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className={`w-6 h-6 rounded-full ${doc.authorBg} flex items-center justify-center text-[10px] font-bold text-on-primary-fixed`}>
-                    {doc.author}
-                  </div>
-                  <span className="text-[11px] text-on-surface-variant">{doc.author}</span>
-                </div>
-                <button className="flex items-center gap-1 text-xs font-bold text-primary hover:underline">
-                  Open
-                  <span className="material-symbols-outlined text-sm">open_in_new</span>
-                </button>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
-      </div>
+      )}
+
+      {/* No results */}
+      {!loading && query && students.length === 0 && (
+        <div className="bg-white rounded-2xl p-12 text-center" style={{ border: '0.5px solid #e5e7eb' }}>
+          <span className="material-symbols-outlined text-gray-300 text-5xl block mb-3">person_search</span>
+          <h3 className="text-[15px] font-bold text-[#031635] mb-2">No students found</h3>
+          <p className="text-[13px] text-gray-500 mb-5">
+            No students match &ldquo;{query}&rdquo;. Try a different name or check the spelling.
+          </p>
+          <Link
+            href="/students"
+            className="h-10 px-6 rounded-xl text-[13px] font-semibold text-white inline-flex items-center gap-2"
+            style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>people</span>
+            Browse All Students
+          </Link>
+        </div>
+      )}
     </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center gap-3 text-gray-400 py-12 justify-center">
+        <span className="material-symbols-outlined animate-spin" style={{ fontSize: '20px' }}>sync</span>
+        <span className="text-[14px]">Loading search...</span>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   )
 }
