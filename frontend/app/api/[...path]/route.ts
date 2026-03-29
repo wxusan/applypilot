@@ -45,13 +45,16 @@ async function proxy(req: NextRequest, { params }: { params: { path: string[] } 
 
   let upstreamRes: Response
   try {
-    // Use redirect:'manual' so we can re-issue with the original headers.
-    // redirect:'follow' is unsafe because Node.js fetch drops the
-    // Authorization header on redirects — which FastAPI triggers for every
-    // trailing-slash normalisation (redirect_slashes=True). Without this fix,
-    // routes like GET /api/reports return 403 because the auth header is
-    // silently stripped before the request reaches the protected endpoint.
-    upstreamRes = await fetch(targetURL, {
+    // Follow redirects manually so the Authorization header is never dropped.
+    // Node.js fetch with redirect:'follow' strips auth on cross-origin redirects.
+    // Railway produces TWO redirects for routes like GET /api/reports:
+    //   1. /api/reports  →  http://railway.../api/reports/  (trailing-slash, 307)
+    //   2. http://...    →  https://...                     (http→https, 301)
+    // We loop up to 5 times, upgrading http→https on each hop, so all headers
+    // (including Authorization) reach the final endpoint intact.
+    let fetchURL = targetURL
+    const MAX_REDIRECTS = 5
+    upstreamRes = await fetch(fetchURL, {
       method: req.method,
       headers: forwardHeaders,
       body: body ? Buffer.from(body) : undefined,
@@ -60,20 +63,23 @@ async function proxy(req: NextRequest, { params }: { params: { path: string[] } 
       redirect: 'manual',
     })
 
-    // Re-issue to the redirect Location with all original headers preserved.
-    if (upstreamRes.status >= 300 && upstreamRes.status < 400) {
+    for (let hop = 0; hop < MAX_REDIRECTS; hop++) {
+      if (upstreamRes.status < 300 || upstreamRes.status >= 400) break
       const location = upstreamRes.headers.get('location')
-      if (location) {
-        const redirectURL = location.startsWith('http') ? location : `${backendURL}${location}`
-        upstreamRes = await fetch(redirectURL, {
-          method: req.method,
-          headers: forwardHeaders,
-          body: body ? Buffer.from(body) : undefined,
-          // @ts-ignore
-          duplex: hasBody ? 'half' : undefined,
-          redirect: 'manual',
-        })
+      if (!location) break
+      // Resolve relative URLs and always upgrade http → https (except localhost)
+      let nextURL = location.startsWith('http') ? location : `${backendURL}${location}`
+      if (!nextURL.startsWith('http://localhost')) {
+        nextURL = nextURL.replace(/^http:\/\//, 'https://')
       }
+      upstreamRes = await fetch(nextURL, {
+        method: req.method,
+        headers: forwardHeaders,
+        body: body ? Buffer.from(body) : undefined,
+        // @ts-ignore
+        duplex: hasBody ? 'half' : undefined,
+        redirect: 'manual',
+      })
     }
   } catch (err) {
     console.error('[proxy] fetch failed:', targetURL, err)
