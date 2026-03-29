@@ -1,241 +1,423 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { apiFetch, agentJobsApi } from '@/lib/api'
+
+interface AgentJob {
+  id: string
+  agent_type: string
+  job_type: string
+  status: string
+  approval_message?: string
+  screenshot_urls?: string[]
+  output_data?: Record<string, unknown>
+  input_data?: Record<string, unknown>
+  error_message?: string
+  created_at: string
+  started_at?: string
+  completed_at?: string
+  approved_at?: string
+  approved_by?: string
+  rejected_reason?: string
+  student?: { id: string; full_name: string; status: string } | null
+}
+
+const JOB_TYPE_LABELS: Record<string, string> = {
+  fill_common_app:       'Fill Common App',
+  fill_university_portal:'Fill University Portal',
+  upload_document:       'Upload Document',
+  send_email:            'Send Email',
+  scrape_requirements:   'Scrape Requirements',
+  essay_review:          'Essay Review',
+  essay_generation:      'Essay Generation',
+  email_reply:           'Email Reply Draft',
+  college_fit:           'College Fit Analysis',
+  submit_application:    'Submit Application',
+  deadline_reminder:     'Deadline Reminder',
+}
+
+const AGENT_TYPE_LABELS: Record<string, string> = {
+  browser: 'Browser Agent',
+  writer:  'Writer Agent',
+  email:   'Email Agent',
+}
+
+const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; icon: string }> = {
+  pending:           { label: 'Pending',            color: '#6B7280', bg: '#F3F4F6', icon: 'schedule' },
+  running:           { label: 'Running',            color: '#2563EB', bg: '#DBEAFE', icon: 'sync' },
+  awaiting_approval: { label: 'Awaiting Approval',  color: '#D97706', bg: '#FEF3C7', icon: 'pending_actions' },
+  approved:          { label: 'Approved',           color: '#059669', bg: '#D1FAE5', icon: 'check_circle' },
+  rejected:          { label: 'Rejected',           color: '#DC2626', bg: '#FEE2E2', icon: 'cancel' },
+  completed:         { label: 'Completed',          color: '#059669', bg: '#D1FAE5', icon: 'task_alt' },
+  failed:            { label: 'Failed',             color: '#DC2626', bg: '#FEE2E2', icon: 'error' },
+}
+
 export default function ApprovalDetailPage() {
+  const params = useParams<{ id: string }>()
+  const router = useRouter()
+  const [job, setJob] = useState<AgentJob | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [isApproving, setIsApproving] = useState(false)
+  const [isRejecting, setIsRejecting] = useState(false)
+  const [rejectReason, setRejectReason] = useState('')
+  const [showRejectModal, setShowRejectModal] = useState(false)
+
+  // Toast
+  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+  const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
+    setToast({ msg, type })
+    setTimeout(() => setToast(null), 3500)
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    apiFetch<AgentJob>(`/api/agent-jobs/${params.id}`)
+      .then((data) => {
+        setJob(data)
+        setLoading(false)
+      })
+      .catch((e) => {
+        setError(e.message || 'Failed to load job')
+        setLoading(false)
+      })
+  }, [params.id])
+
+  const handleApprove = async () => {
+    if (!job) return
+    setIsApproving(true)
+    try {
+      const updated = await agentJobsApi.approve(job.id) as AgentJob
+      setJob({ ...job, ...updated })
+      showToast('Job approved!')
+      setTimeout(() => router.push('/approvals'), 1500)
+    } catch (e: any) {
+      showToast(e.message || 'Failed to approve', 'error')
+    } finally {
+      setIsApproving(false)
+    }
+  }
+
+  const handleReject = async () => {
+    if (!job || !rejectReason.trim()) return
+    setIsRejecting(true)
+    try {
+      await agentJobsApi.reject(job.id, rejectReason)
+      setJob({ ...job, status: 'rejected', rejected_reason: rejectReason })
+      setShowRejectModal(false)
+      showToast('Job rejected.')
+      setTimeout(() => router.push('/approvals'), 1500)
+    } catch (e: any) {
+      showToast(e.message || 'Failed to reject', 'error')
+    } finally {
+      setIsRejecting(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-3">
+          <span className="material-symbols-outlined animate-spin text-gray-400 text-4xl">sync</span>
+          <p className="text-[13px] text-gray-400">Loading job details...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !job) {
+    return (
+      <div className="space-y-4">
+        <div className="bg-red-50 border border-red-200 text-red-700 text-[13px] px-4 py-3 rounded-xl">
+          {error || 'Job not found'}
+        </div>
+        <Link href="/approvals" className="text-[13px] text-[#031635] font-semibold underline">
+          ← Back to Approvals
+        </Link>
+      </div>
+    )
+  }
+
+  const statusCfg = STATUS_CONFIG[job.status] ?? STATUS_CONFIG.pending
+  const jobLabel = JOB_TYPE_LABELS[job.job_type] ?? job.job_type.replace(/_/g, ' ')
+  const agentLabel = AGENT_TYPE_LABELS[job.agent_type] ?? job.agent_type
+  const student = Array.isArray(job.student) ? job.student[0] : job.student
+  const screenshots = job.screenshot_urls ?? []
+
   return (
-    <div className="space-y-8">
-      {/* Header */}
+    <div className="space-y-6">
+      {/* Toast */}
+      {toast && (
+        <div
+          className={`fixed top-5 right-5 z-[100] px-5 py-3 rounded-xl text-white text-[13px] font-semibold shadow-xl ${
+            toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'
+          }`}
+        >
+          {toast.msg}
+        </div>
+      )}
+
+      {/* Breadcrumb + Header */}
       <div>
-        <h2 className="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">Browser Agent Audit</h2>
-        <p className="text-on-surface-variant max-w-2xl leading-relaxed">
-          Review the agent&apos;s recent progression through the CommonApp portal. Verify data integrity and formatting before final submission synchronization.
-        </p>
+        <nav className="flex items-center gap-2 text-[12px] text-gray-400 mb-3">
+          <Link href="/approvals" className="hover:text-[#031635]">Approvals</Link>
+          <span className="material-symbols-outlined text-[12px]">chevron_right</span>
+          <span className="text-[#031635] font-semibold">{jobLabel}</span>
+        </nav>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-[24px] font-bold text-[#031635]" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              {jobLabel}
+            </h1>
+            <div className="flex items-center gap-3 mt-2">
+              <span
+                className="flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full"
+                style={{ color: statusCfg.color, backgroundColor: statusCfg.bg }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '12px' }}>{statusCfg.icon}</span>
+                {statusCfg.label}
+              </span>
+              <span className="text-[12px] text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full font-medium">
+                {agentLabel}
+              </span>
+              {student && (
+                <Link
+                  href={`/students/${student.id}/profile`}
+                  className="text-[12px] font-semibold text-[#031635] hover:underline flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>person</span>
+                  {student.full_name}
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Action buttons for awaiting_approval */}
+          {job.status === 'awaiting_approval' && (
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => setShowRejectModal(true)}
+                className="h-9 px-4 rounded-lg text-[12px] font-semibold text-red-600 flex items-center gap-1.5"
+                style={{ border: '1px solid #FECACA', backgroundColor: '#FEF2F2' }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>close</span>
+                Reject
+              </button>
+              <button
+                onClick={handleApprove}
+                disabled={isApproving}
+                className="h-9 px-5 rounded-lg text-[12px] font-semibold text-white flex items-center gap-1.5 disabled:opacity-50"
+                style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>check</span>
+                {isApproving ? 'Approving...' : 'Approve'}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Dashboard Bento Grid */}
-      <div className="grid grid-cols-12 gap-6">
-        {/* Main Gallery Canvas */}
-        <div className="col-span-12 lg:col-span-9 space-y-8">
-          {/* Progress Section */}
-          <div className="bg-surface-container-low rounded-xl p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h3 className="font-headline text-lg font-bold text-primary">Capture Stream</h3>
-                <p className="text-sm text-on-surface-variant">6 of 8 steps completed successfully</p>
-              </div>
-              <div className="flex gap-2">
-                <button className="px-4 py-2 bg-surface-container-lowest text-primary text-sm font-semibold rounded-lg border border-outline-variant/10 hover:bg-surface-bright transition-all flex items-center gap-2">
-                  <span className="material-symbols-outlined text-sm">filter_list</span>
-                  Filter Views
-                </button>
-                <button className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg shadow-md hover:translate-y-[-1px] transition-all">
-                  Refresh Stream
-                </button>
+      <div className="grid grid-cols-12 gap-5">
+        {/* Main content */}
+        <div className="col-span-8 space-y-4">
+          {/* Approval message */}
+          {job.approval_message && (
+            <div className="bg-white rounded-xl p-6" style={{ border: '0.5px solid #e5e7eb' }}>
+              <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-wide mb-3">Agent Output</h3>
+              <div className="text-[13px] text-gray-700 leading-relaxed whitespace-pre-wrap font-mono bg-gray-50 p-4 rounded-lg" style={{ border: '0.5px solid #e5e7eb' }}>
+                {job.approval_message}
               </div>
             </div>
+          )}
 
-            {/* Screenshot Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Card 1 */}
-              <div className="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/5 hover:shadow-xl transition-all duration-300">
-                <div className="aspect-video bg-surface-container-highest relative overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-                    <span className="material-symbols-outlined text-4xl text-outline-variant/30">screenshot_monitor</span>
+          {/* Output data */}
+          {job.output_data && Object.keys(job.output_data).length > 0 && (
+            <div className="bg-white rounded-xl p-6" style={{ border: '0.5px solid #e5e7eb' }}>
+              <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-wide mb-3">Output Data</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {Object.entries(job.output_data).map(([k, v]) => (
+                  <div key={k} className="bg-gray-50 rounded-lg p-3" style={{ border: '0.5px solid #e5e7eb' }}>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-1">{k.replace(/_/g, ' ')}</p>
+                    <p className="text-[13px] font-semibold text-[#031635]">{String(v ?? '—')}</p>
                   </div>
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button className="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold text-primary text-sm">Expand Capture</button>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-2 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">09:41:02</span>
-                  </div>
-                </div>
-                <div className="p-5 flex justify-between items-start">
-                  <div>
-                    <h4 className="font-headline font-bold text-primary text-sm">Personal Information</h4>
-                    <p className="text-xs text-on-surface-variant mt-1">Status: Field Mapping Complete</p>
-                  </div>
-                  <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/5 hover:shadow-xl transition-all duration-300">
-                <div className="aspect-video bg-surface-container-highest relative overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-                    <span className="material-symbols-outlined text-4xl text-outline-variant/30">screenshot_monitor</span>
-                  </div>
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button className="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold text-primary text-sm">Expand Capture</button>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-2 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">09:42:15</span>
-                  </div>
-                </div>
-                <div className="p-5 flex justify-between items-start">
-                  <div>
-                    <h4 className="font-headline font-bold text-primary text-sm">Education History</h4>
-                    <p className="text-xs text-on-surface-variant mt-1">Status: 12 Entries Processed</p>
-                  </div>
-                  <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/5 hover:shadow-xl transition-all duration-300">
-                <div className="aspect-video bg-surface-container-highest relative overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-surface-container to-surface-container-high flex items-center justify-center">
-                    <span className="material-symbols-outlined text-4xl text-outline-variant/30">screenshot_monitor</span>
-                  </div>
-                  <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button className="bg-white/90 backdrop-blur px-6 py-2 rounded-full font-bold text-primary text-sm">Expand Capture</button>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-2 py-1 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-sm">09:44:00</span>
-                  </div>
-                </div>
-                <div className="p-5 flex justify-between items-start">
-                  <div>
-                    <h4 className="font-headline font-bold text-primary text-sm">Writing Supplement</h4>
-                    <p className="text-xs text-on-surface-variant mt-1">Status: AI Draft Uploaded</p>
-                  </div>
-                  <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-                </div>
-              </div>
-
-              {/* Card 4 (Actionable/Conflict) */}
-              <div className="group relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border-2 border-primary/20 hover:shadow-xl transition-all duration-300">
-                <div className="aspect-video bg-surface-container-highest relative overflow-hidden">
-                  <div className="absolute inset-0 bg-surface-dim flex items-center justify-center">
-                    <span className="material-symbols-outlined text-6xl text-on-surface-variant/20">pending</span>
-                  </div>
-                  <div className="absolute inset-0 bg-primary/40 flex flex-col items-center justify-center gap-4 text-center px-8">
-                    <p className="text-white font-bold text-sm">Ambiguity detected in &quot;Extracurricular Activities&quot; section.</p>
-                    <button className="bg-white text-primary px-6 py-2 rounded-lg font-bold text-xs uppercase tracking-widest shadow-lg">Resolve Manual</button>
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-2 py-1 bg-white text-primary text-[10px] font-bold uppercase tracking-widest rounded-sm">Current</span>
-                  </div>
-                </div>
-                <div className="p-5 flex justify-between items-start">
-                  <div>
-                    <h4 className="font-headline font-bold text-primary text-sm">Extracurriculars</h4>
-                    <p className="text-xs text-error font-medium mt-1">Awaiting Human Input</p>
-                  </div>
-                  <span className="material-symbols-outlined text-error" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>
-                </div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
 
-          {/* AI Logs Terminal */}
-          <div className="bg-tertiary-container text-tertiary-fixed p-6 rounded-xl font-mono text-xs overflow-hidden relative">
-            <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
-              <div className="flex gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-error/40"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-secondary-fixed/40"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-on-primary-container/40"></div>
+          {/* Screenshots */}
+          {screenshots.length > 0 && (
+            <div className="bg-white rounded-xl p-6" style={{ border: '0.5px solid #e5e7eb' }}>
+              <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-wide mb-3">
+                Screenshots ({screenshots.length})
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {screenshots.map((url, i) => (
+                  <a
+                    key={i}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative rounded-xl overflow-hidden"
+                    style={{ border: '0.5px solid #e5e7eb' }}
+                  >
+                    <div className="aspect-video bg-gray-100 flex items-center justify-center">
+                      <span className="material-symbols-outlined text-gray-300 text-4xl">screenshot_monitor</span>
+                    </div>
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <span className="bg-white/90 text-[#031635] text-[11px] font-bold px-3 py-1.5 rounded-full">
+                        View Full
+                      </span>
+                    </div>
+                    <div className="p-2 text-[11px] text-gray-500">Screenshot {i + 1}</div>
+                  </a>
+                ))}
               </div>
-              <span className="ml-2 font-semibold opacity-60">applypilot_agent_executor.log</span>
             </div>
-            <div className="space-y-1 opacity-90">
-              <p><span className="text-secondary-fixed">[09:41:02]</span> <span className="text-on-primary-fixed-variant">INFO:</span> Initialized browser context...</p>
-              <p><span className="text-secondary-fixed">[09:41:15]</span> <span className="text-on-primary-fixed-variant">INFO:</span> Successfully authenticated into commonapp.org</p>
-              <p><span className="text-secondary-fixed">[09:42:00]</span> <span className="text-on-primary-fixed-variant">INFO:</span> Injecting &apos;Student_Profile_JSON_v4&apos; into form fields...</p>
-              <p><span className="text-secondary-fixed">[09:43:45]</span> <span className="text-on-primary-fixed-variant">INFO:</span> Form validation passing (88%)...</p>
-              <p><span className="text-error">[09:44:12]</span> <span className="text-error-container">WARN:</span> Unexpected modal detected. Halting for user review.</p>
-              <p className="animate-pulse">_</p>
+          )}
+
+          {/* Input data */}
+          {job.input_data && Object.keys(job.input_data).length > 0 && (
+            <div className="bg-white rounded-xl p-6" style={{ border: '0.5px solid #e5e7eb' }}>
+              <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-wide mb-3">Input Data</h3>
+              <div className="space-y-2">
+                {Object.entries(job.input_data).map(([k, v]) => (
+                  <div key={k} className="flex gap-3">
+                    <span className="text-[12px] text-gray-400 min-w-[140px] shrink-0">{k.replace(/_/g, ' ')}</span>
+                    <span className="text-[12px] font-medium text-[#031635]">{String(v ?? '—')}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Error message */}
+          {job.error_message && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-5">
+              <h3 className="text-[12px] font-bold text-red-700 uppercase tracking-wide mb-2">Error Details</h3>
+              <p className="text-[13px] text-red-700 font-mono">{job.error_message}</p>
+            </div>
+          )}
+
+          {/* Rejection reason */}
+          {job.status === 'rejected' && job.rejected_reason && (
+            <div className="bg-orange-50 border border-orange-200 rounded-xl p-5">
+              <h3 className="text-[12px] font-bold text-orange-700 uppercase tracking-wide mb-2">Rejection Reason</h3>
+              <p className="text-[13px] text-orange-700">{job.rejected_reason}</p>
+            </div>
+          )}
         </div>
 
-        {/* Control Sidebar */}
-        <div className="col-span-12 lg:col-span-3 space-y-6">
-          {/* Execution Status Card */}
-          <div className="bg-surface-container-low p-6 rounded-xl space-y-6">
-            <h3 className="font-headline font-bold text-primary text-sm tracking-tight">Agent Controls</h3>
-            <div className="space-y-4">
-              <div className="p-4 bg-surface-container-lowest rounded-lg border border-outline-variant/10">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs font-semibold text-on-surface-variant">Step Progress</span>
-                  <span className="text-xs font-bold text-primary">75%</span>
-                </div>
-                <div className="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
-                  <div className="h-full bg-primary w-3/4"></div>
-                </div>
-              </div>
-              <button className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/10">
-                <span className="material-symbols-outlined text-sm">play_arrow</span>
-                Resume Automation
-              </button>
-              <button className="w-full flex items-center justify-center gap-2 py-3 bg-surface-container-highest text-primary rounded-lg font-bold text-sm border border-outline-variant/20">
-                <span className="material-symbols-outlined text-sm">stop</span>
-                Terminate Session
-              </button>
-            </div>
-            <div className="pt-6 border-t border-outline-variant/10">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-4">Verification Checklist</h4>
-              <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <div className="w-5 h-5 rounded border border-outline-variant/30 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[16px] text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
-                  </div>
-                  <span className="text-xs font-medium text-on-surface">Address validation</span>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <div className="w-5 h-5 rounded border border-outline-variant/30 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[16px] text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>check</span>
-                  </div>
-                  <span className="text-xs font-medium text-on-surface">GPA precision (4-dec)</span>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <div className="w-5 h-5 rounded border-2 border-primary flex items-center justify-center"></div>
-                  <span className="text-xs font-bold text-primary">Activity categorization</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Meta Info Card */}
-          <div className="bg-surface-container-low p-6 rounded-xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
-                <span className="material-symbols-outlined text-white text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>description</span>
-              </div>
-              <h3 className="font-headline font-bold text-primary text-sm tracking-tight">Dossier Context</h3>
-            </div>
+        {/* Sidebar */}
+        <div className="col-span-4 space-y-4">
+          {/* Job metadata */}
+          <div className="bg-white rounded-xl p-5" style={{ border: '0.5px solid #e5e7eb' }}>
+            <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-wide mb-4">Job Details</h3>
             <div className="space-y-3">
-              <div className="flex justify-between text-[11px]">
-                <span className="text-on-surface-variant">Applicant</span>
-                <span className="font-bold text-primary">Marcus Vane</span>
+              <div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wide">Job ID</p>
+                <p className="text-[11px] font-mono text-gray-600 mt-0.5 break-all">{job.id}</p>
               </div>
-              <div className="flex justify-between text-[11px]">
-                <span className="text-on-surface-variant">Portal</span>
-                <span className="font-bold text-primary">CommonApp 2024</span>
+              <div>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wide">Created</p>
+                <p className="text-[12px] font-medium text-[#031635] mt-0.5">
+                  {new Date(job.created_at).toLocaleString()}
+                </p>
               </div>
-              <div className="flex justify-between text-[11px]">
-                <span className="text-on-surface-variant">Agent Version</span>
-                <span className="font-bold text-primary">v2.1-stable</span>
-              </div>
+              {job.started_at && (
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Started</p>
+                  <p className="text-[12px] font-medium text-[#031635] mt-0.5">
+                    {new Date(job.started_at).toLocaleString()}
+                  </p>
+                </div>
+              )}
+              {job.completed_at && (
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Completed</p>
+                  <p className="text-[12px] font-medium text-[#031635] mt-0.5">
+                    {new Date(job.completed_at).toLocaleString()}
+                  </p>
+                </div>
+              )}
+              {job.approved_at && (
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wide">Approved</p>
+                  <p className="text-[12px] font-medium text-emerald-700 mt-0.5">
+                    {new Date(job.approved_at).toLocaleString()}
+                  </p>
+                </div>
+              )}
             </div>
+          </div>
+
+          {/* Quick links */}
+          <div className="bg-white rounded-xl p-5 space-y-2" style={{ border: '0.5px solid #e5e7eb' }}>
+            <h3 className="text-[12px] font-bold text-gray-500 uppercase tracking-wide mb-3">Quick Links</h3>
+            {student && (
+              <Link
+                href={`/students/${student.id}/profile`}
+                className="flex items-center gap-2 text-[12px] font-medium text-[#031635] hover:underline"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>person</span>
+                View Student Profile
+              </Link>
+            )}
+            {student && (
+              <Link
+                href={`/students/${student.id}/essays`}
+                className="flex items-center gap-2 text-[12px] font-medium text-[#031635] hover:underline"
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>edit_document</span>
+                Student Essays
+              </Link>
+            )}
+            <Link
+              href="/approvals"
+              className="flex items-center gap-2 text-[12px] font-medium text-gray-500 hover:text-[#031635]"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_back</span>
+              Back to Queue
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Floating AI Bar */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-2xl z-50 px-4">
-        <div className="bg-white/80 backdrop-blur-2xl border border-white/20 shadow-2xl rounded-2xl p-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-lg">
-              <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+      {/* Reject Modal */}
+      {showRejectModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-7">
+            <h2 className="text-[17px] font-bold text-[#031635] mb-2">Reject Job</h2>
+            <p className="text-[13px] text-gray-500 mb-5">Please provide a reason for rejecting this agent action.</p>
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="e.g. Incorrect information, needs revision..."
+              className="w-full h-28 text-[13px] text-gray-700 p-3 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-red-200"
+              style={{ border: '0.5px solid #e5e7eb' }}
+            />
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={() => setShowRejectModal(false)}
+                className="flex-1 py-2.5 rounded-lg text-[12px] font-semibold text-gray-600"
+                style={{ border: '0.5px solid #e5e7eb' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleReject}
+                disabled={isRejecting || !rejectReason.trim()}
+                className="flex-1 py-2.5 rounded-lg text-[12px] font-semibold text-white disabled:opacity-50"
+                style={{ background: '#DC2626' }}
+              >
+                {isRejecting ? 'Rejecting...' : 'Confirm Reject'}
+              </button>
             </div>
-            <div>
-              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Pilot Active Intelligence</p>
-              <p className="text-sm font-bold text-primary">Suggesting resolution for Step 7...</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="px-5 py-2 text-xs font-bold text-primary hover:bg-surface-container rounded-lg transition-colors">Dismiss</button>
-            <button className="px-5 py-2 text-xs font-bold text-white bg-primary rounded-lg shadow-lg hover:shadow-primary/20 transition-all">Review Solution</button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

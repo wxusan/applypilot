@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import NotificationBell from './NotificationBell'
 
 interface TopBarProps {
   agency: { id: string; name: string } | null
@@ -57,14 +58,7 @@ export default function TopBar({ agency, user, notificationCount = 0 }: TopBarPr
 
       {/* Right */}
       <div className="flex items-center gap-6">
-        <Link href="/notifications" className="relative group">
-          <span className="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-200">
-            notifications
-          </span>
-          {notificationCount > 0 && (
-            <span className="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface" />
-          )}
-        </Link>
+        <NotificationBell />
         <Link href="/search">
           <span className="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-200">
             search

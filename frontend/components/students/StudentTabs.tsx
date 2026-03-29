@@ -1,13 +1,15 @@
 import Link from 'next/link'
 
-export type StudentTab = 'profile' | 'applications' | 'documents' | 'emails' | 'deadlines' | 'activity'
+export type StudentTab = 'profile' | 'applications' | 'documents' | 'emails' | 'deadlines' | 'activity' | 'college-fit' | 'essays'
 
 const TABS: { key: StudentTab; label: string }[] = [
   { key: 'profile',      label: 'Profile' },
   { key: 'applications', label: 'Applications' },
   { key: 'documents',    label: 'Documents' },
   { key: 'emails',       label: 'Emails' },
+  { key: 'essays',       label: 'Essays' },
   { key: 'deadlines',    label: 'Deadlines' },
+  { key: 'college-fit',  label: 'College Fit' },
   { key: 'activity',     label: 'Activity Log' },
 ]
 

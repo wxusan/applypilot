@@ -144,6 +144,32 @@ export const browserAgentApi = {
     ),
 }
 
+// Emails
+export const emailsApi = {
+  list: (studentId: string, params?: Record<string, string>) => {
+    const base = { student_id: studentId, limit: '100', ...params }
+    return apiFetch<{ emails: unknown[]; total: number }>(`/api/emails?${new URLSearchParams(base).toString()}`)
+  },
+  get: (id: string) => apiFetch<unknown>(`/api/emails/${id}`),
+  approveDraft: (id: string) => apiFetch<unknown>(`/api/emails/${id}/approve-draft`, { method: 'POST' }),
+}
+
+// Notifications
+export const notificationsApi = {
+  unreadCount: () => apiFetch<{ count: number }>('/api/notifications/unread-count'),
+  list: (limit = 20) => apiFetch<unknown[]>(`/api/notifications/?limit=${limit}`),
+  markRead: (id: string) => apiFetch<unknown>(`/api/notifications/${id}/read`, { method: 'POST' }),
+  markAllRead: () => apiFetch<{ success: boolean }>('/api/notifications/read-all', { method: 'POST' }),
+}
+
+// College Fit
+export const collegeFitApi = {
+  get: (studentId: string, refresh = false) =>
+    apiFetch<{ recommendations: unknown[]; generated_at: string; cached: boolean }>(
+      `/api/students/${studentId}/college-fit${refresh ? '?refresh=true' : ''}`
+    ),
+}
+
 // Deadlines
 export const deadlinesApi = {
   list: (studentId?: string) => {
