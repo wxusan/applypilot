@@ -84,7 +84,6 @@ async def create_agent_job(
         "status": "awaiting_approval",
         "approval_message": body.approval_message or f"New {body.job_type} job ready for review.",
         "input_data": body.input_data or {},
-        "created_by": user.id,
     }
     if body.student_id:
         row["student_id"] = body.student_id

@@ -33,7 +33,7 @@ async def list_essays(
     db = get_service_client()
 
     query = db.table("essays").select(
-        "id, student_id, application_id, prompt_text, word_count, version, "
+        "id, student_id, application_id, prompt_text, content, word_count, version, "
         "status, ai_score, ai_feedback, plagiarism_score, created_at, updated_at"
     ).eq("agency_id", user.agency_id)  # ISOLATION
 
