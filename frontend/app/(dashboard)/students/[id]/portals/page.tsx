@@ -1,13 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'next/navigation'
-import Icon from '@/components/Icon'
-import Button from '@/components/Button'
-import Modal from '@/components/Modal'
-import PageHeader from '@/components/PageHeader'
-import LoadingSpinner from '@/components/LoadingSpinner'
-import { formatDistanceToNow } from 'date-fns'
+import { apiFetch } from '@/lib/api'
+import StudentTabs from '@/components/students/StudentTabs'
 
 interface Portal {
   id: string
@@ -23,15 +19,32 @@ interface Portal {
   created_at: string
 }
 
-const statusColors = {
-  not_started: 'bg-gray-100 text-gray-800',
+const ACTIVATION_COLORS: Record<string, string> = {
+  not_started: 'bg-gray-100 text-gray-700',
   activated: 'bg-emerald-100 text-emerald-800',
   failed: 'bg-red-100 text-red-800',
-  pending: 'bg-gray-100 text-gray-800',
+}
+
+const DECISION_COLORS: Record<string, string> = {
+  pending: 'bg-gray-100 text-gray-700',
   accepted: 'bg-emerald-100 text-emerald-800',
   rejected: 'bg-red-100 text-red-800',
   waitlisted: 'bg-yellow-100 text-yellow-800',
   deferred: 'bg-orange-100 text-orange-800',
+}
+
+const ACTIVATION_LABELS: Record<string, string> = {
+  not_started: 'Not Started',
+  activated: 'Activated',
+  failed: 'Failed',
+}
+
+const DECISION_LABELS: Record<string, string> = {
+  pending: 'Pending',
+  accepted: 'Accepted ✓',
+  rejected: 'Rejected',
+  waitlisted: 'Waitlisted',
+  deferred: 'Deferred',
 }
 
 export default function PortalsPage() {
@@ -41,39 +54,34 @@ export default function PortalsPage() {
   const [portals, setPortals] = useState<Portal[]>([])
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
-  const [formData, setFormData] = useState({
-    university_name: '',
-    portal_url: '',
-    portal_pin: '',
-  })
+  const [activatingId, setActivatingId] = useState<string | null>(null)
+  const [formData, setFormData] = useState({ university_name: '', portal_url: '', portal_pin: '' })
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    fetchPortals()
-  }, [studentId])
-
-  const fetchPortals = async () => {
+  const fetchPortals = useCallback(async () => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/portals?student_id=${studentId}`)
-      if (response.ok) {
-        const data = await response.json()
-        setPortals(data)
-      }
-    } catch (error) {
-      console.error('Failed to fetch portals:', error)
+      const data = await apiFetch(`/api/portals?student_id=${studentId}`)
+      setPortals(Array.isArray(data) ? data : [])
+    } catch (err) {
+      console.error('Failed to fetch portals:', err)
     } finally {
       setLoading(false)
     }
-  }
+  }, [studentId])
+
+  useEffect(() => {
+    fetchPortals()
+  }, [fetchPortals])
 
   const handleAddPortal = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     try {
       setSubmitting(true)
-      const response = await fetch('/api/portals', {
+      await apiFetch('/api/portals', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           student_id: studentId,
           university_name: formData.university_name,
@@ -81,259 +89,303 @@ export default function PortalsPage() {
           portal_pin: formData.portal_pin || undefined,
         }),
       })
-
-      if (response.ok) {
-        setFormData({ university_name: '', portal_url: '', portal_pin: '' })
-        setShowModal(false)
-        await fetchPortals()
-      }
-    } catch (error) {
-      console.error('Failed to create portal:', error)
+      setFormData({ university_name: '', portal_url: '', portal_pin: '' })
+      setShowModal(false)
+      await fetchPortals()
+    } catch (err: any) {
+      setError(err?.message || 'Failed to create portal')
     } finally {
       setSubmitting(false)
     }
   }
 
-  const handleActivatePortal = async (portalId: string) => {
+  const handleActivate = async (portalId: string) => {
+    setActivatingId(portalId)
     try {
-      const response = await fetch(`/api/portals/${portalId}/activate`, {
-        method: 'POST',
-      })
-      if (response.ok) {
-        await fetchPortals()
-      }
-    } catch (error) {
-      console.error('Failed to activate portal:', error)
+      await apiFetch(`/api/portals/${portalId}/activate`, { method: 'POST' })
+      await fetchPortals()
+    } catch (err) {
+      console.error('Failed to activate portal:', err)
+    } finally {
+      setActivatingId(null)
     }
   }
 
-  const getActivationStatusBadge = (status: Portal['activation_status']) => {
-    const labels = {
-      not_started: 'Not Started',
-      activated: 'Activated',
-      failed: 'Failed',
-    }
-    return labels[status] || status
-  }
-
-  const getDecisionStatusBadge = (status: Portal['decision_status']) => {
-    const labels = {
-      pending: 'Pending',
-      accepted: 'Accepted',
-      rejected: 'Rejected',
-      waitlisted: 'Waitlisted',
-      deferred: 'Deferred',
-    }
-    return labels[status] || status
-  }
-
-  if (loading) {
-    return (
-      <div className="p-8">
-        <LoadingSpinner />
-      </div>
-    )
+  const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr)
+    const now = new Date()
+    const diff = Math.floor((now.getTime() - d.getTime()) / 1000)
+    if (diff < 60) return 'just now'
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
+    return `${Math.floor(diff / 86400)}d ago`
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <PageHeader
-        title="Application Portals"
-        subtitle="Track university portal activations and upload required documents"
-        icon="open_in_browser"
-      />
-
-      {portals.length === 0 ? (
-        <div className="mt-8 p-12 border-2 border-dashed border-gray-300 rounded-lg text-center">
-          <Icon name="inbox" className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600 mb-6">
-            No portal sessions yet. Portals are created automatically when the automation agent finds activation emails.
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="material-symbols-outlined text-3xl" style={{ color: '#1D9E75' }}>
+              open_in_browser
+            </span>
+            <h1 className="text-2xl font-bold" style={{ color: '#031635' }}>
+              Application Portals
+            </h1>
+          </div>
+          <p className="text-gray-500 text-sm ml-10">
+            Track university portal activations and upload required documents
           </p>
-          <Button
-            variant="primary"
-            onClick={() => setShowModal(true)}
-          >
-            Add Portal Manually
-          </Button>
         </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {portals.map((portal) => (
-              <div
-                key={portal.id}
-                className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+
+        {/* Tabs */}
+        <StudentTabs studentId={studentId} active="portals" />
+
+        <div className="mt-6">
+          {/* Top bar */}
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-sm text-gray-500">
+              {portals.length} portal{portals.length !== 1 ? 's' : ''} tracked
+            </p>
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              style={{ backgroundColor: '#1D9E75' }}
+            >
+              <span className="material-symbols-outlined text-base">add</span>
+              Add Portal Manually
+            </button>
+          </div>
+
+          {/* Loading */}
+          {loading && (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-8 h-8 border-4 border-gray-200 rounded-full animate-spin" style={{ borderTopColor: '#1D9E75' }} />
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!loading && portals.length === 0 && (
+            <div className="bg-white rounded-xl border-2 border-dashed border-gray-200 p-16 text-center">
+              <span className="material-symbols-outlined text-5xl text-gray-300 block mb-3">open_in_browser</span>
+              <p className="text-gray-500 mb-2 font-medium">No portals yet</p>
+              <p className="text-gray-400 text-sm mb-6">
+                Portals are created automatically when the automation agent finds activation emails,
+                or you can add them manually.
+              </p>
+              <button
+                onClick={() => setShowModal(true)}
+                className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#1D9E75' }}
               >
-                {/* Header */}
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">
-                    {portal.university_name}
-                  </h3>
-                </div>
+                Add Portal Manually
+              </button>
+            </div>
+          )}
 
-                {/* Badges */}
-                <div className="flex gap-2 mb-4 flex-wrap">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      statusColors[portal.activation_status]
-                    }`}
-                  >
-                    {getActivationStatusBadge(portal.activation_status)}
-                  </span>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      statusColors[portal.decision_status]
-                    }`}
-                  >
-                    {getDecisionStatusBadge(portal.decision_status)}
-                  </span>
-                </div>
-
-                {/* Uploaded Documents */}
-                {portal.uploaded_documents.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">
-                      Uploaded Documents
-                    </h4>
-                    <ul className="space-y-1">
-                      {portal.uploaded_documents.map((doc) => (
-                        <li key={doc} className="flex items-center gap-2 text-sm text-emerald-700">
-                          <Icon name="check_circle" className="w-4 h-4" />
-                          {doc}
-                        </li>
-                      ))}
-                    </ul>
+          {/* Portal cards */}
+          {!loading && portals.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {portals.map((portal) => (
+                <div key={portal.id} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                  {/* University name + badges */}
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <h3 className="font-bold text-base" style={{ color: '#031635' }}>
+                      {portal.university_name}
+                    </h3>
+                    <div className="flex gap-2 flex-wrap justify-end">
+                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${ACTIVATION_COLORS[portal.activation_status] || 'bg-gray-100 text-gray-700'}`}>
+                        {ACTIVATION_LABELS[portal.activation_status] || portal.activation_status}
+                      </span>
+                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${DECISION_COLORS[portal.decision_status] || 'bg-gray-100 text-gray-700'}`}>
+                        {DECISION_LABELS[portal.decision_status] || portal.decision_status}
+                      </span>
+                    </div>
                   </div>
-                )}
 
-                {/* Missing Documents */}
-                {portal.missing_documents.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">
-                      Missing Documents
-                    </h4>
-                    <ul className="space-y-2">
-                      {portal.missing_documents.map((doc) => (
-                        <li
-                          key={doc}
-                          className="flex items-center justify-between gap-2 text-sm text-gray-700"
-                        >
-                          <span>{doc}</span>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => {
-                              // Upload handler would go here
-                              console.log(`Upload ${doc} for ${portal.university_name}`)
-                            }}
-                          >
-                            Upload
-                          </Button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Actions */}
-                {portal.activation_status === 'not_started' && (
-                  <div className="mb-4">
-                    <Button
-                      variant="primary"
-                      className="w-full"
-                      onClick={() => handleActivatePortal(portal.id)}
+                  {/* Portal URL */}
+                  {portal.portal_url && (
+                    <a
+                      href={portal.portal_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-xs text-blue-600 hover:underline mb-3 break-all"
                     >
-                      Activate Portal
-                    </Button>
-                  </div>
-                )}
+                      <span className="material-symbols-outlined text-sm">link</span>
+                      {portal.portal_url}
+                    </a>
+                  )}
 
-                {/* Last Checked */}
-                {portal.last_checked_at && (
-                  <p className="text-xs text-gray-500">
-                    Last checked: {formatDistanceToNow(new Date(portal.last_checked_at), { addSuffix: true })}
-                  </p>
-                )}
+                  {/* PIN */}
+                  {portal.portal_pin && (
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="material-symbols-outlined text-sm text-gray-400">pin</span>
+                      <span className="text-xs text-gray-600">PIN: <span className="font-mono font-semibold">{portal.portal_pin}</span></span>
+                    </div>
+                  )}
+
+                  {/* Uploaded docs */}
+                  {portal.uploaded_documents && portal.uploaded_documents.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Uploaded</p>
+                      <ul className="space-y-1">
+                        {portal.uploaded_documents.map((doc) => (
+                          <li key={doc} className="flex items-center gap-1.5 text-sm text-emerald-700">
+                            <span className="material-symbols-outlined text-sm">check_circle</span>
+                            {doc}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Missing docs */}
+                  {portal.missing_documents && portal.missing_documents.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Missing Documents</p>
+                      <ul className="space-y-1.5">
+                        {portal.missing_documents.map((doc) => (
+                          <li key={doc} className="flex items-center justify-between gap-2">
+                            <span className="flex items-center gap-1.5 text-sm text-orange-700">
+                              <span className="material-symbols-outlined text-sm">error</span>
+                              {doc}
+                            </span>
+                            <button className="text-xs px-2 py-1 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 whitespace-nowrap">
+                              Upload
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Activate button */}
+                  {portal.activation_status === 'not_started' && (
+                    <button
+                      onClick={() => handleActivate(portal.id)}
+                      disabled={activatingId === portal.id}
+                      className="w-full mt-2 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                      style={{ backgroundColor: '#1D9E75' }}
+                    >
+                      {activatingId === portal.id ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Activating…
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-1">
+                          <span className="material-symbols-outlined text-sm">play_circle</span>
+                          Activate Portal
+                        </span>
+                      )}
+                    </button>
+                  )}
+
+                  {/* Retry button */}
+                  {portal.activation_status === 'failed' && (
+                    <button
+                      onClick={() => handleActivate(portal.id)}
+                      disabled={activatingId === portal.id}
+                      className="w-full mt-2 py-2 rounded-lg text-sm font-semibold text-white bg-red-500 transition-opacity hover:opacity-90 disabled:opacity-60"
+                    >
+                      {activatingId === portal.id ? 'Retrying…' : 'Retry Activation'}
+                    </button>
+                  )}
+
+                  {/* Last checked */}
+                  {portal.last_checked_at && (
+                    <p className="text-xs text-gray-400 mt-3">
+                      Last checked {formatDate(portal.last_checked_at)}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Add Portal Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <h2 className="text-lg font-bold" style={{ color: '#031635' }}>Add Portal Manually</h2>
+              <button onClick={() => setShowModal(false)} className="p-1 rounded-lg hover:bg-gray-100">
+                <span className="material-symbols-outlined text-xl text-gray-500">close</span>
+              </button>
+            </div>
+
+            <form onSubmit={handleAddPortal} className="px-6 py-5 space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700">
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  University Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.university_name}
+                  onChange={(e) => setFormData({ ...formData, university_name: e.target.value })}
+                  placeholder="e.g. Harvard University"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:border-transparent"
+                  style={{ '--tw-ring-color': '#1D9E75' } as React.CSSProperties}
+                  required
+                />
               </div>
-            ))}
-          </div>
 
-          <Button
-            variant="primary"
-            onClick={() => setShowModal(true)}
-          >
-            Add Portal Manually
-          </Button>
-        </>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Portal URL <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <input
+                  type="url"
+                  value={formData.portal_url}
+                  onChange={(e) => setFormData({ ...formData, portal_url: e.target.value })}
+                  placeholder="https://apply.university.edu/portal"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  Portal PIN <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.portal_pin}
+                  onChange={(e) => setFormData({ ...formData, portal_pin: e.target.value })}
+                  placeholder="One-time PIN from activation email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 font-mono"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 py-2.5 rounded-lg text-sm font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+                  style={{ backgroundColor: '#1D9E75' }}
+                >
+                  {submitting ? 'Creating…' : 'Create Portal'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
-
-      {/* Modal */}
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        title="Add Portal Manually"
-      >
-        <form onSubmit={handleAddPortal} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              University Name
-            </label>
-            <input
-              type="text"
-              value={formData.university_name}
-              onChange={(e) =>
-                setFormData({ ...formData, university_name: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Portal URL (Optional)
-            </label>
-            <input
-              type="url"
-              value={formData.portal_url}
-              onChange={(e) =>
-                setFormData({ ...formData, portal_url: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Portal PIN (Optional)
-            </label>
-            <input
-              type="text"
-              value={formData.portal_pin}
-              onChange={(e) =>
-                setFormData({ ...formData, portal_pin: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="flex gap-2 justify-end pt-4">
-            <Button
-              variant="outline"
-              onClick={() => setShowModal(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={submitting}
-            >
-              {submitting ? 'Creating...' : 'Create Portal'}
-            </Button>
-          </div>
-        </form>
-      </Modal>
     </div>
   )
 }

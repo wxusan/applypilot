@@ -12,6 +12,7 @@ const TABS: { key: StudentTab; label: string }[] = [
   { key: 'college-fit',  label: 'College Fit' },
   { key: 'credentials',  label: 'Credentials' },
   { key: 'workflow',     label: 'Workflow' },
+  { key: 'portals',      label: 'Portals' },
   { key: 'activity',     label: 'Activity Log' },
 ]
 
