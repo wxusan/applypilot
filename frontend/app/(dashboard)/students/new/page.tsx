@@ -91,6 +91,7 @@ export default function NewStudentPage() {
     try {
       const payload = {
         ...form,
+        date_of_birth: form.date_of_birth || null,
         graduation_year: form.graduation_year ? Number(form.graduation_year) : null,
         gpa: form.gpa ? Number(form.gpa) : null,
         gpa_scale: form.gpa_scale ? Number(form.gpa_scale) : 4.0,
