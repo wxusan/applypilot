@@ -181,4 +181,5 @@ export const deadlinesApi = {
   delete: (id: string) => apiFetch<void>(`/api/deadlines/${id}`, { method: 'DELETE' }),
   complete: (id: string) => apiFetch<unknown>(`/api/deadlines/${id}/complete`, { method: 'POST' }),
   uncomplete: (id: string) => apiFetch<unknown>(`/api/deadlines/${id}/uncomplete`, { method: 'POST' }),
+  addToCalendar: (id: string) => apiFetch<{ calendar_url: string; deadline_id: string }>(`/api/deadlines/${id}/add-to-calendar`, { method: 'POST' }),
 }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export type StudentTab = 'profile' | 'applications' | 'documents' | 'emails' | 'deadlines' | 'activity' | 'college-fit' | 'essays'
+export type StudentTab = 'profile' | 'applications' | 'documents' | 'emails' | 'deadlines' | 'activity' | 'college-fit' | 'essays' | 'credentials' | 'workflow' | 'portals'
 
 const TABS: { key: StudentTab; label: string }[] = [
   { key: 'profile',      label: 'Profile' },
@@ -10,6 +10,8 @@ const TABS: { key: StudentTab; label: string }[] = [
   { key: 'essays',       label: 'Essays' },
   { key: 'deadlines',    label: 'Deadlines' },
   { key: 'college-fit',  label: 'College Fit' },
+  { key: 'credentials',  label: 'Credentials' },
+  { key: 'workflow',     label: 'Workflow' },
   { key: 'activity',     label: 'Activity Log' },
 ]
 
