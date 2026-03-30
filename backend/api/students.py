@@ -102,6 +102,10 @@ class StudentUpdate(BaseModel):
     assigned_staff_id: Optional[str] = None
 
 
+class BulkImportRequest(BaseModel):
+    students: List[dict]
+
+
 # ──────────────────────────────────────────────────────────────
 # Routes
 # ──────────────────────────────────────────────────────────────
@@ -296,3 +300,93 @@ async def delete_student(
         ip_address=request.client.host if request.client else None,
         user_agent=request.headers.get("user-agent"),
     )
+
+
+@router.post("/students/import", status_code=201)
+async def bulk_import_students(
+    data: BulkImportRequest,
+    request: Request,
+    user: AuthUser = Depends(get_current_user),
+):
+    """
+    Bulk import students from a JSON array.
+    Validates each row has at least full_name.
+    Returns created count and any errors.
+    """
+    db = get_service_client()
+
+    if not data.students:
+        return {"created": 0, "errors": []}
+
+    if len(data.students) > 100:
+        raise HTTPException(400, "Maximum 100 students per import")
+
+    created_count = 0
+    errors = []
+
+    for row_idx, student_data in enumerate(data.students):
+        try:
+            # Validate required field
+            if not isinstance(student_data, dict) or not student_data.get("full_name"):
+                errors.append({
+                    "row": row_idx + 1,
+                    "name": student_data.get("full_name", "unknown") if isinstance(student_data, dict) else "unknown",
+                    "error": "full_name is required"
+                })
+                continue
+
+            # Use StudentCreate to validate the schema
+            try:
+                validated = StudentCreate(**student_data)
+            except Exception as ve:
+                errors.append({
+                    "row": row_idx + 1,
+                    "name": student_data.get("full_name", "unknown"),
+                    "error": f"Validation error: {str(ve)[:100]}"
+                })
+                continue
+
+            # Prepare payload
+            payload = validated.model_dump()
+            payload["agency_id"] = user.agency_id  # ISOLATION — overwrite unconditionally
+
+            # Convert date fields to ISO format
+            for f in ("date_of_birth", "passport_expiry"):
+                if payload.get(f) and hasattr(payload[f], "isoformat"):
+                    payload[f] = payload[f].isoformat()
+
+            # Insert student
+            result = db.table("students").insert(payload).execute()
+            if not result.data:
+                errors.append({
+                    "row": row_idx + 1,
+                    "name": student_data.get("full_name", "unknown"),
+                    "error": "Database insert failed"
+                })
+                continue
+
+            student = result.data[0]
+            created_count += 1
+
+            # Audit log for this imported student
+            await write_audit_log(
+                agency_id=user.agency_id,
+                user_id=user.id,
+                student_id=student["id"],
+                action="student.imported",
+                entity_type="student",
+                entity_id=student["id"],
+                old_value=None,
+                new_value={"full_name": student["full_name"], "status": student["status"]},
+                ip_address=request.client.host if request.client else None,
+                user_agent=request.headers.get("user-agent"),
+            )
+
+        except Exception as e:
+            errors.append({
+                "row": row_idx + 1,
+                "name": student_data.get("full_name", "unknown") if isinstance(student_data, dict) else "unknown",
+                "error": str(e)[:100]
+            })
+
+    return {"created": created_count, "errors": errors}

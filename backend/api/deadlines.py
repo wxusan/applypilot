@@ -286,3 +286,60 @@ async def uncomplete_deadline(
     )
 
     return result.data[0] if result.data else existing.data
+
+
+@router.post("/deadlines/{deadline_id}/add-to-calendar")
+async def add_deadline_to_calendar(
+    deadline_id: str,
+    request: Request,
+    user: AuthUser = Depends(get_current_user),
+):
+    """
+    Generate a Google Calendar link for a deadline.
+    Returns a pre-filled Google Calendar event URL.
+    No OAuth needed — uses the "Add to Google Calendar" URL scheme.
+    """
+    db = get_service_client()
+    result = db.table("deadlines").select(
+        "id, title, due_date, due_time, student_id"
+    ).eq("id", deadline_id).eq("agency_id", user.agency_id).single().execute()
+
+    if not result.data:
+        raise HTTPException(status_code=404, detail="Deadline not found")
+
+    deadline = result.data
+
+    # Get student name
+    student = db.table("students").select("full_name").eq(
+        "id", deadline["student_id"]
+    ).eq("agency_id", user.agency_id).single().execute()
+    student_name = student.data.get("full_name", "Student") if student.data else "Student"
+
+    from urllib.parse import urlencode
+    from datetime import datetime, timedelta
+
+    due_date = deadline["due_date"]  # YYYY-MM-DD string
+    due_time = deadline.get("due_time") or "23:59:00"
+
+    # Format dates for Google Calendar (YYYYMMDDTHHMMSS)
+    try:
+        dt_str = f"{due_date}T{due_time}"
+        dt = datetime.strptime(dt_str[:16], "%Y-%m-%dT%H:%M")
+        start = dt.strftime("%Y%m%dT%H%M%S")
+        end = (dt + timedelta(hours=1)).strftime("%Y%m%dT%H%M%S")
+    except Exception:
+        # Fallback: all-day event
+        date_clean = due_date.replace("-", "")
+        start = date_clean
+        end = date_clean
+
+    params = {
+        "action": "TEMPLATE",
+        "text": f"[ApplyPilot] {deadline['title']} — {student_name}",
+        "dates": f"{start}/{end}",
+        "details": f"Deadline for {student_name} tracked in ApplyPilot.",
+    }
+
+    calendar_url = "https://calendar.google.com/calendar/render?" + urlencode(params)
+
+    return {"calendar_url": calendar_url, "deadline_id": deadline_id}

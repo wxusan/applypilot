@@ -28,6 +28,13 @@ interface Essay {
   updated_at?: string
 }
 
+interface EssayVersion {
+  number: number
+  content: string
+  word_count: number
+  created_at: string
+}
+
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
   draft:     { label: 'Draft',    color: '#6B7280', bg: '#F3F4F6' },
   approved:  { label: 'Approved', color: '#065F46', bg: '#D1FAE5' },
@@ -72,6 +79,15 @@ export default function StudentEssaysPage() {
   const [newPromptType, setNewPromptType] = useState<'personal_statement' | 'supplemental'>('personal_statement')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generateStatus, setGenerateStatus] = useState<string | null>(null)
+
+  // Version history panel
+  const [showHistory, setShowHistory] = useState(false)
+  const [versions, setVersions] = useState<EssayVersion[]>([])
+  const [selectedVersion, setSelectedVersion] = useState<EssayVersion | null>(null)
+  const [loadingVersions, setLoadingVersions] = useState(false)
+
+  // Plagiarism check
+  const [isCheckingPlagiarism, setIsCheckingPlagiarism] = useState(false)
 
   // Toast
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
@@ -209,6 +225,62 @@ export default function StudentEssaysPage() {
       showToast(e.message || 'Failed to start generation', 'error')
       setIsGenerating(false)
       setGenerateStatus(null)
+    }
+  }
+
+  const loadVersions = async () => {
+    if (!selectedId) return
+    setLoadingVersions(true)
+    try {
+      const res = await apiFetch<{ versions: EssayVersion[] }>(`/api/essays/${selectedId}/versions`)
+      setVersions(res.versions || [])
+    } catch (e: any) {
+      showToast(e.message || 'Failed to load versions', 'error')
+    } finally {
+      setLoadingVersions(false)
+    }
+  }
+
+  const handleOpenHistory = async () => {
+    setShowHistory(true)
+    await loadVersions()
+  }
+
+  const handleViewVersion = async (version: EssayVersion) => {
+    if (!selectedId) return
+    try {
+      const res = await apiFetch<{ content: string }>(`/api/essays/${selectedId}/versions/${version.number}`)
+      setSelectedVersion({ ...version, content: res.content })
+    } catch (e: any) {
+      showToast(e.message || 'Failed to load version', 'error')
+    }
+  }
+
+  const handleRestoreVersion = () => {
+    if (!selectedVersion) return
+    setEditorContent(selectedVersion.content)
+    setShowHistory(false)
+    setSelectedVersion(null)
+    showToast('Version restored. Don\'t forget to save!')
+  }
+
+  const handleCheckPlagiarism = async () => {
+    if (!selectedId || !editorContent.trim()) return
+    setIsCheckingPlagiarism(true)
+    try {
+      const res = await apiFetch<{ plagiarism_score: number }>(`/api/essays/${selectedId}/check-plagiarism`, {
+        method: 'POST',
+      })
+      setEssays((prev) =>
+        prev.map((e) =>
+          e.id === selectedId ? { ...e, plagiarism_score: res.plagiarism_score } : e
+        )
+      )
+      showToast('Originality check complete!')
+    } catch (e: any) {
+      showToast(e.message || 'Failed to check originality', 'error')
+    } finally {
+      setIsCheckingPlagiarism(false)
     }
   }
 
@@ -461,6 +533,24 @@ export default function StudentEssaysPage() {
                     )}
                   </div>
                   <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleOpenHistory}
+                      className="h-8 px-3 rounded-lg text-[12px] font-semibold text-gray-600 flex items-center gap-1.5 border-0.5 hover:bg-gray-50"
+                      style={{ borderColor: '#e5e7eb' }}
+                      title="View version history"
+                    >
+                      <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>history</span>
+                    </button>
+                    <button
+                      onClick={handleCheckPlagiarism}
+                      disabled={isCheckingPlagiarism || !editorContent.trim()}
+                      className="h-8 px-4 rounded-lg text-[12px] font-semibold text-gray-600 flex items-center gap-1.5 border-0.5 hover:bg-gray-50 disabled:opacity-50"
+                      style={{ borderColor: '#e5e7eb' }}
+                      title="Check originality"
+                    >
+                      <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>shield_alert</span>
+                      {isCheckingPlagiarism ? 'Checking...' : 'Check Originality'}
+                    </button>
                     {selectedEssay.status !== 'approved' && (
                       <button
                         onClick={handleApprove}
@@ -491,7 +581,7 @@ export default function StudentEssaysPage() {
               </div>
 
               {/* Essay metadata */}
-              <div className="bg-white rounded-xl p-4 flex items-center gap-6" style={{ border: '0.5px solid #e5e7eb' }}>
+              <div className="bg-white rounded-xl p-4 flex items-center gap-6 flex-wrap" style={{ border: '0.5px solid #e5e7eb' }}>
                 <div>
                   <p className="text-[10px] text-gray-400 uppercase tracking-wide">Version</p>
                   <p className="text-[12px] font-semibold text-[#031635]">v{selectedEssay.version ?? 1}</p>
@@ -503,9 +593,32 @@ export default function StudentEssaysPage() {
                 {selectedEssay.plagiarism_score != null && (
                   <div>
                     <p className="text-[10px] text-gray-400 uppercase tracking-wide">Originality</p>
-                    <p className="text-[12px] font-semibold text-[#031635]">
-                      {100 - selectedEssay.plagiarism_score}% original
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-[12px] font-semibold text-[#031635]">
+                        {Math.round((1 - selectedEssay.plagiarism_score) * 100)}%
+                      </p>
+                      <span
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: (1 - selectedEssay.plagiarism_score) >= 0.8
+                            ? '#D1FAE5'
+                            : (1 - selectedEssay.plagiarism_score) >= 0.6
+                              ? '#FEF3C7'
+                              : '#FEE2E2',
+                          color: (1 - selectedEssay.plagiarism_score) >= 0.8
+                            ? '#065F46'
+                            : (1 - selectedEssay.plagiarism_score) >= 0.6
+                              ? '#B45309'
+                              : '#991B1B',
+                        }}
+                      >
+                        {(1 - selectedEssay.plagiarism_score) >= 0.8
+                          ? 'High'
+                          : (1 - selectedEssay.plagiarism_score) >= 0.6
+                            ? 'Review'
+                            : 'Needs revision'}
+                      </span>
+                    </div>
                   </div>
                 )}
                 <div className="ml-auto">
@@ -519,6 +632,100 @@ export default function StudentEssaysPage() {
           )}
         </div>
       </div>
+
+      {/* Version History Panel */}
+      {showHistory && (
+        <div className="fixed inset-0 z-50 flex items-start justify-end bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md h-screen max-h-screen overflow-hidden flex flex-col p-6">
+            <div className="flex items-center justify-between mb-5 pb-4 border-b border-gray-200">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#031635]" style={{ fontSize: '20px' }}>history</span>
+                <h2 className="text-[17px] font-bold text-[#031635]">Version History</h2>
+              </div>
+              <button
+                onClick={() => {
+                  setShowHistory(false)
+                  setSelectedVersion(null)
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            {!selectedVersion ? (
+              <div className="flex-1 overflow-y-auto space-y-2">
+                {loadingVersions ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="h-20 bg-gray-100 rounded-lg animate-pulse" />
+                    ))}
+                  </div>
+                ) : versions.length === 0 ? (
+                  <div className="text-center py-8">
+                    <span className="material-symbols-outlined text-gray-300 text-3xl block mb-2">file_document</span>
+                    <p className="text-[12px] text-gray-400">No versions yet</p>
+                  </div>
+                ) : (
+                  versions.map((version) => (
+                    <button
+                      key={version.number}
+                      onClick={() => handleViewVersion(version)}
+                      className="w-full text-left px-4 py-3 rounded-lg border-0.5 hover:bg-gray-50 transition-colors"
+                      style={{ borderColor: '#e5e7eb' }}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-[13px] font-semibold text-[#031635]">v{version.number}</p>
+                        <span className="text-[11px] text-gray-400">{version.word_count} words</span>
+                      </div>
+                      <p className="text-[11px] text-gray-500">
+                        {new Date(version.created_at).toLocaleDateString()} at {new Date(version.created_at).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    </button>
+                  ))
+                )}
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <p className="text-[13px] font-semibold text-gray-600 mb-2">
+                    v{selectedVersion.number} — {selectedVersion.word_count} words
+                  </p>
+                  <p className="text-[11px] text-gray-500">
+                    {new Date(selectedVersion.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <textarea
+                  value={selectedVersion.content}
+                  readOnly
+                  className="flex-1 text-[12px] text-gray-700 leading-relaxed p-3 rounded-lg bg-gray-50 border-0.5 resize-none overflow-y-auto"
+                  style={{ borderColor: '#e5e7eb' }}
+                />
+                <div className="flex gap-2 mt-4">
+                  <button
+                    onClick={() => setSelectedVersion(null)}
+                    className="flex-1 px-4 py-2 text-[12px] font-semibold text-gray-600 rounded-lg border-0.5 hover:bg-gray-50"
+                    style={{ borderColor: '#e5e7eb' }}
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleRestoreVersion}
+                    className="flex-1 px-4 py-2 text-[12px] font-semibold text-white rounded-lg flex items-center justify-center gap-1.5"
+                    style={{ background: '#1D9E75' }}
+                  >
+                    <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>restore</span>
+                    Restore
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* New Essay Modal */}
       {showNewModal && (

@@ -85,6 +85,13 @@ export default async function StudentsPage({
         </div>
         <div className="flex items-center gap-3">
           <Link
+            href="/students/import"
+            className="flex items-center gap-2 px-4 py-2.5 text-primary text-sm font-semibold rounded-xl border border-outline-variant/30 bg-surface-container-lowest hover:bg-surface-bright transition-colors"
+          >
+            <span className="material-symbols-outlined text-sm">upload_file</span>
+            Import CSV
+          </Link>
+          <Link
             href="/students/new"
             className="flex items-center gap-2 px-5 py-2.5 text-white text-sm font-bold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all active:scale-[0.98]"
             style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}
@@ -92,10 +99,6 @@ export default async function StudentsPage({
             <span className="material-symbols-outlined text-sm">add</span>
             Add Student
           </Link>
-          <button className="px-4 py-2.5 bg-surface-container-lowest text-primary font-semibold text-sm rounded-xl flex items-center gap-2 border border-outline-variant/30 hover:bg-surface-bright transition-colors">
-            <span className="material-symbols-outlined text-sm">download</span>
-            Export CSV
-          </button>
         </div>
       </div>
 

@@ -15,9 +15,11 @@ interface SidebarProps {
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icon: 'dashboard' },
   { href: '/students', label: 'Students', icon: 'group' },
+  { href: '/colleges', label: 'Colleges', icon: 'school' },
   { href: '/kanban', label: 'Pipeline', icon: 'view_kanban' },
   { href: '/analytics', label: 'Analytics', icon: 'assessment' },
   { href: '/approvals', label: 'Approvals', icon: 'check_circle' },
+  { href: '/browser-agent', label: 'Common App', icon: 'smart_toy' },
   { href: '/reports', label: 'Reports', icon: 'summarize' },
 ]
 

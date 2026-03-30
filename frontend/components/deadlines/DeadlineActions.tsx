@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Check, Undo2, Pencil, Trash2, X } from 'lucide-react'
+import { Check, Undo2, Pencil, Trash2, X, Calendar } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { apiFetch } from '@/lib/api'
+import { apiFetch, deadlinesApi } from '@/lib/api'
 
 const DEADLINE_TYPES = [
   { value: 'application', label: 'Application' },
@@ -35,6 +35,7 @@ export default function DeadlineActions({ deadline }: DeadlineActionsProps) {
   const [completing, setCompleting] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [addingToCalendar, setAddingToCalendar] = useState(false)
 
   // Edit state
   const [editTitle, setEditTitle] = useState(deadline.title)
@@ -75,6 +76,16 @@ export default function DeadlineActions({ deadline }: DeadlineActionsProps) {
     }
   }
 
+  async function handleAddToCalendar() {
+    setAddingToCalendar(true)
+    try {
+      const response = await deadlinesApi.addToCalendar(deadline.id)
+      window.open(response.calendar_url, '_blank')
+    } finally {
+      setAddingToCalendar(false)
+    }
+  }
+
   async function handleEditSave(e: React.FormEvent) {
     e.preventDefault()
     if (!editTitle.trim() || !editDate) {
@@ -112,6 +123,16 @@ export default function DeadlineActions({ deadline }: DeadlineActionsProps) {
   return (
     <>
       <div className="flex items-center gap-1">
+        {/* Calendar */}
+        <button
+          onClick={handleAddToCalendar}
+          disabled={addingToCalendar}
+          className="h-7 w-7 rounded-[5px] flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition"
+          title="Add to Google Calendar"
+        >
+          <Calendar size={12} />
+        </button>
+
         {/* Complete/Uncomplete */}
         <button
           onClick={handleToggleComplete}
