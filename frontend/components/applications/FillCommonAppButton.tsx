@@ -70,6 +70,8 @@ export default function FillCommonAppButton({
   const [screenshots, setScreenshots] = useState<string[]>([])
   const [showModal, setShowModal] = useState(false)
   const [stopping, setStopping] = useState(false)
+  const [jobError, setJobError] = useState<string | null>(null)
+  const [lastCompletedStep, setLastCompletedStep] = useState<string | null>(null)
 
   // Memoize client so it's created only once — prevents subscription leaks on re-render
   const supabase = useMemo(() => createBrowserClient(), [])
@@ -89,13 +91,28 @@ export default function FillCommonAppButton({
           filter: `application_id=eq.${applicationId}`,
         },
         (payload: any) => {
-          const row = payload.new as { status?: string; id?: string; agent_type?: string; screenshot_urls?: string[] }
+          const row = payload.new as {
+            status?: string
+            id?: string
+            agent_type?: string
+            screenshot_urls?: string[]
+            error_message?: string
+            output_data?: { completed_steps?: string[]; step?: number }
+          }
           if (row.agent_type !== 'browser') return
           const newStatus = row.status as JobStatus
           if (newStatus) {
             setJobStatus(newStatus)
             if (row.id) setJobId(row.id)
             if (row.screenshot_urls?.length) setScreenshots(row.screenshot_urls)
+            if (row.error_message) setJobError(row.error_message)
+            if (row.output_data?.completed_steps?.length) {
+              const steps = row.output_data.completed_steps
+              setLastCompletedStep(steps[steps.length - 1] || null)
+            }
+            if (newStatus === 'completed' || newStatus === 'pending' || newStatus === 'running') {
+              setJobError(null)
+            }
           }
         }
       )
@@ -252,6 +269,30 @@ export default function FillCommonAppButton({
         <p style={{ fontSize: 11, color: '#185FA5', margin: 0 }}>
           Browser is filling the form — approval request coming soon
         </p>
+      )}
+
+      {/* Error detail when failed */}
+      {(jobStatus === 'failed' || jobStatus === 'rejected') && jobError && (
+        <div style={{
+          fontSize: 11,
+          color: '#991B1B',
+          background: '#FEF2F2',
+          border: '1px solid #FECACA',
+          borderRadius: 6,
+          padding: '6px 8px',
+          maxWidth: 260,
+          lineHeight: 1.4,
+        }}>
+          <strong>What failed:</strong> {jobError}
+          {lastCompletedStep && (
+            <div style={{ marginTop: 3, color: '#6B7280' }}>
+              Last completed step: <strong>{lastCompletedStep}</strong>
+            </div>
+          )}
+          <div style={{ marginTop: 4, color: '#374151' }}>
+            Click <strong>↺ Retry</strong> to restart from the beginning.
+          </div>
+        </div>
       )}
 
       {/* Screenshots + Stop controls for active jobs */}

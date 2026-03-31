@@ -210,12 +210,27 @@ function CredentialModal({
             <label className="text-xs font-semibold text-on-surface-variant uppercase">Gmail Password</label>
             <input
               type="password"
-              placeholder={isNew ? 'Gmail password' : 'Leave blank to keep current'}
+              placeholder={isNew ? 'Gmail App Password (recommended)' : 'Leave blank to keep current'}
               value={formData.gmail_password}
               onChange={(e) => setFormData({ ...formData, gmail_password: e.target.value })}
               className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
               required={isNew}
             />
+            <div className="mt-1.5 flex items-start gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2">
+              <span className="material-symbols-outlined text-amber-600 text-sm mt-0.5">warning</span>
+              <p className="text-xs text-amber-800">
+                Google blocks regular passwords for automated access.{' '}
+                <a
+                  href="https://myaccount.google.com/apppasswords"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold underline hover:text-amber-900"
+                >
+                  Create a Gmail App Password
+                </a>{' '}
+                and use that here instead. Takes 1 minute.
+              </p>
+            </div>
           </div>
 
           <div>

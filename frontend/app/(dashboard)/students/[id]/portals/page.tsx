@@ -55,6 +55,8 @@ export default function PortalsPage() {
   const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [activatingId, setActivatingId] = useState<string | null>(null)
+  // Map of portalId → { jobId, progress message }
+  const [activationJobs, setActivationJobs] = useState<Record<string, { jobId: string; progress: string }>>({})
   const [formData, setFormData] = useState({ university_name: '', portal_url: '', portal_pin: '' })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -102,14 +104,62 @@ export default function PortalsPage() {
   const handleActivate = async (portalId: string) => {
     setActivatingId(portalId)
     try {
-      await apiFetch(`/api/portals/${portalId}/activate`, { method: 'POST' })
-      await fetchPortals()
-    } catch (err) {
+      const res = await apiFetch<{ job_id: string; message: string }>(
+        `/api/portals/${portalId}/activate`,
+        { method: 'POST' }
+      )
+      setActivationJobs(prev => ({
+        ...prev,
+        [portalId]: { jobId: res.job_id, progress: 'Opening portal...' },
+      }))
+    } catch (err: any) {
       console.error('Failed to activate portal:', err)
-    } finally {
       setActivatingId(null)
     }
   }
+
+  // Poll all active activation jobs every 3 seconds
+  useEffect(() => {
+    const activePortalIds = Object.keys(activationJobs)
+    if (activePortalIds.length === 0) return
+
+    const interval = setInterval(async () => {
+      for (const portalId of activePortalIds) {
+        const { jobId } = activationJobs[portalId]
+        try {
+          const job = await apiFetch<{
+            status: string
+            error_message?: string
+            output_data?: { activated_at?: string }
+          }>(`/api/agent-jobs/${jobId}`)
+
+          if (job.status === 'running') {
+            setActivationJobs(prev => ({
+              ...prev,
+              [portalId]: { jobId, progress: 'Activating portal...' },
+            }))
+          } else if (job.status === 'completed' || job.status === 'failed') {
+            setActivationJobs(prev => {
+              const next = { ...prev }
+              delete next[portalId]
+              return next
+            })
+            setActivatingId(null)
+            await fetchPortals()
+          }
+        } catch {
+          setActivationJobs(prev => {
+            const next = { ...prev }
+            delete next[portalId]
+            return next
+          })
+          setActivatingId(null)
+        }
+      }
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [activationJobs, fetchPortals])
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr)
@@ -261,35 +311,26 @@ export default function PortalsPage() {
                   )}
 
                   {/* Activate button */}
-                  {portal.activation_status === 'not_started' && (
+                  {(portal.activation_status === 'not_started' || portal.activation_status === 'failed') && (
                     <button
                       onClick={() => handleActivate(portal.id)}
-                      disabled={activatingId === portal.id}
+                      disabled={!!activationJobs[portal.id] || activatingId === portal.id}
                       className="w-full mt-2 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-                      style={{ backgroundColor: '#1D9E75' }}
+                      style={{ backgroundColor: portal.activation_status === 'failed' ? '#EF4444' : '#1D9E75' }}
                     >
-                      {activatingId === portal.id ? (
+                      {activationJobs[portal.id] ? (
                         <span className="flex items-center justify-center gap-2">
                           <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                          Activating…
+                          {activationJobs[portal.id].progress}
                         </span>
                       ) : (
                         <span className="flex items-center justify-center gap-1">
-                          <span className="material-symbols-outlined text-sm">play_circle</span>
-                          Activate Portal
+                          <span className="material-symbols-outlined text-sm">
+                            {portal.activation_status === 'failed' ? 'replay' : 'play_circle'}
+                          </span>
+                          {portal.activation_status === 'failed' ? 'Retry Activation' : 'Activate Portal'}
                         </span>
                       )}
-                    </button>
-                  )}
-
-                  {/* Retry button */}
-                  {portal.activation_status === 'failed' && (
-                    <button
-                      onClick={() => handleActivate(portal.id)}
-                      disabled={activatingId === portal.id}
-                      className="w-full mt-2 py-2 rounded-lg text-sm font-semibold text-white bg-red-500 transition-opacity hover:opacity-90 disabled:opacity-60"
-                    >
-                      {activatingId === portal.id ? 'Retrying…' : 'Retry Activation'}
                     </button>
                   )}
 

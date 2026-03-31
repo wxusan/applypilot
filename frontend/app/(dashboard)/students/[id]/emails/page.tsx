@@ -140,6 +140,8 @@ export default function EmailMonitorPage() {
   const [emails, setEmails] = useState<EmailMonitor[]>([])
   const [loading, setLoading] = useState(true)
   const [isScanning, setIsScanning] = useState(false)
+  const [scanJobId, setScanJobId] = useState<string | null>(null)
+  const [scanProgress, setScanProgress] = useState<string | null>(null)
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all')
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
 
@@ -169,18 +171,66 @@ export default function EmailMonitorPage() {
 
   const handleScanNow = async () => {
     setIsScanning(true)
+    setScanProgress('Starting scan...')
+    setScanJobId(null)
     try {
-      await apiFetch<void>(`/api/email-monitor/scan?student_id=${params.id}`, {
-        method: 'POST',
-      })
-      showToast('Scanning email inbox...')
-      await loadEmails()
+      const res = await apiFetch<{ job_id: string; message: string }>(
+        `/api/email-monitor/scan?student_id=${params.id}`,
+        { method: 'POST' }
+      )
+      setScanJobId(res.job_id)
+      setScanProgress('Connecting to Gmail...')
     } catch (e: any) {
       showToast(e.message || 'Scan failed', 'error')
-    } finally {
       setIsScanning(false)
+      setScanProgress(null)
     }
   }
+
+  // Poll scan job status every 3 seconds until complete or failed
+  useEffect(() => {
+    if (!scanJobId) return
+    const interval = setInterval(async () => {
+      try {
+        const job = await apiFetch<{
+          status: string
+          output_data?: { emails_saved?: number; emails_fetched?: number }
+          error_message?: string
+        }>(`/api/agent-jobs/${scanJobId}`)
+
+        if (job.status === 'running') {
+          setScanProgress('Scanning inbox...')
+        } else if (job.status === 'completed') {
+          const saved = job.output_data?.emails_saved ?? 0
+          const fetched = job.output_data?.emails_fetched ?? 0
+          clearInterval(interval)
+          setScanJobId(null)
+          setScanProgress(null)
+          setIsScanning(false)
+          await loadEmails()
+          showToast(
+            saved > 0
+              ? `Scan complete — ${saved} new email${saved !== 1 ? 's' : ''} found`
+              : fetched > 0
+              ? `Scan complete — no new emails (${fetched} already tracked)`
+              : 'Scan complete — inbox is up to date'
+          )
+        } else if (job.status === 'failed') {
+          clearInterval(interval)
+          setScanJobId(null)
+          setScanProgress(null)
+          setIsScanning(false)
+          showToast(job.error_message || 'Scan failed', 'error')
+        }
+      } catch {
+        clearInterval(interval)
+        setIsScanning(false)
+        setScanProgress(null)
+        setScanJobId(null)
+      }
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [scanJobId, loadEmails])
 
   const handleEmailAction = async (email: EmailMonitor, action: string) => {
     try {
@@ -270,14 +320,29 @@ export default function EmailMonitorPage() {
             </p>
           </div>
         </div>
-        <button
-          onClick={handleScanNow}
-          disabled={isScanning}
-          className="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors disabled:opacity-50 flex items-center gap-2"
-        >
-          <span className="material-symbols-outlined text-base">refresh</span>
-          {isScanning ? 'Scanning...' : 'Scan Now'}
-        </button>
+        <div className="flex flex-col items-end gap-1">
+          <button
+            onClick={handleScanNow}
+            disabled={isScanning}
+            className="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            {isScanning ? (
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <span className="material-symbols-outlined text-base">refresh</span>
+            )}
+            {isScanning ? (scanProgress || 'Scanning...') : 'Scan Now'}
+          </button>
+          <a
+            href="https://myaccount.google.com/apppasswords"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-on-surface-variant hover:text-primary flex items-center gap-1"
+          >
+            <span className="material-symbols-outlined text-sm">info</span>
+            Gmail needs an App Password — create one here
+          </a>
+        </div>
       </div>
 
       {/* Filter Tabs */}
