@@ -420,18 +420,21 @@ async def update_agency(
     return result.data[0]
 
 
+class SuspendAgencyRequest(BaseModel):
+    note: Optional[str] = None
+
+
 @router.post("/agencies/{agency_id}/suspend", status_code=200)
 async def suspend_agency(
     agency_id: str,
+    body: SuspendAgencyRequest = SuspendAgencyRequest(),
     user: AuthUser = Depends(get_super_admin),
 ):
     """
     Suspend an agency. All members are deactivated so they cannot log in.
     The agency data (students, staff, etc.) is fully preserved.
+    Sends a Telegram notification to the agency's admin if possible.
     """
-    from supabase import create_client
-    from core.config import settings
-
     db = get_service_client()
 
     agency_res = db.table("agencies").select("id, name, subscription_status").eq("id", agency_id).single().execute()
@@ -439,6 +442,7 @@ async def suspend_agency(
         raise HTTPException(status_code=404, detail="Agency not found")
 
     agency_name = agency_res.data["name"]
+    note = body.note or ""
 
     db.table("agencies").update({"subscription_status": "suspended"}).eq("id", agency_id).execute()
     db.table("agency_members").update({"is_active": False}).eq("agency_id", agency_id).execute()
@@ -450,10 +454,25 @@ async def suspend_agency(
         entity_type="agency",
         entity_id=agency_id,
         old_value={"subscription_status": agency_res.data.get("subscription_status")},
-        new_value={"subscription_status": "suspended"},
+        new_value={"subscription_status": "suspended", "note": note},
     )
 
-    return {"message": f"Agency '{agency_name}' suspended"}
+    # Notify the agency's admin(s) via Telegram if they have a chat_id set
+    try:
+        from services.telegram_bot import send_message_to_agency_staff
+        note_line = f"\n\n📝 Reason: {note}" if note else ""
+        await send_message_to_agency_staff(
+            agency_id=agency_id,
+            message=(
+                f"⚠️ *Your ApplyPilot account has been suspended.*\n\n"
+                f"Agency: *{agency_name}*{note_line}\n\n"
+                f"Please contact support to resolve this."
+            ),
+        )
+    except Exception:
+        pass  # Telegram notification is best-effort
+
+    return {"message": f"Agency '{agency_name}' suspended", "note": note}
 
 
 @router.post("/agencies/{agency_id}/unsuspend", status_code=200)
@@ -549,8 +568,15 @@ async def delete_agency(
         old_value={"name": agency_name, "deleted_member_emails": deleted_auth_emails},
     )
 
-    # 3. Null out audit_log agency references (no ON DELETE SET NULL in live DB)
-    db.table("audit_logs").update({"agency_id": None}).eq("agency_id", agency_id).execute()
+    # 3. Null out audit_log agency references (column may or may not be nullable)
+    try:
+        db.table("audit_logs").update({"agency_id": None}).eq("agency_id", agency_id).execute()
+    except Exception:
+        # If the column is NOT NULL, just delete those audit log rows instead
+        try:
+            db.table("audit_logs").delete().eq("agency_id", agency_id).execute()
+        except Exception:
+            pass  # audit logs are best-effort, don't block the delete
 
     # 4. Delete agency — FK CASCADE handles students, agency_members, applications,
     #    documents, deadlines, essays, reports, billing, etc.

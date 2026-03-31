@@ -161,7 +161,6 @@ async def deactivate_staff(
 
     db.table("agency_members").update({
         "is_active": False,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
     }).eq("id", member_id).execute()
 
     # Revoke all active Supabase Auth sessions for this user immediately.
@@ -220,7 +219,6 @@ async def reactivate_staff(
 
     db.table("agency_members").update({
         "is_active": True,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
     }).eq("id", member_id).execute()
 
     await write_audit_log(

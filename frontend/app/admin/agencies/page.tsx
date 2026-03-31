@@ -86,6 +86,7 @@ export default function AgencyManagement() {
 
   // Suspend / Unsuspend confirm
   const [suspendTarget, setSuspendTarget] = useState<Agency | null>(null)
+  const [suspendNote, setSuspendNote] = useState('')
   const [unsuspendTarget, setUnsuspendTarget] = useState<Agency | null>(null)
   const [actionLoading, setActionLoading] = useState(false)
   const [actionError, setActionError] = useState<string | null>(null)
@@ -95,11 +96,16 @@ export default function AgencyManagement() {
   const [deleteConfirmName, setDeleteConfirmName] = useState('')
 
   const handleSuspend = async (agency: Agency) => {
+    if (!suspendNote.trim()) { setActionError('Please provide a reason for the suspension.'); return }
     setActionLoading(true)
     setActionError(null)
     try {
-      await apiFetch(`/api/super-admin/agencies/${agency.id}/suspend`, { method: 'POST' })
+      await apiFetch(`/api/super-admin/agencies/${agency.id}/suspend`, {
+        method: 'POST',
+        body: JSON.stringify({ note: suspendNote.trim() }),
+      })
       setSuspendTarget(null)
+      setSuspendNote('')
       loadAgencies()
     } catch (err: any) {
       setActionError(err.message || 'Failed to suspend agency.')
@@ -421,14 +427,23 @@ export default function AgencyManagement() {
               </div>
             </div>
             <p className="text-[13px] text-gray-700">
-              Are you sure you want to suspend <strong>{suspendTarget.name}</strong>?
-              All members will lose access until you reactivate.
-              Agency data is fully preserved.
+              This will block all logins for <strong>{suspendTarget.name}</strong>. Agency data is fully preserved and a notification will be sent to the agency.
             </p>
+            <div>
+              <label className="block text-[11px] font-medium text-gray-500 uppercase tracking-[0.5px] mb-1.5">Reason for suspension <span className="text-red-500">*</span></label>
+              <textarea
+                value={suspendNote}
+                onChange={(e) => setSuspendNote(e.target.value)}
+                placeholder="e.g. Outstanding payment, policy violation…"
+                rows={3}
+                className="w-full px-3 py-2 text-[13px] rounded-[8px] bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-orange-400 resize-none transition"
+                style={{ border: '0.5px solid #d1d5db' }}
+              />
+            </div>
             {actionError && <p className="text-[12px] text-red-500 font-medium">{actionError}</p>}
             <div className="flex gap-3 pt-1">
               <button
-                onClick={() => { setSuspendTarget(null); setActionError(null) }}
+                onClick={() => { setSuspendTarget(null); setSuspendNote(''); setActionError(null) }}
                 className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
               >
                 Cancel
