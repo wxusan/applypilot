@@ -340,10 +340,10 @@ export default function WorkflowPage() {
   const loadWorkflow = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await apiFetch<{ workflow: Workflow | null }>(
+      const res = await apiFetch<Workflow[]>(
         `/api/workflows?student_id=${params.id}`
       )
-      setWorkflow(res.workflow || null)
+      setWorkflow(Array.isArray(res) ? (res[0] || null) : null)
     } catch (e: any) {
       showToast(e.message || 'Failed to load workflow', 'error')
     } finally {
@@ -367,7 +367,6 @@ export default function WorkflowPage() {
       })
       setWorkflow(res)
       showToast('Workflow created!')
-      await loadWorkflow()
     } catch (e: any) {
       showToast(e.message || 'Failed to create workflow', 'error')
     }

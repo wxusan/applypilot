@@ -1,4 +1,28 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { apiFetch } from '@/lib/api'
+
+interface BillingStatus {
+  tokens_used: number
+  token_limit: number
+  subscription_plan: string
+}
+
 export default function TokenUsagePage() {
+  const [billing, setBilling] = useState<BillingStatus | null>(null)
+
+  useEffect(() => {
+    apiFetch<BillingStatus>('/api/settings/billing')
+      .then(setBilling)
+      .catch(() => {})
+  }, [])
+
+  const tokensRemaining = billing ? billing.token_limit - billing.tokens_used : null
+  const efficiencyPct = billing && billing.token_limit > 0
+    ? Math.round((1 - billing.tokens_used / billing.token_limit) * 100)
+    : null
+
   return (
     <div className="space-y-10">
       {/* Breadcrumbs & Header */}
@@ -79,7 +103,9 @@ export default function TokenUsagePage() {
           <div className="bg-primary p-8 rounded-xl text-white shadow-lg relative overflow-hidden">
             <div className="relative z-10">
               <p className="text-xs font-bold opacity-70 uppercase tracking-widest mb-1">Current Balance</p>
-              <h4 className="text-4xl font-extrabold tracking-tight mb-4">1,248,000</h4>
+              <h4 className="text-4xl font-extrabold tracking-tight mb-4">
+                {tokensRemaining !== null ? tokensRemaining.toLocaleString() : '—'}
+              </h4>
               <p className="text-sm font-medium opacity-80">Remaining tokens across all Pilot services.</p>
             </div>
             <div className="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
@@ -91,7 +117,9 @@ export default function TokenUsagePage() {
                 <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 128 128">
                   <circle cx="64" cy="64" fill="none" r="54" stroke="#031635" strokeDasharray="339.29" strokeDashoffset="67.85" strokeWidth="10"></circle>
                 </svg>
-                <span className="text-2xl font-extrabold text-primary">82%</span>
+                <span className="text-2xl font-extrabold text-primary">
+                  {efficiencyPct !== null ? `${efficiencyPct}%` : '—'}
+                </span>
               </div>
               <p className="text-xs font-semibold text-on-surface-variant text-center leading-relaxed">
                 Optimization level compared to peer institutional benchmarks.

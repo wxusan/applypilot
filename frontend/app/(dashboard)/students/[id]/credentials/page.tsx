@@ -122,13 +122,19 @@ function CredentialCard({
 
 function CredentialModal({
   credential,
+  isOpen,
   onClose,
   onSave,
 }: {
   credential: Credential | null
+  isOpen: boolean
   onClose: () => void
-  onSave: (data: Partial<Credential>) => void
+  onSave: (data: Partial<Credential> & { credential_type?: string }) => void
 }) {
+  const isNew = !credential?.id
+  const [credentialType, setCredentialType] = useState<'student' | 'teacher' | 'counsellor'>(
+    credential?.credential_type || 'student'
+  )
   const [formData, setFormData] = useState({
     label: credential?.label || '',
     gmail_email: credential?.gmail_email || '',
@@ -139,13 +145,13 @@ function CredentialModal({
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  if (!credential) return null
+  if (!isOpen) return null
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     try {
-      await onSave(formData)
+      await onSave({ ...formData, credential_type: credentialType })
       onClose()
     } finally {
       setIsSubmitting(false)
@@ -156,9 +162,28 @@ function CredentialModal({
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
       <div className="bg-surface rounded-2xl max-w-md w-full p-6">
         <h2 className="text-xl font-bold text-on-surface mb-4">
-          Edit {credential.label} Credentials
+          {isNew ? 'Add Credential' : `Edit ${credential?.label} Credentials`}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {isNew && (
+            <div>
+              <label className="text-xs font-semibold text-on-surface-variant uppercase">Credential Type</label>
+              <select
+                value={credentialType}
+                onChange={(e) => {
+                  const t = e.target.value as 'student' | 'teacher' | 'counsellor'
+                  setCredentialType(t)
+                  setFormData({ ...formData, label: CREDENTIAL_LABELS[t] })
+                }}
+                className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
+              >
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="counsellor">Counsellor</option>
+              </select>
+            </div>
+          )}
+
           <div>
             <label className="text-xs font-semibold text-on-surface-variant uppercase">Label</label>
             <input
@@ -166,7 +191,7 @@ function CredentialModal({
               value={formData.label}
               onChange={(e) => setFormData({ ...formData, label: e.target.value })}
               className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
-              disabled
+              disabled={!isNew}
             />
           </div>
 
@@ -185,10 +210,11 @@ function CredentialModal({
             <label className="text-xs font-semibold text-on-surface-variant uppercase">Gmail Password</label>
             <input
               type="password"
-              placeholder="Leave blank to keep current"
+              placeholder={isNew ? 'Gmail password' : 'Leave blank to keep current'}
               value={formData.gmail_password}
               onChange={(e) => setFormData({ ...formData, gmail_password: e.target.value })}
               className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
+              required={isNew}
             />
           </div>
 
@@ -235,7 +261,7 @@ function CredentialModal({
               disabled={isSubmitting}
               className="flex-1 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors disabled:opacity-50"
             >
-              {isSubmitting ? 'Saving...' : 'Save'}
+              {isSubmitting ? 'Saving...' : isNew ? 'Add Credential' : 'Save'}
             </button>
           </div>
         </form>
@@ -250,6 +276,7 @@ export default function CredentialsPage() {
   const [credentials, setCredentials] = useState<Credential[]>([])
   const [loading, setLoading] = useState(true)
   const [editingCredential, setEditingCredential] = useState<Credential | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
@@ -276,7 +303,7 @@ export default function CredentialsPage() {
     loadCredentials()
   }, [params.id, loadCredentials])
 
-  const handleSaveCredential = async (data: Partial<Credential>) => {
+  const handleSaveCredential = async (data: Partial<Credential> & { credential_type?: string }) => {
     try {
       if (editingCredential?.id) {
         await apiFetch<Credential>(`/api/credentials/${editingCredential.id}`, {
@@ -284,6 +311,21 @@ export default function CredentialsPage() {
           body: JSON.stringify(data),
         })
         showToast('Credential updated!')
+      } else {
+        await apiFetch<Credential>('/api/credentials', {
+          method: 'POST',
+          body: JSON.stringify({
+            student_id: params.id,
+            credential_type: data.credential_type || 'student',
+            label: data.label,
+            gmail_email: data.gmail_email,
+            gmail_password: data.gmail_password,
+            common_app_email: data.common_app_email,
+            common_app_password: data.common_app_password,
+            notes: data.notes,
+          }),
+        })
+        showToast('Credential added!')
       }
       await loadCredentials()
     } catch (e: any) {
@@ -346,6 +388,13 @@ export default function CredentialsPage() {
             </p>
           </div>
         </div>
+        <button
+          onClick={() => { setEditingCredential(null); setIsModalOpen(true) }}
+          className="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors flex items-center gap-2"
+        >
+          <span className="material-symbols-outlined text-base">add</span>
+          Add Credential
+        </button>
       </div>
 
       {loading ? (
@@ -386,7 +435,7 @@ export default function CredentialsPage() {
                     <CredentialCard
                       key={cred.id}
                       credential={cred}
-                      onEdit={setEditingCredential}
+                      onEdit={(c) => { setEditingCredential(c); setIsModalOpen(true) }}
                       onDelete={handleDeleteCredential}
                       onTest={handleTestCredential}
                     />
@@ -400,7 +449,8 @@ export default function CredentialsPage() {
 
       <CredentialModal
         credential={editingCredential}
-        onClose={() => setEditingCredential(null)}
+        isOpen={isModalOpen}
+        onClose={() => { setIsModalOpen(false); setEditingCredential(null) }}
         onSave={handleSaveCredential}
       />
     </div>

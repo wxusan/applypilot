@@ -22,5 +22,6 @@ async def get_agency_billing_status(user: AuthUser = Depends(get_current_user)):
         "tokens_used": agency.get("ai_tokens_used", 0),
         "token_limit": agency.get("ai_token_limit", 500000),
         "subscription_plan": agency.get("subscription_plan", "starter"),
-        "recent_activity": logs_res.data
+        "recent_activity": logs_res.data,
+        "user_role": user.role,
     }

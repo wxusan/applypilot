@@ -11,6 +11,7 @@ interface BillingStatus {
   token_limit: number
   subscription_plan: string
   recent_activity: { label: string; time: string }[]
+  user_role?: string
 }
 
 interface PaymentRecord {
@@ -351,8 +352,9 @@ export default function BillingSettings() {
 
       {/* ════════════════════════════════════════════
           SECTION 3 — Payment Records & Note Panel (038)
+          Only visible to super_admin role
       ════════════════════════════════════════════ */}
-      <section>
+      {data?.user_role === 'super_admin' && <section>
         <div className="mb-6">
           <h2 className="font-[Manrope] text-[20px] font-extrabold text-[#031635]">Agency Payment Records</h2>
           <p className="text-[13px] text-gray-500 mt-1">Manage financial records and log manual payment entries for registered agencies.</p>
@@ -544,7 +546,7 @@ export default function BillingSettings() {
             </table>
           </div>
         </div>
-      </section>
+      </section>}
 
       {showRenewalConfirmed && (
         <RenewalConfirmedModal
