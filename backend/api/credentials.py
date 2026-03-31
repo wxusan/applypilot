@@ -14,6 +14,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 import uuid
+from datetime import datetime, timezone
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -178,7 +179,7 @@ async def test_credential(credential_id: str, user: AuthUser = Depends(get_curre
     }
 
     db.table("student_credentials").update({
-        "last_tested_at": "now()",
+        "last_tested_at": datetime.now(timezone.utc).isoformat(),
         "last_test_result": result["status"]
     }).eq("id", credential_id).execute()
 

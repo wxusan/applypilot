@@ -15,6 +15,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 import uuid
+from datetime import datetime, timezone
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -175,7 +176,7 @@ async def start_workflow(workflow_id: str, user: AuthUser = Depends(get_current_
     if workflow.data['status'] not in ('draft', 'paused'):
         raise HTTPException(400, f"Cannot start workflow in status: {workflow.data['status']}")
 
-    db.table("automation_workflows").update({"status": "running", "started_at": "now()"}).eq("id", workflow_id).execute()
+    db.table("automation_workflows").update({"status": "running", "started_at": datetime.now(timezone.utc).isoformat()}).eq("id", workflow_id).execute()
 
     # Trigger first step (in Phase 4C this will kick off the agent)
     # For now, just mark first pending step as queued

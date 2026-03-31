@@ -13,6 +13,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional, List
 import uuid
+from datetime import datetime, timezone
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -94,5 +95,5 @@ async def activate_portal(portal_id: str, user: AuthUser = Depends(get_current_u
     if not portal.data:
         raise HTTPException(404, "Portal not found")
     # Phase 4G will trigger portal_agent here
-    db.table("portal_sessions").update({"last_checked_at": "now()"}).eq("id", portal_id).execute()
+    db.table("portal_sessions").update({"last_checked_at": datetime.now(timezone.utc).isoformat()}).eq("id", portal_id).execute()
     return {"success": True, "message": "Portal activation queued. Agent will process shortly."}

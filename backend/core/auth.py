@@ -74,7 +74,8 @@ async def get_current_user(
 
     # Update last_active_at (best-effort, fire-and-forget)
     try:
-        db.table("users").update({"last_active_at": "now()"}).eq("id", user_id).execute()
+        from datetime import datetime, timezone
+        db.table("users").update({"last_active_at": datetime.now(timezone.utc).isoformat()}).eq("id", user_id).execute()
     except Exception:
         pass
 

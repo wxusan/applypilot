@@ -11,6 +11,7 @@ Endpoints:
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime, timezone
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -47,7 +48,7 @@ async def mark_paid(payment_id: str, body: PaymentAction, user: AuthUser = Depen
     db.table("payment_flags").update({
         "status": "paid",
         "marked_paid_by": user.id,
-        "marked_paid_at": "now()",
+        "marked_paid_at": datetime.now(timezone.utc).isoformat(),
         "notes": body.notes,
     }).eq("id", payment_id).execute()
 
@@ -69,7 +70,7 @@ async def waive_payment(payment_id: str, body: PaymentAction, user: AuthUser = D
     db.table("payment_flags").update({
         "status": "waived",
         "marked_paid_by": user.id,
-        "marked_paid_at": "now()",
+        "marked_paid_at": datetime.now(timezone.utc).isoformat(),
         "notes": body.notes,
     }).eq("id", payment_id).execute()
 

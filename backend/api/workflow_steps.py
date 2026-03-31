@@ -12,6 +12,7 @@ Endpoints:
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime, timezone
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -52,7 +53,7 @@ async def approve_step(step_id: str, body: ApproveBody, user: AuthUser = Depends
     updates = {
         "status": "approved",
         "approved_by": user.id,
-        "approved_at": "now()",
+        "approved_at": datetime.now(timezone.utc).isoformat(),
         "final_content": final_content,
     }
     if body.edited_content:

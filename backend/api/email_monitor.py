@@ -12,6 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 import uuid
+from datetime import datetime, timezone
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -42,7 +43,7 @@ async def action_email(email_id: str, body: ActionBody, user: AuthUser = Depends
     email = db.table("monitored_emails").select("id, agency_id").eq("id", email_id).eq("agency_id", user.agency_id).single().execute()
     if not email.data:
         raise HTTPException(404, "Email not found")
-    db.table("monitored_emails").update({"is_actioned": True, "actioned_at": "now()"}).eq("id", email_id).execute()
+    db.table("monitored_emails").update({"is_actioned": True, "actioned_at": datetime.now(timezone.utc).isoformat()}).eq("id", email_id).execute()
     return {"success": True}
 
 
