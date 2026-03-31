@@ -9,11 +9,11 @@ interface EmailMonitor {
   id: string
   student_id: string
   received_at: string
-  from_email: string
+  from_address: string
   subject: string
   classification: 'portal_activation' | 'document_request' | 'decision' | 'general_university' | 'ignore'
-  university?: string
-  summary?: string
+  university_name?: string
+  content_summary?: string
   is_actioned: boolean
 }
 
@@ -107,7 +107,7 @@ function EmailRow({
       <td className="px-4 py-3 text-xs text-on-surface-variant">
         {new Date(email.received_at).toLocaleDateString()}
       </td>
-      <td className="px-4 py-3 text-sm text-on-surface truncate max-w-48">{email.from_email}</td>
+      <td className="px-4 py-3 text-sm text-on-surface truncate max-w-48">{email.from_address}</td>
       <td className="px-4 py-3 text-sm text-on-surface truncate max-w-96">{email.subject}</td>
       <td className="px-4 py-3">
         <div
@@ -118,8 +118,8 @@ function EmailRow({
           {config.label}
         </div>
       </td>
-      <td className="px-4 py-3 text-sm text-on-surface-variant">{email.university || '—'}</td>
-      <td className="px-4 py-3 text-xs text-on-surface-variant max-w-xs truncate">{email.summary || '—'}</td>
+      <td className="px-4 py-3 text-sm text-on-surface-variant">{email.university_name || '—'}</td>
+      <td className="px-4 py-3 text-xs text-on-surface-variant max-w-xs truncate">{email.content_summary || '—'}</td>
       <td className="px-4 py-3">
         <input
           type="checkbox"
@@ -151,10 +151,10 @@ export default function EmailMonitorPage() {
   const loadEmails = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await apiFetch<{ emails: EmailMonitor[] }>(
+      const res = await apiFetch<EmailMonitor[]>(
         `/api/email-monitor?student_id=${params.id}`
       )
-      setEmails(res.emails || [])
+      setEmails(Array.isArray(res) ? res : [])
     } catch (e: any) {
       showToast(e.message || 'Failed to load emails', 'error')
     } finally {
