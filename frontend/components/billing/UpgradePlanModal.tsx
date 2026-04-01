@@ -8,32 +8,32 @@ interface UpgradePlanModalProps {
 
 const PLANS = [
   {
-    id: 'standard',
+    id: 'starter',
     tier: 'Base Tier',
-    name: 'Standard',
-    price: '$499',
+    name: 'Starter',
+    price: '$79',
     period: '/mo',
     features: [
-      { text: 'Up to 25 active students', included: true },
+      { text: 'Up to 15 active students', included: true },
       { text: '2 Staff seats', included: true },
-      { text: 'Standard AI Pilot access', included: true },
-      { text: 'Advanced document automation', included: false },
+      { text: '1.5M AI Tokens / month', included: true },
+      { text: 'Custom branded portals', included: false },
     ],
     cta: 'Current Selection',
     isCurrent: true,
   },
   {
-    id: 'professional',
-    tier: 'Architect Tier',
-    name: 'Professional',
-    price: '$1,299',
+    id: 'pro',
+    tier: 'Pro Tier',
+    name: 'Pro',
+    price: '$199',
     period: '/mo',
     features: [
-      { text: 'Up to 100 active students', included: true },
-      { text: '10 Staff seats', included: true },
-      { text: 'Priority AI Pilot processing', included: true },
-      { text: 'Advanced document automation', included: true },
-      { text: 'Custom Agency branding', included: true },
+      { text: 'Up to 35 active students', included: true },
+      { text: '4 Staff seats', included: true },
+      { text: '5M AI Tokens / month', included: true },
+      { text: 'Advanced AI analysis', included: true },
+      { text: 'Custom branded portals', included: true },
     ],
     cta: 'Request Upgrade',
     recommended: true,
@@ -46,7 +46,7 @@ const PLANS = [
     features: [
       { text: 'Unlimited students', included: true },
       { text: 'Unlimited staff seats', included: true },
-      { text: 'Dedicated Success Architect', included: true },
+      { text: 'Unlimited AI Tokens', included: true },
       { text: 'White-labeled portal access', included: true },
     ],
     cta: 'Contact Sales',
@@ -143,9 +143,9 @@ export default function UpgradePlanModal({
         <h2 className="font-headline text-2xl font-bold text-primary mb-8">Capacity Breakdown</h2>
         <div className="flex flex-col gap-4">
           {[
-            { icon: 'group', title: 'Student Roster', desc: 'Total active application dossiers managed', current: '25', upgrade: '100' },
-            { icon: 'badge', title: 'Staff Accounts', desc: 'Consultants, writers, and administrators', current: '2', upgrade: '10' },
-            { icon: 'cloud_upload', title: 'Storage Vault', desc: 'Encrypted document and portfolio storage', current: '10 GB', upgrade: '100 GB' },
+            { icon: 'group', title: 'Student Roster', desc: 'Total active application dossiers managed', current: '15', upgrade: '35' },
+            { icon: 'badge', title: 'Staff Accounts', desc: 'Consultants, writers, and administrators', current: '2', upgrade: '4' },
+            { icon: 'bolt', title: 'AI Tokens / month', desc: 'Used for essays, emails, and Common App fill', current: '1.5M', upgrade: '5M' },
           ].map((item) => (
             <div key={item.title} className="bg-surface-container-lowest rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:bg-surface-bright border border-outline-variant/10">
               <div className="flex items-center gap-5">

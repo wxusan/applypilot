@@ -79,8 +79,8 @@ export default function AgencyManagement() {
 
   // Plan configs — seeded with real defaults; updated from DB on load
   const [planConfigs, setPlanConfigs] = useState<Record<string, PlanConfig>>({
-    starter:    { max_staff: 2,  max_students: 15,  ai_token_limit: 750000,   price_monthly: 79  },
-    pro:        { max_staff: 4,  max_students: 35,  ai_token_limit: 2500000,  price_monthly: 199 },
+    starter:    { max_staff: 2,  max_students: 15,  ai_token_limit: 1500000,  price_monthly: 79  },
+    pro:        { max_staff: 4,  max_students: 35,  ai_token_limit: 5000000,  price_monthly: 199 },
     enterprise: { max_staff: 0,  max_students: 0,   ai_token_limit: 0,        price_monthly: 499 },
   })
 
@@ -150,7 +150,7 @@ export default function AgencyManagement() {
   const [createError, setCreateError] = useState<string | null>(null)
   const [createResult, setCreateResult] = useState<{ invite_error?: string | null } | null>(null)
   const [form, setForm] = useState<CreateAgencyForm>({
-    name: '', owner_email: '', plan: 'starter', counselor_seats: 2, max_students: 15, ai_tokens: 750000, trial_days: 14,
+    name: '', owner_email: '', plan: 'starter', counselor_seats: 2, max_students: 15, ai_tokens: 1500000, trial_days: 14,
   })
 
   async function loadAgencies() {
@@ -227,7 +227,7 @@ export default function AgencyManagement() {
         note: `Agency: ${form.name} · Plan: ${form.plan}`,
       })
       const starterCfg = planConfigs['starter']
-      setForm({ name: '', owner_email: '', plan: 'starter', counselor_seats: starterCfg?.max_staff || 2, max_students: starterCfg?.max_students || 15, ai_tokens: starterCfg?.ai_token_limit || 750000, trial_days: 14 })
+      setForm({ name: '', owner_email: '', plan: 'starter', counselor_seats: starterCfg?.max_staff || 2, max_students: starterCfg?.max_students || 15, ai_tokens: starterCfg?.ai_token_limit || 1500000, trial_days: 14 })
       loadAgencies()
     } catch (err: any) {
       setCreateError(err?.message || 'Failed to create agency.')

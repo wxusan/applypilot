@@ -4,8 +4,8 @@
 -- = $178 total gave MORE staff/students than Pro ($199). This made Pro a bad deal.
 --
 -- Fix: Raise seat add-on prices so the token limit remains the real upgrade driver.
--- Even with max seat add-ons, Starter is capped at 750k tokens.
--- Pro ($199) comes with 2.5M tokens built-in — that's the real trap.
+-- Even with max seat add-ons, Starter is capped at 1.5M tokens.
+-- Pro ($199) comes with 5M tokens built-in — that's the real trap.
 --
 -- Corrected add-on prices:
 --   seats_growth  → $49/mo  (was $29)
@@ -24,8 +24,8 @@ alter table plan_configs
 insert into plan_configs
   (plan, max_staff, max_students, ai_token_limit, price_monthly, price_annual, is_most_popular)
 values
-  ('starter',    2,   15,   750000,   79,  790,  false),
-  ('pro',        4,   35,   2500000,  199, 1990, true),
+  ('starter',    2,   15,   1500000,  79,  790,  false),
+  ('pro',        4,   35,   5000000,  199, 1990, true),
   ('enterprise', 0,   0,    0,        499, 4990, false)   -- 0 = unlimited
 on conflict (plan) do update set
   max_staff        = excluded.max_staff,
@@ -49,9 +49,9 @@ create table if not exists addon_packages (
 );
 
 -- ── 4. Upsert corrected seat add-on prices ────────────────────────────────
--- Prices are now high enough that Pro ($199, 2.5M tokens) beats any Starter combo.
--- Starter + seats_scale = $79 + $179 = $258, and you're STILL stuck on 750k tokens.
--- Pro = $199 and comes with 2.5M tokens. The math forces upgrade.
+-- Prices are now high enough that Pro ($199, 5M tokens) beats any Starter combo.
+-- Starter + seats_scale = $79 + $179 = $258, and you're STILL stuck on 1.5M tokens.
+-- Pro = $199 and comes with 5M tokens. The math forces upgrade.
 
 insert into addon_packages
   (id, type, label, extra_staff, extra_students, extra_tokens, price_monthly, sort_order)

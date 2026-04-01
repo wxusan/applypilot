@@ -30,28 +30,28 @@ const MOCK_PAYMENTS: PaymentRecord[] = [
 ]
 
 const PLAN_FEATURES = {
-  standard: [
-    { label: '25 Student Roster', included: true },
+  starter: [
+    { label: '15 Student Roster', included: true },
     { label: '2 Staff Accounts', included: true },
-    { label: '10 GB Storage Vault', included: true },
-    { label: 'Basic AI Drafting', included: true },
+    { label: '1.5M AI Tokens / month', included: true },
+    { label: 'Core AI Counselor', included: true },
     { label: 'Priority Support', included: false },
     { label: 'Advanced Analytics', included: false },
-    { label: 'Custom Integrations', included: false },
+    { label: 'Custom Branded Portals', included: false },
   ],
-  professional: [
-    { label: '100 Student Roster', included: true },
-    { label: '10 Staff Accounts', included: true },
-    { label: '50 GB Storage Vault', included: true },
-    { label: 'Advanced AI Drafting', included: true },
-    { label: 'Priority Support', included: true },
+  pro: [
+    { label: '35 Student Roster', included: true },
+    { label: '4 Staff Accounts', included: true },
+    { label: '5M AI Tokens / month', included: true },
+    { label: 'Advanced AI Analysis', included: true },
+    { label: 'Priority 24/7 Support', included: true },
     { label: 'Advanced Analytics', included: true },
-    { label: 'Custom Integrations', included: false },
+    { label: 'Custom Branded Portals', included: true },
   ],
   enterprise: [
     { label: 'Unlimited Students', included: true },
     { label: 'Unlimited Staff', included: true },
-    { label: '500 GB Storage Vault', included: true },
+    { label: 'Unlimited AI Tokens', included: true },
     { label: 'Full AI Suite', included: true },
     { label: 'Dedicated Support', included: true },
     { label: 'Advanced Analytics', included: true },
@@ -227,18 +227,18 @@ export default function BillingSettings() {
         {/* Plan cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
 
-          {/* Standard */}
+          {/* Starter */}
           <div className="bg-[#f7f9fb] border border-gray-200 rounded-2xl p-6 flex flex-col">
             <div className="mb-4">
-              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</p>
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Starter</p>
               <div className="flex items-end gap-1">
-                <span className="font-[Manrope] text-[28px] font-extrabold text-[#031635]">$499</span>
+                <span className="font-[Manrope] text-[28px] font-extrabold text-[#031635]">$79</span>
                 <span className="text-[12px] text-gray-500 mb-1">/mo</span>
               </div>
               <p className="text-[12px] text-gray-500 mt-1">For small agencies getting started</p>
             </div>
             <ul className="space-y-2.5 flex-1 mb-6">
-              {PLAN_FEATURES.standard.map((f, i) => (
+              {PLAN_FEATURES.starter.map((f, i) => (
                 <li key={i} className="flex items-center gap-2 text-[12px]">
                   <span
                     className={`material-symbols-outlined shrink-0 ${f.included ? 'text-[#031635]' : 'text-gray-300'}`}
@@ -255,7 +255,7 @@ export default function BillingSettings() {
             </button>
           </div>
 
-          {/* Professional — Recommended */}
+          {/* Pro — Recommended */}
           <div className="bg-white border-2 border-[#031635] rounded-2xl p-6 flex flex-col shadow-xl relative">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2">
               <span className="bg-[#031635] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest">
@@ -263,15 +263,15 @@ export default function BillingSettings() {
               </span>
             </div>
             <div className="mb-4 mt-2">
-              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Professional</p>
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Pro</p>
               <div className="flex items-end gap-1">
-                <span className="font-[Manrope] text-[28px] font-extrabold text-[#031635]">$1,299</span>
+                <span className="font-[Manrope] text-[28px] font-extrabold text-[#031635]">$199</span>
                 <span className="text-[12px] text-gray-500 mb-1">/mo</span>
               </div>
               <p className="text-[12px] text-gray-500 mt-1">For growing agencies scaling fast</p>
             </div>
             <ul className="space-y-2.5 flex-1 mb-6">
-              {PLAN_FEATURES.professional.map((f, i) => (
+              {PLAN_FEATURES.pro.map((f, i) => (
                 <li key={i} className="flex items-center gap-2 text-[12px]">
                   <span
                     className={`material-symbols-outlined shrink-0 ${f.included ? 'text-[#031635]' : 'text-gray-300'}`}
@@ -318,12 +318,13 @@ export default function BillingSettings() {
 
         {/* Capacity Breakdown */}
         <div className="bg-[#f2f4f6] rounded-3xl p-7 mb-5">
-          <p className="font-[Manrope] text-[13px] font-bold text-[#031635] uppercase tracking-widest mb-5">Capacity Breakdown: Standard → Professional</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <p className="font-[Manrope] text-[13px] font-bold text-[#031635] uppercase tracking-widest mb-5">Capacity Breakdown: Starter → Pro</p>
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
             {[
-              { icon: 'group', label: 'Student Roster', from: '25', to: '100' },
-              { icon: 'badge', label: 'Staff Accounts', from: '2', to: '10' },
-              { icon: 'storage', label: 'Storage Vault', from: '10 GB', to: '50 GB' },
+              { icon: 'group', label: 'Student Roster', from: '15', to: '35' },
+              { icon: 'badge', label: 'Staff Accounts', from: '2', to: '4' },
+              { icon: 'bolt', label: 'AI Tokens / mo', from: '1.5M', to: '5M' },
+              { icon: 'support_agent', label: 'Support', from: 'Standard', to: 'Priority 24/7' },
             ].map((item) => (
               <div key={item.label} className="bg-white rounded-2xl p-5 border border-gray-200">
                 <span className="material-symbols-outlined text-[#031635] mb-3 block" style={{ fontSize: 22 }}>{item.icon}</span>
