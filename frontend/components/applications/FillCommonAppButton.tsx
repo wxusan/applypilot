@@ -267,7 +267,7 @@ export default function FillCommonAppButton({
 
       {jobStatus === 'running' && (
         <p style={{ fontSize: 11, color: '#185FA5', margin: 0 }}>
-          Browser is filling the form — approval request coming soon
+          🤖 Browser is filling the form — check Telegram to approve each step
         </p>
       )}
 

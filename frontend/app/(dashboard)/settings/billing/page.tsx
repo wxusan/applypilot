@@ -307,7 +307,8 @@ export default function BillingSettings() {
             <div className="mb-4">
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Enterprise</p>
               <div className="flex items-end gap-1">
-                <span className="font-[Manrope] text-[28px] font-extrabold text-[#031635]">Custom</span>
+                <span className="font-[Manrope] text-[28px] font-extrabold text-[#031635]">$499</span>
+                <span className="text-[12px] text-gray-500 mb-1">/mo</span>
               </div>
               <p className="text-[12px] text-gray-500 mt-1">Tailored for large-scale operations</p>
             </div>
