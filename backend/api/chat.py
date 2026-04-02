@@ -76,33 +76,37 @@ async def _stream_openai(messages: list[dict], conversation_id: str, agency_id: 
 
     accumulated = ""
     try:
-        async with client.chat.completions.stream(
+        stream = await client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
             max_tokens=1024,
             temperature=0.7,
-        ) as stream:
-            async for chunk in stream:
-                delta = chunk.choices[0].delta.content if chunk.choices else None
-                if delta:
-                    accumulated += delta
-                    yield f"data: {json.dumps({'type': 'delta', 'content': delta})}\n\n"
+            stream=True,
+        )
+        async for chunk in stream:
+            if not chunk.choices:
+                continue
+            delta = chunk.choices[0].delta.content
+            if delta:
+                accumulated += delta
+                yield f"data: {json.dumps({'type': 'delta', 'content': delta})}\n\n"
     except Exception as e:
         logger.error(f"[chat] OpenAI streaming error: {e}")
         yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
         return
 
     # Persist the assistant message
-    try:
-        db = get_service_client()
-        db.table("chat_messages").insert({
-            "conversation_id": conversation_id,
-            "agency_id": agency_id,
-            "role": "assistant",
-            "content": accumulated,
-        }).execute()
-    except Exception as e:
-        logger.warning(f"[chat] Failed to persist assistant message: {e}")
+    if accumulated:
+        try:
+            db = get_service_client()
+            db.table("chat_messages").insert({
+                "conversation_id": conversation_id,
+                "agency_id": agency_id,
+                "role": "assistant",
+                "content": accumulated,
+            }).execute()
+        except Exception as e:
+            logger.warning(f"[chat] Failed to persist assistant message: {e}")
 
     yield f"data: {json.dumps({'type': 'done'})}\n\n"
 
@@ -190,7 +194,7 @@ async def get_messages(
         db.table("chat_messages")
         .select("*")
         .eq("conversation_id", conversation_id)
-        .order("created_at", asc=True)
+        .order("created_at")
         .execute()
     )
     return messages.data or []
@@ -240,7 +244,7 @@ async def send_message(
         db.table("chat_messages")
         .select("role, content")
         .eq("conversation_id", conversation_id)
-        .order("created_at", asc=True)
+        .order("created_at")
         .limit(20)
         .execute()
     )
