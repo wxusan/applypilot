@@ -1,8 +1,0 @@
-fix: remove created_by from agent_jobs insert (column does not exist)
-
-POST /api/agent-jobs was returning 500 because the insert payload
-included "created_by" which is not a column in the agent_jobs table.
-Removing it fixes the endpoint so approval jobs can be created
-from the emails page and other UI surfaces.
-
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
