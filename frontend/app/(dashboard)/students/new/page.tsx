@@ -14,8 +14,25 @@ const STATUSES = ['intake', 'forms', 'writing', 'review', 'submitted', 'accepted
 const APP_TYPES = [
   { value: 'freshman', label: 'Freshman', desc: 'First-year undergraduate' },
   { value: 'transfer', label: 'Transfer', desc: 'Transferring from another school' },
-  { value: 'graduate', label: 'Graduate', desc: "Master's or PhD program" },
 ]
+
+/** Auto-generates the next 4 intake options (2 years × Fall + Spring). */
+function getSeasonOptions(): { value: string; label: string }[] {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = now.getMonth() + 1 // 1–12
+  // If before August, the upcoming fall belongs to this year; otherwise next year.
+  const startYear = month < 8 ? year : year + 1
+  const options: { value: string; label: string }[] = []
+  for (let i = 0; i < 2; i++) {
+    const y = startYear + i
+    const academic = `${y}-${String(y + 1).slice(2)}`
+    options.push({ value: `${academic} Fall`,   label: `${academic} Fall`   })
+    options.push({ value: `${academic} Spring`, label: `${academic} Spring` })
+  }
+  return options
+}
+const SEASON_OPTIONS = getSeasonOptions()
 
 export default function NewStudentPage() {
   const router = useRouter()
@@ -28,7 +45,7 @@ export default function NewStudentPage() {
     email: '',
     date_of_birth: '',
     nationality: '',
-    season: '',
+    season: SEASON_OPTIONS[0].value,  // pre-select next upcoming intake
     status: 'intake',
     application_type: 'freshman',
   })
@@ -124,8 +141,11 @@ export default function NewStudentPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className={labelCls}>Application Season</label>
-              <input type="text" value={form.season} onChange={set('season')}
-                placeholder="e.g. 2025-26" className={inputCls} />
+              <select value={form.season} onChange={set('season')} className={inputCls}>
+                {SEASON_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label className={labelCls}>Status</label>
@@ -140,7 +160,7 @@ export default function NewStudentPage() {
           {/* Application type */}
           <div>
             <label className={labelCls}>Application Type</label>
-            <div className="grid grid-cols-3 gap-2 mt-1">
+            <div className="grid grid-cols-2 gap-2 mt-1">
               {APP_TYPES.map(opt => (
                 <label
                   key={opt.value}

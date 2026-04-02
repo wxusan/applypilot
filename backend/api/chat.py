@@ -47,20 +47,20 @@ class SendMessageRequest(BaseModel):
 
 def _build_student_context(student: dict) -> str:
     """Serialize key student fields into a concise context block for the AI."""
-    name = f"{student.get('first_name', '')} {student.get('last_name', '')}".strip()
-    parts = [f"Student: {name}"]
+    name = student.get("full_name") or ""
+    parts = [f"Student: {name}"] if name else []
     if student.get("gpa"):
         parts.append(f"GPA: {student['gpa']}")
-    if student.get("sat_score"):
-        parts.append(f"SAT: {student['sat_score']}")
-    if student.get("act_score"):
-        parts.append(f"ACT: {student['act_score']}")
-    if student.get("target_major"):
-        parts.append(f"Target Major: {student['target_major']}")
+    if student.get("sat_total"):
+        parts.append(f"SAT: {student['sat_total']}")
+    if student.get("intended_major"):
+        parts.append(f"Target Major: {student['intended_major']}")
     if student.get("graduation_year"):
         parts.append(f"Graduation Year: {student['graduation_year']}")
-    if student.get("status"):
-        parts.append(f"Application Status: {student['status']}")
+    if student.get("nationality"):
+        parts.append(f"Nationality: {student['nationality']}")
+    if student.get("high_school_name"):
+        parts.append(f"School: {student['high_school_name']}")
     return " | ".join(parts)
 
 
@@ -123,9 +123,9 @@ async def create_conversation(
     # Resolve title from student name if not provided
     title = body.title
     if not title and body.student_id:
-        student = db.table("students").select("first_name, last_name").eq("id", body.student_id).maybe_single().execute()
+        student = db.table("students").select("full_name").eq("id", body.student_id).maybe_single().execute()
         if student.data:
-            title = f"Chat: {student.data['first_name']} {student.data['last_name']}"
+            title = f"Chat: {student.data['full_name']}"
 
     result = db.table("chat_conversations").insert({
         "agency_id": user.agency_id,
