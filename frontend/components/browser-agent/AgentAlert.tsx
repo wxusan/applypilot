@@ -12,16 +12,12 @@ interface AgentAlertProps {
 }
 
 export default function AgentAlert({
-  studentName = 'Marcus V. Thompson',
-  studentId = '4882-991',
-  portalName = 'Stanford Admin Portal',
-  portalUrl = 'secure-access.stanford.edu',
-  alertMessage = 'Scheduled system maintenance will begin in 10 minutes. Please save your work and logout.',
-  logs = [
-    { time: '14:22', message: 'Login successful. Navigating to Common App Sync.' },
-    { time: '14:23', message: 'Drafting essay section \'Personal Growth\'.' },
-    { time: '14:25', message: 'Blocked: Unexpected portal popup detected.', isError: true },
-  ],
+  studentName = '',
+  studentId = '',
+  portalName = 'Portal',
+  portalUrl = '',
+  alertMessage = 'An unexpected interruption occurred. Please review.',
+  logs = [],
   onManualResolve,
   onRetryDetection,
 }: AgentAlertProps) {

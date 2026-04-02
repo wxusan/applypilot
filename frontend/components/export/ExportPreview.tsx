@@ -2,9 +2,21 @@
 
 import { useState } from 'react'
 
+interface StudentPreviewRow {
+  name: string
+  id: string
+  gpa: string
+  university: string
+  status: string
+}
+
 interface ExportPreviewProps {
   onClose?: () => void
   onExport?: () => void
+  /** Real student rows to display in the preview table. Falls back to sample data if omitted. */
+  students?: StudentPreviewRow[]
+  /** Total number of students in the export (shown in footer). Defaults to students.length. */
+  totalCount?: number
 }
 
 const ALL_FIELDS = [
@@ -17,13 +29,15 @@ const ALL_FIELDS = [
   { id: 'last_login', label: 'Last Login Date', defaultChecked: false },
 ]
 
-const PREVIEW_ROWS = [
-  { name: 'Alexander Thorne', id: 'APP-2209', gpa: '4.0 W', university: 'Yale, Harvard', status: 'Under Review' },
-  { name: 'Elena Rodriguez', id: 'APP-1847', gpa: '3.98 W', university: 'Oxford, MIT', status: 'Interview Scheduled' },
-  { name: 'Marcus V. Thompson', id: 'APP-3301', gpa: '3.92 W', university: 'Stanford, Princeton', status: 'Documents Pending' },
+const SAMPLE_ROWS: StudentPreviewRow[] = [
+  { name: 'A. Thorne', id: 'APP-2209', gpa: '4.0 W', university: 'Yale, Harvard', status: 'Under Review' },
+  { name: 'E. Rodriguez', id: 'APP-1847', gpa: '3.98 W', university: 'Oxford, MIT', status: 'Interview Scheduled' },
+  { name: 'K. Nakamura', id: 'APP-3301', gpa: '3.92 W', university: 'Stanford, Princeton', status: 'Documents Pending' },
 ]
 
-export default function ExportPreview({ onClose, onExport }: ExportPreviewProps) {
+export default function ExportPreview({ onClose, onExport, students, totalCount }: ExportPreviewProps) {
+  const previewRows = students && students.length > 0 ? students : SAMPLE_ROWS
+  const exportTotal = totalCount ?? previewRows.length
   const [checkedFields, setCheckedFields] = useState<Record<string, boolean>>(
     Object.fromEntries(ALL_FIELDS.map((f) => [f.id, f.defaultChecked]))
   )
@@ -124,7 +138,7 @@ export default function ExportPreview({ onClose, onExport }: ExportPreviewProps)
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-outline-variant/10">
-                    {PREVIEW_ROWS.map((row, i) => (
+                    {previewRows.map((row, i) => (
                       <tr key={i} className="hover:bg-surface-container/50 transition-colors">
                         {checkedFields['name'] && <td className="px-4 py-3 font-semibold text-primary">{row.name}</td>}
                         {checkedFields['app_id'] && <td className="px-4 py-3 font-mono text-on-surface-variant">{row.id}</td>}
@@ -141,7 +155,9 @@ export default function ExportPreview({ onClose, onExport }: ExportPreviewProps)
                 </table>
               </div>
               <div className="px-4 py-3 border-t border-outline-variant/10 bg-surface-container-low">
-                <span className="text-[11px] text-on-surface-variant italic">Showing 3 of 142 records — actual export will contain all qualifying data</span>
+                <span className="text-[11px] text-on-surface-variant italic">
+                  Showing {previewRows.length} of {exportTotal} records — actual export will contain all qualifying data
+                </span>
               </div>
             </div>
           </div>

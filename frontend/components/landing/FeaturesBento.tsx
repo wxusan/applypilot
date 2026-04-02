@@ -10,7 +10,7 @@ const features = [
     iconColor: 'text-primary',
     title: 'AI Counselor',
     description: 'Autonomous drafting of recommendation letters and application critiques with a personal touch.',
-    chip: { label: 'GPT-4o powered', bg: 'bg-violet-50', text: 'text-violet-700' },
+    chip: { label: 'ChatGPT powered', bg: 'bg-violet-50', text: 'text-violet-700' },
     extra: null,
   },
   {

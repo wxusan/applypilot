@@ -21,13 +21,9 @@ interface PaymentRecord {
   tier: string
   outstanding: number
   status: 'active' | 'pending' | 'overdue'
+  tokens_used?: number
+  token_limit?: number
 }
-
-const MOCK_PAYMENTS: PaymentRecord[] = [
-  { id: '#8829-X', agency_name: 'Global Admissions Ltd.', agency_initials: 'GA', tier: 'Enterprise', outstanding: 0, status: 'active' },
-  { id: '#4432-B', agency_name: 'Elite Scholars Hub', agency_initials: 'EL', tier: 'Professional', outstanding: 1450, status: 'pending' },
-  { id: '#1290-K', agency_name: 'Northern Star Consulting', agency_initials: 'NS', tier: 'Standard', outstanding: 0, status: 'active' },
-]
 
 const PLAN_FEATURES = {
   starter: [
@@ -76,7 +72,9 @@ export default function BillingSettings() {
   const router = useRouter()
   const [data, setData] = useState<BillingStatus | null>(null)
   const [loading, setLoading] = useState(true)
-  const [expandedRow, setExpandedRow] = useState<string | null>('#4432-B')
+  const [payments, setPayments] = useState<PaymentRecord[]>([])
+  const [paymentsLoading, setPaymentsLoading] = useState(false)
+  const [expandedRow, setExpandedRow] = useState<string | null>(null)
   const [noteForm, setNoteForm] = useState({ amount: '', method: 'Bank Transfer', note: '' })
   const [showRenewalConfirmed, setShowRenewalConfirmed] = useState(false)
 
@@ -85,6 +83,19 @@ export default function BillingSettings() {
       try {
         const result = await apiFetch<BillingStatus>('/api/settings/billing')
         setData(result)
+
+        // Load agency payment records if super_admin
+        if (result.user_role === 'super_admin') {
+          setPaymentsLoading(true)
+          try {
+            const agencyData = await apiFetch<PaymentRecord[]>('/api/settings/billing/agencies')
+            setPayments(agencyData)
+          } catch {
+            // Keep empty on error
+          } finally {
+            setPaymentsLoading(false)
+          }
+        }
       } catch (err) {
         console.error(err)
       } finally {
@@ -364,10 +375,10 @@ export default function BillingSettings() {
         {/* Stats row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total Collections (MTD)', value: '$42,900' },
-            { label: 'Pending Invoices', value: '14' },
+            { label: 'Total Agencies', value: paymentsLoading ? '—' : payments.length.toString() },
+            { label: 'Active Subscriptions', value: paymentsLoading ? '—' : payments.filter(p => p.status === 'active').length.toString() },
             { label: 'System Uptime', value: '99.9%', highlight: true },
-            { label: 'Manual Entries', value: '128' },
+            { label: 'Pending Review', value: paymentsLoading ? '—' : payments.filter(p => p.status === 'pending').length.toString() },
           ].map((stat) => (
             <div key={stat.label} className="bg-[#f2f4f6] rounded-2xl px-5 py-4 border border-gray-200">
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
@@ -392,7 +403,16 @@ export default function BillingSettings() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200/60">
-                {MOCK_PAYMENTS.map((agency) => (
+                {paymentsLoading ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-400">Loading agency records…</td>
+                  </tr>
+                ) : payments.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-400">No agencies found.</td>
+                  </tr>
+                ) : null}
+                {payments.map((agency) => (
                   <>
                     <tr
                       key={agency.id}
@@ -457,16 +477,22 @@ export default function BillingSettings() {
                                   </div>
                                   <div className="space-y-3">
                                     <div className="flex justify-between text-[12px]">
-                                      <span className="text-gray-500">Total Invoiced</span>
-                                      <span className="font-medium text-[#031635]">$4,500.00</span>
+                                      <span className="text-gray-500">Plan</span>
+                                      <span className="font-medium text-[#031635]">{agency.tier}</span>
                                     </div>
-                                    <div className="flex justify-between text-[12px]">
-                                      <span className="text-gray-500">Payments Applied</span>
-                                      <span className="font-medium text-green-700">$3,050.00</span>
-                                    </div>
+                                    {agency.token_limit != null && agency.token_limit > 0 && (
+                                      <div className="flex justify-between text-[12px]">
+                                        <span className="text-gray-500">Token Usage</span>
+                                        <span className="font-medium text-[#031635]">
+                                          {(agency.tokens_used ?? 0).toLocaleString()} / {agency.token_limit.toLocaleString()}
+                                        </span>
+                                      </div>
+                                    )}
                                     <div className="pt-3 border-t border-gray-100 flex justify-between font-bold text-[12px]">
-                                      <span className="text-[#031635]">Remaining</span>
-                                      <span className="text-red-600">${agency.outstanding.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                                      <span className="text-[#031635]">Outstanding</span>
+                                      <span className={agency.outstanding > 0 ? 'text-red-600' : 'text-green-700'}>
+                                        ${agency.outstanding.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                      </span>
                                     </div>
                                   </div>
                                 </div>

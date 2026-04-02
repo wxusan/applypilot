@@ -12,10 +12,10 @@ interface SyncCompleteModalProps {
 }
 
 export default function SyncCompleteModal({
-  studentName = 'Marcus Thompson',
-  gpa = '3.92',
-  school = 'Elite Prep Academy',
-  apCourses = 12,
+  studentName = '',
+  gpa = '—',
+  school = '—',
+  apCourses = 0,
   accuracyRating = 100,
   onContinue,
   onReviewData,

@@ -2,8 +2,16 @@
 Writer Agent — generates essays, recommendation letters, and email reply drafts.
 Sends full output to Telegram for human approval before marking as approved.
 All writes go to audit_logs. Credentials never logged.
+
+Token-saving strategies:
+  1. Hash-based essay caching — skips LLM if student+prompt inputs are unchanged.
+  2. Compressed scoring soul — _score_content uses a short ~80-token system prompt
+     instead of the full 600-token ESSAY_AGENT soul.
+  3. Score cache — essays.ai_score is reused when a cache hit occurs; no second LLM call.
 """
 
+import hashlib
+import json
 import logging
 from datetime import datetime, timezone
 
@@ -17,6 +25,36 @@ from agents.souls import load_soul
 
 logger = logging.getLogger(__name__)
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+
+# ── Strategy 2: Compressed scoring soul ──────────────────────────────────────
+# Full ESSAY_AGENT.md is ~600 tokens and adds no value when scoring —
+# the rubric is all that matters. This constant is ~80 tokens.
+_SCORE_SOUL = (
+    "You are an expert college essay evaluator. "
+    "Score the essay 1-100 across four dimensions: "
+    "authenticity (25pts), argument/narrative strength (25pts), "
+    "writing quality (25pts), prompt relevance (25pts). "
+    "Respond with ONLY an integer. No explanation, no commentary."
+)
+
+
+# ── Strategy 1+3: Generation hash helpers ────────────────────────────────────
+
+def _make_generation_hash(student_id: str, prompt_id: str, student: dict) -> str:
+    """
+    Deterministic fingerprint of the inputs that drive essay generation.
+    If all these fields are unchanged, re-generation would produce the same output.
+    """
+    key = json.dumps({
+        "student_id": student_id,
+        "prompt_id": prompt_id,
+        "gpa": student.get("gpa"),
+        "nationality": student.get("nationality"),
+        "intended_major": student.get("intended_major"),
+        "activities_len": len(student.get("activities") or []),
+        "awards_len": len(student.get("awards") or []),
+    }, sort_keys=True)
+    return hashlib.sha256(key.encode()).hexdigest()[:16]
 
 # Telegram hard limit per message (leave 96 chars for the bot header)
 _TG_MAX = 4000
@@ -121,7 +159,36 @@ class WriterAgent:
         job_id = job_res.data[0]["id"]
 
         try:
+            # ── Strategy 1: Check generation cache ───────────────────────
+            gen_hash = _make_generation_hash(student["id"], prompt_id, student)
+            cache_hit = db.table("agent_jobs").select("id, output_data").eq(
+                "agency_id", agency_id
+            ).eq("agent_type", "writer").eq("job_type", "essay").in_(
+                "status", ["awaiting_approval", "completed"]
+            ).order("created_at", desc=True).limit(10).execute()
+
+            for cached_job in (cache_hit.data or []):
+                cached_out = cached_job.get("output_data") or {}
+                if cached_out.get("generation_hash") == gen_hash:
+                    cached_essay_id = cached_out.get("essay_id")
+                    if cached_essay_id:
+                        logger.info(
+                            f"WriterAgent: cache hit for student {student['id']} "
+                            f"prompt {prompt_id} — reusing essay {cached_essay_id}"
+                        )
+                        db.table("agent_jobs").update({
+                            "status": "completed",
+                            "output_data": {
+                                "essay_id": cached_essay_id,
+                                "cache_hit": True,
+                                "generation_hash": gen_hash,
+                                "source_job_id": cached_job["id"],
+                            },
+                        }).eq("id", job_id).execute()
+                        return
+
             draft = await self._generate_essay(student, prompt_text, prompt_type)
+            # ── Strategy 3: Score is generated once per unique content ───
             score = await self._score_content(draft, prompt_text)
             word_count = len(draft.split())
 
@@ -183,6 +250,7 @@ class WriterAgent:
                     "ai_score": score,
                     "prompt_id": prompt_id,
                     "word_limit_max": word_limit_max,
+                    "generation_hash": gen_hash,   # Strategy 1: stored for future cache lookups
                 },
             }).eq("id", job_id).execute()
 
@@ -620,23 +688,18 @@ class WriterAgent:
         return response.choices[0].message.content.strip()
 
     async def _score_content(self, content: str, prompt: str) -> int:
-        """Score essay/letter quality 1-100. Returns integer only."""
+        """
+        Score essay/letter quality 1-100. Returns integer only.
+        Strategy 2: Uses _SCORE_SOUL (~80 tokens) instead of the full
+        ESSAY_AGENT soul (~600 tokens) — saves ~520 tokens per scoring call.
+        """
         response = await client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        load_soul("ESSAY_AGENT") + "\n\n"
-                        "Rate this piece of writing 1-100 based on: "
-                        "authenticity (25 pts), narrative/argument strength (25 pts), "
-                        "writing quality (25 pts), prompt relevance (25 pts). "
-                        "Respond with ONLY an integer, nothing else."
-                    ),
-                },
+                {"role": "system", "content": _SCORE_SOUL},
                 {
                     "role": "user",
-                    "content": f"Prompt: {prompt}\n\nContent:\n{content[:2000]}",
+                    "content": f"Prompt: {prompt}\n\nEssay:\n{content[:2000]}",
                 },
             ],
             temperature=0,

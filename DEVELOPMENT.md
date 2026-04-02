@@ -20,10 +20,11 @@ cp .env.example .env.local
 # Fill in your Supabase URL, anon key, and service role key
 ```
 
-### 3. Seed the database
+### 3. Run database migrations
 ```bash
-# From the ApplyPilot root:
-node database/seed.js
+# Apply migrations via the Supabase dashboard or CLI:
+supabase db push
+# Or run individual migration files from supabase/migrations/ in order.
 ```
 
 ### 4. Run the dev server
@@ -62,7 +63,10 @@ npm run build     # Production build
 npm run lint      # Run ESLint
 npx tsc --noEmit  # Type check
 
-# Database
-node database/seed.js         # Seed all test data
-node database/fix_edupath.js  # Fix EduPath admin account
+# Backend
+uvicorn main:app --reload     # Start FastAPI dev server (from backend/)
+python seed.py                # Seed backend test data (optional)
+
+# Database migrations (from supabase/migrations/ — run in order)
+supabase db push              # Push all pending migrations
 ```
