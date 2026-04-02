@@ -7,7 +7,10 @@ ISOLATION GUARANTEE:
 - Every query filters by user.agency_id before touching the DB.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, Request, Query
+import base64
+import json as _json
+
+from fastapi import APIRouter, Depends, HTTPException, Request, Query, UploadFile, File
 from pydantic import BaseModel
 from typing import Optional, List, Any
 from datetime import date, datetime, timezone
@@ -212,6 +215,10 @@ class StudentUpdate(BaseModel):
     duolingo_score: Optional[int] = None
     ap_scores: Optional[List[Any]] = None
     ib_scores: Optional[List[Any]] = None
+
+    # Unified English proficiency (replaces toefl/ielts/duolingo separate fields)
+    english_test_type: Optional[str] = None    # 'toefl_ibt' | 'ielts' | 'duolingo' | 'pte' | 'cambridge'
+    english_test_scores: Optional[dict] = None  # all sub-scores as JSON
 
     # Activities, honors, work
     activities: Optional[List[Any]] = None
@@ -518,3 +525,118 @@ async def bulk_import_students(
             })
 
     return {"created": created_count, "errors": errors}
+
+
+# ──────────────────────────────────────────────────────────────
+# English test score extraction via GPT-4o Vision
+# ──────────────────────────────────────────────────────────────
+
+_EXTRACTION_PROMPT = """
+You are an expert at reading official English language test score reports.
+Look at this score report image and extract ALL scores you can see.
+
+Return ONLY valid JSON in exactly this format (no markdown, no explanation):
+{
+  "test_type": "<one of: toefl_ibt, ielts, duolingo, pte, cambridge>",
+  "scores": {
+    "total": <number or null>,
+    "reading": <number or null>,
+    "listening": <number or null>,
+    "speaking": <number or null>,
+    "writing": <number or null>,
+    "literacy": <number or null>,
+    "comprehension": <number or null>,
+    "conversation": <number or null>,
+    "production": <number or null>,
+    "use_of_english": <number or null>,
+    "grade": "<A/B/C or null>"
+  }
+}
+
+Rules:
+- For TOEFL iBT: total is 0-120, each section is 0-30.
+- For IELTS: overall band and each section are 0-9 (half bands like 7.5 are valid).
+- For Duolingo: overall and sub-scores are 10-160.
+- For PTE Academic: overall and sections are 10-90.
+- For Cambridge (C1/C2): scores are 0-100 per component plus a grade (A/B/C).
+- If you cannot determine the test type, use your best guess.
+- Only include fields that are actually present in the document; set others to null.
+""".strip()
+
+
+@router.post("/students/{student_id}/extract-english-scores")
+async def extract_english_scores(
+    student_id: str,
+    file: UploadFile = File(...),
+    user: AuthUser = Depends(get_current_user),
+):
+    """
+    Upload a score report image or PDF.
+    GPT-4o Vision extracts all sub-scores and returns structured JSON.
+    The caller is responsible for saving the result via PATCH /students/{id}.
+    """
+    db = get_service_client()
+
+    # Verify student belongs to this agency
+    exists = (
+        db.table("students")
+        .select("id")
+        .eq("id", student_id)
+        .eq("agency_id", user.agency_id)
+        .maybe_single()
+        .execute()
+    )
+    if not exists.data:
+        raise HTTPException(404, "Student not found")
+
+    ALLOWED = {"image/jpeg", "image/png", "image/webp", "image/gif", "application/pdf"}
+    MAX_BYTES = 10 * 1024 * 1024  # 10 MB
+
+    content_type = file.content_type or "application/octet-stream"
+    if content_type not in ALLOWED:
+        raise HTTPException(400, f"Unsupported file type: {content_type}. Upload JPEG, PNG, WebP, or PDF.")
+
+    raw = await file.read()
+    if len(raw) > MAX_BYTES:
+        raise HTTPException(400, "File too large. Maximum size is 10 MB.")
+
+    # For PDFs we send as base64 data URL; GPT-4o handles single-page PDFs fine.
+    b64 = base64.b64encode(raw).decode()
+    data_url = f"data:{content_type};base64,{b64}"
+
+    from openai import AsyncOpenAI
+    from core.config import settings
+    client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": _EXTRACTION_PROMPT},
+                        {"type": "image_url", "image_url": {"url": data_url, "detail": "high"}},
+                    ],
+                }
+            ],
+            max_tokens=512,
+            temperature=0,
+        )
+    except Exception as e:
+        raise HTTPException(502, f"AI extraction failed: {e}")
+
+    raw_text = response.choices[0].message.content.strip()
+
+    # Strip markdown code fences if present
+    if raw_text.startswith("```"):
+        raw_text = raw_text.split("```")[1]
+        if raw_text.startswith("json"):
+            raw_text = raw_text[4:]
+
+    try:
+        result = _json.loads(raw_text)
+    except Exception:
+        raise HTTPException(502, f"AI returned unparseable response: {raw_text[:200]}")
+
+    return result
