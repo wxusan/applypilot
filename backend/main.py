@@ -14,6 +14,7 @@ from core.config import settings
 from api import students, applications, documents, emails, essays, deadlines, admin, agent_jobs, settings as settings_api, audit, browser_agent, staff, super_admin, billing, reports, chat, recommendation_letters, notifications, college_fit, colleges, credentials, workflows, workflow_steps, email_monitor, payments, portals
 from services.telegram_bot import start_telegram_bot
 from services.scheduler import start_scheduler
+from services.step_dispatcher import get_dispatcher
 
 logging.basicConfig(
     level=logging.INFO,
@@ -60,8 +61,17 @@ async def lifespan(app: FastAPI):
     await start_scheduler()
     asyncio.create_task(start_telegram_bot())
     asyncio.create_task(_resume_stale_browser_jobs())
+
+    # Start the step dispatcher — picks up queued workflow steps and runs agents
+    dispatcher = get_dispatcher()
+    dispatcher_task = asyncio.create_task(dispatcher.start())
+    logger.info("Step dispatcher background task launched")
+
     yield
-    # Shutdown: nothing to clean up currently
+
+    # Shutdown: stop the dispatcher gracefully
+    dispatcher.stop()
+    dispatcher_task.cancel()
 
 
 app = FastAPI(

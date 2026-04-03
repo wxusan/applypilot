@@ -88,6 +88,7 @@ async def reject_step(step_id: str, body: RejectBody, user: AuthUser = Depends(g
 
 @router.post("/workflow-steps/{step_id}/retry")
 async def retry_step(step_id: str, user: AuthUser = Depends(get_current_user)):
+    """Re-queue a failed or rejected step. The dispatcher picks it up automatically."""
     db = get_service_client()
 
     step = db.table("automation_steps").select("*").eq("id", step_id).eq("agency_id", user.agency_id).single().execute()
@@ -102,14 +103,41 @@ async def retry_step(step_id: str, user: AuthUser = Depends(get_current_user)):
         "rejected_reason": None,
     }).eq("id", step_id).execute()
 
-    # Resume workflow
+    # Resume workflow so the dispatcher sees it
     db.table("automation_workflows").update({"status": "running"}).eq("id", step.data['workflow_id']).execute()
 
     return {"success": True, "status": "queued"}
 
 
+@router.post("/workflow-steps/{step_id}/run-now")
+async def run_step_now(step_id: str, user: AuthUser = Depends(get_current_user)):
+    """
+    Manually trigger a pending step immediately (for testing or skipping the queue).
+    Marks the step as queued so the dispatcher picks it up on next poll cycle (~5s).
+    """
+    db = get_service_client()
+
+    step = db.table("automation_steps").select("*").eq("id", step_id).eq("agency_id", user.agency_id).single().execute()
+    if not step.data:
+        raise HTTPException(404, "Step not found")
+    if step.data['status'] not in ('pending', 'failed', 'rejected'):
+        raise HTTPException(400, f"Step cannot be triggered (status: {step.data['status']})")
+
+    db.table("automation_steps").update({
+        "status": "queued",
+        "error_message": None,
+        "rejected_reason": None,
+    }).eq("id", step_id).execute()
+
+    # Make sure the workflow is running
+    db.table("automation_workflows").update({"status": "running"}).eq("id", step.data['workflow_id']).execute()
+
+    return {"success": True, "status": "queued", "message": "Step queued — dispatcher will execute within 5 seconds"}
+
+
 def _advance_workflow(db, workflow_id: str):
-    """Find the next pending step and mark it queued."""
+    """Find the next pending step and mark it queued.
+    The step dispatcher will pick it up within seconds."""
     next_step = db.table("automation_steps")\
         .select("id")\
         .eq("workflow_id", workflow_id)\
@@ -119,3 +147,10 @@ def _advance_workflow(db, workflow_id: str):
         .execute()
     if next_step.data:
         db.table("automation_steps").update({"status": "queued"}).eq("id", next_step.data[0]['id']).execute()
+    else:
+        # All steps complete — mark workflow as completed
+        from datetime import datetime, timezone
+        db.table("automation_workflows").update({
+            "status": "completed",
+            "completed_at": datetime.now(timezone.utc).isoformat(),
+        }).eq("id", workflow_id).execute()
