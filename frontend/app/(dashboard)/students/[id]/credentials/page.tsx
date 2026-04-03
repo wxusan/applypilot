@@ -12,11 +12,13 @@ interface Credential {
   label: string
   gmail_email: string
   gmail_password?: string
+  has_common_app: boolean
   common_app_email?: string
   common_app_password?: string
+  role?: string
   notes?: string
-  last_tested?: string
-  test_result?: string
+  last_tested_at?: string
+  last_test_result?: string
   created_at: string
   updated_at?: string
 }
@@ -49,11 +51,13 @@ function CredentialCard({
   onDelete: (id: string) => void
   onTest: (id: string) => void
 }) {
-  const testConfig = TEST_RESULT_CONFIG[credential.test_result || ''] || {
+  const testConfig = TEST_RESULT_CONFIG[credential.last_test_result || ''] || {
     label: 'Not tested',
     color: '#6B7280',
     bg: '#F3F4F6',
   }
+
+  const isStudent = credential.credential_type === 'student'
 
   return (
     <div className="bg-surface-container-low rounded-xl p-6 border border-outline-variant/20">
@@ -61,6 +65,9 @@ function CredentialCard({
         <div>
           <h3 className="font-semibold text-on-surface">{credential.label}</h3>
           <p className="text-xs text-on-surface-variant mt-1">{credential.gmail_email}</p>
+          {credential.role && (
+            <p className="text-xs text-primary mt-1 font-medium">{credential.role}</p>
+          )}
         </div>
         <div className="flex gap-2">
           <button
@@ -80,21 +87,38 @@ function CredentialCard({
         </div>
       </div>
 
-      <div className="space-y-3 mb-4 text-sm">
+      <div className="space-y-2 mb-4 text-sm">
         <div className="flex justify-between items-center">
           <span className="text-on-surface-variant">Gmail:</span>
           <span className="font-mono text-xs text-on-surface">{credential.gmail_email}</span>
         </div>
-        {credential.common_app_email && (
+
+        {isStudent && (
           <div className="flex justify-between items-center">
             <span className="text-on-surface-variant">Common App:</span>
+            {credential.has_common_app ? (
+              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                Existing account ✓
+              </span>
+            ) : (
+              <span className="text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
+                Will be created
+              </span>
+            )}
+          </div>
+        )}
+
+        {isStudent && credential.has_common_app && credential.common_app_email && (
+          <div className="flex justify-between items-center">
+            <span className="text-on-surface-variant">Common App email:</span>
             <span className="font-mono text-xs text-on-surface">{credential.common_app_email}</span>
           </div>
         )}
-        {credential.last_tested && (
+
+        {credential.last_tested_at && (
           <div className="flex justify-between items-center text-xs">
             <span className="text-on-surface-variant">Last tested:</span>
-            <span className="text-on-surface">{new Date(credential.last_tested).toLocaleDateString()}</span>
+            <span className="text-on-surface">{new Date(credential.last_tested_at).toLocaleDateString()}</span>
           </div>
         )}
       </div>
@@ -106,7 +130,7 @@ function CredentialCard({
         >
           Test Connection
         </button>
-        {credential.test_result && (
+        {credential.last_test_result && (
           <div
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium"
             style={{ color: testConfig.color, background: testConfig.bg }}
@@ -139,11 +163,28 @@ function CredentialModal({
     label: credential?.label || '',
     gmail_email: credential?.gmail_email || '',
     gmail_password: '',
+    has_common_app: credential?.has_common_app ?? false,
     common_app_email: credential?.common_app_email || '',
     common_app_password: '',
+    role: credential?.role || '',
     notes: credential?.notes || '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Reset form when credential changes
+  useEffect(() => {
+    setCredentialType(credential?.credential_type || 'student')
+    setFormData({
+      label: credential?.label || '',
+      gmail_email: credential?.gmail_email || '',
+      gmail_password: '',
+      has_common_app: credential?.has_common_app ?? false,
+      common_app_email: credential?.common_app_email || '',
+      common_app_password: '',
+      role: credential?.role || '',
+      notes: credential?.notes || '',
+    })
+  }, [credential])
 
   if (!isOpen) return null
 
@@ -158,108 +199,205 @@ function CredentialModal({
     }
   }
 
+  const isStudent = credentialType === 'student'
+  const isTeacherOrCounsellor = credentialType === 'teacher' || credentialType === 'counsellor'
+
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-surface rounded-2xl max-w-md w-full p-6">
-        <h2 className="text-xl font-bold text-on-surface mb-4">
-          {isNew ? 'Add Credential' : `Edit ${credential?.label} Credentials`}
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-surface rounded-2xl max-w-md w-full p-6 my-4">
+        <h2 className="text-xl font-bold text-on-surface mb-1">
+          {isNew ? 'Add Credentials' : `Edit — ${credential?.label}`}
         </h2>
+        <p className="text-sm text-on-surface-variant mb-5">
+          {isNew
+            ? 'The platform will use these to log in automatically on behalf of this person.'
+            : 'Update the stored credentials. Leave passwords blank to keep existing ones.'}
+        </p>
+
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Credential type — only on create */}
           {isNew && (
             <div>
-              <label className="text-xs font-semibold text-on-surface-variant uppercase">Credential Type</label>
-              <select
-                value={credentialType}
-                onChange={(e) => {
-                  const t = e.target.value as 'student' | 'teacher' | 'counsellor'
-                  setCredentialType(t)
-                  setFormData({ ...formData, label: CREDENTIAL_LABELS[t] })
-                }}
-                className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
-              >
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-                <option value="counsellor">Counsellor</option>
-              </select>
+              <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+                Who are these credentials for?
+              </label>
+              <div className="mt-2 grid grid-cols-3 gap-2">
+                {(['student', 'teacher', 'counsellor'] as const).map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => {
+                      setCredentialType(t)
+                      setFormData((f) => ({ ...f, label: CREDENTIAL_LABELS[t] }))
+                    }}
+                    className={`px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all capitalize ${
+                      credentialType === t
+                        ? 'bg-primary text-white border-primary shadow-md'
+                        : 'bg-surface-container text-on-surface-variant border-outline-variant hover:border-primary/40'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
+          {/* Label */}
           <div>
-            <label className="text-xs font-semibold text-on-surface-variant uppercase">Label</label>
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+              {isTeacherOrCounsellor ? 'Full Name' : 'Label'}
+            </label>
             <input
               type="text"
               value={formData.label}
+              placeholder={isTeacherOrCounsellor ? 'e.g. Mr. Johnson' : 'Student'}
               onChange={(e) => setFormData({ ...formData, label: e.target.value })}
               className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
-              disabled={!isNew}
             />
           </div>
 
+          {/* Role — teachers and counsellors only */}
+          {isTeacherOrCounsellor && (
+            <div>
+              <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+                {credentialType === 'teacher' ? 'Subject / Role' : 'Title'}
+              </label>
+              <input
+                type="text"
+                value={formData.role}
+                placeholder={credentialType === 'teacher' ? 'e.g. Physics Teacher, AP English Teacher' : 'e.g. School Counselor, Guidance Counselor'}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
+              />
+              <p className="mt-1 text-xs text-on-surface-variant">
+                Used by the platform to fill in their recommender profile on Common App.
+              </p>
+            </div>
+          )}
+
+          {/* Gmail email */}
           <div>
-            <label className="text-xs font-semibold text-on-surface-variant uppercase">Gmail Email</label>
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+              Gmail Address
+            </label>
             <input
               type="email"
               value={formData.gmail_email}
+              placeholder="example@gmail.com"
               onChange={(e) => setFormData({ ...formData, gmail_email: e.target.value })}
               className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
               required
             />
           </div>
 
+          {/* Gmail password */}
           <div>
-            <label className="text-xs font-semibold text-on-surface-variant uppercase">Gmail Password</label>
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+              Gmail Password
+            </label>
             <input
               type="password"
-              placeholder={isNew ? 'Gmail App Password (recommended)' : 'Leave blank to keep current'}
+              placeholder={isNew ? 'Enter Gmail password' : 'Leave blank to keep current'}
               value={formData.gmail_password}
               onChange={(e) => setFormData({ ...formData, gmail_password: e.target.value })}
               className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
               required={isNew}
             />
-            <div className="mt-1.5 flex items-start gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2">
-              <span className="material-symbols-outlined text-amber-600 text-sm mt-0.5">warning</span>
-              <p className="text-xs text-amber-800">
-                Google blocks regular passwords for automated access.{' '}
-                <a
-                  href="https://myaccount.google.com/apppasswords"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold underline hover:text-amber-900"
-                >
-                  Create a Gmail App Password
-                </a>{' '}
-                and use that here instead. Takes 1 minute.
+          </div>
+
+          {/* ── Student-only: Common App section ───────────────────────── */}
+          {isStudent && (
+            <div className="border border-outline-variant/30 rounded-xl p-4 space-y-4 bg-surface-container-lowest">
+              <p className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+                Common App
               </p>
+
+              {/* Has account toggle */}
+              <div>
+                <p className="text-sm font-medium text-on-surface mb-2">
+                  Does this student already have a Common App account?
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData((f) => ({ ...f, has_common_app: false }))}
+                    className={`px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                      !formData.has_common_app
+                        ? 'bg-primary text-white border-primary shadow-md'
+                        : 'bg-surface-container text-on-surface-variant border-outline-variant hover:border-primary/40'
+                    }`}
+                  >
+                    No — Create one
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData((f) => ({ ...f, has_common_app: true }))}
+                    className={`px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                      formData.has_common_app
+                        ? 'bg-primary text-white border-primary shadow-md'
+                        : 'bg-surface-container text-on-surface-variant border-outline-variant hover:border-primary/40'
+                    }`}
+                  >
+                    Yes — Log in
+                  </button>
+                </div>
+
+                {!formData.has_common_app && (
+                  <p className="mt-2 text-xs text-on-surface-variant bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
+                    The platform will open Common App, register using the student's info from their profile, then check their Gmail for the activation email and confirm the account automatically.
+                  </p>
+                )}
+              </div>
+
+              {/* Common App credentials — only if existing account */}
+              {formData.has_common_app && (
+                <>
+                  <div>
+                    <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+                      Common App Email
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.common_app_email}
+                      placeholder="Usually same as Gmail"
+                      onChange={(e) => setFormData({ ...formData, common_app_email: e.target.value })}
+                      className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
+                    />
+                    <p className="mt-1 text-xs text-on-surface-variant">
+                      Leave blank if it's the same as Gmail above.
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+                      Common App Password
+                    </label>
+                    <input
+                      type="password"
+                      placeholder={isNew ? 'Common App password' : 'Leave blank to keep current'}
+                      value={formData.common_app_password}
+                      onChange={(e) => setFormData({ ...formData, common_app_password: e.target.value })}
+                      className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
+                    />
+                    <p className="mt-1 text-xs text-on-surface-variant">
+                      Leave blank if it's the same as Gmail password above.
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
-          </div>
+          )}
 
+          {/* Notes */}
           <div>
-            <label className="text-xs font-semibold text-on-surface-variant uppercase">Common App Email</label>
-            <input
-              type="email"
-              value={formData.common_app_email}
-              onChange={(e) => setFormData({ ...formData, common_app_email: e.target.value })}
-              className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold text-on-surface-variant uppercase">Common App Password</label>
-            <input
-              type="password"
-              placeholder="Leave blank to keep current"
-              value={formData.common_app_password}
-              onChange={(e) => setFormData({ ...formData, common_app_password: e.target.value })}
-              className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary"
-            />
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold text-on-surface-variant uppercase">Notes</label>
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
+              Notes <span className="font-normal normal-case">(optional)</span>
+            </label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary resize-none h-20"
+              className="w-full mt-1 px-3 py-2 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary resize-none h-16"
+              placeholder="Any extra info..."
             />
           </div>
 
@@ -276,7 +414,7 @@ function CredentialModal({
               disabled={isSubmitting}
               className="flex-1 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors disabled:opacity-50"
             >
-              {isSubmitting ? 'Saving...' : isNew ? 'Add Credential' : 'Save'}
+              {isSubmitting ? 'Saving...' : isNew ? 'Add Credential' : 'Save Changes'}
             </button>
           </div>
         </form>
@@ -302,10 +440,8 @@ export default function CredentialsPage() {
   const loadCredentials = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await apiFetch<{ credentials: Credential[] }>(
-        `/api/credentials?student_id=${params.id}`
-      )
-      setCredentials(res.credentials || [])
+      const res = await apiFetch<Credential[]>(`/api/credentials?student_id=${params.id}`)
+      setCredentials(Array.isArray(res) ? res : (res as any).credentials || [])
     } catch (e: any) {
       showToast(e.message || 'Failed to load credentials', 'error')
     } finally {
@@ -335,8 +471,10 @@ export default function CredentialsPage() {
             label: data.label,
             gmail_email: data.gmail_email,
             gmail_password: data.gmail_password,
-            common_app_email: data.common_app_email,
-            common_app_password: data.common_app_password,
+            has_common_app: data.has_common_app ?? false,
+            common_app_email: data.common_app_email || null,
+            common_app_password: data.common_app_password || null,
+            role: data.role || null,
             notes: data.notes,
           }),
         })
@@ -377,6 +515,24 @@ export default function CredentialsPage() {
     counsellor: credentials.filter((c) => c.credential_type === 'counsellor'),
   }
 
+  const SECTION_META = {
+    student: {
+      icon: 'person',
+      color: '#1D9E75',
+      hint: 'The student\'s Gmail and Common App access.',
+    },
+    teacher: {
+      icon: 'school',
+      color: '#185FA5',
+      hint: 'Platform logs in to check for Common App invitation links.',
+    },
+    counsellor: {
+      icon: 'groups',
+      color: '#854F0B',
+      hint: 'Platform logs in to check for Common App invitation links.',
+    },
+  }
+
   return (
     <div className="space-y-5">
       {toast && (
@@ -399,7 +555,7 @@ export default function CredentialsPage() {
           <div>
             <h1 className="text-2xl font-bold text-on-surface">Credential Vault</h1>
             <p className="text-sm text-on-surface-variant mt-1">
-              Securely stores login credentials used by the automation agent
+              Give the platform login access — it handles everything else automatically.
             </p>
           </div>
         </div>
@@ -408,7 +564,7 @@ export default function CredentialsPage() {
           className="px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors flex items-center gap-2"
         >
           <span className="material-symbols-outlined text-base">add</span>
-          Add Credential
+          Add Credentials
         </button>
       </div>
 
@@ -424,26 +580,34 @@ export default function CredentialsPage() {
             <span className="material-symbols-outlined text-primary text-3xl">lock_open</span>
           </div>
           <h3 className="text-lg font-semibold text-on-surface mb-2">No credentials added yet</h3>
-          <p className="text-sm text-on-surface-variant max-w-md">
-            Add Gmail credentials to enable automation. You can add credentials for the student, teacher, and counsellor.
+          <p className="text-sm text-on-surface-variant max-w-md mx-auto">
+            Add the student's Gmail email and password. The platform will log in, handle Common App, and monitor emails automatically — no App Passwords or extra setup needed.
           </p>
+          <button
+            onClick={() => { setEditingCredential(null); setIsModalOpen(true) }}
+            className="mt-6 px-5 py-2.5 rounded-lg text-sm font-semibold bg-primary text-on-primary hover:opacity-90 transition-colors inline-flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-base">add</span>
+            Add First Credential
+          </button>
         </div>
       ) : (
         <div className="space-y-8">
           {(['student', 'teacher', 'counsellor'] as const).map((type) => (
             <div key={type}>
-              <h2 className="text-lg font-bold text-on-surface mb-4 flex items-center gap-2">
+              <div className="flex items-center gap-2 mb-1">
                 <span
                   className="material-symbols-outlined text-lg"
-                  style={{ color: type === 'student' ? '#1D9E75' : '#6B7280' }}
+                  style={{ color: SECTION_META[type].color }}
                 >
-                  {type === 'student' ? 'person' : type === 'teacher' ? 'school' : 'groups'}
+                  {SECTION_META[type].icon}
                 </span>
-                {CREDENTIAL_LABELS[type]}
-              </h2>
+                <h2 className="text-lg font-bold text-on-surface">{CREDENTIAL_LABELS[type]}</h2>
+              </div>
+              <p className="text-xs text-on-surface-variant mb-4 pl-7">{SECTION_META[type].hint}</p>
 
               {credentialsByType[type].length === 0 ? (
-                <p className="text-sm text-on-surface-variant italic">No credentials added</p>
+                <p className="text-sm text-on-surface-variant italic pl-1">No credentials added</p>
               ) : (
                 <div className="grid grid-cols-1 gap-4">
                   {credentialsByType[type].map((cred) => (

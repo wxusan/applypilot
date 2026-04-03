@@ -30,8 +30,15 @@ class CredentialCreate(BaseModel):
     label: str  # e.g. "Mr. Johnson (Physics Teacher)"
     gmail_email: str
     gmail_password: str
-    common_app_email: Optional[str] = None
-    common_app_password: Optional[str] = None
+    # Student only: does the student already have a Common App account?
+    # false → platform will create one via browser automation
+    # true  → platform logs into the existing account
+    has_common_app: bool = False
+    common_app_email: Optional[str] = None   # only used when has_common_app=True
+    common_app_password: Optional[str] = None  # only used when has_common_app=True
+    # Teacher/counsellor only: subject they teach or their title
+    # e.g. "Physics Teacher", "School Counselor" — used to fill recommender profile
+    role: Optional[str] = None
     notes: Optional[str] = None
 
 
@@ -39,8 +46,10 @@ class CredentialUpdate(BaseModel):
     label: Optional[str] = None
     gmail_email: Optional[str] = None
     gmail_password: Optional[str] = None
+    has_common_app: Optional[bool] = None
     common_app_email: Optional[str] = None
     common_app_password: Optional[str] = None
+    role: Optional[str] = None
     notes: Optional[str] = None
 
 
@@ -60,8 +69,10 @@ def _serialize(row: dict, show_masked: bool = True) -> dict:
         'label': row.get('label'),
         'gmail_email': row.get('gmail_email'),
         'gmail_password': _mask(row.get('gmail_password')) if show_masked else decrypt(row.get('gmail_password', '')),
+        'has_common_app': row.get('has_common_app', False),
         'common_app_email': row.get('common_app_email'),
         'common_app_password': _mask(row.get('common_app_password')) if show_masked else decrypt(row.get('common_app_password', '')),
+        'role': row.get('role'),
         'notes': row.get('notes'),
         'is_active': row.get('is_active'),
         'last_tested_at': row.get('last_tested_at'),
@@ -88,8 +99,10 @@ async def create_credential(body: CredentialCreate, user: AuthUser = Depends(get
         "label": body.label,
         "gmail_email": body.gmail_email,
         "gmail_password": encrypt(body.gmail_password),
-        "common_app_email": body.common_app_email,
-        "common_app_password": encrypt(body.common_app_password) if body.common_app_password else None,
+        "has_common_app": body.has_common_app,
+        "common_app_email": body.common_app_email if body.has_common_app else None,
+        "common_app_password": encrypt(body.common_app_password) if (body.common_app_password and body.has_common_app) else None,
+        "role": body.role,
         "notes": body.notes,
         "is_active": True,
     }
@@ -131,10 +144,14 @@ async def update_credential(credential_id: str, body: CredentialUpdate, user: Au
         updates['gmail_email'] = body.gmail_email
     if body.gmail_password is not None:
         updates['gmail_password'] = encrypt(body.gmail_password)
+    if body.has_common_app is not None:
+        updates['has_common_app'] = body.has_common_app
     if body.common_app_email is not None:
         updates['common_app_email'] = body.common_app_email
     if body.common_app_password is not None:
         updates['common_app_password'] = encrypt(body.common_app_password)
+    if body.role is not None:
+        updates['role'] = body.role
     if body.notes is not None:
         updates['notes'] = body.notes
 
