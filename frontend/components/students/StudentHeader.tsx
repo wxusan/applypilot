@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import StudentActions from './StudentActions'
 
 interface StudentHeaderProps {
   student: {
@@ -115,7 +116,7 @@ export default function StudentHeader({ student }: StudentHeaderProps) {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-3">
+      <div className="flex items-center gap-3">
         {student.email && (
           <a
             href={`mailto:${student.email}`}
@@ -124,6 +125,11 @@ export default function StudentHeader({ student }: StudentHeaderProps) {
             <span className="material-symbols-outlined">mail</span>
           </a>
         )}
+        <StudentActions
+          studentId={student.id}
+          studentName={student.full_name}
+          currentStatus={student.status}
+        />
         <Link
           href={`/students/${student.id}/edit`}
           className="flex items-center gap-2 text-white px-6 py-2.5 rounded-xl font-bold text-sm"

@@ -42,6 +42,7 @@ export type StudentStatus =
   | 'submitted'
   | 'accepted'
   | 'rejected'
+  | 'archived'
 
 const STATUS_STYLES: Record<string, { bg: string; color: string; label: string }> = {
   intake:    { bg: '#E1F5EE', color: '#0F6E56', label: 'Intake' },
@@ -51,6 +52,7 @@ const STATUS_STYLES: Record<string, { bg: string; color: string; label: string }
   submitted: { bg: '#EAF3DE', color: '#3B6D11', label: 'Submitted' },
   accepted:  { bg: '#EAF3DE', color: '#3B6D11', label: 'Accepted' },
   rejected:  { bg: '#FCEBEB', color: '#A32D2D', label: 'Rejected' },
+  archived:  { bg: '#F0F0F0', color: '#6B7280', label: 'Archived' },
   waitlisted:{ bg: '#FAEEDA', color: '#854F0B', label: 'Waitlisted' },
   pending:   { bg: '#E6F1FB', color: '#185FA5', label: 'Pending' },
   draft:     { bg: '#F3F4F6', color: '#6B7280', label: 'Draft' },

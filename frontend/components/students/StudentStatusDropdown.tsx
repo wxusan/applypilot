@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 
 const STATUS_OPTIONS = [
   'intake', 'forms', 'writing', 'review',
-  'submitted', 'accepted', 'rejected',
+  'submitted', 'accepted', 'rejected', 'archived',
 ] as const
 
 interface StudentStatusDropdownProps {

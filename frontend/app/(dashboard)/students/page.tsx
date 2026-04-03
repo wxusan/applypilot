@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const STATUS_OPTIONS = [
   'intake', 'forms', 'writing', 'review',
-  'submitted', 'accepted', 'rejected',
+  'submitted', 'accepted', 'rejected', 'archived',
 ]
 
 function getStatusBadgeClass(status: string) {
@@ -16,6 +16,7 @@ function getStatusBadgeClass(status: string) {
     case 'rejected': return 'bg-red-100 text-red-700'
     case 'intake': return 'bg-purple-100 text-purple-700'
     case 'forms': return 'bg-indigo-100 text-indigo-700'
+    case 'archived': return 'bg-gray-100 text-gray-500'
     default: return 'bg-surface-container text-on-surface-variant'
   }
 }
@@ -63,7 +64,13 @@ export default async function StudentsPage({
     .order('updated_at', { ascending: false })
 
   if (q) query = query.ilike('full_name', `%${q}%`)
-  if (status) query = query.eq('status', status)
+  if (status) {
+    // Explicit filter — show exactly that status (including archived)
+    query = query.eq('status', status)
+  } else {
+    // Default: hide archived students from the active roster
+    query = query.neq('status', 'archived')
+  }
   if (season) query = query.eq('season', season)
 
   const { data, count } = await query
@@ -80,7 +87,9 @@ export default async function StudentsPage({
             Student Roster
           </h1>
           <p className="text-on-surface-variant font-medium">
-            Managing {count ?? 0} active applicant{(count ?? 0) !== 1 ? 's' : ''}.
+            {status === 'archived'
+              ? `${count ?? 0} archived student${(count ?? 0) !== 1 ? 's' : ''}`
+              : `Managing ${count ?? 0} active applicant${(count ?? 0) !== 1 ? 's' : ''}`}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -114,15 +123,32 @@ export default async function StudentsPage({
             All Students
           </Link>
           {STATUS_OPTIONS.map((s) => (
-            <Link
-              key={s}
-              href={q ? `/students?status=${s}&q=${q}` : `/students?status=${s}`}
-              className={`px-4 py-2 text-xs font-bold rounded-xl capitalize transition-colors ${
-                status === s ? 'bg-primary text-white shadow-md' : 'bg-white text-on-surface-variant hover:bg-white/80'
-              }`}
-            >
-              {s}
-            </Link>
+            s === 'archived' ? (
+              // Archived tab gets a subtle separator and dimmed style
+              <span key="archived-group" className="flex items-center gap-2">
+                <span className="w-px h-5 bg-outline-variant/30 mx-1" />
+                <Link
+                  href={q ? `/students?status=archived&q=${q}` : '/students?status=archived'}
+                  className={`px-4 py-2 text-xs font-bold rounded-xl capitalize transition-colors ${
+                    status === 'archived'
+                      ? 'bg-gray-500 text-white shadow-md'
+                      : 'bg-white text-gray-400 hover:bg-white/80'
+                  }`}
+                >
+                  📦 Archived
+                </Link>
+              </span>
+            ) : (
+              <Link
+                key={s}
+                href={q ? `/students?status=${s}&q=${q}` : `/students?status=${s}`}
+                className={`px-4 py-2 text-xs font-bold rounded-xl capitalize transition-colors ${
+                  status === s ? 'bg-primary text-white shadow-md' : 'bg-white text-on-surface-variant hover:bg-white/80'
+                }`}
+              >
+                {s}
+              </Link>
+            )
           ))}
         </div>
         <div className="bg-surface-container-low p-2 rounded-2xl flex items-center gap-3">

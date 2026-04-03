@@ -250,6 +250,7 @@ async def list_students(
     q: Optional[str] = Query(None),
     status: Optional[str] = Query(None),
     season: Optional[str] = Query(None),
+    include_archived: bool = Query(False),
     limit: int = Query(50, le=200),
     offset: int = Query(0, ge=0),
     user: AuthUser = Depends(get_current_user),
@@ -272,7 +273,11 @@ async def list_students(
     if q:
         query = query.ilike("full_name", f"%{q}%")
     if status:
+        # Explicit status filter — show exactly those students
         query = query.eq("status", status)
+    elif not include_archived:
+        # Default: hide archived students so they don't consume visible slots
+        query = query.neq("status", "archived")
     if season:
         query = query.eq("season", season)
 
