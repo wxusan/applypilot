@@ -60,8 +60,8 @@ export default async function DashboardPage() {
     .order('created_at', { ascending: false })
     .limit(8)
 
-  const studentIds = [...new Set((auditLogs ?? []).map((l) => l.student_id).filter(Boolean))]
-  const userIds = [...new Set((auditLogs ?? []).map((l) => l.user_id).filter(Boolean))]
+  const studentIds = Array.from(new Set((auditLogs ?? []).map((l) => l.student_id).filter(Boolean)))
+  const userIds = Array.from(new Set((auditLogs ?? []).map((l) => l.user_id).filter(Boolean)))
 
   const [studentsMap, usersMap] = await Promise.all([
     studentIds.length
