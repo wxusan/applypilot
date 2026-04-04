@@ -32,7 +32,7 @@ export default async function StaffPage() {
     .eq('agency_id', member.agency_id)
     .order('joined_at', { ascending: true })
 
-  const normalised = (staff ?? []).map((m) => {
+  const normalised = (staff ?? []).map((m: any) => {
     const u = Array.isArray(m.user) ? m.user[0] : m.user
     return {
       member_id: m.id,
@@ -46,7 +46,7 @@ export default async function StaffPage() {
     }
   })
 
-  const activeCount = normalised.filter((m) => m.is_active).length
+  const activeCount = normalised.filter((m: any) => m.is_active).length
   const maxStaff = agency?.max_staff ?? 2
 
   return (

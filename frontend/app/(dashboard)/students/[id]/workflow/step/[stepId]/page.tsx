@@ -239,7 +239,7 @@ export default function WorkflowStepPage() {
             </div>
 
             <textarea
-              value={editedContent}
+              value={editedContent ?? ''}
               onChange={(e) => setEditedContent(e.target.value)}
               disabled={!canEdit}
               className="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container text-on-surface text-sm focus:outline-none focus:border-primary resize-none h-48"

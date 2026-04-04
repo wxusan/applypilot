@@ -37,11 +37,11 @@ async function proxy(req: NextRequest, { params }: { params: { path: string[] } 
 
   // Forward relevant headers; strip host to avoid upstream rejection
   const forwardHeaders = new Headers()
-  for (const [key, value] of req.headers.entries()) {
+  Array.from(req.headers.entries()).forEach(([key, value]) => {
     const lower = key.toLowerCase()
-    if (['host', 'connection', 'transfer-encoding', 'te'].includes(lower)) continue
+    if (['host', 'connection', 'transfer-encoding', 'te'].includes(lower)) return
     forwardHeaders.set(key, value)
-  }
+  })
 
   let upstreamRes: Response
   try {
@@ -88,12 +88,12 @@ async function proxy(req: NextRequest, { params }: { params: { path: string[] } 
 
   // Stream the response back
   const responseHeaders = new Headers()
-  for (const [key, value] of upstreamRes.headers.entries()) {
+  Array.from(upstreamRes.headers.entries()).forEach(([key, value]) => {
     const lower = key.toLowerCase()
     // Don't forward hop-by-hop headers
-    if (['connection', 'transfer-encoding', 'keep-alive', 'upgrade'].includes(lower)) continue
+    if (['connection', 'transfer-encoding', 'keep-alive', 'upgrade'].includes(lower)) return
     responseHeaders.set(key, value)
-  }
+  })
 
   const responseBody = await upstreamRes.arrayBuffer()
   return new NextResponse(responseBody, {

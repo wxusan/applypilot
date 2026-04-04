@@ -70,14 +70,14 @@ export default async function StudentDeadlinesPage({
   if (!student) notFound()
 
   const allDeadlines = deadlines ?? []
-  const upcoming = allDeadlines.filter((d) => !d.is_complete)
-  const completed = allDeadlines.filter((d) => d.is_complete)
+  const upcoming = allDeadlines.filter((d: any) => !d.is_complete)
+  const completed = allDeadlines.filter((d: any) => d.is_complete)
 
-  const overdueCount = upcoming.filter((d) => {
+  const overdueCount = upcoming.filter((d: any) => {
     const days = daysUntil(d.due_date)
     return days !== null && days < 0
   }).length
-  const soonCount = upcoming.filter((d) => {
+  const soonCount = upcoming.filter((d: any) => {
     const days = daysUntil(d.due_date)
     return days !== null && days >= 0 && days <= 3
   }).length
@@ -165,7 +165,7 @@ export default async function StudentDeadlinesPage({
             {upcoming.length > 0 && (
               <>
                 <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-4">Upcoming Deadlines</h3>
-                {upcoming.map((dl) => {
+                {upcoming.map((dl: any) => {
                   const urgency = getDeadlineUrgency(dl.due_date, dl.is_complete)
                   const { month, day } = getDeadlineDateParts(dl.due_date)
                   const days = daysUntil(dl.due_date)
@@ -229,7 +229,7 @@ export default async function StudentDeadlinesPage({
             {completed.length > 0 && (
               <>
                 <h3 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant/60 mb-4 mt-8">Completed</h3>
-                {completed.map((dl) => {
+                {completed.map((dl: any) => {
                   const { month, day } = getDeadlineDateParts(dl.due_date)
                   const university = dl.application?.university_name
 

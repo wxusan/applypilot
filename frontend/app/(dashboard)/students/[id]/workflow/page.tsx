@@ -290,7 +290,7 @@ function WorkflowTimeline({
             </div>
           </div>
           <div className="flex gap-2">
-            {(workflow.status === 'active' || workflow.status === 'running') && (
+            {((workflow.status as string) === 'active' || (workflow.status as string) === 'running') && (
               <button
                 onClick={handlePause}
                 disabled={actionLoading === 'pause'}

@@ -104,7 +104,7 @@ export default async function StudentApplicationsPage({
         </div>
       ) : (
         <div className="space-y-4">
-          {applications.map((app) => {
+          {applications.map((app: any) => {
             const caStatus = (app.common_app_status ?? {}) as Record<string, string>
 
             return (

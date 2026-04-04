@@ -108,7 +108,7 @@ export default async function StudentActivityPage({
           </div>
 
           <div className="divide-y divide-outline-variant/10">
-            {logs!.map((log) => {
+            {logs!.map((log: any) => {
               const style = actionStyle(log.action)
               const actor = (log.actor as { full_name: string } | null)?.full_name ?? 'System'
               const hasChanges = log.old_value !== null || log.new_value !== null

@@ -84,7 +84,7 @@ export default async function StudentDocumentsPage({
     label: item.label,
     required: true,
     uploaded: (docsByType[item.type]?.length ?? 0) > 0,
-    documents: (docsByType[item.type] ?? []).map((d) => ({
+    documents: (docsByType[item.type] ?? []).map((d: any) => ({
       id: d.id,
       file_name: d.file_name,
       storage_url: d.storage_url,
@@ -101,7 +101,7 @@ export default async function StudentDocumentsPage({
         label: ALL_DOC_TYPE_LABELS[type] ?? type,
         required: false,
         uploaded: true,
-        documents: docs!.map((d) => ({
+        documents: docs!.map((d: any) => ({
           id: d.id,
           file_name: d.file_name,
           storage_url: d.storage_url,
@@ -209,7 +209,7 @@ export default async function StudentDocumentsPage({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-outline-variant/10">
-                    {documents!.map((doc) => {
+                    {documents!.map((doc: any) => {
                       const iconInfo = DOC_TYPE_ICONS[doc.doc_type] ?? DOC_TYPE_ICONS.other
                       return (
                         <tr key={doc.id} className="hover:bg-surface-container-low/30 transition-colors group">

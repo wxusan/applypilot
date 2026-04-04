@@ -16,7 +16,7 @@ const ENGLISH_TESTS = [
   { value: 'cambridge',  label: 'Cambridge',   range: 'C1/C2' },
 ]
 
-const TEST_SUBSCORES: Record<string, { key: string; label: string }[]> = {
+const TEST_SUBSCORES: Record<string, { key: string; label: string; isText?: boolean }[]> = {
   toefl_ibt: [
     { key: 'total',     label: 'Total (0–120)' },
     { key: 'reading',   label: 'Reading (0–30)' },

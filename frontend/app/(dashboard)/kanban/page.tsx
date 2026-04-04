@@ -56,7 +56,7 @@ export default async function KanbanPage() {
     }
   }
 
-  const normalised = (students ?? []).map((s) => ({
+  const normalised = (students ?? []).map((s: any) => ({
     ...s,
     assigned_staff_name: s.assigned_staff_id ? (staffMap[s.assigned_staff_id] ?? null) : null,
   }))

@@ -178,7 +178,7 @@ export default function StudentImportPage() {
             />
             <button
               onClick={(e) => {
-                e.currentTarget.previousElementSibling?.click()
+                ;(e.currentTarget.previousElementSibling as HTMLElement)?.click()
               }}
               className="px-6 py-2 bg-[#031635] text-white rounded-lg font-semibold hover:opacity-90 transition-all"
               disabled={isLoading}

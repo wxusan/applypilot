@@ -250,7 +250,7 @@ export default async function DashboardPage() {
           <h4 className="font-headline font-bold text-primary mb-6">Recent Activity</h4>
           {activityItems.length > 0 ? (
             <div className="space-y-4">
-              {activityItems.map((item, idx) => (
+              {activityItems.map((item: any, idx: number) => (
                 <div key={item.id} className={`flex gap-4 ${idx > 4 ? 'opacity-20' : idx > 2 ? 'opacity-40' : ''}`}>
                   <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
                     <span className="material-symbols-outlined text-sm text-on-surface-variant">
