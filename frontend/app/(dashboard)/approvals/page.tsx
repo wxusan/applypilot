@@ -75,7 +75,7 @@ export default async function ApprovalsPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {jobs!.map((job) => {
+          {jobs!.map((job: any) => {
             const screenshots = (job.screenshot_urls as string[]) ?? []
             const student = Array.isArray(job.student) ? job.student[0] : job.student
             const jobLabel = JOB_TYPE_LABELS[job.job_type] ?? job.job_type.replace(/_/g, ' ')
