@@ -65,12 +65,12 @@ export default async function DashboardPage() {
 
   const [studentsMap, usersMap] = await Promise.all([
     studentIds.length
-      ? db.from('students').select('id, full_name').in('id', studentIds).then(({ data }) =>
+      ? db.from('students').select('id, full_name').in('id', studentIds).then(({ data }: { data: any }) =>
           Object.fromEntries((data ?? []).map((s: any) => [s.id, s.full_name]))
         )
       : Promise.resolve({} as Record<string, string>),
     userIds.length
-      ? db.from('users').select('id, full_name').in('id', userIds).then(({ data }) =>
+      ? db.from('users').select('id, full_name').in('id', userIds).then(({ data }: { data: any }) =>
           Object.fromEntries((data ?? []).map((u: any) => [u.id, u.full_name]))
         )
       : Promise.resolve({} as Record<string, string>),
