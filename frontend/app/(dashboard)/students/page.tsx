@@ -1,24 +1,11 @@
 import { createServerClient } from '@/lib/supabase-server'
 import Link from 'next/link'
+import StatusPill from '@/components/ui/StatusPill'
 
 const STATUS_OPTIONS = [
   'intake', 'forms', 'writing', 'review',
   'submitted', 'accepted', 'rejected', 'archived',
 ]
-
-function getStatusBadgeClass(status: string) {
-  switch (status) {
-    case 'writing': return 'bg-blue-100 text-blue-700'
-    case 'review': return 'bg-amber-100 text-amber-700'
-    case 'submitted': return 'bg-emerald-100 text-emerald-700'
-    case 'accepted': return 'bg-green-100 text-green-700'
-    case 'rejected': return 'bg-red-100 text-red-700'
-    case 'intake': return 'bg-purple-100 text-purple-700'
-    case 'forms': return 'bg-indigo-100 text-indigo-700'
-    case 'archived': return 'bg-gray-100 text-gray-500'
-    default: return 'bg-surface-container text-on-surface-variant'
-  }
-}
 
 function getInitials(name: string) {
   return name
@@ -268,9 +255,7 @@ export default async function StudentsPage({
                       </td>
 
                       <td className="px-6 py-4">
-                        <span className={`px-3 py-1 text-[10px] font-extrabold uppercase rounded-full tracking-tighter ${getStatusBadgeClass(student.status)}`}>
-                          {student.status}
-                        </span>
+                        <StatusPill status={student.status} />
                       </td>
 
                       <td className="px-6 py-4 text-center">

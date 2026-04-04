@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import StudentActions from './StudentActions'
+import StatusPill from '@/components/ui/StatusPill'
 
 interface StudentHeaderProps {
   student: {
@@ -29,18 +30,6 @@ interface StudentHeaderProps {
   }
 }
 
-function getStatusBadgeClass(status: string) {
-  switch (status) {
-    case 'writing': return 'bg-blue-100 text-blue-700'
-    case 'review': return 'bg-amber-100 text-amber-700'
-    case 'submitted': return 'bg-emerald-100 text-emerald-700'
-    case 'accepted': return 'bg-green-100 text-green-700'
-    case 'rejected': return 'bg-red-100 text-red-700'
-    case 'intake': return 'bg-purple-100 text-purple-700'
-    case 'forms': return 'bg-indigo-100 text-indigo-700'
-    default: return 'bg-surface-container text-on-surface-variant'
-  }
-}
 
 export default function StudentHeader({ student }: StudentHeaderProps) {
   const subParts = [
@@ -108,9 +97,7 @@ export default function StudentHeader({ student }: StudentHeaderProps) {
                 ACT {student.act_score}
               </div>
             )}
-            <span className={`text-xs px-3 py-1 rounded-full font-extrabold uppercase tracking-tighter ${getStatusBadgeClass(student.status)}`}>
-              {student.status}
-            </span>
+            <StatusPill status={student.status} />
           </div>
         </div>
       </div>

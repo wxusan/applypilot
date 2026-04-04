@@ -2,17 +2,17 @@ import logging
 import asyncio
 from contextlib import asynccontextmanager
 import sentry_sdk
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
+from core.limiter import limiter
 
 from core.config import settings
 from api import students, applications, documents, emails, essays, deadlines, admin, agent_jobs, settings as settings_api, audit, browser_agent, staff, super_admin, billing, reports, chat, recommendation_letters, notifications, college_fit, colleges, credentials, workflows, workflow_steps, email_monitor, payments, portals
-from services.telegram_bot import start_telegram_bot
+from services.telegram_bot import start_telegram_bot, get_bot_status
 from services.scheduler import start_scheduler
 from services.step_dispatcher import get_dispatcher
 
@@ -25,10 +25,6 @@ logger = logging.getLogger(__name__)
 # Sentry (optional)
 if settings.SENTRY_DSN:
     sentry_sdk.init(dsn=settings.SENTRY_DSN, traces_sample_rate=0.1)
-
-# Rate limiter
-limiter = Limiter(key_func=get_remote_address)
-
 
 async def _resume_stale_browser_jobs() -> None:
     """On startup, resume any browser jobs that were left awaiting_approval."""
@@ -82,10 +78,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS
+# CORS — guard against wildcard in production
+_cors_origins = settings.CORS_ORIGINS
+if "*" in _cors_origins and not settings.DEBUG:
+    logger.warning(
+        "CORS_ORIGINS contains '*' in production mode. "
+        "This allows any website to make authenticated API calls. "
+        "Set CORS_ORIGINS to your actual frontend domain in .env."
+    )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -124,6 +128,16 @@ app.include_router(payments.router, prefix="/api")
 app.include_router(portals.router, prefix="/api")
 
 
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    """Standardise all HTTPException responses to {"error": ..., "detail": ...}."""
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": exc.detail, "detail": exc.detail},
+        headers=getattr(exc, "headers", None),
+    )
+
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     logger.warning(f"Validation error on {request.method} {request.url}: {exc.errors()}")
@@ -148,3 +162,13 @@ async def generic_exception_handler(request: Request, exc: Exception):
 @app.get("/health")
 async def health():
     return {"status": "ok", "version": "1.0.0"}
+
+
+@app.get("/health/telegram")
+async def telegram_health():
+    """Check Telegram bot connection status."""
+    status = get_bot_status()
+    return JSONResponse(
+        status_code=200 if status["connected"] else 503,
+        content=status,
+    )

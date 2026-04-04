@@ -18,6 +18,23 @@ import { sendMail, resetPasswordEmailHtml } from '@/lib/mailer'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || ''
 
+// ── Simple in-memory rate limiter: 5 requests per minute per IP ─────────────
+const _rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT = 5
+const RATE_WINDOW_MS = 60_000 // 1 minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = _rateLimitMap.get(ip)
+  if (!entry || now >= entry.resetAt) {
+    _rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
+    return false
+  }
+  if (entry.count >= RATE_LIMIT) return true
+  entry.count += 1
+  return false
+}
+
 // ── Telegram helper ──────────────────────────────────────────────────────────
 
 async function sendTelegramMessage(chatId: string, text: string): Promise<void> {
@@ -42,6 +59,18 @@ async function sendTelegramMessage(chatId: string, text: string): Promise<void> 
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limit by IP — prevent abuse of the password reset flow
+    const ip =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      req.headers.get('x-real-ip') ||
+      'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please wait a minute before trying again.' },
+        { status: 429 }
+      )
+    }
+
     const { email } = await req.json()
 
     if (!email || typeof email !== 'string' || !email.includes('@')) {

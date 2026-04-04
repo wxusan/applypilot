@@ -16,11 +16,21 @@ from core.db import get_service_client
 logger = logging.getLogger(__name__)
 
 _application: Optional[Application] = None
+_bot_error: Optional[str] = None  # Last startup error, if any
+
+
+def get_bot_status() -> dict:
+    """Return current Telegram bot health for the /health/telegram endpoint."""
+    return {
+        "connected": _application is not None,
+        "error": _bot_error,
+        "bot_token_configured": bool(getattr(settings, "TELEGRAM_BOT_TOKEN", None)),
+    }
 
 
 async def start_telegram_bot() -> None:
     """Initialize and start the Telegram bot."""
-    global _application
+    global _application, _bot_error
 
     try:
         _application = Application.builder().token(settings.TELEGRAM_BOT_TOKEN).build()
@@ -36,9 +46,12 @@ async def start_telegram_bot() -> None:
         await _application.start()
         await _application.updater.start_polling(drop_pending_updates=True)
 
+        _bot_error = None
         logger.info("Telegram bot started")
     except Exception as e:
-        logger.error(f"Telegram bot failed to start: {e}")
+        _bot_error = str(e)
+        _application = None
+        logger.error(f"Telegram bot failed to start: {e}", exc_info=True)
 
 
 async def send_message_to_agency_staff(agency_id: str, text: str) -> None:

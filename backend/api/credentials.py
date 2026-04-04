@@ -10,7 +10,7 @@ Endpoints:
   POST   /api/credentials/{id}/test        — test Gmail login
 """
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 import uuid
@@ -60,6 +60,28 @@ def _mask(value: Optional[str]) -> Optional[str]:
     return '••••••••'
 
 
+def _log_access(
+    db,
+    agency_id: str,
+    credential_id: str,
+    user_id: str,
+    action: str,
+    request: Request | None = None,
+) -> None:
+    """Fire-and-forget credential access log entry (best-effort, never raises)."""
+    try:
+        db.table("credential_access_log").insert({
+            "agency_id": agency_id,
+            "credential_id": credential_id,
+            "user_id": user_id,
+            "action": action,
+            "ip_address": request.client.host if request and request.client else None,
+            "user_agent": request.headers.get("user-agent") if request else None,
+        }).execute()
+    except Exception:
+        pass  # Never let audit logging break the main flow
+
+
 def _serialize(row: dict, show_masked: bool = True) -> dict:
     """Serialize a credential row, masking passwords."""
     return {
@@ -83,7 +105,7 @@ def _serialize(row: dict, show_masked: bool = True) -> dict:
 
 
 @router.post("/credentials")
-async def create_credential(body: CredentialCreate, user: AuthUser = Depends(get_current_user)):
+async def create_credential(body: CredentialCreate, request: Request, user: AuthUser = Depends(get_current_user)):
     db = get_service_client()
 
     # Verify student belongs to user's agency
@@ -91,8 +113,9 @@ async def create_credential(body: CredentialCreate, user: AuthUser = Depends(get
     if not student.data or student.data['agency_id'] != user.agency_id:
         raise HTTPException(404, "Student not found")
 
+    credential_id = str(uuid.uuid4())
     payload = {
-        "id": str(uuid.uuid4()),
+        "id": credential_id,
         "student_id": body.student_id,
         "agency_id": user.agency_id,
         "credential_type": body.credential_type,
@@ -111,11 +134,12 @@ async def create_credential(body: CredentialCreate, user: AuthUser = Depends(get
     if not result.data:
         raise HTTPException(500, "Failed to create credential")
 
+    _log_access(db, user.agency_id, credential_id, user.id, "create", request)
     return _serialize(result.data[0])
 
 
 @router.get("/credentials")
-async def list_credentials(student_id: str, user: AuthUser = Depends(get_current_user)):
+async def list_credentials(student_id: str, request: Request, user: AuthUser = Depends(get_current_user)):
     db = get_service_client()
 
     result = db.table("student_credentials")\
@@ -126,11 +150,15 @@ async def list_credentials(student_id: str, user: AuthUser = Depends(get_current
         .order("credential_type")\
         .execute()
 
+    # Log a single 'read' entry for the whole list fetch
+    for row in (result.data or []):
+        _log_access(db, user.agency_id, row["id"], user.id, "read", request)
+
     return [_serialize(row) for row in (result.data or [])]
 
 
 @router.patch("/credentials/{credential_id}")
-async def update_credential(credential_id: str, body: CredentialUpdate, user: AuthUser = Depends(get_current_user)):
+async def update_credential(credential_id: str, body: CredentialUpdate, request: Request, user: AuthUser = Depends(get_current_user)):
     db = get_service_client()
 
     existing = db.table("student_credentials").select("*").eq("id", credential_id).eq("agency_id", user.agency_id).single().execute()
@@ -161,11 +189,12 @@ async def update_credential(credential_id: str, body: CredentialUpdate, user: Au
     result = db.table("student_credentials").update(updates).eq("id", credential_id).execute()
     if not result.data:
         raise HTTPException(status_code=404, detail="Credential not found or no changes applied")
+    _log_access(db, user.agency_id, credential_id, user.id, "update", request)
     return _serialize(result.data[0])
 
 
 @router.delete("/credentials/{credential_id}")
-async def delete_credential(credential_id: str, user: AuthUser = Depends(get_current_user)):
+async def delete_credential(credential_id: str, request: Request, user: AuthUser = Depends(get_current_user)):
     db = get_service_client()
 
     existing = db.table("student_credentials").select("id, agency_id").eq("id", credential_id).eq("agency_id", user.agency_id).single().execute()
@@ -173,11 +202,12 @@ async def delete_credential(credential_id: str, user: AuthUser = Depends(get_cur
         raise HTTPException(404, "Credential not found")
 
     db.table("student_credentials").update({"is_active": False}).eq("id", credential_id).execute()
+    _log_access(db, user.agency_id, credential_id, user.id, "delete", request)
     return {"success": True}
 
 
 @router.post("/credentials/{credential_id}/test")
-async def test_credential(credential_id: str, user: AuthUser = Depends(get_current_user)):
+async def test_credential(credential_id: str, request: Request, user: AuthUser = Depends(get_current_user)):
     """
     Attempt a Gmail login to verify credentials.
     Returns: {status: 'success'|'failed'|'2fa_required', message: str}
@@ -202,4 +232,5 @@ async def test_credential(credential_id: str, user: AuthUser = Depends(get_curre
         "last_test_result": result["status"]
     }).eq("id", credential_id).execute()
 
+    _log_access(db, user.agency_id, credential_id, user.id, "test", request)
     return result

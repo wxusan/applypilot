@@ -27,15 +27,9 @@ logger = logging.getLogger(__name__)
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
 
 # ── Strategy 2: Compressed scoring soul ──────────────────────────────────────
-# Full ESSAY_AGENT.md is ~600 tokens and adds no value when scoring —
-# the rubric is all that matters. This constant is ~80 tokens.
-_SCORE_SOUL = (
-    "You are an expert college essay evaluator. "
-    "Score the essay 1-100 across four dimensions: "
-    "authenticity (25pts), argument/narrative strength (25pts), "
-    "writing quality (25pts), prompt relevance (25pts). "
-    "Respond with ONLY an integer. No explanation, no commentary."
-)
+# Loaded from agents/souls/SCORE_SOUL.md — ~80 tokens vs ~600 for ESSAY_AGENT.
+# Saves ~520 tokens per scoring call (Strategy 2).
+_SCORE_SOUL = load_soul("SCORE_SOUL")
 
 
 # ── Strategy 1+3: Generation hash helpers ────────────────────────────────────

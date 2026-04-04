@@ -69,20 +69,28 @@ class EmailAgent:
     # ------------------------------------------------------------------ #
 
     async def sync_all_accounts(self) -> None:
-        """Sync every active email account. Called once per hour by APScheduler."""
+        """Sync every active email account concurrently. Called once per hour by APScheduler.
+        Each account is isolated — one failure does not block the others."""
+        import asyncio as _asyncio
+
         db = get_service_client()
 
         accounts = db.table("email_accounts").select(
             "*, student:students(id, full_name, agency_id)"
         ).eq("is_active", True).execute()
 
-        for account in accounts.data or []:
+        async def _safe_sync(account: dict) -> None:
             try:
                 await self._sync_account(account)
             except Exception as exc:
                 logger.error(
-                    f"EmailAgent: sync failed for account {account['id']}: {exc}"
+                    f"EmailAgent: sync failed for account {account['id']} "
+                    f"(student {account.get('student_id', '?')}): {exc}",
+                    exc_info=True,
                 )
+
+        # Run all account syncs concurrently — a single failure won't skip the rest
+        await _asyncio.gather(*[_safe_sync(a) for a in (accounts.data or [])])
 
     # ------------------------------------------------------------------ #
     #  Per-account sync                                                    #

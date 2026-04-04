@@ -60,14 +60,22 @@ function NewWorkflowModal({
   const [universityInput, setUniversityInput] = useState('')
   const [universities, setUniversities] = useState<UniversityRound[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [addError, setAddError] = useState<string | null>(null)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleAddUniversity = () => {
-    if (!universityInput.trim()) return
-    const name = universityInput.trim()
-    if (!universities.find((u) => u.name.toLowerCase() === name.toLowerCase())) {
-      setUniversities([...universities, { name, round: 'RD' }])
-      setUniversityInput('')
+    setAddError(null)
+    if (!universityInput.trim()) {
+      setAddError('Please enter a university name.')
+      return
     }
+    const name = universityInput.trim()
+    if (universities.find((u) => u.name.toLowerCase() === name.toLowerCase())) {
+      setAddError(`"${name}" is already in the list.`)
+      return
+    }
+    setUniversities([...universities, { name, round: 'RD' }])
+    setUniversityInput('')
   }
 
   const handleUpdateRound = (index: number, round: typeof ROUNDS[number]) => {
@@ -82,13 +90,30 @@ function NewWorkflowModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (universities.length === 0) return
+    setSubmitError(null)
+    if (universities.length === 0) {
+      setSubmitError('Add at least one university before creating the workflow.')
+      return
+    }
+    // Check for duplicate rounds within the same university (shouldn't happen but guard anyway)
+    const seen = new Set<string>()
+    for (const u of universities) {
+      const key = `${u.name.toLowerCase()}:${u.round}`
+      if (seen.has(key)) {
+        setSubmitError(`"${u.name}" has a duplicate application round (${u.round}). Remove one before continuing.`)
+        return
+      }
+      seen.add(key)
+    }
     setIsSubmitting(true)
     try {
       await onCreate(universities)
       setUniversities([])
       setUniversityInput('')
+      setSubmitError(null)
       onClose()
+    } catch (err: any) {
+      setSubmitError(err?.message || 'Failed to create workflow. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -124,6 +149,9 @@ function NewWorkflowModal({
             >
               + Add University
             </button>
+            {addError && (
+              <p className="mt-1 text-xs text-red-600">{addError}</p>
+            )}
           </div>
 
           {universities.length > 0 && (
@@ -159,6 +187,10 @@ function NewWorkflowModal({
             </div>
           )}
 
+          {submitError && (
+            <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded-lg">{submitError}</p>
+          )}
+
           <div className="flex gap-3 pt-2">
             <button
               type="button"
@@ -169,7 +201,7 @@ function NewWorkflowModal({
             </button>
             <button
               type="submit"
-              disabled={universities.length === 0 || isSubmitting}
+              disabled={isSubmitting}
               className="flex-1 px-4 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors disabled:opacity-50"
             >
               {isSubmitting ? 'Creating...' : 'Create Workflow'}

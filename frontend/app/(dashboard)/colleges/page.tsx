@@ -34,9 +34,10 @@ export default function CollegesPage() {
     setLoading(true)
     setError(null)
     try {
-      const response = await apiFetch<{ colleges: College[] }>('/api/colleges', {
-        method: 'GET',
-      })
+      // Build query string from params so filters are actually applied
+      const qs = new URLSearchParams(params).toString()
+      const url = qs ? `/api/colleges?${qs}` : '/api/colleges'
+      const response = await apiFetch<{ colleges: College[] }>(url)
       setColleges(response.colleges || [])
     } catch (err) {
       setError((err as Error).message)
@@ -45,20 +46,17 @@ export default function CollegesPage() {
     }
   }
 
-  const handleSearch = () => {
-    const params: Record<string, string> = {}
-    if (searchQuery) params.name = searchQuery
-    if (rankMin) params.rank_min = rankMin
-    if (rankMax) params.rank_max = rankMax
-    if (acceptanceRateMax !== '100') params.acceptance_rate_max = acceptanceRateMax
-    if (state) params.state = state
-
-    loadColleges(params)
-  }
-
-  const handleFilterChange = () => {
+  const triggerSearch = (overrides: Record<string, string> = {}) => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current)
-    debounceTimer.current = setTimeout(handleSearch, 500)
+    debounceTimer.current = setTimeout(() => {
+      const params: Record<string, string> = { ...overrides }
+      if (!overrides.name && searchQuery) params.name = searchQuery
+      if (rankMin) params.rank_min = rankMin
+      if (rankMax) params.rank_max = rankMax
+      if (acceptanceRateMax !== '100') params.acceptance_rate_max = acceptanceRateMax
+      if (state) params.state = state
+      loadColleges(params)
+    }, 300)
   }
 
   useEffect(() => {
@@ -67,13 +65,10 @@ export default function CollegesPage() {
 
   const handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
-    if (debounceTimer.current) clearTimeout(debounceTimer.current)
-    debounceTimer.current = setTimeout(() => {
-      const params: Record<string, string> = {}
-      if (e.target.value) params.name = e.target.value
-      loadColleges(params)
-    }, 500)
+    triggerSearch({ name: e.target.value })
   }
+
+  const handleFilterChange = () => triggerSearch()
 
   return (
     <div className="space-y-8">
@@ -172,7 +167,7 @@ export default function CollegesPage() {
 
         {/* Search Button */}
         <button
-          onClick={handleSearch}
+          onClick={() => triggerSearch()}
           className="w-full px-6 py-3 bg-[#031635] text-white font-semibold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>search</span>

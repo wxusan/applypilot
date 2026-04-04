@@ -26,12 +26,9 @@ from playwright.async_api import async_playwright, Browser, Page, TimeoutError a
 from core.config import settings
 from core.audit import write_audit_log
 from agents.selector_registry import SELECTORS
+from services.storage import upload_bytes_to_r2
 
 logger = logging.getLogger(__name__)
-
-# Screenshot storage
-SCREENSHOT_DIR = Path("/tmp/screenshots")
-SCREENSHOT_DIR.mkdir(exist_ok=True, parents=True)
 
 
 class CommonAppAgent:
@@ -879,18 +876,18 @@ class CommonAppAgent:
             }
 
     async def _take_screenshot(self, caption: str) -> str:
-        """Take and save screenshot."""
+        """Take a screenshot and upload it to R2. Returns the R2 URL (or '' on failure)."""
         try:
             if not self.page:
                 return ""
 
             timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-            filename = f"{self.step_id}_{caption}_{timestamp}.png"
-            filepath = SCREENSHOT_DIR / filename
+            png_bytes = await self.page.screenshot(full_page=False, type="png")
 
-            await self.page.screenshot(path=str(filepath))
-            logger.info(f"Screenshot saved: {filepath}")
-            return str(filepath)
+            r2_path = f"{self.agency_id}/screenshots/{self.step_id}_{caption}_{timestamp}.png"
+            url = await upload_bytes_to_r2(r2_path, png_bytes, "image/png")
+            logger.info(f"Screenshot uploaded to R2: {url}")
+            return url
 
         except Exception as e:
             logger.error(f"Error taking screenshot: {e}")

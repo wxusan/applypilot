@@ -11,6 +11,7 @@ from typing import Optional
 from core.auth import get_current_user, require_admin
 from core.db import get_service_client
 from core.audit import write_audit_log
+from core.limiter import limiter
 from models.user import AuthUser
 
 logger = logging.getLogger(__name__)
@@ -41,6 +42,7 @@ async def list_members(user: AuthUser = Depends(require_admin)):
 
 
 @router.post("/members/invite", status_code=201)
+@limiter.limit("5/minute")
 async def invite_staff(
     data: InviteStaffRequest,
     request: Request,

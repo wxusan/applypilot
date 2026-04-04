@@ -37,7 +37,8 @@ export default function StudentActions({ studentId, studentName, currentStatus }
 
   // ── Archive / Restore ──────────────────────────────────────────────────
   const handleArchiveToggle = async () => {
-    const newStatus = isArchived ? 'accepted' : 'archived'
+    // When restoring, send 'intake' — backend overrides with pre_archive_status if set
+    const newStatus = isArchived ? 'intake' : 'archived'
     setLoading(true)
     try {
       await apiFetch(`/api/students/${studentId}`, {
@@ -171,7 +172,7 @@ export default function StudentActions({ studentId, studentName, currentStatus }
                 <h2 className="text-xl font-extrabold text-primary mb-1">Restore Student?</h2>
                 <p className="text-on-surface-variant text-sm leading-relaxed">
                   <span className="font-bold text-primary">{studentName}</span> will be moved back
-                  to your active roster with status <span className="font-semibold">Accepted</span>.
+                  to your active roster, restored to their previous status.
                   They will count toward your active student slot again.
                 </p>
               </div>

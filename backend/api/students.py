@@ -385,6 +385,19 @@ async def update_student(
         if payload.get(f) and hasattr(payload[f], "isoformat"):
             payload[f] = payload[f].isoformat()
 
+    # Archive / restore logic
+    current_status = existing.data.get("status", "intake")
+    if payload.get("status") == "archived" and current_status != "archived":
+        # Store the current status so we can restore to it later
+        payload["pre_archive_status"] = current_status
+    elif payload.get("status") and payload["status"] != "archived" and current_status == "archived":
+        # Restoring — use pre_archive_status if available, else keep what was requested
+        pre = existing.data.get("pre_archive_status")
+        if pre and pre != "archived":
+            payload["status"] = pre
+        # Clear the stored pre-archive status
+        payload["pre_archive_status"] = None
+
     result = (
         db.table("students")
         .update(payload)
