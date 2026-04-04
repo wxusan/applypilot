@@ -25,77 +25,13 @@ from playwright.async_api import async_playwright, Browser, Page, TimeoutError a
 
 from core.config import settings
 from core.audit import write_audit_log
+from agents.selector_registry import SELECTORS
 
 logger = logging.getLogger(__name__)
 
 # Screenshot storage
 SCREENSHOT_DIR = Path("/tmp/screenshots")
 SCREENSHOT_DIR.mkdir(exist_ok=True, parents=True)
-
-# Common App CSS selectors — maintain here for easy updates
-SELECTORS = {
-    "login_email": "input[type='email']",
-    "login_password": "input[type='password']",
-    "login_button": "button:has-text('Sign In')",
-    "signup_email": "input[name='email']",
-    "signup_password": "input[name='password']",
-    "signup_button": "button:has-text('Create Account')",
-
-    # Personal Info section
-    "first_name": "input[name='firstName']",
-    "last_name": "input[name='lastName']",
-    "preferred_name": "input[name='preferredName']",
-    "email": "input[name='email']",
-    "phone": "input[name='phone']",
-    "dob": "input[name='dateOfBirth']",
-    "citizenship": "select[name='citizenship']",
-    "address_street": "input[name='street']",
-    "address_city": "input[name='city']",
-    "address_state": "input[name='state']",
-    "address_zip": "input[name='zip']",
-    "address_country": "select[name='country']",
-
-    # Education section
-    "high_school_name": "input[name='schoolName']",
-    "high_school_code": "input[name='schoolCode']",
-    "gpa": "input[name='gpa']",
-    "gpa_scale": "select[name='gpaScale']",
-    "graduation_date": "input[name='graduationDate']",
-
-    # Test Scores section
-    "sat_score": "input[name='satScore']",
-    "act_score": "input[name='actScore']",
-    "test_date": "input[name='testDate']",
-
-    # Activities section
-    "activity_type": "select[name='activityType']",
-    "activity_title": "input[name='activityTitle']",
-    "activity_description": "textarea[name='activityDescription']",
-    "activity_position": "input[name='position']",
-    "activity_organization": "input[name='organization']",
-    "activity_hours_per_week": "input[name='hoursPerWeek']",
-    "activity_weeks_per_year": "input[name='weeksPerYear']",
-
-    # Writing/Essay section
-    "personal_statement": "textarea[name='personalStatement']",
-    "supplement_answer": "textarea[name='supplementAnswer']",
-
-    # Universities section
-    "university_search": "input[placeholder*='University']",
-    "university_add_button": "button:has-text('Add')",
-    "my_colleges_table": "table[role='presentation']",
-
-    # Submission section
-    "submit_button": "button:has-text('Submit Application')",
-    "final_submit_button": "button:has-text('Final Submit')",
-    "payment_amount": "span.payment-amount",
-
-    # Recommender section
-    "recommender_name": "input[name='recommenderName']",
-    "recommender_email": "input[name='recommenderEmail']",
-    "recommender_letter": "textarea[name='letter']",
-    "relationship": "select[name='relationship']",
-}
 
 
 class CommonAppAgent:
@@ -126,58 +62,61 @@ class CommonAppAgent:
                 'message': str
             }
         """
+        context = None
         try:
             async with async_playwright() as p:
                 self.browser = await p.chromium.launch(headless=True)
-                context = await self.browser.new_context()
-                self.page = await context.new_page()
-
-                # Navigate to Common App
-                await self.page.goto("https://www.commonapp.org", wait_until="networkidle", timeout=30000)
-                await asyncio.sleep(1)
-
-                # Click Sign In or Create Account
                 try:
-                    signin_button = await self.page.wait_for_selector('a:has-text("Sign In")', timeout=10000)
-                    await signin_button.click()
-                    await asyncio.sleep(2)
-                except PlaywrightTimeoutError:
-                    pass
+                    context = await self.browser.new_context()
+                    self.page = await context.new_page()
 
-                # Try to find login form
-                try:
-                    email_input = await self.page.wait_for_selector(
-                        SELECTORS["login_email"],
-                        timeout=10000
-                    )
-                    await email_input.fill(email)
+                    # Navigate to Common App
+                    await self.page.goto("https://www.commonapp.org", wait_until="networkidle", timeout=30000)
+                    await asyncio.sleep(1)
 
-                    password_input = await self.page.wait_for_selector(
-                        SELECTORS["login_password"],
-                        timeout=5000
-                    )
-                    await password_input.fill(password)
-
-                    # Try to login
-                    login_btn = await self.page.query_selector(SELECTORS["login_button"])
-                    if login_btn:
-                        await login_btn.click()
-                        await asyncio.sleep(3)
-
-                    # Check if login was successful
+                    # Click Sign In or Create Account
                     try:
-                        await self.page.wait_for_url(
-                            url=lambda u: "dashboard" in u or "profile" in u,
+                        signin_button = await self.page.wait_for_selector('a:has-text("Sign In")', timeout=10000)
+                        await signin_button.click()
+                        await asyncio.sleep(2)
+                    except PlaywrightTimeoutError:
+                        pass
+
+                    # Try to find login form
+                    login_ok = False
+                    try:
+                        email_input = await self.page.wait_for_selector(
+                            SELECTORS["login_email"],
                             timeout=10000
                         )
-                        # Login successful
+                        await email_input.fill(email)
+
+                        password_input = await self.page.wait_for_selector(
+                            SELECTORS["login_password"],
+                            timeout=5000
+                        )
+                        await password_input.fill(password)
+
+                        login_btn = await self.page.query_selector(SELECTORS["login_button"])
+                        if login_btn:
+                            await login_btn.click()
+                            await asyncio.sleep(3)
+
+                        try:
+                            await self.page.wait_for_url(
+                                url=lambda u: "dashboard" in u or "profile" in u,
+                                timeout=10000
+                            )
+                            login_ok = True
+                        except PlaywrightTimeoutError:
+                            logger.info(f"Login failed for {email}, attempting account creation")
+
+                    except PlaywrightTimeoutError:
+                        pass
+
+                    if login_ok:
                         await self._save_session_cookies(context)
                         screenshot_path = await self._take_screenshot("login_success")
-                        await context.close()
-                        await self.browser.close()
-                        self.browser = None
-                        self.page = None
-
                         logger.info(f"Common App login successful for {email}")
                         await write_audit_log(
                             self.agency_id,
@@ -185,94 +124,79 @@ class CommonAppAgent:
                             f"Logged in to Common App account: {email}",
                             metadata={"workflow_id": self.workflow_id, "step_id": self.step_id}
                         )
-
                         return {
                             "status": "logged_in",
                             "screenshot_url": screenshot_path,
                             "message": f"Successfully logged in to {email}"
                         }
+
+                    # Try to create account
+                    logger.info(f"Creating new Common App account for {email}")
+                    await self.page.goto("https://www.commonapp.org/sign-up", wait_until="networkidle", timeout=30000)
+                    await asyncio.sleep(2)
+
+                    email_input = await self.page.wait_for_selector(SELECTORS["signup_email"], timeout=10000)
+                    await email_input.fill(email)
+
+                    password_input = await self.page.wait_for_selector(SELECTORS["signup_password"], timeout=5000)
+                    await password_input.fill(password)
+
+                    if student_data:
+                        if "first_name" in student_data:
+                            fname_input = await self.page.query_selector(SELECTORS["first_name"])
+                            if fname_input:
+                                await fname_input.fill(student_data["first_name"])
+                        if "last_name" in student_data:
+                            lname_input = await self.page.query_selector(SELECTORS["last_name"])
+                            if lname_input:
+                                await lname_input.fill(student_data["last_name"])
+
+                    signup_btn = await self.page.query_selector(SELECTORS["signup_button"])
+                    if signup_btn:
+                        await signup_btn.click()
+                        await asyncio.sleep(3)
+
+                    try:
+                        await self.page.wait_for_url(
+                            url=lambda u: "dashboard" in u or "profile" in u,
+                            timeout=10000
+                        )
+                        await self._save_session_cookies(context)
+                        screenshot_path = await self._take_screenshot("account_created")
+                        logger.info(f"Common App account created for {email}")
+                        await write_audit_log(
+                            self.agency_id,
+                            "commonapp_account_created",
+                            f"Created new Common App account: {email}",
+                            metadata={"workflow_id": self.workflow_id, "step_id": self.step_id}
+                        )
+                        return {
+                            "status": "account_created",
+                            "screenshot_url": screenshot_path,
+                            "message": f"Successfully created account for {email}"
+                        }
                     except PlaywrightTimeoutError:
-                        # Login failed, try to create account
-                        logger.info(f"Login failed for {email}, attempting account creation")
-                        pass
+                        screenshot_path = await self._take_screenshot("account_creation_failed")
+                        return {
+                            "status": "failed",
+                            "screenshot_url": screenshot_path,
+                            "message": "Account creation or login verification failed"
+                        }
 
-                except PlaywrightTimeoutError:
-                    pass
-
-                # Try to create account
-                logger.info(f"Creating new Common App account for {email}")
-                await self.page.goto("https://www.commonapp.org/sign-up", wait_until="networkidle", timeout=30000)
-                await asyncio.sleep(2)
-
-                # Fill signup form
-                email_input = await self.page.wait_for_selector(
-                    SELECTORS["signup_email"],
-                    timeout=10000
-                )
-                await email_input.fill(email)
-
-                password_input = await self.page.wait_for_selector(
-                    SELECTORS["signup_password"],
-                    timeout=5000
-                )
-                await password_input.fill(password)
-
-                # If student_data provided, fill additional fields
-                if student_data:
-                    if "first_name" in student_data:
-                        fname_input = await self.page.query_selector("input[name='firstName']")
-                        if fname_input:
-                            await fname_input.fill(student_data["first_name"])
-
-                    if "last_name" in student_data:
-                        lname_input = await self.page.query_selector("input[name='lastName']")
-                        if lname_input:
-                            await lname_input.fill(student_data["last_name"])
-
-                # Submit signup
-                signup_btn = await self.page.query_selector(SELECTORS["signup_button"])
-                if signup_btn:
-                    await signup_btn.click()
-                    await asyncio.sleep(3)
-
-                # Verify account creation
-                try:
-                    await self.page.wait_for_url(
-                        url=lambda u: "dashboard" in u or "profile" in u,
-                        timeout=10000
-                    )
-                    await self._save_session_cookies(context)
-                    screenshot_path = await self._take_screenshot("account_created")
-                    await context.close()
-                    await self.browser.close()
-                    self.browser = None
-                    self.page = None
-
-                    logger.info(f"Common App account created for {email}")
-                    await write_audit_log(
-                        self.agency_id,
-                        "commonapp_account_created",
-                        f"Created new Common App account: {email}",
-                        metadata={"workflow_id": self.workflow_id, "step_id": self.step_id}
-                    )
-
-                    return {
-                        "status": "account_created",
-                        "screenshot_url": screenshot_path,
-                        "message": f"Successfully created account for {email}"
-                    }
-                except PlaywrightTimeoutError:
-                    screenshot_path = await self._take_screenshot("account_creation_failed")
-                    await context.close()
-                    await self.browser.close()
-                    self.browser = None
-                    self.page = None
-
-                    return {
-                        "status": "failed",
-                        "screenshot_url": screenshot_path,
-                        "message": "Account creation or login verification failed"
-                    }
+                finally:
+                    # CRITICAL: Always close the browser, even on errors
+                    if context:
+                        try:
+                            await context.close()
+                        except Exception:
+                            pass
+                    if self.browser:
+                        try:
+                            await self.browser.close()
+                        except Exception:
+                            pass
+                        self.browser = None
+                        self.page = None
 
         except Exception as e:
             logger.error(f"Common App login/create error: {e}")

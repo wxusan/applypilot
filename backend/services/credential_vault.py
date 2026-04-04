@@ -1,28 +1,45 @@
 """
 Credential Vault — AES-256 encryption for storing email credentials.
-Uses CREDENTIAL_ENCRYPTION_KEY env var (32-byte hex string).
-Falls back to a derived key from SECRET_KEY if not set.
+Uses ENCRYPTION_KEY env var (must be set — no fallback allowed).
+
+KEY FORMAT:
+  Generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+  Store the output as ENCRYPTION_KEY in your .env file.
+
+SECURITY NOTE:
+  There is intentionally NO fallback key. If ENCRYPTION_KEY is not configured,
+  the server will refuse to start. This prevents credentials from being silently
+  encrypted with a predictable key that could be guessed or brute-forced.
 """
 
 import os
 import base64
-import hashlib
 from cryptography.fernet import Fernet
 from core.config import settings
 
 
 def _get_fernet() -> Fernet:
-    """Get or derive a Fernet key from environment."""
-    raw_key = getattr(settings, 'CREDENTIAL_ENCRYPTION_KEY', None) or os.getenv('CREDENTIAL_ENCRYPTION_KEY')
-    if raw_key:
-        # Pad/truncate to 32 bytes, then base64url encode for Fernet
-        key_bytes = raw_key.encode()[:32].ljust(32, b'0')
-    else:
-        # Derive from SECRET_KEY
-        secret = getattr(settings, 'SECRET_KEY', 'applypilot-default-secret')
-        key_bytes = hashlib.sha256(secret.encode()).digest()
+    """Load the Fernet encryption key from settings. Fails loudly if not set."""
+    raw_key = getattr(settings, 'ENCRYPTION_KEY', None) or os.getenv('ENCRYPTION_KEY')
 
-    fernet_key = base64.urlsafe_b64encode(key_bytes)
+    if not raw_key:
+        raise RuntimeError(
+            "ENCRYPTION_KEY environment variable is not set. "
+            "The server cannot start without a valid encryption key for credential storage. "
+            "Generate one with: python -c \"from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())\""
+        )
+
+    # Support both raw Fernet keys (44 chars, already base64url) and
+    # plain strings that need to be padded to 32 bytes.
+    key_bytes = raw_key.strip().encode()
+    if len(key_bytes) == 44:
+        # Looks like a valid Fernet key already (base64url-encoded 32 bytes)
+        fernet_key = key_bytes
+    else:
+        # Pad/truncate to 32 bytes and base64url-encode
+        padded = key_bytes[:32].ljust(32, b'0')
+        fernet_key = base64.urlsafe_b64encode(padded)
+
     return Fernet(fernet_key)
 
 

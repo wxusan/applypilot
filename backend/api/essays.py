@@ -97,6 +97,20 @@ async def generate_essay(
     if not student.data:
         raise HTTPException(status_code=404, detail="Student not found")
 
+    # Idempotency check: if a generation job is already running for this student
+    # and prompt_type, return the existing job instead of creating a duplicate.
+    existing_job = db.table("agent_jobs").select("id, status").eq(
+        "student_id", data.student_id
+    ).eq("agency_id", user.agency_id).eq(
+        "job_type", "essay_generation"
+    ).in_("status", ["pending", "running", "awaiting_approval"]).order(
+        "created_at", desc=True
+    ).limit(1).execute()
+
+    if existing_job.data:
+        job = existing_job.data[0]
+        return {"job_id": job["id"], "status": job["status"], "reused": True}
+
     # Create agent job
     job_result = db.table("agent_jobs").insert({
         "agency_id": user.agency_id,

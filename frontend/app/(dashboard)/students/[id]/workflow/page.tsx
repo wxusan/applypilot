@@ -181,15 +181,63 @@ function NewWorkflowModal({
   )
 }
 
-function WorkflowTimeline({ workflow }: { workflow: Workflow }) {
+function WorkflowTimeline({
+  workflow,
+  onRefresh,
+  onToast,
+}: {
+  workflow: Workflow
+  onRefresh: () => void
+  onToast: (msg: string, type: 'success' | 'error') => void
+}) {
   const router = useRouter()
   const params = useParams<{ id: string }>()
+  const [actionLoading, setActionLoading] = useState<string | null>(null)
 
   const completedCount = workflow.steps.filter((s) => s.status === 'completed').length
   const totalCount = workflow.steps.length
 
   const handleApproveClick = (stepId: string) => {
     router.push(`/students/${params.id}/workflow/step/${stepId}`)
+  }
+
+  const handlePause = async () => {
+    setActionLoading('pause')
+    try {
+      await apiFetch<void>(`/api/workflows/${workflow.id}/pause`, { method: 'POST' })
+      onToast('Workflow paused', 'success')
+      onRefresh()
+    } catch (e: any) {
+      onToast(e.message || 'Failed to pause workflow', 'error')
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const handleResume = async () => {
+    setActionLoading('resume')
+    try {
+      await apiFetch<void>(`/api/workflows/${workflow.id}/resume`, { method: 'POST' })
+      onToast('Workflow resumed', 'success')
+      onRefresh()
+    } catch (e: any) {
+      onToast(e.message || 'Failed to resume workflow', 'error')
+    } finally {
+      setActionLoading(null)
+    }
+  }
+
+  const handleRetry = async (stepId: string) => {
+    setActionLoading(`retry-${stepId}`)
+    try {
+      await apiFetch<void>(`/api/workflow-steps/${stepId}/retry`, { method: 'POST' })
+      onToast('Step re-queued — agent will retry shortly', 'success')
+      onRefresh()
+    } catch (e: any) {
+      onToast(e.message || 'Failed to retry step', 'error')
+    } finally {
+      setActionLoading(null)
+    }
   }
 
   return (
@@ -206,17 +254,35 @@ function WorkflowTimeline({ workflow }: { workflow: Workflow }) {
             </span>
             <div>
               <p className="text-xs font-semibold text-on-surface-variant uppercase">Workflow Status</p>
-              <p className="text-sm font-bold text-on-surface">{workflow.status}</p>
+              <p className="text-sm font-bold text-on-surface capitalize">{workflow.status}</p>
             </div>
           </div>
           <div className="flex gap-2">
-            {workflow.status === 'active' && (
-              <button className="px-3 py-2 rounded-lg text-sm font-medium bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+            {(workflow.status === 'active' || workflow.status === 'running') && (
+              <button
+                onClick={handlePause}
+                disabled={actionLoading === 'pause'}
+                className="px-3 py-2 rounded-lg text-sm font-medium bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors disabled:opacity-50 flex items-center gap-1"
+              >
+                {actionLoading === 'pause' ? (
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <span className="material-symbols-outlined text-base">pause</span>
+                )}
                 Pause
               </button>
             )}
             {workflow.status === 'paused' && (
-              <button className="px-3 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors">
+              <button
+                onClick={handleResume}
+                disabled={actionLoading === 'resume'}
+                className="px-3 py-2 rounded-lg text-sm font-medium bg-primary text-on-primary hover:opacity-90 transition-colors disabled:opacity-50 flex items-center gap-1"
+              >
+                {actionLoading === 'resume' ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <span className="material-symbols-outlined text-base">play_arrow</span>
+                )}
                 Resume
               </button>
             )}
@@ -310,7 +376,16 @@ function WorkflowTimeline({ workflow }: { workflow: Workflow }) {
                     </button>
                   )}
                   {isFailed && (
-                    <button className="px-3 py-2 rounded-lg text-sm font-medium bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+                    <button
+                      onClick={() => handleRetry(step.id)}
+                      disabled={actionLoading === `retry-${step.id}`}
+                      className="px-3 py-2 rounded-lg text-sm font-medium bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors disabled:opacity-50 flex items-center gap-2"
+                    >
+                      {actionLoading === `retry-${step.id}` ? (
+                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <span className="material-symbols-outlined text-base">refresh</span>
+                      )}
                       Retry
                     </button>
                   )}
@@ -433,7 +508,7 @@ export default function WorkflowPage() {
           </button>
         </div>
       ) : (
-        <WorkflowTimeline workflow={workflow} />
+        <WorkflowTimeline workflow={workflow} onRefresh={loadWorkflow} onToast={showToast} />
       )}
 
       <NewWorkflowModal isOpen={showNewModal} onClose={() => setShowNewModal(false)} onCreate={handleCreateWorkflow} />
