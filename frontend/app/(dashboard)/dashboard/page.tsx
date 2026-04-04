@@ -128,7 +128,7 @@ export default async function DashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {statCards.map((card) => (
+        {statCards.map((card: any) => (
           <div
             key={card.label}
             className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 group"
@@ -166,7 +166,7 @@ export default async function DashboardPage() {
                 </Link>
               </div>
               <div className="space-y-3">
-                {(recentStudents ?? []).map((student) => {
+                {(recentStudents ?? []).map((student: any) => {
                   const apps = (student.applications as any[]) ?? []
                   return (
                     <div
