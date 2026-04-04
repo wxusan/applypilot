@@ -60,23 +60,23 @@ export default async function DashboardPage() {
     .order('created_at', { ascending: false })
     .limit(8)
 
-  const studentIds = Array.from(new Set((auditLogs ?? []).map((l) => l.student_id).filter(Boolean)))
-  const userIds = Array.from(new Set((auditLogs ?? []).map((l) => l.user_id).filter(Boolean)))
+  const studentIds = Array.from(new Set((auditLogs ?? []).map((l: any) => l.student_id).filter(Boolean)))
+  const userIds = Array.from(new Set((auditLogs ?? []).map((l: any) => l.user_id).filter(Boolean)))
 
   const [studentsMap, usersMap] = await Promise.all([
     studentIds.length
       ? db.from('students').select('id, full_name').in('id', studentIds).then(({ data }) =>
-          Object.fromEntries((data ?? []).map((s) => [s.id, s.full_name]))
+          Object.fromEntries((data ?? []).map((s: any) => [s.id, s.full_name]))
         )
       : Promise.resolve({} as Record<string, string>),
     userIds.length
       ? db.from('users').select('id, full_name').in('id', userIds).then(({ data }) =>
-          Object.fromEntries((data ?? []).map((u) => [u.id, u.full_name]))
+          Object.fromEntries((data ?? []).map((u: any) => [u.id, u.full_name]))
         )
       : Promise.resolve({} as Record<string, string>),
   ])
 
-  const activityItems = (auditLogs ?? []).map((l) => ({
+  const activityItems = (auditLogs ?? []).map((l: any) => ({
     id: l.id as string,
     action: l.action as string,
     entity_type: l.entity_type as string | null,

@@ -44,7 +44,7 @@ export default async function KanbanPage() {
     .eq('agency_id', agencyId)
     .order('updated_at', { ascending: false })
 
-  const staffIds = [...new Set((students ?? []).map((s) => s.assigned_staff_id).filter(Boolean))]
+  const staffIds = Array.from(new Set((students ?? []).map((s: any) => s.assigned_staff_id).filter(Boolean)))
   const staffMap: Record<string, string> = {}
   if (staffIds.length > 0) {
     const { data: staffUsers } = await db
