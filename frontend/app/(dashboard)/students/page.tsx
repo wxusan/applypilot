@@ -87,6 +87,14 @@ export default async function StudentsPage({
             Import CSV
           </Link>
           <Link
+            href="/students/form-upload"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl border hover:bg-gray-50 transition-colors"
+            style={{ color: '#1D9E75', borderColor: '#1D9E75' }}
+          >
+            <span className="material-symbols-outlined text-sm">description</span>
+            Upload Intake Form
+          </Link>
+          <Link
             href="/students/new"
             className="flex items-center gap-2 px-5 py-2.5 text-white text-sm font-bold rounded-xl shadow-lg hover:-translate-y-0.5 transition-all active:scale-[0.98]"
             style={{ background: 'linear-gradient(135deg, #031635 0%, #1a2b4b 100%)' }}

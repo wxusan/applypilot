@@ -667,3 +667,153 @@ async def extract_english_scores(
         raise HTTPException(502, f"AI returned unparseable response: {raw_text[:200]}")
 
     return result
+
+
+# ── Smart Form Upload ──────────────────────────────────────────────────────────
+
+@router.post("/students/parse-form")
+async def parse_intake_form(
+    file: UploadFile = File(...),
+    user: AuthUser = Depends(get_current_user),
+):
+    """
+    Parse a completed ApplyPilot client intake form (.docx).
+    Does NOT create a student record — returns extracted fields for review.
+    Use POST /students after the coordinator has reviewed/confirmed.
+    """
+    if not (file.filename or "").lower().endswith(".docx"):
+        raise HTTPException(400, "Only .docx files are accepted")
+
+    content = await file.read()
+    if len(content) > 10 * 1024 * 1024:
+        raise HTTPException(400, "File too large — maximum 10 MB")
+
+    try:
+        from docx import Document
+        import io as _io
+        doc = Document(_io.BytesIO(content))
+    except Exception as exc:
+        raise HTTPException(400, f"Could not read .docx file: {exc}")
+
+    # ── Extract all label→value pairs from 2-column tables ────────────────────
+    raw: dict[str, str] = {}
+    for table in doc.tables:
+        for row in table.rows:
+            cells = row.cells
+            if len(cells) < 2:
+                continue
+            # Skip merged/colspan rows (section dividers)
+            if cells[0]._tc is cells[1]._tc:
+                continue
+            label_paras = cells[0].paragraphs
+            if not label_paras:
+                continue
+            label = label_paras[0].text.strip().lstrip("\u25B6").strip().rstrip("*").strip().rstrip(":").strip()
+            value = cells[1].text.strip()
+            if label and value and value.lower() not in ("n/a", "na", "-", "\u2014", ""):
+                raw[label] = value
+
+    # ── Helpers ───────────────────────────────────────────────────────────────
+    def _int(v):
+        try:
+            return int(str(v).replace(",", "").strip())
+        except Exception:
+            return None
+
+    def _float(v):
+        try:
+            return float(str(v).strip())
+        except Exception:
+            return None
+
+    def _year(v):
+        try:
+            parts = str(v).strip().split("/")
+            return int(parts[-1]) if len(parts) >= 2 else int(str(v).strip()[:4])
+        except Exception:
+            return None
+
+    def _date(v):
+        if not v:
+            return None
+        try:
+            p = str(v).strip().split("/")
+            if len(p) == 3:
+                return f"{p[2]}-{p[1].zfill(2)}-{p[0].zfill(2)}"
+        except Exception:
+            pass
+        return None
+
+    def _get(key):
+        v = raw.get(key, "").strip()
+        return v or None
+
+    # ── Build mapped output ───────────────────────────────────────────────────
+    first = (_get("First Name") or "").strip()
+    last  = (_get("Last Name") or "").strip()
+    full_name = f"{first} {last}".strip() or None
+
+    father_first = (_get("Father First Name") or "").strip()
+    father_last  = (_get("Father Last Name") or "").strip()
+    father_name  = f"{father_first} {father_last}".strip() or None
+
+    mother_first = (_get("Mother First Name") or "").strip()
+    mother_last  = (_get("Mother Last Name") or "").strip()
+    mother_name  = f"{mother_first} {mother_last}".strip() or None
+
+    extracted = {
+        "full_name":          full_name,
+        "preferred_name":     _get("Preferred / Nick Name"),
+        "date_of_birth":      _date(_get("Date of Birth") or ""),
+        "gender":             _get("Gender"),
+        "nationality":        _get("Country of Citizenship"),
+        "country_of_birth":   _get("Country of Birth"),
+        "city_of_birth":      _get("City of Birth"),
+        "email":              _get("Email Address"),
+        "phone":              _get("Phone Number"),
+        "address_street":     _get("Street Address"),
+        "address_city":       _get("City"),
+        "address_country":    _get("Country"),
+        "address_zip":        _get("Zip / Postal Code"),
+        "passport_number":    _get("Passport Number"),
+        "passport_expiry":    _date(_get("Date of Expiration") or ""),
+        "father_name":        father_name,
+        "father_email":       _get("Father Email Address"),
+        "father_phone":       _get("Father Phone Number"),
+        "father_education":   _get("Father Education Level"),
+        "father_occupation":  _get("Father Occupation"),
+        "mother_name":        mother_name,
+        "mother_email":       _get("Mother Email Address"),
+        "mother_phone":       _get("Mother Phone Number"),
+        "mother_education":   _get("Mother Education Level"),
+        "mother_occupation":  _get("Mother Occupation"),
+        "parent_name":        _get("Emergency Contact Full Name"),
+        "parent_phone":       _get("Emergency Contact Phone"),
+        "parent_email":       _get("Emergency Contact Email"),
+        "high_school_name":   _get("High School Name"),
+        "high_school_country": _get("School Country"),
+        "school_city":        _get("School City"),
+        "graduation_year":    _year(_get("Attendance To") or ""),
+        "gpa":                _float(_get("Cumulative GPA") or ""),
+        "gpa_scale":          _float(_get("GPA Scale") or "") or 4.0,
+        "class_rank":         _get("Class Rank"),
+        "sat_total":          _int(_get("SAT Total Score") or ""),
+        "sat_math":           _int(_get("SAT Math Score") or ""),
+        "sat_reading":        _int(_get("SAT Reading and Writing Score") or ""),
+        "act_score":          _int(_get("ACT Composite Score") or ""),
+        "toefl_score":        _int(_get("TOEFL Total Score") or ""),
+        "ielts_score":        _float(_get("IELTS Band Score") or ""),
+        "season":             _get("Intended Enrollment Term"),
+        "languages_at_home":  _get("Languages Spoken"),
+        "status":             "intake",
+    }
+
+    # Remove None values before returning
+    extracted = {k: v for k, v in extracted.items() if v is not None}
+
+    return {
+        "extracted":       extracted,
+        "raw_fields_found": len(raw),
+        "mapped_fields":   len(extracted),
+        "source_file":     file.filename,
+    }
