@@ -92,7 +92,7 @@ async def _extract_text(file_bytes: bytes, mime_type: str) -> str:
     data_url = f"data:{mime_type};base64,{b64}"
 
     response = await client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=settings.AI_MODEL_FAST,
         messages=[
             {
                 "role": "user",
@@ -121,7 +121,7 @@ async def _extract_text(file_bytes: bytes, mime_type: str) -> str:
 async def _classify_document(ocr_text: str, filename: str) -> str:
     """Classify the document type based on OCR text."""
     response = await client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=settings.AI_MODEL_FAST,
         messages=[
             {
                 "role": "system",

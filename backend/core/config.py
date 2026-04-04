@@ -14,6 +14,9 @@ class Settings(BaseSettings):
 
     # OpenAI
     OPENAI_API_KEY: str
+    # AI model names — change here to switch models globally
+    AI_MODEL_FAST: str = "gpt-4o-mini"   # cheap, fast — emails, scoring, classify
+    AI_MODEL_SMART: str = "gpt-4o"       # expensive, powerful — essays, analysis
 
     # Telegram
     TELEGRAM_BOT_TOKEN: str

@@ -3,6 +3,7 @@ import { createServerClient } from '@/lib/supabase-server'
 import Sidebar from '@/components/ui/Sidebar'
 import TopBar from '@/components/ui/TopBar'
 import { ToastProvider } from '@/components/ui/Toast'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 
 function AccessWall({ type, agencyName, expiresAt }: {
   type: 'suspended' | 'expired'
@@ -119,7 +120,9 @@ export default async function DashboardLayout({
         <div className="ml-64 flex-1 flex flex-col min-w-0">
           <TopBar agency={agency} user={user} />
           <main className="flex-1 overflow-auto p-8">
-            {children}
+            <ErrorBoundary section="Page">
+              {children}
+            </ErrorBoundary>
           </main>
         </div>
       </div>

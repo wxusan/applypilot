@@ -352,7 +352,7 @@ Return a JSON object with exactly these fields:
 Respond ONLY with the JSON object, no markdown."""
 
         response = await openai_client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
             max_tokens=150,

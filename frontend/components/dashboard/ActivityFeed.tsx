@@ -1,5 +1,4 @@
 'use client'
-// @ts-nocheck
 
 import { useState, useEffect, useMemo } from 'react'
 import { createBrowserClient } from '@/lib/supabase-browser'

@@ -430,7 +430,7 @@ class EmailAgent:
         self, subject: str, body: str, from_addr: str
     ) -> str:
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {
                     "role": "system",
@@ -456,7 +456,7 @@ class EmailAgent:
 
     async def _draft_reply(self, subject: str, body: str, student: dict) -> str:
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {
                     "role": "system",

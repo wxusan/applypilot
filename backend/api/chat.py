@@ -20,7 +20,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from core.auth import get_current_user
 from core.db import get_service_client
@@ -36,11 +36,11 @@ router = APIRouter(tags=["Chat"], prefix="/chat")
 
 class CreateConversationRequest(BaseModel):
     student_id: Optional[str] = None
-    title: Optional[str] = None
+    title: Optional[str] = Field(default=None, max_length=200)
 
 
 class SendMessageRequest(BaseModel):
-    content: str
+    content: str = Field(min_length=1, max_length=10000)
 
 
 # ─── Helper: build student context string ────────────────────────────────────
@@ -77,7 +77,7 @@ async def _stream_openai(messages: list[dict], conversation_id: str, agency_id: 
     accumulated = ""
     try:
         stream = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=messages,
             max_tokens=1024,
             temperature=0.7,

@@ -64,7 +64,7 @@ Notes: {student.get('notes', 'N/A')}
 """.strip()
 
     response = await client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=settings.AI_MODEL_FAST,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": f"Generate 9 college recommendations for this student:\n\n{profile_summary}"},

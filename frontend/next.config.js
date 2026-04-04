@@ -29,10 +29,10 @@ const nextConfig = {
     ],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
 
   // No rewrites needed — app/api/[...path]/route.ts is a runtime catch-all

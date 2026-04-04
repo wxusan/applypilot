@@ -174,7 +174,12 @@ export default function ExportButtons({ students, singleStudent = false }: Props
 
     const win = window.open('', '_blank')
     if (!win) {
-      alert('Please allow popups to export PDF.')
+      // Use a non-blocking notification instead of alert()
+      const notice = document.createElement('div')
+      notice.textContent = 'Please allow popups in your browser to export PDF.'
+      notice.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;background:#dc2626;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.15)'
+      document.body.appendChild(notice)
+      setTimeout(() => notice.remove(), 4000)
       return
     }
     win.document.write(html)

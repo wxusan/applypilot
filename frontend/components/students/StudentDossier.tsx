@@ -203,6 +203,12 @@ export default function StudentDossier({ student }: { student: Student }) {
   const [saving, setSaving] = useState(false)
   const [draft, setDraft] = useState<Record<string, string>>({})
   const [fieldErrors, setFieldErrors] = useState<Record<string, boolean>>({})
+  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
+
+  const showToast = (msg: string, type: 'success' | 'error' = 'error') => {
+    setToast({ msg, type })
+    setTimeout(() => setToast(null), 3500)
+  }
 
   const startEdit = (section: string, fields: Record<string, string>) => {
     setActiveSection(section)
@@ -232,7 +238,7 @@ export default function StudentDossier({ student }: { student: Student }) {
       setDraft({})
       setFieldErrors({})
     } catch (err) {
-      alert((err as Error).message || 'Failed to save')
+      showToast((err as Error).message || 'Failed to save')
     } finally {
       setSaving(false)
     }
@@ -250,6 +256,11 @@ export default function StudentDossier({ student }: { student: Student }) {
 
   return (
     <div className="space-y-4">
+      {toast && (
+        <div className={`fixed top-5 right-5 z-[100] px-5 py-3 rounded-xl text-white text-[13px] font-semibold shadow-xl ${toast.type === 'success' ? 'bg-emerald-600' : 'bg-red-600'}`}>
+          {toast.msg}
+        </div>
+      )}
 
       <DossierProgress student={student} />
 
@@ -608,7 +619,7 @@ export default function StudentDossier({ student }: { student: Student }) {
         onCancel={cancelEdit}
         onSave={() => {
           const hasOne = draft.sat_total || draft.act_score || draft.toefl_score || draft.ielts_score
-          if (!hasOne) { alert('Please enter at least one test score.'); return }
+          if (!hasOne) { showToast('Please enter at least one test score.'); return }
           saveSection('scores', {
             sat_total: num('sat_total'), sat_math: num('sat_math'), sat_reading: num('sat_reading'),
             act_score: num('act_score'), act_english: num('act_english'), act_math: num('act_math'),
@@ -683,7 +694,7 @@ export default function StudentDossier({ student }: { student: Student }) {
           try {
             await apiFetch(`/api/students/${student.id}`, { method: 'PATCH', body: JSON.stringify(payload) })
             router.refresh()
-          } catch (err) { alert((err as Error).message) }
+          } catch (err) { showToast((err as Error).message || 'Something went wrong') }
           finally { setSaving(false) }
         }}
         saving={saving}
@@ -697,7 +708,7 @@ export default function StudentDossier({ student }: { student: Student }) {
           try {
             await apiFetch(`/api/students/${student.id}`, { method: 'PATCH', body: JSON.stringify(payload) })
             router.refresh()
-          } catch (err) { alert((err as Error).message) }
+          } catch (err) { showToast((err as Error).message || 'Something went wrong') }
           finally { setSaving(false) }
         }}
         saving={saving}
@@ -711,7 +722,7 @@ export default function StudentDossier({ student }: { student: Student }) {
           try {
             await apiFetch(`/api/students/${student.id}`, { method: 'PATCH', body: JSON.stringify(payload) })
             router.refresh()
-          } catch (err) { alert((err as Error).message) }
+          } catch (err) { showToast((err as Error).message || 'Something went wrong') }
           finally { setSaving(false) }
         }}
         saving={saving}

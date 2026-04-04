@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import AnalyticsCharts from '@/components/analytics/AnalyticsCharts'
 

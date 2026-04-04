@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime, timezone
 
@@ -14,16 +14,16 @@ router = APIRouter(tags=["Essays"])
 
 
 class EssayUpdate(BaseModel):
-    content: Optional[str] = None
-    status: Optional[str] = None
-    prompt_text: Optional[str] = None
+    content: Optional[str] = Field(default=None, max_length=50000)
+    status: Optional[str] = Field(default=None, max_length=50)
+    prompt_text: Optional[str] = Field(default=None, max_length=5000)
 
 
 class EssayGenerateRequest(BaseModel):
     student_id: str
     application_id: Optional[str] = None
-    prompt_text: str
-    prompt_type: str = "personal_statement"  # personal_statement | supplemental
+    prompt_text: str = Field(min_length=10, max_length=5000)
+    prompt_type: str = Field(default="personal_statement", max_length=50)  # personal_statement | supplemental
 
 
 class EssayVersionResponse(BaseModel):
@@ -409,7 +409,7 @@ async def check_plagiarism(
 
     try:
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": f"Analyze this essay for originality:\n\n{essay_content}"},

@@ -11,7 +11,7 @@ Endpoints:
 """
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 import uuid
 from datetime import datetime, timezone
@@ -26,31 +26,31 @@ router = APIRouter(tags=["Credentials"])
 
 class CredentialCreate(BaseModel):
     student_id: str
-    credential_type: str  # 'student' | 'teacher' | 'counsellor'
-    label: str  # e.g. "Mr. Johnson (Physics Teacher)"
-    gmail_email: str
-    gmail_password: str
+    credential_type: str = Field(max_length=20)  # 'student' | 'teacher' | 'counsellor'
+    label: str = Field(min_length=1, max_length=100)  # e.g. "Mr. Johnson (Physics Teacher)"
+    gmail_email: EmailStr
+    gmail_password: str = Field(min_length=1, max_length=256)
     # Student only: does the student already have a Common App account?
     # false → platform will create one via browser automation
     # true  → platform logs into the existing account
     has_common_app: bool = False
-    common_app_email: Optional[str] = None   # only used when has_common_app=True
-    common_app_password: Optional[str] = None  # only used when has_common_app=True
+    common_app_email: Optional[EmailStr] = None   # only used when has_common_app=True
+    common_app_password: Optional[str] = Field(default=None, max_length=256)  # only used when has_common_app=True
     # Teacher/counsellor only: subject they teach or their title
     # e.g. "Physics Teacher", "School Counselor" — used to fill recommender profile
-    role: Optional[str] = None
-    notes: Optional[str] = None
+    role: Optional[str] = Field(default=None, max_length=100)
+    notes: Optional[str] = Field(default=None, max_length=2000)
 
 
 class CredentialUpdate(BaseModel):
-    label: Optional[str] = None
-    gmail_email: Optional[str] = None
-    gmail_password: Optional[str] = None
+    label: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    gmail_email: Optional[EmailStr] = None
+    gmail_password: Optional[str] = Field(default=None, min_length=1, max_length=256)
     has_common_app: Optional[bool] = None
-    common_app_email: Optional[str] = None
-    common_app_password: Optional[str] = None
-    role: Optional[str] = None
-    notes: Optional[str] = None
+    common_app_email: Optional[EmailStr] = None
+    common_app_password: Optional[str] = Field(default=None, max_length=256)
+    role: Optional[str] = Field(default=None, max_length=100)
+    notes: Optional[str] = Field(default=None, max_length=2000)
 
 
 def _mask(value: Optional[str]) -> Optional[str]:
@@ -159,6 +159,8 @@ async def update_credential(credential_id: str, body: CredentialUpdate, user: Au
         return _serialize(existing.data)
 
     result = db.table("student_credentials").update(updates).eq("id", credential_id).execute()
+    if not result.data:
+        raise HTTPException(status_code=404, detail="Credential not found or no changes applied")
     return _serialize(result.data[0])
 
 

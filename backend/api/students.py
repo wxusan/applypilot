@@ -11,7 +11,7 @@ import base64
 import json as _json
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Query, UploadFile, File
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator, EmailStr
 from typing import Optional, List, Any
 from datetime import date, datetime, timezone
 
@@ -29,17 +29,26 @@ router = APIRouter(tags=["Students"])
 
 class StudentCreate(BaseModel):
     # Core identity
-    full_name: str
-    preferred_name: Optional[str] = None
+    full_name: str = Field(min_length=1, max_length=200)
+    preferred_name: Optional[str] = Field(default=None, max_length=100)
     date_of_birth: Optional[date] = None
-    nationality: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    telegram_username: Optional[str] = None
-    status: str = "intake"
-    season: Optional[str] = None
+    nationality: Optional[str] = Field(default=None, max_length=100)
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = Field(default=None, max_length=30)
+    telegram_username: Optional[str] = Field(default=None, max_length=64)
+    status: str = Field(default="intake", max_length=50)
+    season: Optional[str] = Field(default=None, max_length=20)
     assigned_staff_id: Optional[str] = None
-    photo_url: Optional[str] = None
+    photo_url: Optional[str] = Field(default=None, max_length=2048)
+
+    @field_validator("full_name", mode="before")
+    @classmethod
+    def strip_full_name(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            v = v.strip()
+            if not v:
+                raise ValueError("full_name cannot be blank")
+        return v
 
     # Personal background (Common App: Personal Info)
     gender: Optional[str] = None
@@ -86,30 +95,30 @@ class StudentCreate(BaseModel):
     first_generation_student: Optional[bool] = False
 
     # Academic record (Common App: Education)
-    high_school_name: Optional[str] = None
-    high_school_country: Optional[str] = None
-    school_ceeb_code: Optional[str] = None
-    school_type: Optional[str] = None
-    school_city: Optional[str] = None
-    graduation_year: Optional[int] = None
-    gpa: Optional[float] = None
-    gpa_scale: float = 4.0
-    class_rank: Optional[str] = None
-    class_size: Optional[int] = None
+    high_school_name: Optional[str] = Field(default=None, max_length=200)
+    high_school_country: Optional[str] = Field(default=None, max_length=100)
+    school_ceeb_code: Optional[str] = Field(default=None, max_length=20)
+    school_type: Optional[str] = Field(default=None, max_length=50)
+    school_city: Optional[str] = Field(default=None, max_length=100)
+    graduation_year: Optional[int] = Field(default=None, ge=2000, le=2040)
+    gpa: Optional[float] = Field(default=None, ge=0.0, le=5.0)
+    gpa_scale: float = Field(default=4.0, ge=1.0, le=5.0)
+    class_rank: Optional[str] = Field(default=None, max_length=50)
+    class_size: Optional[int] = Field(default=None, ge=1, le=10000)
 
     # Standardized test scores
-    sat_total: Optional[int] = None
-    sat_math: Optional[int] = None
-    sat_reading: Optional[int] = None
+    sat_total: Optional[int] = Field(default=None, ge=400, le=1600)
+    sat_math: Optional[int] = Field(default=None, ge=200, le=800)
+    sat_reading: Optional[int] = Field(default=None, ge=200, le=800)
     sat_essay: Optional[int] = None
-    act_score: Optional[int] = None
-    act_english: Optional[int] = None
-    act_math: Optional[int] = None
-    act_reading: Optional[int] = None
-    act_science: Optional[int] = None
-    toefl_score: Optional[int] = None
-    ielts_score: Optional[float] = None
-    duolingo_score: Optional[int] = None
+    act_score: Optional[int] = Field(default=None, ge=1, le=36)
+    act_english: Optional[int] = Field(default=None, ge=1, le=36)
+    act_math: Optional[int] = Field(default=None, ge=1, le=36)
+    act_reading: Optional[int] = Field(default=None, ge=1, le=36)
+    act_science: Optional[int] = Field(default=None, ge=1, le=36)
+    toefl_score: Optional[int] = Field(default=None, ge=0, le=120)
+    ielts_score: Optional[float] = Field(default=None, ge=0.0, le=9.0)
+    duolingo_score: Optional[int] = Field(default=None, ge=10, le=160)
     ap_scores: List[Any] = []
     ib_scores: List[Any] = []
 
@@ -119,100 +128,100 @@ class StudentCreate(BaseModel):
     work_experience: List[Any] = []
 
     # Application intent
-    intended_major: Optional[str] = None
-    application_type: str = "freshman"
+    intended_major: Optional[str] = Field(default=None, max_length=200)
+    application_type: str = Field(default="freshman", max_length=50)
 
     # Recommendation context
     teacher_rec_info: List[Any] = []
-    counselor_notes: Optional[str] = None
+    counselor_notes: Optional[str] = Field(default=None, max_length=10000)
 
     # Internal
-    notes: Optional[str] = None
+    notes: Optional[str] = Field(default=None, max_length=10000)
 
 
 class StudentUpdate(BaseModel):
     # Core identity
-    full_name: Optional[str] = None
-    preferred_name: Optional[str] = None
+    full_name: Optional[str] = Field(default=None, min_length=1, max_length=200)
+    preferred_name: Optional[str] = Field(default=None, max_length=100)
     date_of_birth: Optional[date] = None
-    nationality: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    telegram_username: Optional[str] = None
-    status: Optional[str] = None
-    season: Optional[str] = None
+    nationality: Optional[str] = Field(default=None, max_length=100)
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = Field(default=None, max_length=30)
+    telegram_username: Optional[str] = Field(default=None, max_length=64)
+    status: Optional[str] = Field(default=None, max_length=50)
+    season: Optional[str] = Field(default=None, max_length=20)
     assigned_staff_id: Optional[str] = None
-    photo_url: Optional[str] = None
+    photo_url: Optional[str] = Field(default=None, max_length=2048)
 
     # Personal background
-    gender: Optional[str] = None
-    pronouns: Optional[str] = None
-    city_of_birth: Optional[str] = None
-    country_of_birth: Optional[str] = None
-    visa_status: Optional[str] = None
-    languages_at_home: Optional[str] = None
+    gender: Optional[str] = Field(default=None, max_length=50)
+    pronouns: Optional[str] = Field(default=None, max_length=50)
+    city_of_birth: Optional[str] = Field(default=None, max_length=100)
+    country_of_birth: Optional[str] = Field(default=None, max_length=100)
+    visa_status: Optional[str] = Field(default=None, max_length=50)
+    languages_at_home: Optional[str] = Field(default=None, max_length=200)
 
     # Passport & travel
-    passport_number: Optional[str] = None
+    passport_number: Optional[str] = Field(default=None, max_length=20)
     passport_expiry: Optional[date] = None
     languages: Optional[List[Any]] = None
 
     # Address
-    address_street: Optional[str] = None
-    address_city: Optional[str] = None
-    address_country: Optional[str] = None
-    address_zip: Optional[str] = None
+    address_street: Optional[str] = Field(default=None, max_length=200)
+    address_city: Optional[str] = Field(default=None, max_length=100)
+    address_country: Optional[str] = Field(default=None, max_length=100)
+    address_zip: Optional[str] = Field(default=None, max_length=20)
 
     # Parent (backwards compat)
-    parent_name: Optional[str] = None
-    parent_email: Optional[str] = None
-    parent_phone: Optional[str] = None
+    parent_name: Optional[str] = Field(default=None, max_length=200)
+    parent_email: Optional[EmailStr] = None
+    parent_phone: Optional[str] = Field(default=None, max_length=30)
 
     # Father
-    father_name: Optional[str] = None
-    father_email: Optional[str] = None
-    father_phone: Optional[str] = None
-    father_education: Optional[str] = None
-    father_occupation: Optional[str] = None
-    father_employer: Optional[str] = None
+    father_name: Optional[str] = Field(default=None, max_length=200)
+    father_email: Optional[EmailStr] = None
+    father_phone: Optional[str] = Field(default=None, max_length=30)
+    father_education: Optional[str] = Field(default=None, max_length=100)
+    father_occupation: Optional[str] = Field(default=None, max_length=100)
+    father_employer: Optional[str] = Field(default=None, max_length=200)
 
     # Mother
-    mother_name: Optional[str] = None
-    mother_email: Optional[str] = None
-    mother_phone: Optional[str] = None
-    mother_education: Optional[str] = None
-    mother_occupation: Optional[str] = None
-    mother_employer: Optional[str] = None
+    mother_name: Optional[str] = Field(default=None, max_length=200)
+    mother_email: Optional[EmailStr] = None
+    mother_phone: Optional[str] = Field(default=None, max_length=30)
+    mother_education: Optional[str] = Field(default=None, max_length=100)
+    mother_occupation: Optional[str] = Field(default=None, max_length=100)
+    mother_employer: Optional[str] = Field(default=None, max_length=200)
 
     # Family context
-    parents_marital_status: Optional[str] = None
+    parents_marital_status: Optional[str] = Field(default=None, max_length=50)
     first_generation_student: Optional[bool] = None
 
     # Academic record
-    high_school_name: Optional[str] = None
-    high_school_country: Optional[str] = None
-    school_ceeb_code: Optional[str] = None
-    school_type: Optional[str] = None
-    school_city: Optional[str] = None
-    graduation_year: Optional[int] = None
-    gpa: Optional[float] = None
-    gpa_scale: Optional[float] = None
-    class_rank: Optional[str] = None
-    class_size: Optional[int] = None
+    high_school_name: Optional[str] = Field(default=None, max_length=200)
+    high_school_country: Optional[str] = Field(default=None, max_length=100)
+    school_ceeb_code: Optional[str] = Field(default=None, max_length=20)
+    school_type: Optional[str] = Field(default=None, max_length=50)
+    school_city: Optional[str] = Field(default=None, max_length=100)
+    graduation_year: Optional[int] = Field(default=None, ge=2000, le=2040)
+    gpa: Optional[float] = Field(default=None, ge=0.0, le=5.0)
+    gpa_scale: Optional[float] = Field(default=None, ge=1.0, le=5.0)
+    class_rank: Optional[str] = Field(default=None, max_length=50)
+    class_size: Optional[int] = Field(default=None, ge=1, le=10000)
 
     # Test scores
-    sat_total: Optional[int] = None
-    sat_math: Optional[int] = None
-    sat_reading: Optional[int] = None
+    sat_total: Optional[int] = Field(default=None, ge=400, le=1600)
+    sat_math: Optional[int] = Field(default=None, ge=200, le=800)
+    sat_reading: Optional[int] = Field(default=None, ge=200, le=800)
     sat_essay: Optional[int] = None
-    act_score: Optional[int] = None
-    act_english: Optional[int] = None
-    act_math: Optional[int] = None
-    act_reading: Optional[int] = None
-    act_science: Optional[int] = None
-    toefl_score: Optional[int] = None
-    ielts_score: Optional[float] = None
-    duolingo_score: Optional[int] = None
+    act_score: Optional[int] = Field(default=None, ge=1, le=36)
+    act_english: Optional[int] = Field(default=None, ge=1, le=36)
+    act_math: Optional[int] = Field(default=None, ge=1, le=36)
+    act_reading: Optional[int] = Field(default=None, ge=1, le=36)
+    act_science: Optional[int] = Field(default=None, ge=1, le=36)
+    toefl_score: Optional[int] = Field(default=None, ge=0, le=120)
+    ielts_score: Optional[float] = Field(default=None, ge=0.0, le=9.0)
+    duolingo_score: Optional[int] = Field(default=None, ge=10, le=160)
     ap_scores: Optional[List[Any]] = None
     ib_scores: Optional[List[Any]] = None
 
@@ -226,15 +235,15 @@ class StudentUpdate(BaseModel):
     work_experience: Optional[List[Any]] = None
 
     # Application intent
-    intended_major: Optional[str] = None
-    application_type: Optional[str] = None
+    intended_major: Optional[str] = Field(default=None, max_length=200)
+    application_type: Optional[str] = Field(default=None, max_length=50)
 
     # Recommendation context
     teacher_rec_info: Optional[List[Any]] = None
-    counselor_notes: Optional[str] = None
+    counselor_notes: Optional[str] = Field(default=None, max_length=10000)
 
     # Internal
-    notes: Optional[str] = None
+    notes: Optional[str] = Field(default=None, max_length=10000)
 
 
 class BulkImportRequest(BaseModel):
@@ -615,7 +624,7 @@ async def extract_english_scores(
 
     try:
         response = await client.chat.completions.create(
-            model="gpt-4o",
+            model=settings.AI_MODEL_SMART,
             messages=[
                 {
                     "role": "user",

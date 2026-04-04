@@ -42,6 +42,8 @@ async def list_documents(
     student_id: Optional[str] = Query(None),
     application_id: Optional[str] = Query(None),
     doc_type: Optional[str] = Query(None),
+    limit: int = Query(50, le=200),
+    offset: int = Query(0, ge=0),
     user: AuthUser = Depends(get_current_user),
 ):
     db = get_service_client()
@@ -52,7 +54,8 @@ async def list_documents(
             "id, student_id, application_id, doc_type, file_name, storage_url, "
             "file_size_bytes, mime_type, version, status, ocr_processed, "
             "rejection_reason, uploaded_at, created_at, "
-            "uploaded_by_user:users!uploaded_by(full_name)"
+            "uploaded_by_user:users!uploaded_by(full_name)",
+            count="exact",
         )
         .eq("agency_id", user.agency_id)  # ISOLATION
     )
@@ -64,8 +67,8 @@ async def list_documents(
     if doc_type:
         query = query.eq("doc_type", doc_type)
 
-    result = query.order("created_at", desc=True).execute()
-    return {"documents": result.data or []}
+    result = query.order("created_at", desc=True).range(offset, offset + limit - 1).execute()
+    return {"documents": result.data or [], "total": result.count}
 
 
 @router.get("/documents/checklist/{student_id}")

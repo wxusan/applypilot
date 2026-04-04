@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createServerClient } from '@/lib/supabase-server'
 import KanbanBoard from '@/components/kanban/KanbanBoard'
 

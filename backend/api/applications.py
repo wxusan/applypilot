@@ -4,7 +4,7 @@ agency_id always from JWT. Full audit logging on every write.
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Any, Dict
 from datetime import date, datetime, timezone
 
@@ -37,33 +37,33 @@ VALID_STATUSES = {
 
 class ApplicationCreate(BaseModel):
     student_id: str
-    university_name: str
+    university_name: str = Field(min_length=1, max_length=200)
     university_id: Optional[str] = None
-    application_type: str = "regular"
+    application_type: str = Field(default="regular", max_length=50)
     deadline_regular: Optional[date] = None
     deadline_financial_aid: Optional[date] = None
     deadline_scholarship: Optional[date] = None
-    portal_url: Optional[str] = None
-    portal_username: Optional[str] = None
-    portal_password: Optional[str] = None  # Plaintext — encrypted before storage
-    notes: Optional[str] = None
+    portal_url: Optional[str] = Field(default=None, max_length=2048)
+    portal_username: Optional[str] = Field(default=None, max_length=200)
+    portal_password: Optional[str] = Field(default=None, max_length=256)  # Plaintext — encrypted before storage
+    notes: Optional[str] = Field(default=None, max_length=10000)
 
 
 class ApplicationUpdate(BaseModel):
-    university_name: Optional[str] = None
-    application_type: Optional[str] = None
+    university_name: Optional[str] = Field(default=None, min_length=1, max_length=200)
+    application_type: Optional[str] = Field(default=None, max_length=50)
     deadline_regular: Optional[date] = None
     deadline_financial_aid: Optional[date] = None
     deadline_scholarship: Optional[date] = None
-    portal_url: Optional[str] = None
-    portal_username: Optional[str] = None
-    portal_password: Optional[str] = None  # Plaintext — encrypted before storage
-    status: Optional[str] = None
-    decision: Optional[str] = None
+    portal_url: Optional[str] = Field(default=None, max_length=2048)
+    portal_username: Optional[str] = Field(default=None, max_length=200)
+    portal_password: Optional[str] = Field(default=None, max_length=256)  # Plaintext — encrypted before storage
+    status: Optional[str] = Field(default=None, max_length=50)
+    decision: Optional[str] = Field(default=None, max_length=50)
     decision_received_at: Optional[datetime] = None
-    scholarship_amount: Optional[float] = None
-    financial_aid_amount: Optional[float] = None
-    notes: Optional[str] = None
+    scholarship_amount: Optional[float] = Field(default=None, ge=0.0)
+    financial_aid_amount: Optional[float] = Field(default=None, ge=0.0)
+    notes: Optional[str] = Field(default=None, max_length=10000)
     application_fee_paid: Optional[bool] = None
     fee_waiver_used: Optional[bool] = None
     common_app_status: Optional[Dict[str, str]] = None

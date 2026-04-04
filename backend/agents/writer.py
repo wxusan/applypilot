@@ -677,7 +677,7 @@ class WriterAgent:
         )
 
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user", "content": user_msg},
@@ -694,7 +694,7 @@ class WriterAgent:
         ESSAY_AGENT soul (~600 tokens) — saves ~520 tokens per scoring call.
         """
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {"role": "system", "content": _SCORE_SOUL},
                 {
@@ -713,7 +713,7 @@ class WriterAgent:
 
     async def _generate_rec_letter(self, student: dict, recommender: dict) -> str:
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {
                     "role": "system",
@@ -749,7 +749,7 @@ class WriterAgent:
         self, subject: str, body: str, student: dict
     ) -> str:
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=settings.AI_MODEL_FAST,
             messages=[
                 {
                     "role": "system",

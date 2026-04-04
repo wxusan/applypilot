@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createServerClient, createServiceClient } from '@/lib/supabase-server'
 import SettingsForm from '@/components/settings/SettingsForm'
 
