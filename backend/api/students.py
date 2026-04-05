@@ -446,6 +446,12 @@ async def delete_student(
     if not existing.data:
         raise HTTPException(404, "Student not found")
 
+    # Null-out student_id on audit_logs — they have no CASCADE and we want
+    # to keep the history rows, just disassociate them from the deleted student.
+    db.table("audit_logs").update({"student_id": None}).eq(
+        "student_id", student_id
+    ).execute()
+
     db.table("students").delete().eq("id", student_id).eq(
         "agency_id", user.agency_id
     ).execute()

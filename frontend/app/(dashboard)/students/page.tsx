@@ -1,6 +1,7 @@
 import { createServerClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import StatusPill from '@/components/ui/StatusPill'
+import StudentRowActions from '@/components/students/StudentRowActions'
 
 const STATUS_OPTIONS = [
   'intake', 'forms', 'writing', 'review',
@@ -323,12 +324,11 @@ export default async function StudentsPage({
                       </td>
 
                       <td className="px-6 py-4 text-right">
-                        <Link
-                          href={`/students/${student.id}/profile`}
-                          className="p-2 text-on-surface-variant hover:text-primary transition-colors"
-                        >
-                          <span className="material-symbols-outlined text-xl">more_vert</span>
-                        </Link>
+                        <StudentRowActions
+                          studentId={student.id}
+                          studentName={student.full_name}
+                          currentStatus={student.status}
+                        />
                       </td>
                     </tr>
                   )
