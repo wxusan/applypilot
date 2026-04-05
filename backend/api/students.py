@@ -446,24 +446,65 @@ async def delete_student(
     if not existing.data:
         raise HTTPException(404, "Student not found")
 
-    # Null-out student_id on audit_logs — they have no CASCADE and we want
-    # to keep the history rows, just disassociate them from the deleted student.
-    db.table("audit_logs").update({"student_id": None}).eq(
-        "student_id", student_id
-    ).execute()
+    student_name = existing.data["full_name"]
+    student_status = existing.data["status"]
 
-    db.table("students").delete().eq("id", student_id).eq(
+    # ── Explicit cascade delete (works regardless of DB-level FK settings) ──
+    # Order matters: delete leaves before trunks.
+
+    # 1. Null-out audit_logs — keep history but break the FK
+    db.table("audit_logs").update({"student_id": None}).eq("student_id", student_id).execute()
+
+    # 2. Essay versions are children of essays — delete essays first (versions cascade)
+    essay_ids_res = db.table("essays").select("id").eq("student_id", student_id).execute()
+    essay_ids = [r["id"] for r in (essay_ids_res.data or [])]
+    if essay_ids:
+        db.table("essay_versions").delete().in_("essay_id", essay_ids).execute()
+    db.table("essays").delete().eq("student_id", student_id).execute()
+
+    # 3. Delete tables that reference applications(id) without CASCADE,
+    #    so deleting applications won't be blocked.
+    app_ids_res = db.table("applications").select("id").eq("student_id", student_id).execute()
+    app_ids = [r["id"] for r in (app_ids_res.data or [])]
+    if app_ids:
+        db.table("deadlines").delete().in_("application_id", app_ids).execute()
+        db.table("documents").delete().in_("application_id", app_ids).execute()
+        db.table("recommendation_letters").delete().in_("application_id", app_ids).execute()
+
+    # 4. Delete remaining child tables (student_id FK)
+    for tbl in [
+        "applications",
+        "deadlines",
+        "documents",
+        "recommendation_letters",
+        "recommenders",
+        "agent_jobs",
+        "emails",
+        "student_credentials",
+        "automation_workflows",
+    ]:
+        try:
+            db.table(tbl).delete().eq("student_id", student_id).execute()
+        except Exception:
+            pass  # Table may not exist or already empty — safe to continue
+
+    # 5. Finally delete the student row
+    result = db.table("students").delete().eq("id", student_id).eq(
         "agency_id", user.agency_id
     ).execute()
+
+    if result.data is not None and len(result.data) == 0:
+        # Supabase returns [] when nothing was deleted — likely already gone, treat as success
+        pass
 
     await write_audit_log(
         agency_id=user.agency_id,
         user_id=user.id,
-        student_id=student_id,
+        student_id=None,
         action="student.deleted",
         entity_type="student",
         entity_id=student_id,
-        old_value={"full_name": existing.data["full_name"], "status": existing.data["status"]},
+        old_value={"full_name": student_name, "status": student_status},
         new_value=None,
         ip_address=request.client.host if request.client else None,
         user_agent=request.headers.get("user-agent"),
