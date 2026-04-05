@@ -491,26 +491,36 @@ async def delete_student(
     _safe_delete_by_ids("documents",              "application_id", app_ids)
     _safe_delete_by_ids("recommendation_letters", "application_id", app_ids)
 
-    # 4. Delete every child table by student_id
+    # 4. Delete every child table by student_id (all tables across all migrations)
     for tbl in [
+        "essay_versions",           # via essay_id already handled above, but safe to retry
         "essays",
-        "applications",
         "deadlines",
         "documents",
         "recommendation_letters",
+        "recommendation_letter_requests",
         "recommenders",
         "agent_jobs",
         "emails",
-        "student_credentials",
-        "automation_workflows",
         "email_accounts",
+        "student_credentials",
+        "automation_workflows",     # automation_steps cascade from this
+        "monitored_emails",
+        "portal_sessions",
+        "payment_flags",
+        "chat_conversations",       # chat_messages cascade from this
+        "notifications",
+        "applications",
     ]:
         _safe_delete_by_student(tbl)
 
-    # 5. Delete the student row itself
-    db.table("students").delete().eq("id", student_id).eq(
-        "agency_id", user.agency_id
-    ).execute()
+    # 5. Delete the student row itself — surface any remaining FK error clearly
+    try:
+        db.table("students").delete().eq("id", student_id).eq(
+            "agency_id", user.agency_id
+        ).execute()
+    except Exception as exc:
+        raise HTTPException(500, f"Student cleanup incomplete — could not delete student row: {exc}")
 
     await write_audit_log(
         agency_id=user.agency_id,
