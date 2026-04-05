@@ -449,30 +449,51 @@ async def delete_student(
     student_name = existing.data["full_name"]
     student_status = existing.data["status"]
 
-    # ── Explicit cascade delete (works regardless of DB-level FK settings) ──
-    # Order matters: delete leaves before trunks.
+    def _safe_delete_by_student(table: str) -> None:
+        """Delete all rows in table where student_id = student_id. Never raises."""
+        try:
+            db.table(table).delete().eq("student_id", student_id).execute()
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).warning(f"delete_student: {table} cleanup failed: {exc}")
 
-    # 1. Null-out audit_logs — keep history but break the FK
-    db.table("audit_logs").update({"student_id": None}).eq("student_id", student_id).execute()
+    def _safe_delete_by_ids(table: str, column: str, ids: list) -> None:
+        """Delete rows by a list of ids. Skips if list is empty. Never raises."""
+        if not ids:
+            return
+        try:
+            db.table(table).delete().in_(column, ids).execute()
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).warning(f"delete_student: {table}.{column} cleanup failed: {exc}")
 
-    # 2. Essay versions are children of essays — delete essays first (versions cascade)
-    essay_ids_res = db.table("essays").select("id").eq("student_id", student_id).execute()
-    essay_ids = [r["id"] for r in (essay_ids_res.data or [])]
-    if essay_ids:
-        db.table("essay_versions").delete().in_("essay_id", essay_ids).execute()
-    db.table("essays").delete().eq("student_id", student_id).execute()
+    # 1. Keep audit history but break the FK reference
+    try:
+        db.table("audit_logs").update({"student_id": None}).eq("student_id", student_id).execute()
+    except Exception:
+        pass
 
-    # 3. Delete tables that reference applications(id) without CASCADE,
-    #    so deleting applications won't be blocked.
-    app_ids_res = db.table("applications").select("id").eq("student_id", student_id).execute()
-    app_ids = [r["id"] for r in (app_ids_res.data or [])]
-    if app_ids:
-        db.table("deadlines").delete().in_("application_id", app_ids).execute()
-        db.table("documents").delete().in_("application_id", app_ids).execute()
-        db.table("recommendation_letters").delete().in_("application_id", app_ids).execute()
+    # 2. Get essay IDs so we can delete essay_versions first
+    try:
+        essay_ids_res = db.table("essays").select("id").eq("student_id", student_id).execute()
+        essay_ids = [r["id"] for r in (essay_ids_res.data or [])]
+    except Exception:
+        essay_ids = []
+    _safe_delete_by_ids("essay_versions", "essay_id", essay_ids)
 
-    # 4. Delete remaining child tables (student_id FK)
+    # 3. Get application IDs so we can delete child rows that lack CASCADE
+    try:
+        app_ids_res = db.table("applications").select("id").eq("student_id", student_id).execute()
+        app_ids = [r["id"] for r in (app_ids_res.data or [])]
+    except Exception:
+        app_ids = []
+    _safe_delete_by_ids("deadlines",              "application_id", app_ids)
+    _safe_delete_by_ids("documents",              "application_id", app_ids)
+    _safe_delete_by_ids("recommendation_letters", "application_id", app_ids)
+
+    # 4. Delete every child table by student_id
     for tbl in [
+        "essays",
         "applications",
         "deadlines",
         "documents",
@@ -482,20 +503,14 @@ async def delete_student(
         "emails",
         "student_credentials",
         "automation_workflows",
+        "email_accounts",
     ]:
-        try:
-            db.table(tbl).delete().eq("student_id", student_id).execute()
-        except Exception:
-            pass  # Table may not exist or already empty — safe to continue
+        _safe_delete_by_student(tbl)
 
-    # 5. Finally delete the student row
-    result = db.table("students").delete().eq("id", student_id).eq(
+    # 5. Delete the student row itself
+    db.table("students").delete().eq("id", student_id).eq(
         "agency_id", user.agency_id
     ).execute()
-
-    if result.data is not None and len(result.data) == 0:
-        # Supabase returns [] when nothing was deleted — likely already gone, treat as success
-        pass
 
     await write_audit_log(
         agency_id=user.agency_id,
