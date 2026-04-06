@@ -95,6 +95,17 @@ async function proxy(req: NextRequest, { params }: { params: { path: string[] } 
     responseHeaders.set(key, value)
   })
 
+  // 204/205/304 responses must not carry a body — the Fetch API throws a
+  // TypeError if you pass one to the Response constructor with these statuses.
+  // The DELETE /api/students/:id endpoint returns 204, so this was causing
+  // the proxy to 500 even though the backend had already deleted the student.
+  if ([204, 205, 304].includes(upstreamRes.status)) {
+    return new NextResponse(null, {
+      status: upstreamRes.status,
+      headers: responseHeaders,
+    })
+  }
+
   const responseBody = await upstreamRes.arrayBuffer()
   return new NextResponse(responseBody, {
     status: upstreamRes.status,
