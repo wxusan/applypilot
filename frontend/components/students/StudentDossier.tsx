@@ -30,7 +30,7 @@ const REQUIRED: Record<string, string[]> = {
 function isSectionComplete(section: string, student: Student): boolean {
   const req = REQUIRED[section]
   if (!req.length) {
-    if (section === 'scores')     return !!(student.sat_total || student.act_score || student.toefl_score)
+    if (section === 'scores')     return !!(student.sat_total || student.act_score || student.toefl_score || student.ielts_score)
     if (section === 'ap_ib')      return (Array.isArray(student.ap_scores) && student.ap_scores.length > 0) || (Array.isArray(student.ib_scores) && student.ib_scores.length > 0)
     if (section === 'activities') return Array.isArray(student.activities) && student.activities.length > 0
     if (section === 'teachers')   return Array.isArray(student.teacher_rec_info) && student.teacher_rec_info.some((t: any) => t.name && t.email)

@@ -186,7 +186,15 @@ async def update_credential(credential_id: str, body: CredentialUpdate, request:
     if not updates:
         return _serialize(existing.data)
 
-    result = db.table("student_credentials").update(updates).eq("id", credential_id).execute()
+    try:
+        result = db.table("student_credentials")\
+            .update(updates)\
+            .eq("id", credential_id)\
+            .eq("agency_id", user.agency_id)\
+            .execute()
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to update credential: {exc}")
+
     if not result.data:
         raise HTTPException(status_code=404, detail="Credential not found or no changes applied")
     _log_access(db, user.agency_id, credential_id, user.id, "update", request)

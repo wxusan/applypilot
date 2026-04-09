@@ -457,9 +457,22 @@ export default function CredentialsPage() {
   const handleSaveCredential = async (data: Partial<Credential> & { credential_type?: string }) => {
     try {
       if (editingCredential?.id) {
+        // Build a clean PATCH payload — never send empty strings because they
+        // fail backend validation (min_length=1 on passwords, EmailStr on emails).
+        const patch: Record<string, unknown> = {}
+        if (data.label)                          patch.label = data.label
+        if (data.gmail_email)                    patch.gmail_email = data.gmail_email
+        if (data.gmail_password)                 patch.gmail_password = data.gmail_password
+        if (data.has_common_app !== undefined)   patch.has_common_app = data.has_common_app
+        if (data.has_common_app && data.common_app_email)    patch.common_app_email = data.common_app_email
+        if (data.has_common_app && data.common_app_password) patch.common_app_password = data.common_app_password
+        // Allow clearing role/notes by sending null for empty strings
+        patch.role  = data.role  || null
+        patch.notes = data.notes || null
+
         await apiFetch<Credential>(`/api/credentials/${editingCredential.id}`, {
           method: 'PATCH',
-          body: JSON.stringify(data),
+          body: JSON.stringify(patch),
         })
         showToast('Credential updated!')
       } else {
