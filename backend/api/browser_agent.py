@@ -48,7 +48,7 @@ async def start_browser_agent(
 
     # Validate application belongs to this agency and this student
     application = db.table("applications").select(
-        "id, university_name, status, portal_password_encrypted"
+        "id, university_name, status"
     ).eq("id", data.application_id).eq(
         "agency_id", user.agency_id
     ).eq("student_id", data.student_id).single().execute()
@@ -62,10 +62,17 @@ async def start_browser_agent(
             detail="Application has already been submitted",
         )
 
-    if not application.data.get("portal_password_encrypted"):
+    # Check student has credentials saved in the Credential Vault
+    student_creds = db.table("student_credentials").select("id").eq(
+        "student_id", data.student_id
+    ).eq("agency_id", user.agency_id).eq("credential_type", "student").eq(
+        "is_active", True
+    ).limit(1).execute()
+
+    if not student_creds.data:
         raise HTTPException(
             status_code=400,
-            detail="No portal credentials saved. Add them in the application settings first.",
+            detail="No credentials saved for this student. Add them in the Credentials tab first.",
         )
 
     # Check for an already-running browser job for this application

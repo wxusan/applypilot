@@ -516,7 +516,7 @@ export default function CredentialsPage() {
         method: 'POST',
       })
       await loadCredentials()
-      showToast(`Connection test: ${res.test_result}`)
+      showToast(`Connection test: ${res.status || res.test_result || 'done'}`)
     } catch (e: any) {
       showToast(e.message || 'Test failed', 'error')
     }

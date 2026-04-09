@@ -9,7 +9,7 @@ interface AddApplicationFormProps {
   studentId: string
 }
 
-const APPLICATION_TYPES = ['common_app', 'coalition', 'direct', 'ucas', 'other']
+const APPLICATION_TYPES = ['common_app']
 
 export default function AddApplicationForm({ studentId }: AddApplicationFormProps) {
   const router = useRouter()
